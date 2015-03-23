@@ -17,7 +17,7 @@ TypeScript是微软公司的注册商标.
 * [1 介绍](#1)
   * [1.1 外部环境声明](#1.1)
   * [1.2 Function类型](#1.2)
-  * [1.3 Object Types](#1.3)
+  * [1.3 Object类型](#1.3)
   * [1.4 Structural Subtyping](#1.4)
   * [1.5 Contextual Typing](#1.5)
   * [1.6 Classes](#1.6)
@@ -316,9 +316,9 @@ vote("BigPig",
 
 [3.8.2](#3.8.2)章节提供了更多关于函数类型的说明.
 
-## <a name="1.3"/>1.3 Object Types
+## <a name="1.3"/>1.3 Object类型
 
-TypeScript programmers use *object types* to declare their expectations of object behavior. The following code uses an *object type literal* to specify the return type of the 'MakePoint' function.
+TypeScript使用*对象类型*定义约束对象的行为. 下面的代码使用对象类型直接量规定`MakePoint`函数的返回值类型.
 
 ```TypeScript
 var MakePoint: () => {  
@@ -326,7 +326,7 @@ var MakePoint: () => {
 };
 ```
 
-Programmers can give names to object types; we call named object types *interfaces*. For example, in the following code, an interface declares one required field (name) and one optional field (favoriteColor).
+我们可以给对象类型赋值, 称它们作*接口*. 比如, 下面的代码, 声明了带有一个必须的name和可选的favoriteColor值的接口.
 
 ```TypeScript
 interface Friend {  
@@ -343,9 +343,9 @@ add({ favoriteColor: "blue" });  // Error, name required
 add({ name: "Jill", favoriteColor: "green" });  // Ok
 ```
 
-TypeScript object types model the diversity of behaviors that a JavaScript object can exhibit. For example, the jQuery library defines an object, '$', that has methods, such as 'get' (which sends an Ajax message), and fields, such as 'browser' (which gives browser vendor information). However, jQuery clients can also call '$' as a function. The behavior of this function depends on the type of parameters passed to the function.
+TypeScript对象类型可以表示Javascript对象展示出的多样性的行为. 比如, jQuery库定义了对象'$', 它有像'get'(发送Ajax信息)这样的方法, 和一些字段比如'browser'(输出浏览器信息). 然而, jQuery客户端也可以把'$'当成函数调用. 这个函数根据传入参数的不同有着不同的行为.
 
-The following code fragment captures a small subset of jQuery behavior, just enough to use jQuery in a simple way.
+下面代码片段抓取了jQuery的部分行为, 足够让我们简单的使用jQuery.
 
 ```TypeScript
 interface JQuery {  
@@ -366,15 +366,15 @@ $.get("http://mysite.org/divContent",
 );
 ```
 
-The 'JQueryStatic' interface references another interface: 'JQuery'. This interface represents a collection of one or more DOM elements. The jQuery library can perform many operations on such a collection, but in this example the jQuery client only needs to know that it can set the text content of each jQuery element in a collection by passing a string to the 'text' method. The 'JQueryStatic' interface also contains a method, 'get', that performs an Ajax get operation on the provided URL and arranges to invoke the provided callback upon receipt of a response.
+'JQueryStatic'接口又引用了'JQuery'接口. 它表示一系列DOM元素的集合. jQuery库可以操作这个集合, 但是在这个例子中, jQuery客户端只需要知道它可以用'text'方法并传入一个字符串去设置它的内容. 'JQueryStatic'接口包含'get'方法, 向给定的url上发送Ajax请求, 并使用响应的数据来执行相应的回调函数.
 
-Finally, the 'JQueryStatic' interface contains a bare function signature 
+'JQueryStatic'接口包含了一个空的函数签名
 
 ```TypeScript
 (query: string): JQuery;
 ```
 
-The bare signature indicates that instances of the interface are callable. This example illustrates that TypeScript function types are just special cases of TypeScript object types. Specifically, function types are object types that contain one or more call signatures. For this reason we can write any function type as an object type literal. The following example uses both forms to describe the same type.
+空的函数签名表示这个接口的实例是可以调用的. 这也说明了TypeScript函数类型只是一种特殊的对象类型. 特别的是, 函数类型是带有一个或多个调用签名的对象类型. 因此, 我们可以用对象类型直接量的方法来定义函数类型. 下面的例子不用的方式表示同样的意义.
 
 ```TypeScript
 var f: { (): string; };  
@@ -382,19 +382,15 @@ var sameType: () => string = f;     // Ok
 var nope: () => number = sameType;  // Error: type mismatch
 ```
 
-We mentioned above that the '$' function behaves differently depending on the type of its parameter. So far, our jQuery typing only captures one of these behaviors: return an object of type 'JQuery' when passed a string. To specify multiple behaviors, TypeScript supports *overloading* of function signatures in object types. For example, we can add an additional call signature to the 'JQueryStatic' interface.
+'$'根据传入参数的不同, 行为也不同. 到目前为止, jQuery类型只能捕获一种行为: 传入字符串并返回一个'jQuery'类型的对象. 要想定义更多行为, TypeScript提供了在对象类型里*重载*函数签名的功能. 比如, 我们添加一个新的签名到'jQueryStatic'接口中.
 
 ```TypeScript
 (ready: () => any): any;
 ```
 
-This signature denotes that a function may be passed as the parameter of the '$' function. When a function is passed to '$', the jQuery library will invoke that function when a DOM document is ready. Because TypeScript supports overloading, tools can use TypeScript to show all available function signatures with their documentation tips and to give the correct documentation once a function has been called with a particular signature.
+这个签名表示'$'可以接收一个函数做为参数. 当传入函数时, jQuery库会调用那个函数当document准备好的时候. 因为TypeScript支持重载, 工具可以根据在TypeScript中的定义, 准确的提示出所有可能的函数签名, 和其具体使用方法.
 
-A typical client would not need to add any additional typing but could just use a community-supplied typing to discover (through statement completion with documentation tips) and verify (through static checking) correct use of the library, as in the following screen shot.
-
-/
-
-Section [3.3](#3.3) provides additional information about object types.
+[3.3](#3.3)章节提供了更多关于对象类型的的说明.
 
 ## <a name="1.4"/>1.4 Structural Subtyping
 
