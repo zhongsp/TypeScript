@@ -220,9 +220,9 @@ TypeScript是微软公司的注册商标.
 
 # <a name="1"/>1 介绍
 
-如今, 像web邮箱, 地图, 文档编辑和团队协作工具等Javascript应用在日常工作中变得越来越重要. 我们设计了TypeScript来满足Javascript开发团队创建和维护这些大型程序的需求. TypeScript帮助开发团队定义软件组件之间的接口, 和帮助他们加深对现有的Javascript类库行为的了解. TypeScript将代码组织为动态加载的模块来减少团队成员之间的命名冲突. TypeScript可选的类型系统可以方便程序员高效的使用工具进行: 静态检查, 标识符导航, 语句自动完成和代码重构.
+如今, 像web邮箱, 地图, 文档编辑器和团队协作工具等Javascript应用在日常工作中变得越来越重要. 我们设计了TypeScript来满足Javascript开发团队创建和维护这些大型程序的需求. TypeScript帮助开发团队定义软件组件之间的接口, 有助于他们加深对现有的Javascript类库行为的了解. TypeScript将代码组织为动态加载的模块来减少团队成员之间在命名上的冲突. TypeScript可选的类型系统可以方便程序员高效的使用工具进行如下操作: 静态检查, 标识符导航, 语句自动完成和代码重构.
 
-TypeScript就像是Javascript的语法糖. TypeScript语法是ES5语法的超集. 每个Javascript语序自然也是TypeScript程序. TypeScript编译器只以TypeScript源文件的局部为单位进行转换并且不会对声明的变量进行重新排序. 所以编译后的代码与输入的TypeScript源码非常相像. TypeScript不会改变变量名称, 可以直接在编译后的代码上调试. TypeScript也可以提供source maps, 这样就可以进行TypeScript源码级别的调试. TypeScript工具通常会在你保存文件的时候编译Javascript, 保持了测试, 编辑和刷新的普便开发流程.
+TypeScript就好比是Javascript的语法糖. TypeScript语法是ES5语法的超集. 每段Javascript代码自然也是TypeScript的代码. TypeScript编译器只以TypeScript源文件中的局部为单位进行转换而且不会对声明的变量进行重新排序. 所以编译后的代码与输入的TypeScript源码非常相像. TypeScript不会改变变量名称, 因此可以直接在编译后的代码上调试. TypeScript也可以提供source maps, 这样就可以针对TypeScript源码进行调试. TypeScript工具通常会在你保存文件的时候去编译Javascript, 这样就保持了测试, 编辑和刷新的普便开发流程.
 
 TypeScript语法中包含了一些ES6的语法, 如类和模块. 类可以让开发者使用标准的面向对象设计模式, 像继承这样的特性变得易读和易于操作. 模块则可以让开发者将其代码封装成组件以避免命名冲突. TypeScript编译器提供了模块代码生成选项来支持静态或动态的加载模块内容.
 
