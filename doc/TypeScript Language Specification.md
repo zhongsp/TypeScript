@@ -16,9 +16,9 @@ TypeScript是微软公司的注册商标.
 
 * [1 介绍](#1)
   * [1.1 外部环境声明](#1.1)
-  * [1.2 Function类型](#1.2)
-  * [1.3 Object类型](#1.3)
-  * [1.4 Structural Subtyping](#1.4)
+  * [1.2 函数类型](#1.2)
+  * [1.3 对象类型](#1.3)
+  * [1.4 结构上的子类型](#1.4)
   * [1.5 Contextual Typing](#1.5)
   * [1.6 Classes](#1.6)
   * [1.7 Enum Types](#1.7)
@@ -286,7 +286,7 @@ declare var $;
 
 [1.3](#1.3)章节提供了更多关于使用jQuery和其它类库的例子.
 
-## <a name="1.2"/>1.2 Function类型
+## <a name="1.2"/>1.2 函数类型
 
 函数表达式是Javascript的强大特性. 使用它可以让函数声明创建出闭包: 函数可以访问在函数定义之外, 词法作用域内的信息. 闭包也是目前Javascript实现强制数据封装的唯一方式. 通过读取和使用这些环境变量, 闭包能够保证它们只能在闭包范围内访问到. Javascript程序员经常使用闭包来定义事件处理函数和其它异步回调函数.
 
@@ -316,7 +316,7 @@ vote("BigPig",
 
 [3.8.2](#3.8.2)章节提供了更多关于函数类型的说明.
 
-## <a name="1.3"/>1.3 Object类型
+## <a name="1.3"/>1.3 对象类型
 
 TypeScript使用*对象类型*定义约束对象的行为. 下面的代码使用对象类型直接量规定`MakePoint`函数的返回值类型.
 
@@ -392,9 +392,9 @@ var nope: () => number = sameType;  // Error: type mismatch
 
 [3.3](#3.3)章节提供了更多关于对象类型的的说明.
 
-## <a name="1.4"/>1.4 Structural Subtyping
+## <a name="1.4"/>1.4 结构上的子类型
 
-Object types are compared *structurally*. For example, in the code fragment below, class 'CPoint' matches interface 'Point' because 'CPoint' has all of the required members of 'Point'. A class may optionally declare that it implements an interface, so that the compiler will check the declaration for structural compatibility. The example also illustrates that an object type can match the type inferred from an object literal, as long as the object literal supplies all of the required members.
+对象类型是依照结构进行比较的. 例如, 在下面的代码里, 'CPoint'类是符合'Point'接口的, 因为'CPoint'中包含了所有'Point'里必需的成员. 一个类可以(可选的)声明其实现了一个接口, 然后编译器就会去检查它们在结构上是否兼容. 这个例子也说明, 一个对象类型可以与从对象直接量中推断出来的类型相匹配, 只要这个对象直接量提供了所有必需的成员.
 
 ```TypeScript
 interface Point {  
@@ -415,14 +415,14 @@ class CPoint {
     }  
 }
 
-getX(new CPoint(0, 0));  // Ok, fields match
+getX(new CPoint(0, 0));  // OK, 字段匹配
 
-getX({ x: 0, y: 0, color: "red" });  // Extra fields Ok
+getX({ x: 0, y: 0, color: "red" });  // 额外的字段也可以
 
-getX({ x: 0 });  // Error: supplied parameter does not match
+getX({ x: 0 });  // Error: 参数不匹配
 ```
 
-See section [3.10](#3.10) for more information about type comparisons.
+[3.10](#3.10)章节提供了更多关于类型比较的说明.
 
 ## <a name="1.5"/>1.5 Contextual Typing
 
