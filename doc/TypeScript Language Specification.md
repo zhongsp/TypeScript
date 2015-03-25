@@ -318,7 +318,7 @@ vote("BigPig",
 
 ## <a name="1.3"/>1.3 对象类型
 
-TypeScript使用*对象类型*定义约束对象的行为. 下面的代码使用对象类型直接量规定`MakePoint`函数的返回值类型.
+TypeScript使用*对象类型*来定义对象应具有的行为. 下面的代码使用*对象类型直接量*定义了'MakePoint'函数返回值的类型.
 
 ```TypeScript
 var MakePoint: () => {  
@@ -326,7 +326,7 @@ var MakePoint: () => {
 };
 ```
 
-我们可以给对象类型赋值, 称它们作*接口*. 比如, 下面的代码, 声明了带有一个必须的name和可选的favoriteColor值的接口.
+我们可以给对象类型命名, 这种有名字的对象类型称做*接口*. 比如, 下面的代码, 声明了带有一个必须的name字段和可选的favoriteColor字段的接口.
 
 ```TypeScript
 interface Friend {  
@@ -343,9 +343,9 @@ add({ favoriteColor: "blue" });  // Error, name required
 add({ name: "Jill", favoriteColor: "green" });  // Ok
 ```
 
-TypeScript对象类型可以表示Javascript对象展示出的多样性的行为. 比如, jQuery库定义了对象'$', 它有像'get'(发送Ajax信息)这样的方法, 和一些字段比如'browser'(输出浏览器信息). 然而, jQuery客户端也可以把'$'当成函数调用. 这个函数根据传入参数的不同有着不同的行为.
+TypeScript对象类型可以为Javascript对象展示出的多种多样的行为建立模型. 比如, jQuery库定义了'$'对象, 它具有像'get'(发送Ajax信息)这样的方法, 和一些字段比如'browser'(输出浏览器信息). 而且, jQuery客户端也可以把'$'做为函数调用. 这个函数根据传入参数的不同又有着不同的行为.
 
-下面代码片段抓取了jQuery的部分行为, 足够让我们简单的使用jQuery.
+下面代码片段截取了jQuery的部分行为, 足够让我们简单的使用jQuery.
 
 ```TypeScript
 interface JQuery {  
@@ -366,15 +366,15 @@ $.get("http://mysite.org/divContent",
 );
 ```
 
-'JQueryStatic'接口又引用了'JQuery'接口. 它表示一系列DOM元素的集合. jQuery库可以操作这个集合, 但是在这个例子中, jQuery客户端只需要知道它可以用'text'方法并传入一个字符串去设置它的内容. 'JQueryStatic'接口包含'get'方法, 向给定的url上发送Ajax请求, 并使用响应的数据来执行相应的回调函数.
+'JQueryStatic'接口引用了'JQuery'接口, 表示一系列DOM元素的集合. jQuery库可以操作这个集合. 但是在这个例子中, jQuery客户端只需要知道它可以调用'text'方法并传入一个字符串去设置它的内容. 'JQueryStatic'接口包含'get'方法, 向给定的url上发送Ajax请求, 并使用返回的数据来执行相应的回调函数.
 
-'JQueryStatic'接口包含了一个空的函数签名
+'JQueryStatic'接口还包含了一个空的函数签名
 
 ```TypeScript
 (query: string): JQuery;
 ```
 
-空的函数签名表示这个接口的实例是可以调用的. 这也说明了TypeScript函数类型只是一种特殊的对象类型. 特别的是, 函数类型是带有一个或多个调用签名的对象类型. 因此, 我们可以用对象类型直接量的方法来定义函数类型. 下面的例子不用的方式表示同样的意义.
+空的函数签名表示这个接口的实例是可以调用的. 这也说明了TypeScript函数类型只是一种特殊的对象类型. 特别的是, 函数类型是带有一个或多个具有调用签名的对象类型. 因此, 我们可以用对象类型直接量的方法来定义函数类型. 下面的例子使用不同的定义方式但表示同样的意义.
 
 ```TypeScript
 var f: { (): string; };  
@@ -382,13 +382,13 @@ var sameType: () => string = f;     // Ok
 var nope: () => number = sameType;  // Error: type mismatch
 ```
 
-'$'根据传入参数的不同, 行为也不同. 到目前为止, jQuery类型只能捕获一种行为: 传入字符串并返回一个'jQuery'类型的对象. 要想定义更多行为, TypeScript提供了在对象类型里*重载*函数签名的功能. 比如, 我们添加一个新的签名到'jQueryStatic'接口中.
+'$'根据传入参数的不同, 行为也不同. 到目前为止, jQuery类型只能捕获一种行为: 传入字符串并返回一个'jQuery'类型的对象. 为了定义更多行为, TypeScript提供了在对象类型里*重载*函数签名的功能. 比如, 我们添加一个新的签名到'jQueryStatic'接口中.
 
 ```TypeScript
 (ready: () => any): any;
 ```
 
-这个签名表示'$'可以接收一个函数做为参数. 当传入函数时, jQuery库会调用那个函数当document准备好的时候. 因为TypeScript支持重载, 工具可以根据在TypeScript中的定义, 准确的提示出所有可能的函数签名, 和其具体使用方法.
+这个签名表示'$'可以接收一个函数做为参数. 当传入函数时, 在document准备好的时候jQuery库会调用那个函数. 因为TypeScript支持重载, 工具可以根据在TypeScript中的定义, 准确的提示出所有可能的函数签名及其具体使用方法.
 
 [3.3](#3.3)章节提供了更多关于对象类型的的说明.
 
