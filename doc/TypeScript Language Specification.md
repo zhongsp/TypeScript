@@ -19,7 +19,7 @@ TypeScript是微软公司的注册商标.
   * [1.2 函数类型](#1.2)
   * [1.3 对象类型](#1.3)
   * [1.4 结构上的子类型](#1.4)
-  * [1.5 Contextual Typing](#1.5)
+  * [1.5 按上下文推断的类型](#1.5)
   * [1.6 Classes](#1.6)
   * [1.7 Enum Types](#1.7)
   * [1.8 Overloading on String Parameters](#1.8)
@@ -424,9 +424,9 @@ getX({ x: 0 });  // Error: 参数不匹配
 
 [3.10](#3.10)章节提供了更多关于类型比较的说明.
 
-## <a name="1.5"/>1.5 Contextual Typing
+## <a name="1.5"/>1.5 按上下文推断的类型
 
-Ordinarily, TypeScript type inference proceeds "bottom-up": from the leaves of an expression tree to its root. In the following example, TypeScript infers 'number' as the return type of the function 'mul' by flowing type information bottom up in the return expression.
+通常来讲TypeScript是以"从下至上"的顺序来推断类型: 从表达式树的叶子至根. 下面例子里, TypeScript将沿着return表达式树从下至上地推断出'mul'函数的返回值类型是'number'.
 
 ```TypeScript
 function mul(a: number, b: number) {  
@@ -434,9 +434,9 @@ function mul(a: number, b: number) {
 }
 ```
 
-For variables and parameters without a type annotation or a default value, TypeScript infers type 'any', ensuring that compilers do not need non-local information about a function's call sites to infer the function's return type. Generally, this bottom-up approach provides programmers with a clear intuition about the flow of type information.
+对于没有类型注解或默认值的变量和参数来讲, TypeScript推断它们的类型为'any', 确保了编译器不需要从函数被调用的地方去推断其返回值. 通常, 这种由下至上推断类型的方式很符合程序员们的直观感觉.
 
-However, in some limited contexts, inference proceeds "top-down" from the context of an expression. Where this happens, it is called contextual typing. Contextual typing helps tools provide excellent information when a programmer is using a type but may not know all of the details of the type. For example, in the jQuery example, above, the programmer supplies a function expression as the second parameter to the 'get' method. During typing of that expression, tools can assume that the type of the function expression is as given in the 'get' signature and can provide a template that includes parameter names and types.
+但是, 在一些限定的上下文中, 类型推断却是从上至下进行的. 这种情况就叫做**按上下文推断的类型**. 当程序员在使用一个不清楚详细信息的类型的时候, 按上下文推断的类型会帮助工具给出很好的提示信息. 比如, 在上面的jQuery例子中, 给'get'方法传了一个函数表达式做为第二个参数. 在对那个表达式归类的时候, 工具可以把它当做与'get'方法里定义的函数签名一致, 并且给出参数名字和类型的模板.
 
 ```TypeScript
 $.get("http://mysite.org/divContent",  
@@ -446,9 +446,9 @@ $.get("http://mysite.org/divContent",
 );
 ```
 
-Contextual typing is also useful for writing out object literals. As the programmer types the object literal, the contextual type provides information that enables tools to provide completion for object member names.
+按上下文推断的类型在定义对象直接量的时候也很有用. 程序员为对象直接量定义类型, 按上下文推断的类型给出信息供工具使用, 提示出对象的成员名字.
 
-Section [4.19](#4.19) provides additional information about contextually typed expressions.
+[4.19](#4.19) 4.19章节提供了更多关于按上下文归类表达式的说明.
 
 ## <a name="1.6"/>1.6 Classes
 
