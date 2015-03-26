@@ -20,7 +20,7 @@ TypeScript是微软公司的注册商标.
   * [1.3 对象类型](#1.3)
   * [1.4 结构上的子类型](#1.4)
   * [1.5 按上下文推断的类型](#1.5)
-  * [1.6 Classes](#1.6)
+  * [1.6 类](#1.6)
   * [1.7 Enum Types](#1.7)
   * [1.8 Overloading on String Parameters](#1.8)
   * [1.9 Generic Types and Functions](#1.9)
@@ -450,11 +450,11 @@ $.get("http://mysite.org/divContent",
 
 [4.19](#4.19) 4.19章节提供了更多关于按上下文归类表达式的说明.
 
-## <a name="1.6"/>1.6 Classes
+## <a name="1.6"/>1.6 类
 
-JavaScript practice has at least two common design patterns: the module pattern and the class pattern. Roughly speaking, the module pattern uses closures to hide names and to encapsulate private data, while the class pattern uses prototype chains to implement many variations on object-oriented inheritance mechanisms. Libraries such as 'prototype.js' are typical of this practice.
+Javascript里有两种惯用的设计模式: 模块和类. 简单来说, 模块方式使用闭包来隐藏名字和封装私有数据, 而类则使用原型链来实现面向对象中的继承机制. 比如'prototype.js'库是这种方法的典型例子.
 
-This section and the module section below will show how TypeScript emits consistent, idiomatic JavaScript code to implement classes and modules that are closely aligned with the current ES6 proposal. The goal of TypeScript's translation is to emit exactly what a programmer would type when implementing a class or module unaided by a tool. This section will also describe how TypeScript infers a type for each class declaration. We'll start with a simple BankAccount class.
+此章节与下面的模块部分, 将会向你展示TypeScript是如何使用纯Javascript来实现如同ES6标准中的类和模块的. 经TypeScript编译后的代码正是之前需要你手动实现的代码. 这节里也会告诉你, TypeScript是如何推断每个类的类型的. 那我们就以一个简单的'BankAccount'类开始.
 
 ```TypeScript
 class BankAccount {  
@@ -466,7 +466,7 @@ class BankAccount {
 }  
 ```
 
-This class generates the following JavaScript code.
+这个类会转换成以下代码.
 
 ```TypeScript
 var BankAccount = (function () {  
@@ -481,7 +481,7 @@ var BankAccount = (function () {
 })();
 ```
 
-This TypeScript class declaration creates a variable named 'BankAccount' whose value is the constructor function for 'BankAccount' instances. This declaration also creates an instance type of the same name. If we were to write this type as an interface it would look like the following.
+这个TypeScript类声明了一个名字是'BankAccount'的变量, 它是BankAccount实例的构造函数. 这个声明也创建了一个同名的接口类型. 如果我们以接口类型使用它的话, 将是下面这样.
 
 ```TypeScript
 interface BankAccount {  
@@ -490,15 +490,15 @@ interface BankAccount {
 }
 ```
 
-If we were to write out the function type declaration for the 'BankAccount' constructor variable, it would have the following form.
+'BankAccount'的函数类型声明形式如下.
 
 ```TypeScript
 var BankAccount: new() => BankAccount;
 ```
 
-The function signature is prefixed with the keyword 'new' indicating that the 'BankAccount' function must be called as a constructor. It is possible for a function's type to have both call and constructor signatures. For example, the type of the built-in JavaScript Date object includes both kinds of signatures.
+函数签名以'new'开头, 这表明'BankAccount'函数必须以构造函数方式使用. 一个函数类型也可以同时拥有普通调用与构造函数的签名. 比如, Javascript内的Date对象就包含了两种函数签名.
 
-If we want to start our bank account with an initial balance, we can add to the 'BankAccount' class a constructor declaration.
+如果想让银行帐户有个初始的余额, 我们可以给'BankAccount'类加一个constructor声明.
 
 ```TypeScript
 class BankAccount {  
@@ -513,7 +513,7 @@ class BankAccount {
 }
 ```
 
-This version of the 'BankAccount' class requires us to introduce a constructor parameter and then assign it to the 'balance' field. To simplify this common case, TypeScript accepts the following shorthand syntax.
+'BankAccount'类要求传入一个构造函数参数, 之后把它赋值给'balance'字段. 为了方便使用, TypeScript也可以接受下面的简写语法.
 
 ```TypeScript
 class BankAccount {  
@@ -526,9 +526,9 @@ class BankAccount {
 }
 ```
 
-The 'public' keyword denotes that the constructor parameter is to be retained as a field. Public is the default accessibility for class members, but a programmer can also specify private or protected accessibility for a class member. Accessibility is a design-time construct; it is enforced during static type checking but does not imply any runtime enforcement.
+'public'关键字表示构造函数参数会为保存为一个字断. 'public'是类成员的默认访问权限, 我们也可以设置'private'或'protected'访问权限. 这些权限只是设计阶段的概念; 它们只会在静态类型检查时被强制, 并不会在运行代码的时候强制限制访问权限.
 
-TypeScript classes also support inheritance, as in the following example.* *
+TypeScript类同样支持继承.
 
 ```TypeScript
 class CheckingAccount extends BankAccount {  
@@ -541,11 +541,11 @@ class CheckingAccount extends BankAccount {
 }
 ```
 
-In this example, the class 'CheckingAccount' *derives* from class 'BankAccount'. The constructor for 'CheckingAccount' calls the constructor for class 'BankAccount' using the 'super' keyword. In the emitted JavaScript code, the prototype of 'CheckingAccount' will chain to the prototype of 'BankingAccount'. 
+这个例子里, 'CheckingAccount'类来自于'BankAccount'类. 'CheckingAccount'类的构造函数使用'super'关键字调用了'BankAccount'类的构造函数. 在生成的Javascript代码里, 'CheckingAccount'类的原型对象会链到'BankAccount'的原型对象上.
 
-TypeScript classes may also specify static members. Static class members become properties of the class constructor. 
+TypeScript类也可以声明静态成员. 静态成员会做为类构造器的属性.
 
-Section [8](#8) provides additional information about classes.
+第[8](#8)章提供了更多关于类的说明.
 
 ## <a name="1.7"/>1.7 Enum Types
 
