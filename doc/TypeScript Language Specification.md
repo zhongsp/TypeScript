@@ -22,7 +22,7 @@ TypeScript是微软公司的注册商标.
   * [1.5 按上下文归类](#1.5)
   * [1.6 类](#1.6)
   * [1.7 枚举类型](#1.7)
-  * [1.8 Overloading on String Parameters](#1.8)
+  * [1.8 字符串参数重载](#1.8)
   * [1.9 Generic Types and Functions](#1.9)
   * [1.10 Modules](#1.10)
 * [2 Basic Concepts](#2)
@@ -601,26 +601,26 @@ switch (op) {
 
 Javascript实现会使用这些明确的常数来生成高效的switch语句, 比如可以构建出跳转表, 并用case的值进行索引.
 
-## <a name="1.8"/>1.8 Overloading on String Parameters
+## <a name="1.8"/>1.8 字符串参数重载
 
-An important goal of TypeScript is to provide accurate and straightforward types for existing JavaScript programming patterns. To that end, TypeScript includes generic types, discussed in the next section, and *overloading on string parameters*, the topic of this section.
+TypeScript一个非常重要的目的就是能为现有的Javascript编程模式提供准确直观的类型. 为了那个目的, TypeScript包含了通用类型, 这会在下一节讨论, 还有这节里讲的*字符串参数重载*.
 
-JavaScript programming interfaces often include functions whose behavior is discriminated by a string constant passed to the function. The Document Object Model makes heavy use of this pattern. For example, the following screen shot shows that the 'createElement' method of the 'document' object has multiple signatures, some of which identify the types returned when specific strings are passed into the method.
+Javascript程序里函数的行为经常会根据传入的字符串参数的不同而变化. DOM就大量的使用了这种模式. 比如, 下面的截图展示了'document'的'createElement'方法有多种函数签名, 其中一些只有在传入了特定的参数后才能确定其返回值.
 
-/
+![Image of 1.8-1](./images/1.8-1.png)
 
-The following code fragment uses this feature. Because the 'span' variable is inferred to have the type 'HTMLSpanElement', the code can reference without static error the 'isMultiline' property of 'span'.
+下面的代码使用了这个特性. 因为'span'变量被推断出是'HTMLSpanElement'类型的, 所以引用其'isMultiline'属性的时候就不会报错了.
 
 ```TypeScript
 var span = document.createElement("span");  
 span.isMultiLine = false;  // OK: HTMLSpanElement has isMultiline property
 ```
 
-In the following screen shot, a programming tool combines information from overloading on string parameters with contextual typing to infer that the type of the variable 'e' is 'MouseEvent' and that therefore 'e' has a 'clientX' property.
+下面的截图里, 工具结合了字符串参数重载与按上下文归类推断出变量'e'的类型是'MouseEvent', 因此'e'拥有'clientX'属性.
 
-/
+![Image of 1.8-2](./images/1.8-2.png)
 
-Section [3.8.2.4](#3.8.2.4) provides details on how to use string literals in function signatures.
+[3.8.2.4](#3.8.2.4)章节提供了如何在函数签名里使用字符串直接量.
 
 ## <a name="1.9"/>1.9 Generic Types and Functions
 
