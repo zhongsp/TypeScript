@@ -481,7 +481,7 @@ var BankAccount = (function () {
 })();
 ```
 
-这个TypeScript类声明了一个名字是'BankAccount'的变量, 它是BankAccount实例的构造函数. 这个声明也创建了一个同名的接口类型. 如果我们以接口类型使用它的话, 将是下面这样.
+这个TypeScript类的声明创建了一个名叫'BankAccount'的变量, 它是BankAccount实例的构造函数. 这个声明同时创建了一个同名的接口类型. 如果要把它写出来的话应该是下面这样.
 
 ```TypeScript
 interface BankAccount {  
@@ -490,13 +490,13 @@ interface BankAccount {
 }
 ```
 
-'BankAccount'的函数类型声明形式如下.
+'BankAccount'函数类型的声明形式如下.
 
 ```TypeScript
 var BankAccount: new() => BankAccount;
 ```
 
-函数签名以'new'开头, 这表明'BankAccount'函数必须以构造函数方式使用. 一个函数类型也可以同时拥有普通调用与构造函数的签名. 比如, Javascript内的Date对象就包含了两种函数签名.
+函数签名以'new'关键字开头, 这表明'BankAccount'函数必须以构造函数的方式使用. 一个函数类型也可以同时拥有普通调用方式与构造函数的签名. 比如, Javascript内置的Date对象就包含了两种函数签名.
 
 如果想让银行帐户有个初始的余额, 我们可以给'BankAccount'类加一个constructor声明.
 
@@ -526,9 +526,9 @@ class BankAccount {
 }
 ```
 
-'public'关键字表示构造函数参数会为保存为一个字断. 'public'是类成员的默认访问权限, 我们也可以设置'private'或'protected'访问权限. 这些权限只是设计阶段的概念; 它们只会在静态类型检查时被强制, 并不会在运行代码的时候强制限制访问权限.
+'public'关键字表示构造函数参数会被保存为类的一个字段. 'public'是类成员的默认访问权限, 我们也可以设置'private'或'protected'访问权限. 这些权限只是在设计阶段的概念; 它们只会在静态类型检查时被强制执行, 并不会在运行代码的时候强制限制访问权限.
 
-TypeScript类同样支持继承.
+TypeScript的类同样支持继承, 看下面的例子.
 
 ```TypeScript
 class CheckingAccount extends BankAccount {  
@@ -541,9 +541,9 @@ class CheckingAccount extends BankAccount {
 }
 ```
 
-这个例子里, 'CheckingAccount'类来自于'BankAccount'类. 'CheckingAccount'类的构造函数使用'super'关键字调用了'BankAccount'类的构造函数. 在生成的Javascript代码里, 'CheckingAccount'类的原型对象会链到'BankAccount'的原型对象上.
+这个例子里, 'CheckingAccount'类来源于'BankAccount'类. 'CheckingAccount'类的构造函数使用'super'关键字调用了'BankAccount'类的构造函数. 在生成的Javascript代码里, 'CheckingAccount'类的原型对象会链到'BankAccount'的原型对象上.
 
-TypeScript类也可以声明静态成员. 静态成员会做为类构造器的属性.
+TypeScript类也可以声明静态成员. 静态成员会做为类的属性.
 
 第[8](#8)章提供了更多关于类的说明.
 
