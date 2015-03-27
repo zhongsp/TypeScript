@@ -23,8 +23,8 @@ TypeScript是微软公司的注册商标.
   * [1.6 类](#1.6)
   * [1.7 枚举类型](#1.7)
   * [1.8 字符串参数重载](#1.8)
-  * [1.9 Generic Types and Functions](#1.9)
-  * [1.10 Modules](#1.10)
+  * [1.9 泛型和函数](#1.9)
+  * [1.10 模块](#1.10)
 * [2 Basic Concepts](#2)
   * [2.1 Grammar Conventions](#2.1)
   * [2.2 Namespaces and Named Types](#2.2)
@@ -622,11 +622,11 @@ span.isMultiLine = false;  // OK: HTMLSpanElement has isMultiline property
 
 [3.8.2.4](#3.8.2.4)章节提供了如何在函数签名里使用字符串直接量.
 
-## <a name="1.9"/>1.9 Generic Types and Functions
+## <a name="1.9"/>1.9 泛型和函数
 
-Like overloading on string parameters, *generic types* make it easier for TypeScript to accurately capture the behavior of JavaScript libraries. Because they enable type information to flow from client code, through library code, and back into client code, generic types may do more than any other TypeScript feature to support detailed API descriptions.
+与字符串参数重载一样, *泛型*能帮助TypeScript准确地获取Javascript库的行为. 因为类型信息的来源是从客户端代码到程序库再回到客户端代码, 泛型会比其它TypeScript特性更多的应用到, 提供详细的API信息.
 
-To illustrate this, let's take a look at part of the TypeScript interface for the built-in JavaScript array type. You can find this interface in the 'lib.d.ts' file that accompanies a TypeScript distribution.
+来看一个例子, Javascript内置的数组类型用TypeScript接口表示. 你可以在'lib.d.ts'文件里找到这个接口描述. 这个文件包含在TypeScript的安装包中.
 
 ```TypeScript
 interface Array<T> {  
@@ -636,17 +636,17 @@ interface Array<T> {
 }
 ```
 
-Interface definitions, like the one above, can have one or more *type parameters*. In this case the 'Array' interface has a single parameter, 'T', that defines the element type for the array. The 'reverse' method returns an array with the same element type. The sort method takes an optional parameter, 'compareFn', whose type is a function that takes two parameters of type 'T' and returns a number. Finally, sort returns an array with element type 'T'.
+接口的定义可以有一个或多个*类型参数*. 在这个例子里'Array'接口只有一个参数, 'T', 它定义了数组里元素的类型. 'reverse'方法返回一个数组, 其元素也是同样的类型. sort方法有一个可选的参数, 'compareFn', 它是一个函数, 接收两个T类型的参数并返回一个数字. 最后, sort返回一个数组, 其中的元素是T类型的.
 
-Functions can also have generic parameters. For example, the array interface contains a 'map' method, defined as follows:
+函数也可以有泛型参数. 例如, array接口包含一个'map'方法, 定义如下:
 
 ```TypeScript
 map<U>(func: (value: T, index: number, array: T[]) => U, thisArg?: any): U[];
 ```
 
-The map method, invoked on an array 'a' with element type 'T', will apply function 'func' to each element of 'a', returning a value of type 'U'.
+map方法在元素类型为'T'的数组'a'上调用, 对数组'a'中的每个元素都执行'func'函数, 返回一个类型为'U'的值.
 
-The TypeScript compiler can often infer generic method parameters, making it unnecessary for the programmer to explicitly provide them. In the following example, the compiler infers that parameter 'U' of the map method has type 'string', because the function passed to map returns a string.
+TypeScript编译器通常会推断出泛型方法参数, 我们不需要明确的定义它们. 下面的例子, 编译器推断map方法的参数'U'是'string'类型的, 因为传入map的函数返回值是字符串类型.
 
 ```TypeScript
 function numberToString(a: number[]) {  
@@ -655,9 +655,9 @@ function numberToString(a: number[]) {
 }
 ```
 
-The compiler infers in this example that the 'numberToString' function returns an array of strings.
+这个例子中, 编译器推断'numberToString'函数返回一个字符串数组.
 
-In TypeScript, classes can also have type parameters. The following code declares a class that implements a linked list of items of type 'T'. This code illustrates how programmers can *constrain* type parameters to extend a specific type. In this case, the items on the list must extend the type 'NamedItem'. This enables the programmer to implement the 'log' function, which logs the name of the item.
+TypeScript的类也可以有类型参数. 下面的代码声明了一个类, 它实现了元素类型为'T'的链表. 这段代码展示了我们怎么*约束*类型参数去继承特定的类型. 这个例子中, 链表的元素必须继承'NamedItem'类型. 这样我们就可以使用'log'函数来打印元素的名字.
 
 ```TypeScript
 interface NamedItem {  
@@ -684,15 +684,15 @@ class List<T extends NamedItem> {
 }
 ```
 
-Section [3.6](#3.6) provides further information about generic types.
+[3.6](#3.6)章节提供了更多关于泛型的说明.
 
-## <a name="1.10"/>1.10 Modules
+## <a name="1.10"/>1.10 模块
 
-Classes and interfaces support large-scale JavaScript development by providing a mechanism for describing how to use a software component that can be separated from that component's implementation. TypeScript enforces *encapsulation* of implementation in classes at design time (by restricting use of private and protected members), but cannot enforce encapsulation at runtime because all object properties are accessible at runtime. Future versions of JavaScript may provide *private names* which would enable runtime enforcement of private and protected members.
+类和接口描述了该如何去使用某个软件组件, 这种机制也支撑着大规模Javascript的开发, 因为组件的使用与实现可能是分离开的. TypeScript只在编写代码阶段强制执行类的封装(通过限制对私有成员和保护成员的使用), 在运行时并不强制执行数据封装, 因为对象的所有属性都是可访问的. Javascript的未来版本可能会提供*私有命名*, 可以在运行时强制执行对私有成员和保护成员访问的限制.
 
-In the current version of JavaScript, the only way to enforce encapsulation at runtime is to use the module pattern: encapsulate private fields and methods using closure variables. The module pattern is a natural way to provide organizational structure and dynamic loading options by drawing a boundary around a software component. A module can also provide the ability to introduce namespaces, avoiding use of the global namespace for most software components. 
+当前Javascript版本, 唯一在运行时强制封装的方法是使用模块模式: 使用闭包来封装私有字段和方法. 模块模式是提供组织结构和动态加载的一种很自然的做法. 通过模块也可以实现命名空间, 避免使用全局命名空间.
 
-The following example illustrates the JavaScript module pattern.
+这个例子展示了Javascript模块模式
 
 ```TypeScript
 (function(exports) {  
@@ -704,13 +704,13 @@ The following example illustrates the JavaScript module pattern.
 })(MessageModule);
 ```
 
-This example illustrates the two essential elements of the module pattern: a *module closure* and a *module* *object*. The module closure is a function that encapsulates the module's implementation, in this case the variable 'key' and the function 'sendMessage'. The module object contains the exported variables and functions of the module. Simple modules may create and return the module object. The module above takes the module object as a parameter, 'exports', and adds the 'sendMessage' property to the module object. This *augmentation* approach simplifies dynamic loading of modules and also supports separation of module code into multiple files.
+这个例子展示了模块模式的两个必要元素: *模块闭包*和*模块对象*. 模块闭包是一个函数, 封装了模块的具体实现, 在个例子里对应的是'key'变量和'sendMessage'函数. 模块对象包含了此模块的导出变量及函数. 简单的模块会创建并返回这个模块对象. 上面的模块把模块对象当做参数, 'exports', 并且加上'sendMessage'属性. 这种*扩增*的方式使动态加载模块和支持模块代码分离至多个文件中变得简单了.
 
-The example assumes that an outer lexical scope defines the functions 'generateSecretKey' and 'sendSecureMessage'; it also assumes that the outer scope has assigned the module object to the variable 'MessageModule'.
+这个例子假设了外部作用域定义了'generateSecretKey'和'sendSecureMessage'函数; 它还假设外部作用域把这个模块赋值给'MessageModule'变量了.
 
-TypeScript modules provide a mechanism for succinctly expressing the module pattern. In TypeScript, programmers can combine the module pattern with the class pattern by nesting modules and classes within an outer module. 
+TypeScript模块提供了简单实现模块模式的机制. 在TypeScript里, 我们可以通过把模块和类嵌套在一个外层模块中来结合使用模块模式和类模式.
 
-The following example shows the definition and use of a simple module.
+下例展示了定义和使用一个简单的模块.
 
 ```TypeScript
 module M {  
@@ -724,7 +724,7 @@ M.f();
 M.s;  // Error, s is not exported
 ```
 
-In this example, variable 's' is a private feature of the module, but function 'f' is exported from the module and accessible to code outside of the module. If we were to describe the effect of module 'M' in terms of interfaces and variables, we would write
+这个例子中, 's'是私有的, 但是函数'f'是模块输出的一部分, 并可以在模块外部访问. 如果我们想要以接口和变量的方式来描述模块, 可以这样写
 
 ```TypeScript
 interface M {  
@@ -734,9 +734,9 @@ interface M {
 var M: M;
 ```
 
-The interface 'M' summarizes the externally visible behavior of module 'M'. In this example, we can use the same name for the interface as for the initialized variable because in TypeScript type names and variable names do not conflict: each lexical scope contains a variable declaration space and type declaration space (see section [2.3](#2.3) for more details).
+'M'接口总结了外部可访问的模块'M'的行为. 在这个例子里, 我们可以使用相同的名字, 因为在TypeScript里, 类型名和变量名不冲突: 每个词法作用域都包含声明变量的空间和类型声明的空间([2.3](#2.3)节提供了详细说明).
 
-Module 'M' is an example of an *internal* module, because it is nested within the *global* module (see section [10](#10) for more details). The TypeScript compiler emits the following JavaScript code for this module.
+模块'M'是*内部*模块的一个例子, 因为它嵌套在*全局*模块里了(([10](#10)章提供了详细说明)). TypeScript编译器生成如下模块的代码.
 
 ```TypeScript
 var M;  
@@ -749,9 +749,9 @@ var M;
 })(M || (M = {}));
 ```
 
-In this case, the compiler assumes that the module object resides in global variable 'M', which may or may not have been initialized to the desired module object.
+这里, 编译器假设模块对象存在于全局变量'M'里, 不确定其到底是否存在于那个变量中.
 
-TypeScript also supports *external* modules, which are files that contain top-level *export* and *import *directives. For this type of module the TypeScript compiler will emit code whose module closure and module object implementation vary according to the specified dynamic loading system, for example, the Asynchronous Module Definition system.
+TypeScript也支持*外部*模块, 比如文件里包含了顶层的*export*和*import*指令. 对于这种类型的模块, TypeScript编译器会根据提供动态加载系统, 比如AMD, 来生成相应的代码.
 
 <br/>
 
