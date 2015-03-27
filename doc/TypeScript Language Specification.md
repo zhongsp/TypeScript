@@ -21,7 +21,7 @@ TypeScript是微软公司的注册商标.
   * [1.4 结构性子类型](#1.4)
   * [1.5 按上下文归类](#1.5)
   * [1.6 类](#1.6)
-  * [1.7 Enum Types](#1.7)
+  * [1.7 枚举类型](#1.7)
   * [1.8 Overloading on String Parameters](#1.8)
   * [1.9 Generic Types and Functions](#1.9)
   * [1.10 Modules](#1.10)
@@ -244,7 +244,7 @@ function f() {
 
 开发者可以使用TypeScript的语言服务就是得益于类型推断. 比如, 代码编辑器可以引入TypeScript语言服务, 利用其查找字符串对象的成员.
 
-/
+![Image 1](./images/1.png)
 
 在TypeScript里, 我们可以这样描述一个参数的要求.
 
@@ -389,6 +389,8 @@ var nope: () => number = sameType;  // Error: type mismatch
 ```
 
 这个签名表示'$'可以接收一个函数做为参数. 当传入函数时, 在document准备好的时候jQuery库会调用那个函数. 因为TypeScript支持重载, 工具可以根据在TypeScript中的定义, 准确的提示出所有可能的函数签名及其具体使用方法.
+
+![Image of 1.3](./images/1.3.png)
 
 [3.3](#3.3)章节提供了更多关于对象类型的的说明.
 
@@ -547,9 +549,9 @@ TypeScript类也可以声明静态成员. 静态成员会做为类的属性.
 
 第[8](#8)章提供了更多关于类的说明.
 
-## <a name="1.7"/>1.7 Enum Types
+## <a name="1.7"/>1.7 枚举类型
 
-TypeScript enables programmers to summarize a set of numeric constants as an *enum type*. The example below creates an enum type to represent operators in a calculator application.
+TypeScript可以定义一系列数字常量做为枚举类型. 下面的例子定义了枚举类型表示计算器的运算符.
 
 ```TypeScript
 enum Operator {  
@@ -565,11 +567,11 @@ function compute(op: Operator, a: number, b: number) {
 }
 ```
 
-In this example, the compute function logs the operator 'op' using a feature of enum types: reverse mapping from the enum value ('op') to the string corresponding to that value. For example, the declaration of 'Operator' automatically assigns integers, starting from zero, to the listed enum members. Section [9](#9) describes how programmers can also explicitly assign integers to enum members, and can use any string to name an enum member.
+例子中, compute函数打印出'op'运算符的名字(如 ADD), 这里用到了枚举类型的一个特性: 反向映射枚举类型的值到其对应的字符串. 比如在'Operator'声明里会为枚举类型成员自动地赋上整数值, 从0开始. 第[9](#9)章会介绍怎么明确地为枚举成员指定数值并使用任意的字符串去命名枚举成员.
 
-If all enum members have explicitly assigned literal integers, or if an enum has all members automatically assigned, the TypeScript compiler will emit for an enum member a JavaScript constant corresponding to that member's assigned value (annotated with a comment). This improves performance on many JavaScript engines.
+如果所有的枚举成员都明确地指定整数值, 或自动地被赋予了整数值, TypeScript编译器会根据成员被赋予的值生成一个Javascript常量(并用注释进行注解). 这在很多Javascript引擎里都会提高性能.
 
-For example, the 'compute' function could contain a switch statement like the following.
+比如, 'compute'函数可以包含这样的switch语句.
 
 ```TypeScript
 switch (op) {  
@@ -583,7 +585,7 @@ switch (op) {
 }
 ```
 
-For this switch statement, the compiler will generate the following code.
+这个switch语句会最终生成如下代码.
 
 ```TypeScript
 switch (op) {  
@@ -597,7 +599,7 @@ switch (op) {
 }
 ```
 
-JavaScript implementations can use these explicit constants to generate efficient code for this switch statement, for example by building a jump table indexed by case value.
+Javascript实现会使用这些明确的常数来生成高效的switch语句, 比如可以构建出跳转表, 并用case的值进行索引.
 
 ## <a name="1.8"/>1.8 Overloading on String Parameters
 
