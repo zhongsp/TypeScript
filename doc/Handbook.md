@@ -191,3 +191,46 @@ function createSquare(config: SquareConfig): {color: string; area: number} {
 var mySquare = createSquare({color: "black"});
 ```
 
+### 函数类型
+
+接口可以描述大部分JavaScript中的对象类型. 除了描述带有属性的对象外, 接口也可以表示函数类型.
+
+我们可以给接口定义一个调用签名来描述函数类型. 它好比一个只有参数列表和返回值类型的函数定义.
+
+```typescript
+interface SearchFunc {
+  (source: string, subString: string): boolean;
+}
+```
+
+定义后, 我们可以像使用其它接口一样使用这个函数接口. 下例展示了如何创建一个函数类型的变量, 并赋予一个同类型的函数值.
+
+```typescript
+var mySearch: SearchFunc;
+mySearch = function(source: string, subString: string) {
+  var result = source.search(subString);
+  if (result == -1) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+```
+
+对函数类型的类型检查来说, 函数参数的名字不需要与接口里定义的名字相匹配. 比如, 我们也用下面的代码重写上面的例子:
+
+```typescript
+var mySearch: SearchFunc;
+mySearch = function(src: string, sub: string) {
+  var result = src.search(sub);
+  if (result == -1) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+```
+
+函数的参数是参照其位置一个接一个的检查. 函数的返回值类型通过其返回值推断出来(此例是false和true). 如果让这个函数返回数字或字符串, 类型检查器会警告我们函数的返回值类型与SearchFunc接口中的定义不匹配.
