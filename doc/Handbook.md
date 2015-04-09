@@ -234,3 +234,27 @@ mySearch = function(src: string, sub: string) {
 ```
 
 函数的参数是参照其位置一个接一个的检查. 函数的返回值类型通过其返回值推断出来(此例是false和true). 如果让这个函数返回数字或字符串, 类型检查器会警告我们函数的返回值类型与SearchFunc接口中的定义不匹配.
+
+### 数组类型
+
+与使用接口描述函数类型差不多, 我们也可以描述数组类型. 数组类型具有一个'index'类型表示索引的类型与相应的返回值类型.
+
+```typescript
+interface StringArray {
+  [index: number]: string;
+}
+
+var myArray: StringArray;
+myArray = ["Bob", "Fred"];
+```
+
+有两种支持的索引类型: 字符串和数字. 你可以为一个数组同时指定这两种索引类型, 但是有一个限制, 数字索引返回值的类型必须是字符串索引返回值的类型的子类型.
+
+索引签名可以很好的描述数组和'字典'模式, 它们也强制所有属性都与索引返回值类型相匹配. 下面的例子里, length属性不匹配索引, 所以类型检查器给出一个错误提示:
+
+```typescript
+interface Dictionary {
+  [index: string]: string;
+  length: number;    // error, the type of 'length' is not a subtype of the indexer
+}
+```
