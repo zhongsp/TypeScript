@@ -17,6 +17,7 @@
   * [可选属性](#可选属性)
   * [函数类型](#函数类型)
   * [数组类型](#数组类型)
+  * [类类型](#类类型)
 
 ## 基本类型
 
@@ -273,4 +274,73 @@ interface Dictionary {
   [index: string]: string;
   length: number;    // error, the type of 'length' is not a subtype of the indexer
 }
+```
+
+### 类类型
+
+#### 实现接口
+
+与在C#或Java里接口的基本作用一样, 在TypeScript里它可以明确的强制一个类去符合某种契约.
+
+```typescript
+interface ClockInterface {
+    currentTime: Date;
+}
+
+class Clock implements ClockInterface  {
+    currentTime: Date;
+    constructor(h: number, m: number) { }
+}
+```
+
+你也可以在接口中描述一个方法, 在类里实现它, 如同下面的'setTime'方法一样:
+
+```typescript
+interface ClockInterface {
+    currentTime: Date;
+    setTime(d: Date);
+}
+
+class Clock implements ClockInterface  {
+    currentTime: Date;
+    setTime(d: Date) {
+        this.currentTime = d;
+    }
+    constructor(h: number, m: number) { }
+}
+```
+
+接口描述了类的公共部分, 而不是公共和私有两部分. 它不会帮你检查类是否具有某些私有成员.
+
+#### 静态成员与类实例的差别
+
+当你操作类和接口的时候, 你要知道类是有两种类型的: 静态部分的类型和实例的类型. 你会注意到, 当你用带有构造器签名去定义一个接口并试图定义一个类去实现这个接口时会得到一个错误:
+
+```typescript
+interface ClockInterface {
+    new (hour: number, minute: number);
+}
+
+class Clock implements ClockInterface  {
+    currentTime: Date;
+    constructor(h: number, m: number) { }
+}
+```
+
+这里因为当一个类实现了一个接口, 只有实例部分会进行类型检查. 'constructor'是在类的静态部分, 所以不在检查的范围内.
+
+取而代之, 你应该直接操作类的'静态'部分. 下面的例子, 我们直接操作类:
+
+```typescript
+interface ClockStatic {
+    new (hour: number, minute: number);
+}
+
+class Clock  {
+    currentTime: Date;
+    constructor(h: number, m: number) { }
+}
+
+var cs: ClockStatic = Clock;
+var newClock = new cs(7, 30);
 ```
