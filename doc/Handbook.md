@@ -2,6 +2,22 @@
 
 [TypeScript Handbook](http://www.typescriptlang.org/Handbook)
 
+## 目录
+
+* [基本类型](#基本类型)
+  * [Boolean](#boolean)
+  * [Number](#number)
+  * [String](#string)
+  * [Array](#array)
+  * [Enum](#enum)
+  * [Any](#any)
+  * [Void](#void)
+* [接口](#接口)
+  * [第一个接口例子](#第一个接口例子)
+  * [可选属性](#可选属性)
+  * [函数类型](#函数类型)
+  * [数组类型](#数组类型)
+
 ## 基本类型
 
 为了写出有用的程序, 我们需要有能力去处理简单的数据单位: 数字, 字符串, 结构, 布尔值等. 在TypeScript里, 包含了与JavaScript中几乎相同的数据类型, 此外还有便于我们操作的枚举类型.
