@@ -18,6 +18,8 @@
   * [函数类型](#函数类型)
   * [数组类型](#数组类型)
   * [类类型](#类类型)
+  * [扩展接口](#扩展接口)
+  * [混合类型](#混合类型)
 
 ## 基本类型
 
@@ -344,3 +346,63 @@ class Clock  {
 var cs: ClockStatic = Clock;
 var newClock = new cs(7, 30);
 ```
+
+### 扩展接口
+
+和类一样, 接口也可以相互扩展. 扩展接口时会将其它接口里的属性拷贝到这个接口里, 因此允许你把接口拆分成分开的可重用的组件.
+
+```typescript
+interface Shape {
+    color: string;
+}
+
+interface Square extends Shape {
+    sideLength: number;
+}
+
+var square = <Square>{};
+square.color = "blue";
+square.sideLength = 10;
+```
+
+接口可以继承多个接口, 创建一个综合的接口.
+
+```typescript
+interface Shape {
+    color: string;
+}
+
+interface PenStroke {
+    penWidth: number;
+}
+
+interface Square extends Shape, PenStroke {
+    sideLength: number;
+}
+
+var square = <Square>{};
+square.color = "blue";
+square.sideLength = 10;
+square.penWidth = 5.0;
+```
+
+### 混合类型
+
+先前我们提过, 接口可以描述JavaScript里存在的丰富的类型. 因为JavaScript有动态的灵活的特点, 有时你会希望一个对象可以同时具有上面提到的多种类型.
+
+一个例子就是, 一个对象可以同时做为函数和对象使用, 并带有额外的属性.
+
+```typescript
+interface Counter {
+    (start: number): string;
+    interval: number;
+    reset(): void;
+}
+
+var c: Counter;
+c(10);
+c.reset();
+c.interval = 5.0;
+```
+
+使用第三方库的时候, 你可能会上面那样去详细的定义类型.
