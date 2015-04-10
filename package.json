@@ -1,0 +1,28 @@
+{
+  "name": "TypeScript-Tool",
+  "version": "1.0.0",
+  "description": "TypeScript starter package",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": " "
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhongsp/TypeScript"
+  },
+  "keywords": [
+    "TypeScript"
+  ],
+  "author": "Patrick Zhong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zhongsp/TypeScript/issues"
+  },
+  "homepage": "https://github.com/zhongsp/TypeScript",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-typescript": "^2.6.0"
+  }
+}
