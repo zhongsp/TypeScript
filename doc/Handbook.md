@@ -20,6 +20,8 @@
   * [类类型](#类类型)
   * [扩展接口](#扩展接口)
   * [混合类型](#混合类型)
+* [类](#类)
+  * [类](#Classes)
 
 ## 基本类型
 
@@ -406,3 +408,31 @@ c.interval = 5.0;
 ```
 
 使用第三方库的时候, 你可能会上面那样去详细的定义类型.
+
+## 类
+
+传统的JavaScript使用函数和基于原型的继承来创建可重用的组件, 但是这对于熟悉使用面向对象方式的程序员来说有些棘手, 因为他们使用的是类继承并且对象是从这些类构建出来的. 从ECMAScript6开始, JavaScript的下个版本, JavaScript程序将可以使用这种基于类的面向对象方法. 在TypeScript里, 我们允许开发者现在就使用这些特性, 并且编译后的JavaScript可以在所有主流浏览器和平台上运行, 而不需要等到下个JavaScript版本.
+
+### Classes
+
+下面看一个类的例子:
+
+```typescript
+class Greeter {
+    greeting: string;
+    constructor(message: string) {
+        this.greeting = message;
+    }
+    greet() {
+        return "Hello, " + this.greeting;
+    }
+}
+
+var greeter = new Greeter("world");
+```
+
+如果你使用过C#或Java, 你会对这种语法非常熟悉. 我们声明一个类'Greeter'. 这个类有3个成员, 叫做'greeting'的属性, 一个构造函数和一个'greet'方法.
+
+你会注意到, 我们在引用任何一个类成员的时候都用了'this'. 这表示我们访问的是类的成员.
+
+最后一行, 我们使用'new'构造了Greeter类的一个实例. 它会调用之前定义的构造器, 创建一个新的Greeter类型的对象, 用执行构造函数初始化它.
