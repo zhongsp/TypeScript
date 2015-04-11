@@ -22,6 +22,7 @@
   * [混合类型](#混合类型)
 * [类](#类)
   * [类](#Classes)
+  * [继承](#继承)
 
 ## 基本类型
 
@@ -436,3 +437,45 @@ var greeter = new Greeter("world");
 你会注意到, 我们在引用任何一个类成员的时候都用了'this'. 这表示我们访问的是类的成员.
 
 最后一行, 我们使用'new'构造了Greeter类的一个实例. 它会调用之前定义的构造器, 创建一个新的Greeter类型的对象, 用执行构造函数初始化它.
+
+### 继承
+
+在TypeScript里, 我们可以使用常用的面向对象模式. 当然, 基于类的程序设计中最基本的模式是可以使用继承来扩展一个类.
+
+看下面的例子:
+
+```typescript
+class Animal {
+    name:string;
+    constructor(theName: string) { this.name = theName; }
+    move(meters: number = 0) {
+        alert(this.name + " moved " + meters + "m.");
+    }
+}
+
+class Snake extends Animal {
+    constructor(name: string) { super(name); }
+    move(meters = 5) {
+        alert("Slithering...");
+        super.move(meters);
+    }
+}
+
+class Horse extends Animal {
+    constructor(name: string) { super(name); }
+    move(meters = 45) {
+        alert("Galloping...");
+        super.move(meters);
+    }
+}
+
+var sam = new Snake("Sammy the Python");
+var tom: Animal = new Horse("Tommy the Palomino");
+
+sam.move();
+tom.move(34);
+```
+
+这个例子展示了TypeScript中继承的一些特征, 它与其它语言中类似. 我们使用'extends'来创建子类. 你可以看到'Horse'和'Snake'类是基类'Animal'的子类, 并且可以访问其属性和方法.
+
+这个例子也说明了, 在子类里可以重写父类的方法. 'Snake'类和'Horse'类都创建了'move'方法, 重写了从'Animal'继承来的'move'方法, 使得'move'方法根据不同的类具有不同的功能.
