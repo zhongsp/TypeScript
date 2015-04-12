@@ -23,6 +23,8 @@
 * [类](#类)
   * [类](#Classes)
   * [继承](#继承)
+  * [公共与私有的修饰语](#公共与私有修饰语)
+  * [存取器](#存取器)
 
 ## 基本类型
 
@@ -479,3 +481,120 @@ tom.move(34);
 这个例子展示了TypeScript中继承的一些特征, 它与其它语言中类似. 我们使用'extends'来创建子类. 你可以看到'Horse'和'Snake'类是基类'Animal'的子类, 并且可以访问其属性和方法.
 
 这个例子也说明了, 在子类里可以重写父类的方法. 'Snake'类和'Horse'类都创建了'move'方法, 重写了从'Animal'继承来的'move'方法, 使得'move'方法根据不同的类具有不同的功能.
+
+### 公共与私有的修饰语
+
+#### 默认为public
+
+你会注意到, 上面的例子中我们没有用'public'去修饰任何类成员的可见性. 在C#里需要使用'public'明确地指定成员的可见性. 在TypeScript里, 所有成员都默认为public.
+
+你也可以把成员标记为'private'来控制什么是可以在类外部访问的. 我们重写一下上面的'Animal'类:
+
+```typescript
+class Animal {
+    private name:string;
+    constructor(theName: string) { this.name = theName; }
+    move(meters: number) {
+        alert(this.name + " moved " + meters + "m.");
+    }
+}
+```
+
+#### 理解private
+
+TypeScript是一个结构化的类型系统. 我们比较两种不同的类型时, 不在乎它们从哪儿来的, 如果它们每个成员的类型是兼容的, 我们就说这两个类型是兼容的.
+
+当我们比较具有'private'成员的类型的时候, 稍有不同. 如果一个类型中有个私有成员, 那么只有另外一个类型中也存在一个私有成员并且它们来自同一处定义, 我们才认为这两个类型是兼容的.
+
+下面来看一个例子, 详细的解释了这点:
+
+```typescript
+class Animal {
+    private name:string;
+    constructor(theName: string) { this.name = theName; }
+}
+
+class Rhino extends Animal {
+  constructor() { super("Rhino"); }
+}
+
+class Employee {
+    private name:string;
+    constructor(theName: string) { this.name = theName; } 
+}
+
+var animal = new Animal("Goat");
+var rhino = new Rhino();
+var employee = new Employee("Bob");
+
+animal = rhino;
+animal = employee; //error: Animal and Employee are not compatible
+```
+
+这个例子中有'Animal'和'Rhino'两个类, 'Rhino'是'Animal'类的子类. 还有一个'Employee'类, 其类型看上去与'Animal'是相同的. 我们创建了几个这些类的实例, 并相互赋值来看看会发生什么. 因为'Animal'和'Rhino'共享了来自'Animal'里的私有定义'private name: string', 因此它们是兼容的. 然而'Employee'却不是这样. 当把'Employee'赋值给'Animal'的时候, 得到一个错误, 说它们的类型不兼容. 尽管'Employee'里也有一个私有成员'name', 但它明显不是'Animal'里面定义的那个.
+
+#### 参数属性
+
+'public'和'private'关键字也提供一种简便的方法通过参数属性来创建和初始化类成员. 参数属性让你一步就可以创建并初始化一个类成员. 下面的代码改写了上面的例子. 注意, 我们删除了'name'并直接使用'private name: string'参数在构造函数里创建并初始化'name'成员.
+
+```typescript
+class Animal {
+    constructor(private name: string) { }
+    move(meters: number) {
+        alert(this.name + " moved " + meters + "m.");
+    }
+}
+```
+
+### 存取器
+
+TypeScript支持getters/setters来截取对对象成员的访问. 它能帮助你有效的控制对对象成员的访问.
+
+下面来看如何把一类改写成使用'get'和'set'. 首先是没用使用存取器的例子:
+
+```typescript
+class Employee {
+    fullName: string;
+}
+
+var employee = new Employee();
+employee.fullName = "Bob Smith";
+if (employee.fullName) {
+    alert(employee.fullName);
+}
+```
+
+我们可以随意的设置fullName是非常方便的, 但是这可能会带来麻烦.
+
+下面这个版本里, 我们先检查用户是否具有有效的密码, 然后再允许修改employee. 我们把对fullName的直接访问改成了可以检查密码的'set'方法. 我们也加了一个get方法, 让上面的例子仍然可以工作.
+
+```typescript
+var passcode = "secret passcode";
+
+class Employee {
+    private _fullName: string;
+
+    get fullName(): string {
+        return this._fullName;
+    }
+  
+    set fullName(newName: string) {
+        if (passcode && passcode == "secret passcode") {
+            this._fullName = newName;
+        }
+        else {
+            alert("Error: Unauthorized update of employee!");
+        }
+    }
+}
+
+var employee = new Employee();
+employee.fullName = "Bob Smith";
+if (employee.fullName) {
+    alert(employee.fullName);
+}
+```
+
+可以修改一下密码, 来验证一下存取器是否是工作的. 当密码不一致时, 会提示我们没有权限去修改employee.
+
+注意: 使用存取器, 要求设置编译器输出为ECMAScript 5.
