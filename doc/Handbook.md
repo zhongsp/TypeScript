@@ -25,6 +25,8 @@
   * [继承](#继承)
   * [公共与私有的修饰语](#公共与私有修饰语)
   * [存取器](#存取器)
+  * [静态属性](#静态属性)
+  * [高级技巧](#高级技巧)
 
 ## 基本类型
 
@@ -598,3 +600,116 @@ if (employee.fullName) {
 可以修改一下密码, 来验证一下存取器是否是工作的. 当密码不一致时, 会提示我们没有权限去修改employee.
 
 注意: 使用存取器, 要求设置编译器输出为ECMAScript 5.
+
+### 静态属性
+
+到目前为止, 我们只讨论了类的实例成员, 那些仅当类被实例化的时候才会被初始化的属性. 我们也可以创建类的静态成员, 这些属性存在于类上而不是类的实例上. 在这个例子里, 我们使用'static'定义'origin', 因为它是所有网格都会用到的属性. 每个实例想要访问这个属性的时候, 都要在origin前面加上类名. 如同在实例上使用'this.'前缀来访问属性一样, 这里我们使用'Grid.'来访问静态属性.
+
+```typescript
+class Grid {
+    static origin = {x: 0, y: 0};
+    calculateDistanceFromOrigin(point: {x: number; y: number;}) {
+        var xDist = (point.x - Grid.origin.x);
+        var yDist = (point.y - Grid.origin.y);
+        return Math.sqrt(xDist * xDist + yDist * yDist) / this.scale;
+    }
+    constructor (public scale: number) { }
+}
+
+var grid1 = new Grid(1.0);  // 1x scale
+var grid2 = new Grid(5.0);  // 5x scale
+
+alert(grid1.calculateDistanceFromOrigin({x: 10, y: 10}));
+alert(grid2.calculateDistanceFromOrigin({x: 10, y: 10}));
+```
+
+### 高级技巧
+
+#### 构造函数
+
+当你在TypeScript里定义类的时候, 实际上同时定义了很多东西. 首先是类的实例的类型.
+
+```typescript
+class Greeter {
+    greeting: string;
+    constructor(message: string) {
+        this.greeting = message;
+    }
+    greet() {
+        return "Hello, " + this.greeting;
+    }
+}
+
+var greeter: Greeter;
+greeter = new Greeter("world");
+alert(greeter.greet());
+```
+
+在这里, 我们写了'var greeter: Greeter', 意思是Greeter类的实例的类型是Greeter. 这对于使用过其它面向对象语言的程序员来讲已经是老习惯了.
+
+我们也创建了一个叫做*构造函数*的值. 这个函数会在我们使用'new'创建类实例的时候被调用. 下面我们来看看, 上面的代码被编译成JavaScript后是什么样子的:
+
+```typescript
+var Greeter = (function () {
+    function Greeter(message) {
+        this.greeting = message;
+    }
+    Greeter.prototype.greet = function () {
+        return "Hello, " + this.greeting;
+    };
+    return Greeter;
+})();
+
+var greeter;
+greeter = new Greeter("world");
+alert(greeter.greet());
+```
+
+上面的代码里, 'var Greeter'将被赋值为构造函数. 当我们调用'new'并执行这个函数后, 我们会得到一个类的实例. 这个构造函数也包含了类的所有静态属性. 换个角度说, 我们可以认为类有实例部分与静态部分这两个部分.
+
+让我们来改写一下这个例子, 看看这个区别:
+
+```typescript
+class Greeter {
+    static standardGreeting = "Hello, there";
+    greeting: string;
+    greet() {
+        if (this.greeting) {
+            return "Hello, " + this.greeting;
+        }
+        else {
+            return Greeter.standardGreeting;
+        }
+    }
+}
+
+var greeter1: Greeter;
+greeter1 = new Greeter();
+alert(greeter1.greet());
+
+var greeterMaker: typeof Greeter = Greeter;
+greeterMaker.standardGreeting = "Hey there!";
+var greeter2:Greeter = new greeterMaker();
+alert(greeter2.greet());
+```
+
+这个例子里, 'greeter1'与之前看到的一样.
+
+再之后, 我们直接使用类. 我们创建了一个叫做'greeterMaker'的变量. 这个变量保存了这个类或者说保存了类构造函数. 然后我们使用'typeof Greeter', 意思是取Greeter类的类型, 而不是实例的类型. 或者理确切的说, "告诉我Greeter标识符的类型", 也就是构造函数的类型. 这个类型包含了类的所有静态成员和构造函数. 之后, 就和前面一样, 我们在'greeterMaker'上使用'new', 创建'Greeter'的实例.
+
+#### 把类当做接口使用
+
+如上一节里所讲的, 类的定义会创建了两个东西: 类的实例的类型和一个构造函数. 因为类可以创建类型, 所以你能够在可以使用接口的地方使用类.
+
+```typescript
+class Point {
+    x: number;
+    y: number;
+}
+
+interface Point3d extends Point {
+    z: number;
+}
+
+var point3d: Point3d = {x: 1, y: 2, z: 3};
+```
