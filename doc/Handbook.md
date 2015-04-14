@@ -29,6 +29,7 @@
   * [高级技巧](#高级技巧)
 * [模块](#模块)
   * [多文件中的模块](#多文件中的模块)
+  * [外部模块]（#外部模块）
 
 ## 基本类型
 
@@ -896,3 +897,107 @@ tsc --out sample.js Validation.ts LettersOnlyValidator.ts ZipCodeValidator.ts Te
 <script src="Test.js" type="text/javascript" />
 ```
 
+### 外部模块
+
+TypeScript中同样存在外部模块的概念. 外部模块在两种情况下会用到: node.js和require.js. 对于没有使用node.js和require.js的应用来说是不需要使用外部模块的, 最好使用上面说的内部模块的方式来组织代码.
+
+在外部模块, 不同文件之间的关系是通过imports和exports来指定的. 在TypeScript里, 任何具有顶级*import*和*export*的文件都会被视为段级模块.
+
+下面, 我们把之前的例子改写成外部模块. 注意, 我们不再使用module关键字 - 文件本身会被视为一个模块并以文件名来区分.
+
+引用标签用*import*来代替, 指明了模块之前的依赖关系. *import*语句有两部分: 当前文件使用模块时使用的名字, require关键字指定了依赖模块的路径:
+
+```typescript
+import someMod = require('someModule');
+```
+
+我们通过顶级的*export*关键字指出了哪些对象在模块外是可见的, 如同使用*export*定义内部模块的公共接口一样.
+
+为了编译, 我们必须在命令行上指明生成模块的目标类型. 对于node.js, 使用*--module commonjs*. 对于require.js, 使用*--module amd*. 比如:
+
+```sh
+ts --module commonjs Test.ts
+```
+
+编译的时候, 每个外部模块会变成一个单独的文件. 如同引用标签, 编译器会按照*import*语句编译相应的文件.
+
+*Validation.ts*
+
+```typescript
+export interface StringValidator {
+    isAcceptable(s: string): boolean;
+}
+```
+
+*LettersOnlyValidator.ts*
+
+```typescript
+import validation = require('./Validation');
+var lettersRegexp = /^[A-Za-z]+$/;
+export class LettersOnlyValidator implements validation.StringValidator {
+    isAcceptable(s: string) {
+        return lettersRegexp.test(s);
+    }
+}
+```
+
+*ZipCodeValidator.ts*
+
+```typescript
+import validation = require('./Validation');
+var numberRegexp = /^[0-9]+$/;
+export class ZipCodeValidator implements validation.StringValidator {
+    isAcceptable(s: string) {
+        return s.length === 5 && numberRegexp.test(s);
+    }
+}
+```
+
+*Test.ts*
+
+```typescript
+import validation = require('./Validation');
+import zip = require('./ZipCodeValidator');
+import letters = require('./LettersOnlyValidator');
+
+// Some samples to try
+var strings = ['Hello', '98052', '101'];
+// Validators to use
+var validators: { [s: string]: validation.StringValidator; } = {};
+validators['ZIP code'] = new zip.ZipCodeValidator();
+validators['Letters only'] = new letters.LettersOnlyValidator();
+// Show whether each string passed each validator
+strings.forEach(s => {
+    for (var name in validators) {
+        console.log('"' + s + '" ' + (validators[name].isAcceptable(s) ? ' matches ' : ' does not match ') + name);
+    }
+});
+```
+
+**生成外部模块的代码**
+
+根据编译时指定的目标模块类型, 编译器会生成相应的代码. 想要了解更多关于*define*和*require*函数的使用方法, 请阅读相应模块加载器的说明文档.
+
+这个例子展示了在导入导出阶段使用的名字是怎么转换成模块加载代码的.
+
+*SimpleModule.ts*
+
+```typescript
+import m = require('mod');
+export var t = m.something + 1;
+```
+
+*AMD/RequireJS SimpleModule.js:*
+
+```javascript
+define(["require", "exports", 'mod'], function(require, exports, m) {
+    exports.t = m.something + 1;
+});
+```
+
+*CommonJS / Node SimpleModule.js:*
+
+```typescript
+var m = require('mod');
+exports.t = m.something + 1;
+```
