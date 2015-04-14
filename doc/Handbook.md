@@ -27,6 +27,7 @@
   * [存取器](#存取器)
   * [静态属性](#静态属性)
   * [高级技巧](#高级技巧)
+* [模块](#模块)
 
 ## 基本类型
 
@@ -712,4 +713,92 @@ interface Point3d extends Point {
 }
 
 var point3d: Point3d = {x: 1, y: 2, z: 3};
+```
+
+## 模块
+
+这节会列出多种在TypeScript里组织代码的方法. 我们将介绍内部和外部模块, 以及如何在适合的地方使用它们. 我们也会涉及到一些高级主题, 如怎么使用外部模块, 当使用TypeScript模块时如何避免常见的陷井.
+
+**第一步**
+
+让我们写一段程序, 我们将在整个小节中都使用这个例子. 我们定义几个简单的字符串验证器, 好比你会使用它们来验证表单里的用户输入或验证外部数据.
+
+*所有的验证器都在一个文件里*
+
+```typescript
+interface StringValidator {
+    isAcceptable(s: string): boolean;
+}
+
+var lettersRegexp = /^[A-Za-z]+$/;
+var numberRegexp = /^[0-9]+$/;
+
+class LettersOnlyValidator implements StringValidator {
+    isAcceptable(s: string) {
+        return lettersRegexp.test(s);
+    }
+}
+
+class ZipCodeValidator implements StringValidator {
+    isAcceptable(s: string) {
+        return s.length === 5 && numberRegexp.test(s);
+    }
+}
+
+// Some samples to try
+var strings = ['Hello', '98052', '101'];
+// Validators to use
+var validators: { [s: string]: StringValidator; } = {};
+validators['ZIP code'] = new ZipCodeValidator();
+validators['Letters only'] = new LettersOnlyValidator();
+// Show whether each string passed each validator
+strings.forEach(s => {
+    for (var name in validators) {
+        console.log('"' + s + '" ' + (validators[name].isAcceptable(s) ? ' matches ' : ' does not match ') + name);
+    }
+});
+```
+
+**增加模块支持**
+
+随着我们增加更多的验证器, 我们想要将它们组织在一起来保持对它们的追踪记录并且不用担心与其它对象产生命名冲突. 我们把验证器包裹到一个模块里, 而不是把它们放在全局命名空间下.
+
+这个例子里, 我们把所有验证器相关的类型都放到一个叫做*Validation*的模块里. 由于我们想在模块外这些接口和类都是可见的, 我们需要使*export*. 相反地, 变量*lettersRegexp*和*numberRegexp*是具体实现, 所以没有使用export, 因此它们在模块外部是不可见的. 在测试代码的底部, 使用模块导出内容的时候需要增加一些限制, 比如*Validation.LettersOnlyValidator*.
+
+*模块化的验证器*
+
+```typescript
+module Validation {
+    export interface StringValidator {
+        isAcceptable(s: string): boolean;
+    }
+
+    var lettersRegexp = /^[A-Za-z]+$/;
+    var numberRegexp = /^[0-9]+$/;
+
+    export class LettersOnlyValidator implements StringValidator {
+        isAcceptable(s: string) {
+            return lettersRegexp.test(s);
+        }
+    }
+
+    export class ZipCodeValidator implements StringValidator {
+        isAcceptable(s: string) {
+            return s.length === 5 && numberRegexp.test(s);
+        }
+    }
+}
+
+// Some samples to try
+var strings = ['Hello', '98052', '101'];
+// Validators to use
+var validators: { [s: string]: Validation.StringValidator; } = {};
+validators['ZIP code'] = new Validation.ZipCodeValidator();
+validators['Letters only'] = new Validation.LettersOnlyValidator();
+// Show whether each string passed each validator
+strings.forEach(s => {
+    for (var name in validators) {
+        console.log('"' + s + '" ' + (validators[name].isAcceptable(s) ? ' matches ' : ' does not match ') + name);
+    }
+});
 ```
