@@ -28,6 +28,7 @@
   * [静态属性](#静态属性)
   * [高级技巧](#高级技巧)
 * [模块](#模块)
+  * [多文件中的模块](#多文件中的模块)
 
 ## 基本类型
 
@@ -646,11 +647,11 @@ greeter = new Greeter("world");
 alert(greeter.greet());
 ```
 
-在这里, 我们写了'var greeter: Greeter', 意思是Greeter类的实例的类型是Greeter. 这对于用过其它面向对象语言的程序员来讲已经是老习惯了.
+在这里, 我们写了'var greeter: Greeter', 意思是Greeter类实例的类型是Greeter. 这对于用过其它面向对象语言的程序员来讲已经是老习惯了.
 
 我们也创建了一个叫做*构造函数*的值. 这个函数会在我们使用'new'创建类实例的时候被调用. 下面我们来看看, 上面的代码被编译成JavaScript后是什么样子的:
 
-```typescript
+```javascript
 var Greeter = (function () {
     function Greeter(message) {
         this.greeting = message;
@@ -666,9 +667,9 @@ greeter = new Greeter("world");
 alert(greeter.greet());
 ```
 
-上面的代码里, 'var Greeter'将被赋值为构造函数. 当我们调用'new'并执行这个函数后, 我们会得到一个类的实例. 这个构造函数也包含了类的所有静态属性. 换个角度说, 我们可以认为类具有实例部分与静态部分这两个部分.
+上面的代码里, 'var Greeter'将被赋值为构造函数. 当我们使用'new'并执行这个函数后, 便会得到一个类的实例. 这个构造函数也包含了类的所有静态属性. 换个角度说, 我们可以认为类具有实例部分与静态部分这两个部分.
 
-让我们来改写一下这个例子, 看看这个区别:
+让我们来改写一下这个例子, 看看它们之前的区别:
 
 ```typescript
 class Greeter {
@@ -700,7 +701,7 @@ alert(greeter2.greet());
 
 #### 把类当做接口使用
 
-如上一节里所讲的, 类的定义会创建了两个东西: 类的实例的类型和一个构造函数. 因为类可以创建类型, 所以你能够在可以使用接口的地方使用类.
+如上一节里所讲的, 类定义会创建两个东西: 类实例的类型和一个构造函数. 因为类可以创建出类型, 所以你能够在可以使用接口的地方使用类.
 
 ```typescript
 class Point {
@@ -721,7 +722,7 @@ var point3d: Point3d = {x: 1, y: 2, z: 3};
 
 **第一步**
 
-让我们写一段程序, 我们将在整个小节中都使用这个例子. 我们定义几个简单的字符串验证器, 好比你会使用它们来验证表单里的用户输入或验证外部数据.
+让我们先写一段程序, 我们将在整个小节中都使用这个例子. 我们定义几个简单的字符串验证器, 好比你会使用它们来验证表单里的用户输入或验证外部数据.
 
 *所有的验证器都在一个文件里*
 
@@ -763,7 +764,7 @@ strings.forEach(s => {
 
 随着我们增加更多的验证器, 我们想要将它们组织在一起来保持对它们的追踪记录并且不用担心与其它对象产生命名冲突. 我们把验证器包裹到一个模块里, 而不是把它们放在全局命名空间下.
 
-这个例子里, 我们把所有验证器相关的类型都放到一个叫做*Validation*的模块里. 由于我们想在模块外这些接口和类都是可见的, 我们需要使*export*. 相反地, 变量*lettersRegexp*和*numberRegexp*是具体实现, 所以没有使用export, 因此它们在模块外部是不可见的. 在测试代码的底部, 使用模块导出内容的时候需要增加一些限制, 比如*Validation.LettersOnlyValidator*.
+这个例子里, 我们把所有验证器相关的类型都放到一个叫做*Validation*的模块里. 由于我们想在模块外这些接口和类都是可见的, 我们需要使用*export*. 相反地, 变量*lettersRegexp*和*numberRegexp*是具体实现, 所以没有使用export, 因此它们在模块外部是不可见的. 在测试代码的底部, 使用模块导出内容的时候需要增加一些限制, 比如*Validation.LettersOnlyValidator*.
 
 *模块化的验证器*
 
@@ -802,3 +803,96 @@ strings.forEach(s => {
     }
 });
 ```
+
+### 多文件中的模块
+
+当应用变得越来越大时, 我们需要将代码分散到不同的文件中以便于维护.
+
+现在, 我们把Validation模块分散多个文件中. 尽管是分开的文件, 它们仍可以操作同一个模块, 并且使用的时候就好像它们是定义在一个文件中一样. 因为在不同文件之间存在依赖关系, 我们加入了引用标签来告诉编译器文件之间的关系. 我们的测试代码保持不变.
+
+**多文件内部模块**
+
+*Validation.ts*
+
+```typescript
+module Validation {
+    export interface StringValidator {
+        isAcceptable(s: string): boolean;
+    }
+}
+```
+
+*LettersOnlyValidator.ts*
+
+```typescript
+/// <reference path="Validation.ts" />
+module Validation {
+    var lettersRegexp = /^[A-Za-z]+$/;
+    export class LettersOnlyValidator implements StringValidator {
+        isAcceptable(s: string) {
+            return lettersRegexp.test(s);
+        }
+    }
+}
+```
+
+*ZipCodeValidator.ts*
+
+```typescript
+/// <reference path="Validation.ts" />
+module Validation {
+    var numberRegexp = /^[0-9]+$/;
+    export class ZipCodeValidator implements StringValidator {
+        isAcceptable(s: string) {
+            return s.length === 5 && numberRegexp.test(s);
+        }
+    }
+}
+```
+
+*Test.ts*
+
+```typescript
+/// <reference path="Validation.ts" />
+/// <reference path="LettersOnlyValidator.ts" />
+/// <reference path="ZipCodeValidator.ts" />
+
+// Some samples to try
+var strings = ['Hello', '98052', '101'];
+// Validators to use
+var validators: { [s: string]: Validation.StringValidator; } = {};
+validators['ZIP code'] = new Validation.ZipCodeValidator();
+validators['Letters only'] = new Validation.LettersOnlyValidator();
+// Show whether each string passed each validator
+strings.forEach(s => {
+    for (var name in validators) {
+        console.log('"' + s + '" ' + (validators[name].isAcceptable(s) ? ' matches ' : ' does not match ') + name);
+    }
+});
+```
+
+涉及到多文件时, 我们必须确保所有编译后的代码都加载了. 我们有两种方式.
+
+第一种方式, 把所有的输入文件编译为一个输出文件, 需要使用 *--out* 标记:
+
+```sh
+tsc --out sample.js Test.ts
+```
+
+编译器会根据源码里的引用标签自动地对输出进行排序. 你也可以单独地指定每个文件.
+
+```sh
+tsc --out sample.js Validation.ts LettersOnlyValidator.ts ZipCodeValidator.ts Test.ts
+```
+
+第二种方式, 我们可以编译每一个文件, 之后在页面上通过`<script>`标签把所有生成的js文件按正确的顺序都引进来. 比如:
+
+*MyTestPage.html (excerpt)*
+
+```html
+<script src="Validation.js" type="text/javascript" />
+<script src="LettersOnlyValidator.js" type="text/javascript" />
+<script src="ZipCodeValidator.js" type="text/javascript" />
+<script src="Test.js" type="text/javascript" />
+```
+
