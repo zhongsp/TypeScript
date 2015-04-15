@@ -998,7 +998,7 @@ define(["require"，"exports"，"mod"]，function(require, exports, m) {
 
 *CommonJS / Node SimpleModule.js*
 
-```typescript
+```javascript
 var m = require('mod');
 exports.t = m.something + 1;
 ```
@@ -1034,7 +1034,7 @@ export = LettersOnlyValidator;
 
 *ZipCodeValidator.ts*
 
-```
+```typescript
 import validation = require('./Validation');
 var numberRegexp = /^[0-9]+$/;
 class ZipCodeValidator implements validation.StringValidator {
