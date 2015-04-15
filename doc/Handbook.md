@@ -30,6 +30,7 @@
 * [模块](#模块)
   * [多文件中的模块](#多文件中的模块)
   * [外部模块](#外部模块)
+  * [Export =](#export-)
 
 ## 基本类型
 
@@ -1000,4 +1001,67 @@ define(["require", "exports", 'mod'], function(require, exports, m) {
 ```typescript
 var m = require('mod');
 exports.t = m.something + 1;
+```
+
+### Export =
+
+在上面的例子中, 使用验证器的时候, 每个模块只导出一个值. 像这种情况, 在验证器对象前面再加上限定名就显得累赘了, 最好是直接使用一个标识符.
+
+'export ='语法指定了模块导出的单个对象. 它可以是类, 接口, 模块, 函数或枚举类型. 当import的时候, 直接使用模块导出的标识符, 不再需要其它限定名.
+
+下面, 我们简化验证器的实现, 使用'export ='语法使每个模块导出单一对象. 这会简化对模块的使用 - 我们可以用'zipValidator'代替'zip.ZipCodeValidator'.
+
+*Validation.ts*
+
+```typescript
+export interface StringValidator {
+    isAcceptable(s: string): boolean;
+}
+```
+
+*LettersOnlyValidator.ts*
+
+```typescript
+import validation = require('./Validation');
+var lettersRegexp = /^[A-Za-z]+$/;
+class LettersOnlyValidator implements validation.StringValidator {
+    isAcceptable(s: string) {
+        return lettersRegexp.test(s);
+    }
+}
+export = LettersOnlyValidator;
+```
+
+*ZipCodeValidator.ts*
+
+```
+import validation = require('./Validation');
+var numberRegexp = /^[0-9]+$/;
+class ZipCodeValidator implements validation.StringValidator {
+    isAcceptable(s: string) {
+        return s.length === 5 && numberRegexp.test(s);
+    }
+}
+export = ZipCodeValidator;
+```
+
+*Test.ts*
+
+```typescript
+import validation = require('./Validation');
+import zipValidator = require('./ZipCodeValidator');
+import lettersValidator = require('./LettersOnlyValidator');
+
+// Some samples to try
+var strings = ['Hello', '98052', '101'];
+// Validators to use
+var validators: { [s: string]: validation.StringValidator; } = {};
+validators['ZIP code'] = new zipValidator();
+validators['Letters only'] = new lettersValidator();
+// Show whether each string passed each validator
+strings.forEach(s => {
+    for (var name in validators) {
+        console.log('"' + s + '" ' + (validators[name].isAcceptable(s) ? ' matches ' : ' does not match ') + name);
+    }
+});
 ```
