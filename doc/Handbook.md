@@ -33,6 +33,7 @@
   * [Export =](#export-)
   * [别名](#别名)
   * [可选模块的加载与其它高级加载的场景](#可选模块的加载与其它高级加载的场景)
+  * [使用其它JavaScript库](#使用其它JavaScript库)
 
 ## 基本类型
 
@@ -1096,7 +1097,7 @@ var sq = new polygons.Square(); // Same as 'new Shapes.Polygons.Square()'
 
 这种模式的核心是*import id = require('...')*让我们可以访问外部模块导出的类型。模块加载是动态调用的，像下面if语句展示的那样。这样就可以挑出未使用的模块，模块只在需要的时候才去加载。为了让这种方法可行，通过import定义的符号只能在表示类型的位置使用（也就是说那段代码永远不会被编译生成JavaScript）。
 
-为了确保正确使用，我们可以使用*typeof*关键字。对类型的位置使用*typeof*关键字时，会得到它的类型，在这个例子里得到的是外部模块的类型。
+为了确保使用正确，我们可以使用*typeof*关键字。在要求是类型的位置使用*typeof*关键字时，会得到类型值，在这个例子里得到的是外部模块的类型。
 
 *Dynamic Module Loading in node.js*
 
@@ -1119,4 +1120,68 @@ if (needZipValidation) {
         if (x.isAcceptable('...')) { /* ... */ }
     });
 }
+```
+
+### 使用其它JavaScript库
+
+为了描述不是用TypeScript写的程序库的类型，我们需要对程序库提供的API进行定义。由于大部分程序库只提供少数的顶级对象，因此用模块来表示它们是一个好的办法。declarations是指非定义实现环境的代码。通常会在‘.d.ts’里写这些定义。如果你熟悉C/C++，你可以把它们当做.h文件或'extern'。让我们看一些内部和外部的例子。
+
+#### 内部模块
+
+流行的程序库D3在全局对象‘D3’里定义它的功能。因为这个库通过一个*script*标签加载（不是通过模块加载器），它的声明文件使用内部模块来定义它的类型。为了让TypeScript编译器识别它的类型，我们使用环境内部模块声明。比如：
+
+*D3.d.ts (simplified excerpt)*
+
+```typescript
+declare module D3 {
+    export interface Selectors {
+        select: {
+            (selector: string): Selection;
+            (element: EventTarget): Selection;
+        };
+    }
+
+    export interface Event {
+        x: number;
+        y: number;
+    }
+
+    export interface Base extends Selectors {
+        event: Event;
+    }
+}
+
+declare var d3: D3.Base;
+```
+
+#### 外部模块
+
+在node.js里，大多数的任务可以通过加载一个或多个模块来完成。我们可以使用顶级export声明来为每个模块定义其‘.d.ts’文件，但最好是把它们放在一起。为此，我们把模块名用引号括起来，方便之后的import。例如：
+
+*node.d.ts (siplified excerpt)*
+
+```typescript
+declare module "url" {
+    export interface Url {
+        protocol?: string;
+        hostname?: string;
+        pathname?: string;
+    }
+
+    export function parse(urlStr: string, parseQueryString?, slashesDenoteHost?): Url;
+}
+
+declare module "path" {
+    export function normalize(p: string): string;
+    export function join(...paths: any[]): string;
+    export var sep: string;
+}
+```
+
+现在我们可以*/// <reference>*node.d.ts然后加载这个模块，比如使用*import url = require('url');*。
+
+```typescript
+///<reference path="node.d.ts"/>
+import url = require("url");
+var myUrl = url.parse("http://www.typescriptlang.org");
 ```
