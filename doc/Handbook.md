@@ -31,6 +31,8 @@
   * [多文件中的模块](#多文件中的模块)
   * [外部模块](#外部模块)
   * [Export =](#export-)
+  * [别名](#别名)
+  * [可选模块的加载与其它高级加载的场景](#可选模块的加载与其它高级加载的场景)
 
 ## 基本类型
 
@@ -1064,4 +1066,57 @@ strings.forEach(s => {
         console.log('"' + s + '" ' + (validators[name].isAcceptable(s) ? ' matches ' : ' does not match ') + name);
     }
 });
+```
+
+### 别名
+
+另一种简化操作任意模块的方法是使用*import q = x.y.z*给常用的模块起一个短的名字。不要与*import x = require('name')*加载外部模块的语法弄混了，这里的语法是为指定的符号创建一个别名。你可以用这种方法为任意标识符创建别名，也包含导入的外部模块中的对象。
+
+*创建别名基本方法*
+
+```typescript
+module Shapes {
+    export module Polygons {
+        export class Triangle { }
+        export class Square { }
+    }
+}
+
+import polygons = Shapes.Polygons;
+var sq = new polygons.Square(); // Same as 'new Shapes.Polygons.Square()'
+```
+
+注意，我们并没有使用*require*关键字，而是直接赋值了导入符号的限定名。这与使用*var*相似，但它还适用于类型和导入的具有命名空间含义的符号。重要的是，对于值对讲，*import*会生成与原始符号不同的引用，所以改变别名的值并不会影响原始变量的值。
+
+### 可选模块的加载与其它高级加载的场景
+
+有些时候，你只想在某种条件下才去加载一个模块。在TypeScript里，我们可以使用下面的方式来实现它和其它高级加载的场景，直接调用模块加载器而不必担心类型安全问题。
+
+编译器会探测是否每个模块都在生成的JavaScript里都被使用到了。对于那些只做为类型系统使用的模块来讲，不会生成require代码。这种能挑出未使用的引用的能力对性能优化很有好处，并且也允许可选择性的加载模块。
+
+这种模式的核心是*import id = require('...')*让我们可以访问外部模块导出的类型。模块加载是动态调用的，像下面if语句展示的那样。这样就可以挑出未使用的模块，模块只在需要的时候才去加载。为了让这种方法可行，通过import定义的符号只能在表示类型的位置使用（也就是说那段代码永远不会被编译生成JavaScript）。
+
+为了确保正确使用，我们可以使用*typeof*关键字。对类型的位置使用*typeof*关键字时，会得到它的类型，在这个例子里得到的是外部模块的类型。
+
+*Dynamic Module Loading in node.js*
+
+```typescript
+declare var require;
+import Zip = require('./ZipCodeValidator');
+if (needZipValidation) {
+    var x: typeof Zip = require('./ZipCodeValidator');
+    if (x.isAcceptable('.....')) { /* ... */ }
+}
+```
+
+*Sample: Dynamic Module Loading in require.js*
+
+```typescript
+declare var require;
+import Zip = require('./ZipCodeValidator');
+if (needZipValidation) {
+    require(['./ZipCodeValidator'], (x: typeof Zip) => {
+        if (x.isAcceptable('...')) { /* ... */ }
+    });
+}
 ```
