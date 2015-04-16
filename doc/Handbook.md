@@ -34,6 +34,7 @@
   * [别名](#别名)
   * [可选模块的加载与其它高级加载的场景](#可选模块的加载与其它高级加载的场景)
   * [使用其它JavaScript库](#使用其它JavaScript库)
+  * [模块陷井](#模块陷井)
 
 ## 基本类型
 
@@ -1091,11 +1092,11 @@ var sq = new polygons.Square(); // Same as 'new Shapes.Polygons.Square()'
 
 ### 可选模块的加载与其它高级加载的场景
 
-有些时候，你只想在某种条件下才去加载一个模块。在TypeScript里，我们可以使用下面的方式来实现它和其它高级加载的场景，直接调用模块加载器而不必担心类型安全问题。
+有些时候，你只想在某种条件下才去加载一个模块。在TypeScript里，我们可以使用下面的方式来实现它以及其它高级加载的场景，直接调用模块加载器而不必担心类型安全问题。
 
-编译器会探测是否每个模块都在生成的JavaScript里都被使用到了。对于那些只做为类型系统使用的模块来讲，不会生成require代码。这种能挑出未使用的引用的能力对性能优化很有好处，并且也允许可选择性的加载模块。
+编译器能探测出一个模块是否在生成的JavaScript里被使用到了。对于那些只做为类型系统部分使用的模块来讲，不会生成对应require代码。挑出未使用的引用有益于性能优化，同时也允许可选择性的加载模块。
 
-这种模式的核心是*import id = require('...')*让我们可以访问外部模块导出的类型。模块加载是动态调用的，像下面if语句展示的那样。这样就可以挑出未使用的模块，模块只在需要的时候才去加载。为了让这种方法可行，通过import定义的符号只能在表示类型的位置使用（也就是说那段代码永远不会被编译生成JavaScript）。
+这种模式的核心是*import id = require('...')*让我们可以访问外部模块导出的类型。模块加载是动态调用的，像下面if语句展示的那样。它利用了挑出对未使用引用的优化，模块只在需要的时候才去加载。为了让这种方法可行，通过import定义的符号只能在表示类型的位置使用（也就是说那段代码永远不会被编译生成JavaScript）。
 
 为了确保使用正确，我们可以使用*typeof*关键字。在要求是类型的位置使用*typeof*关键字时，会得到类型值，在这个例子里得到的是外部模块的类型。
 
@@ -1124,11 +1125,11 @@ if (needZipValidation) {
 
 ### 使用其它JavaScript库
 
-为了描述不是用TypeScript写的程序库的类型，我们需要对程序库提供的API进行定义。由于大部分程序库只提供少数的顶级对象，因此用模块来表示它们是一个好的办法。declarations是指非定义实现环境的代码。通常会在‘.d.ts’里写这些定义。如果你熟悉C/C++，你可以把它们当做.h文件或'extern'。让我们看一些内部和外部的例子。
+为了描述不是用TypeScript写的程序库的类型，我们需要对程序库暴露的API进行声明。由于大部分程序库只提供少数的顶级对象，因此用模块来表示它们是一个好办法。我们叫它声明不是对执行环境的定义。通常会在‘.d.ts’里写这些定义。如果你熟悉C/C++，你可以把它们当做.h文件或‘extern’。让我们看一些内部和外部的例子。
 
-#### 内部模块
+#### 内部环境模块
 
-流行的程序库D3在全局对象‘D3’里定义它的功能。因为这个库通过一个*script*标签加载（不是通过模块加载器），它的声明文件使用内部模块来定义它的类型。为了让TypeScript编译器识别它的类型，我们使用环境内部模块声明。比如：
+流行的程序库D3在全局对象‘D3’里定义它的功能。因为这个库通过一个*script*标签加载（不是通过模块加载器），它的声明文件使用内部模块来定义它的类型。为了让TypeScript编译器识别它的类型，我们使用内部环境模块声明。比如：
 
 *D3.d.ts (simplified excerpt)*
 
@@ -1154,9 +1155,9 @@ declare module D3 {
 declare var d3: D3.Base;
 ```
 
-#### 外部模块
+#### 外部环境模块
 
-在node.js里，大多数的任务可以通过加载一个或多个模块来完成。我们可以使用顶级export声明来为每个模块定义其‘.d.ts’文件，但最好是把它们放在一起。为此，我们把模块名用引号括起来，方便之后的import。例如：
+在node.js里，大多数的任务可以通过加载一个或多个模块来完成。我们可以使用顶级export声明来为每个模块定义各自的‘.d.ts’文件，但全部放在一个大的文件中会更方便。为此，我们把模块名用引号括起来，方便之后的import。例如：
 
 *node.d.ts (siplified excerpt)*
 
@@ -1178,10 +1179,88 @@ declare module "path" {
 }
 ```
 
-现在我们可以*/// <reference>*node.d.ts然后加载这个模块，比如使用*import url = require('url');*。
+现在我们可以*///<reference path="node.d.ts"/>*, 然后使用*import url = require('url');*加载这个模块。
 
 ```typescript
 ///<reference path="node.d.ts"/>
 import url = require("url");
 var myUrl = url.parse("http://www.typescriptlang.org");
 ```
+
+### 模块陷井
+
+这一节，将会介绍使用内部和外部模块时常见的陷井和怎么去避免它。
+
+#### /// <reference> to an external module
+
+一个常见的错误是使用`/// <reference>`引用外部模块文件，应该使用import。要理解这之间的不同，我们首先应该弄清编译器是怎么找到外部模块的类型信息的。
+
+首先，根据*import x = require(...);*声明查找*.ts*文件。这个文件应该是使用了顶级import或export声明的执行文件。
+
+其次，与前一步相似，去查找*.d.ts*文件，不同的是它不是执行文件而是声明文件（同样具有顶级的import或export声明）。
+
+最后是尝试寻找外部模块声明，我们会通过用引号括起来的模块名来声明一个模块。
+
+*myModules.d.ts*
+
+```typescript
+// In a .d.ts file or .ts file that is not an external module:
+declare module "SomeModule" {
+    export function fn(): string;
+}
+```
+
+*myOtherModule.ts*
+
+```typescript
+/// <reference path="myModules.d.ts" />
+import m = require("SomeModule");
+```
+
+这里的引用标签指定了外部环境模块的位置。这就是一些Typescript例子中引用node.d.ts的方法。
+
+#### 不必要的命名空间
+
+如果你想把内部模块转换为外部模块，它可能会像下面这个文件一件：
+
+*shapes.ts*
+
+```typescript
+export module Shapes {
+    export class Triangle { /* ... */ }
+    export class Square { /* ... */ }
+}
+```
+
+顶层的模块*Shapes*包裹了*Triangle*和*Square*。这对于使用它的人来说是让人迷惑和讨厌的：
+
+*shapeConsumer.ts*
+
+```typescript
+import shapes = require('./shapes');
+var t = new shapes.Shapes.Triangle(); // shapes.Shapes?
+```
+
+TypeScript里外部模块的一个特点是不同的外部模块永远也不会在相同的作用域内使用相同的名字。因为使用外部模块的人会为它们命名，所以完全没有必要把导出的符号包裹在一个命名空间里。
+
+再次重申，不应该对外部模块使用命名空间，使用命名空间是为了提供逻辑分组和避免命名冲突。外部模块文件本身已经是一个逻辑分组，并且它的名字是由导入这个模块的代码指定，所以没有必要为导出的对象增加额外的模块层。
+
+改进的例子：
+
+*shapes.ts*
+
+```typescript
+export class Triangle { /* ... */ }
+export class Square { /* ... */ }
+```
+
+*shapeConsumer.ts*
+
+```typescript
+import shapes = require('./shapes');
+var t = new shapes.Triangle(); 
+```
+
+#### 外部模块的取舍
+
+就像每个JS文件对应一个模块一样，TypeScript里外部模块文件与生成的JS文件也是一一对应的。这会产生一个效果，就是无法使用*--out*来让编译器合并多个外部模块文件为一个JavaScript文件。
