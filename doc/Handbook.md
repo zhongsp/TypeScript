@@ -37,6 +37,7 @@
   * [模块陷井](#模块陷井)
 * [函数](#函数)
   * [函数](#functions)
+  * [函数类型](#函数类型)
 
 ## 基本类型
 
@@ -1296,3 +1297,38 @@ function addToZ(x, y) {
     return x+y+z;
 }
 ```
+
+### 函数类型
+
+#### 为函数定义类型
+
+让我们为上面的函数例子添加类型：
+
+```typescript
+function add(x: number, y: number): number {
+    return x+y;
+}
+
+var myAdd = function(x: number, y: number): number { return x+y; };
+```
+
+我们可以为每个参数添加类型之后为函数本身添加返回值类型。TypeScript能够根据返回语句自动地推断出返回值类型，因此我们通常省略返回值类型。
+
+#### 书写完整函数类型
+
+现在我们已经为函数指定了类型，下面让我们写出函数的完整类型。
+
+```typescript
+var myAdd: (x:number, y:number)=>number = 
+    function(x: number, y: number): number { return x+y; };
+```
+
+函数类型包含两部分：参数类型和返回值类型。当写出完整函数类型的时候，这两部分都是需要的。我们以参数列表的形式写出参数类型，为每个参数指定一个名字和类型。这个名字只是增加可读性。我们也可以这么写：
+
+```typescript
+var myAdd: (baseValue:number, increment:number)=>number = 
+    function(x: number, y: number): number { return x+y; };
+```
+
+只要参数类型是匹配的，那么就认为它是有效的函数类型，而不在乎参数名字是否正确。
+
