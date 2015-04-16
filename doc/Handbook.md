@@ -35,6 +35,7 @@
   * [可选模块的加载与其它高级加载的场景](#可选模块的加载与其它高级加载的场景)
   * [使用其它JavaScript库](#使用其它JavaScript库)
   * [模块陷井](#模块陷井)
+* [函数](#函数)
 
 ## 基本类型
 
@@ -1264,3 +1265,33 @@ var t = new shapes.Triangle();
 #### 外部模块的取舍
 
 就像每个JS文件对应一个模块一样，TypeScript里外部模块文件与生成的JS文件也是一一对应的。这会产生一个效果，就是无法使用*--out*来让编译器合并多个外部模块文件为一个JavaScript文件。
+
+## 函数
+
+函数是JavaScript应用程序的基础。它帮助你实现抽象层，模拟类，信息隐藏和模块。在TypeScript里，虽然已经支持类和模块，但函数仍然是主要的定义行为的地方。TypeScript为JavaScript函数添加了额外的功能，让我们可以更容易的使用。
+
+### Functions
+
+和JavaScript一样，TypeScript函数可以创建有名字的函数和匿名函数。你可以随意选择适合应用程序的方式，不论是定义一系列API函数还是只使用一次的函数。
+
+通过下面的例子可以迅速回想起这两种JavaScript中的函数：
+
+```typescript
+//Named function
+function add(x, y) {
+    return x+y;
+}
+
+//Anonymous function
+var myAdd = function(x, y) { return x+y; };
+```
+
+在JavaScript里，函数可以可以访问函数外部的变量。它为什么可以工作以及使用这个特征的好坏已经超出了本文的范围，但是对这种特征的理解对学习JavaScript和TypeScript都是很有好处的。
+
+```typescript
+var z = 100;
+
+function addToZ(x, y) {
+    return x+y+z;
+}
+```
