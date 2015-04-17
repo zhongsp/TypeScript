@@ -41,6 +41,7 @@
   * [可选参数和默认参数](#可选参数和默认参数)
   * [剩余参数](#剩余参数)
   * [Lambda表达式和使用‘this’](#lambda)
+  * [重载](#重载)
 
 ## 基本类型
 
@@ -1495,3 +1496,69 @@ alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 ```
 
 为了解更多关于‘this’的信息，请阅读Yahuda Katz的[Understanding JavaScript Function Invocation and “this”](#http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/).
+
+### 重载
+
+JavaScript本身是个动态语言。JavaScript里函数根据传入不同的参数而返回不同类型的数据是很常见的。
+
+```typescript
+var suits = ["hearts", "spades", "clubs", "diamonds"];
+
+function pickCard(x): any {
+    // Check to see if we're working with an object/array
+    // if so, they gave us the deck and we'll pick the card
+    if (typeof x == "object") {
+        var pickedCard = Math.floor(Math.random() * x.length);
+        return pickedCard;
+    }
+    // Otherwise just let them pick the card
+    else if (typeof x == "number") {
+        var pickedSuit = Math.floor(x / 13);
+        return { suit: suits[pickedSuit], card: x % 13 };
+    }
+}
+
+var myDeck = [{ suit: "diamonds", card: 2 }, { suit: "spades", card: 10 }, { suit: "hearts", card: 4 }];
+var pickedCard1 = myDeck[pickCard(myDeck)];
+alert("card: " + pickedCard1.card + " of " + pickedCard1.suit);
+
+var pickedCard2 = pickCard(15);
+alert("card: " + pickedCard2.card + " of " + pickedCard2.suit);
+```
+
+‘pickCard’方法根据传入参数的不同会返回两种不同的类型。如果传入的是代表纸牌的对象，函数作用是抓一张牌。如果用户抓牌，我们告诉他抓到了什么牌。但是这怎么在类型系统里表示呢。
+
+方法是为同一个函数提供多个函数类型定义做为重载。编译器会根据这个列表去处理函数的调用。下面我们来重载‘pickCard’函数。
+
+```typescript
+var suits = ["hearts", "spades", "clubs", "diamonds"];
+
+function pickCard(x: {suit: string; card: number; }[]): number;
+function pickCard(x: number): {suit: string; card: number; };
+function pickCard(x): any {
+    // Check to see if we're working with an object/array
+    // if so, they gave us the deck and we'll pick the card
+    if (typeof x == "object") {
+        var pickedCard = Math.floor(Math.random() * x.length);
+        return pickedCard;
+    }
+    // Otherwise just let them pick the card
+    else if (typeof x == "number") {
+        var pickedSuit = Math.floor(x / 13);
+        return { suit: suits[pickedSuit], card: x % 13 };
+    }
+}
+
+var myDeck = [{ suit: "diamonds", card: 2 }, { suit: "spades", card: 10 }, { suit: "hearts", card: 4 }];
+var pickedCard1 = myDeck[pickCard(myDeck)];
+alert("card: " + pickedCard1.card + " of " + pickedCard1.suit);
+
+var pickedCard2 = pickCard(15);
+alert("card: " + pickedCard2.card + " of " + pickedCard2.suit);
+```
+
+这样改变后，重载的函数在调用的时候会进行正确的类型检查。
+
+为了让编译器能够选择正确的检查类型，它与JavaScript里的处理流程相似。它查找重载列表，尝试使用第一个重载定义。如果匹配的话就使用这个。因此，在定义重载的时候，一定要把最精确的定义放在最前面。
+
+注意，‘function pickCard(x): any’并不是重载列表的一部分，因此这里只有两个重载：一个是接收对象另一个接收数字。以其它参数调用‘pickCard’会产生错误。
