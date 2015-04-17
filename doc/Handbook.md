@@ -38,6 +38,9 @@
 * [函数](#函数)
   * [函数](#functions)
   * [函数类型](#函数类型)
+  * [可选参数和默认参数](#可选参数和默认参数)
+  * [剩余参数](#剩余参数)
+  * [Lambda表达式和使用‘this’](#lambda)
 
 ## 基本类型
 
@@ -1126,7 +1129,7 @@ if (needZipValidation) {
 }
 ```
 
-### 使用其它JavaScript库
+### <a name="使用其它JavaScript库"/>使用其它JavaScript库
 
 为了描述不是用TypeScript写的程序库的类型，我们需要对程序库暴露的API进行声明。由于大部分程序库只提供少数的顶级对象，因此用模块来表示它们是一个好办法。我们叫它声明不是对执行环境的定义。通常会在‘.d.ts’里写这些定义。如果你熟悉C/C++，你可以把它们当做.h文件或‘extern’。让我们看一些内部和外部的例子。
 
@@ -1332,3 +1335,163 @@ var myAdd: (baseValue:number, increment:number)=>number =
 
 只要参数类型是匹配的，那么就认为它是有效的函数类型，而不在乎参数名字是否正确。
 
+对于返回值，我们在函数和返回值类型之前使用(=>)符号，使之清晰明了。如之前提到的，返回值类型是函数类型的必要部分，如果函数没有返回任何值，你也必须指定返回值类型为‘void’而不能留空。
+
+函数的类型只是由参数类型和返回值组成的。函数中使用的外部变量不会体现在类型里。实际上，这此外部变量是函数的隐藏状态不是组成API的一部分。
+
+#### 推断类型
+
+尝试这个例子的时候，你会发现如果你在赋值语句的一边指定了类型但是另一边没有类型的话，TypeScript编译器会自动识别出类型：
+
+```typescript
+// myAdd has the full function type
+var myAdd = function(x: number, y: number): number { return x+y; };
+
+// The parameters 'x' and 'y' have the type number
+var myAdd: (baseValue:number, increment:number)=>number = 
+    function(x, y) { return x+y; };
+```
+
+这叫做‘按上下文归类’，是类型推断的一种。它帮助我们更好地为程序指定类型。
+
+### 可选参数和默认参数
+
+不同于JavaScript，TypeScript里每个函数参数都是必须的。这并不是说参数一定是个非‘null’值，而是编译器检查用户是否为每个参数都传入了值。编译器还要求你只能传这些参数，也就是说参数的数量也是固定的。
+
+```typescript
+function buildName(firstName: string, lastName: string) {
+    return firstName + " " + lastName;
+}
+
+var result1 = buildName("Bob");  //error, too few parameters
+var result2 = buildName("Bob", "Adams", "Sr.");  //error, too many parameters
+var result3 = buildName("Bob", "Adams");  //ah, just right
+```
+
+JavaScript里，每个参数都是可选的，可传可不传。没传参的时候，它的值就是undefined。在TypeScript里我们可以在参数名旁使用‘?’实现可选参数的功能。比如，我们想让last name是可选的：
+
+```typescript
+function buildName(firstName: string, lastName?: string) {
+    if (lastName)
+        return firstName + " " + lastName;
+    else
+        return firstName;
+}
+
+var result1 = buildName("Bob");  //works correctly now
+var result2 = buildName("Bob", "Adams", "Sr.");  //error, too many parameters
+var result3 = buildName("Bob", "Adams");  //ah, just right
+```
+
+可选参数必须在必须跟在必须参数后面。如果上例我们想让first name是可选的，那么就必须调整它们的位置，把first name放在后面。
+
+TypeScript里，我们还可以为可选参数设置默认值。仍然修改上例，把last name的默认值设置为“Smith”。
+
+```typescript
+function buildName(firstName: string, lastName = "Smith") {
+    return firstName + " " + lastName;
+}
+
+var result1 = buildName("Bob");  //works correctly now, also
+var result2 = buildName("Bob", "Adams", "Sr.");  //error, too many parameters
+var result3 = buildName("Bob", "Adams");  //ah, just right
+```
+
+和可选参数一样，带默认值的参数也要放在必须参数后面。
+
+可选参数与默认值参数共享参数类型。
+
+```typescript
+function buildName(firstName: string, lastName?: string) {
+```
+
+和
+
+```typescript
+function buildName(firstName: string, lastName = "Smith") {
+```
+
+共享同样的类型`(firstName: string, lastName?: string)=>string`。默认参数的默认值消失了，只保留了它是一个可选参数的信息。
+
+### 剩余参数
+
+必要参数，默认参数和可选参数有个共同点：它们只代表某一个参数。有时，你想同时操作多个参数，或者你并不知道会有多少参数传递进来。JavaScript里，你可以使用arguments来访问传入的参数。
+
+在TypeScript里，你可以把所有参数收集到一个变量里：
+
+```typescript
+function buildName(firstName: string, ...restOfName: string[]) {
+  return firstName + " " + restOfName.join(" ");
+}
+
+var employeeName = buildName("Joseph", "Samuel", "Lucas", "MacKinzie");
+```
+
+剩余参数会被当做个数不限的可选参数。可以一个都没有，同样也可以有任意个。编译器创建参数数组，名字是你在省略号（...）后面给定的名字，你可以在函数体内使用这个数组。
+
+这个省略号也在带有剩余参数的函数类型上使用到。
+
+```typescript
+function buildName(firstName: string, ...restOfName: string[]) {
+  return firstName + " " + restOfName.join(" ");
+}
+
+var buildNameFun: (fname: string, ...rest: string[])=>string = buildName;
+```
+
+### <a name="lambda"/>Lambda表达式和使用‘this’
+
+JavaScript里‘this’工作机制对JavaScript程序员来说是老生常谈了。的确，学会如何使用它绝对是JavaScript编程中的一件大事。由于TypeScript是JavaScript的超集，TypeScript程序员也需要弄清‘this’工作机制并且当有bug的时候能够找出错误所在。对于‘this’工作机制可以单独写一本书了，并已有人这么做了。在这里，我们只介绍一些基础。
+
+JavaScript里，‘this’的值在函数被调用的时候才会指定。这是个很强大灵活的特点，但是你需要花点时间弄清楚函数调用上下文是什么。众所周知这不是一件很简单的事，特别是函数当做回调函数使用的时候。
+
+下面看一个例子：
+
+```javascript
+var deck = {
+    suits: ["hearts", "spades", "clubs", "diamonds"],
+    cards: Array(52),
+    createCardPicker: function() {
+        return function() {
+            var pickedCard = Math.floor(Math.random() * 52);
+            var pickedSuit = Math.floor(pickedCard / 13);
+      
+            return {suit: this.suits[pickedSuit], card: pickedCard % 13};
+        }
+    }
+}
+
+var cardPicker = deck.createCardPicker();
+var pickedCard = cardPicker();
+
+alert("card: " + pickedCard.card + " of " + pickedCard.suit);
+```
+
+执行这个例子会报错。因为createCardPicker返回的函数里的‘this’被设置成了‘window’而不是‘deck’。这里没有对‘this’进行动态绑定因此为Window。（注意在严格模式下，会是undefined而不是Window）。
+
+为了解决这个问题，我们可以在函数被返回时就绑好正确的‘this’。这样的话，不论之后怎么使用它，都会引用原先的‘deck’对象。
+
+我们把函数表达式变为使用lambda表达式（()=>{}）。这样就会在函数创建的时候就指定了‘this’值，而不是在函数调用的时候。
+
+```typescript
+var deck = {
+    suits: ["hearts", "spades", "clubs", "diamonds"],
+    cards: Array(52),
+    createCardPicker: function() {
+        // Notice: the line below is now a lambda, allowing us to capture 'this' earlier
+        return () => {
+            var pickedCard = Math.floor(Math.random() * 52);
+            var pickedSuit = Math.floor(pickedCard / 13);
+      
+            return {suit: this.suits[pickedSuit], card: pickedCard % 13};
+        }
+    }
+}
+
+var cardPicker = deck.createCardPicker();
+var pickedCard = cardPicker();
+
+alert("card: " + pickedCard.card + " of " + pickedCard.suit);
+```
+
+为了解更多关于‘this’的信息，请阅读Yahuda Katz的[Understanding JavaScript Function Invocation and “this”](#http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/).
