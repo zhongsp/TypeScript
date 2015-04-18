@@ -1022,7 +1022,7 @@ var m = require('mod');
 exports.t = m.something + 1;
 ```
 
-### <a name="Export =" id="Export ="></a>Export =
+### <a name="Export =" id="Export ="/>Export =
 
 在上面的例子中，使用验证器的时候，每个模块只导出一个值。像这种情况，在验证器对象前面再加上限定名就显得累赘了，最好是直接使用一个标识符。
 
@@ -1138,7 +1138,7 @@ if (needZipValidation) {
 }
 ```
 
-### <a name="使用其它JavaScript库"/>使用其它JavaScript库
+### <a name="使用其它JavaScript库" id="使用其它JavaScript库"/>使用其它JavaScript库
 
 为了描述不是用TypeScript写的程序库的类型，我们需要对程序库暴露的API进行声明。由于大部分程序库只提供少数的顶级对象，因此用模块来表示它们是一个好办法。我们叫它声明不是对执行环境的定义。通常会在‘.d.ts’里写这些定义。如果你熟悉C/C++，你可以把它们当做.h文件或‘extern’。让我们看一些内部和外部的例子。
 
@@ -1577,7 +1577,7 @@ alert("card: " + pickedCard2.card + " of " + pickedCard2.suit);
 
 在像C#和Java这样的语言中，可以使用‘泛型’来创建可重用的组件，一个组件可以支持多种类型的数据。这样用户就可以以自己的数据类型来使用组件。
 
-### <a name="Hello World泛型"/>Hello World泛型
+### <a name="Hello World泛型" id="Hello World泛型"/>Hello World泛型
 
 下面来创建第一个使用泛型的例子：identity函数。这个函数会返回任何传入它的值。你可以把这个函数当成是‘echo’命令。
 
