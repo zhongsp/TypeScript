@@ -1022,7 +1022,7 @@ var m = require('mod');
 exports.t = m.something + 1;
 ```
 
-### <a name="Export ="/>Export =
+### <a name="Export ="><a>Export =
 
 在上面的例子中，使用验证器的时候，每个模块只导出一个值。像这种情况，在验证器对象前面再加上限定名就显得累赘了，最好是直接使用一个标识符。
 
@@ -1194,7 +1194,7 @@ declare module "path" {
 }
 ```
 
-现在我们可以*///<reference path="node.d.ts"/>*, 然后使用*import url = require('url');*加载这个模块。
+现在我们可以*///&lt;reference path="node.d.ts"/&gt;*, 然后使用*import url = require('url');*加载这个模块。
 
 ```typescript
 ///<reference path="node.d.ts"/>
