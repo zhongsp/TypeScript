@@ -44,6 +44,8 @@
   * [重载](#重载)
 * [泛型](#泛型)
   * [Hello World泛型](#Hello World泛型)
+  * [使用泛型变量](#使用泛型变量)
+  * [泛型类型](#泛型类型)
 
 ## 基本类型
 
@@ -1620,3 +1622,113 @@ var output = identity("myString");  // type of output will be 'string'
 ```
 
 注意我们并没用<>明确的指定类型，编译器看到了“myString”，把T设置为此类型。类型推断帮助我们保持代码精简和高可读性。如果编译器不能够自动地推断出类型的话，只能像上面那样明确的传入T的类型，在一些复杂的情况下，这是可能出现的。
+
+### 使用泛型变量
+使用泛型创建像‘identity’这样的泛型函数时，编译器要求你在函数体必须正确的使用这个通用的类型。换句话说，你必须把这些参数当做是任意或所有类型。
+
+看下之前的例子：
+
+```typescript
+function identity<T>(arg: T): T {
+    return arg;
+}
+```
+
+如果我们想同时打印出arg的‘length’属性值，很可能会这样做：
+
+```typescript
+function loggingIdentity<T>(arg: T): T {
+    console.log(arg.length);  // Error: T doesn't have .length
+    return arg;
+}
+```
+
+如果这么做，编译器会报错说我们使用了‘arg’的‘length’属性，但是没有地方定义了‘arg’具有这个属性。记住，这些类型变量代表的是任意类型，所以使用这个函数的人可能传入的是个数字，而数字是没有‘length’属性的。
+
+现在假设我们想操作T类型的数组而不直接是T。由于我们操作的是数组，所以‘.length’属性是应该存在的。我们可以像创建其它数组一样创建这个数组：
+
+```typescript
+function loggingIdentity<T>(arg: T[]): T[] {
+    console.log(arg.length);  // Array has a .length, so no more error
+    return arg;
+}
+```
+
+你可以这样理解loggingIdentity的类型：泛型函数loggingIdentity，接收类型参数T，和函数‘arg’，它是个元素类型是T的数组，并返回元素类型是T的数组。如果我们传入数字数组，将返回一个数字数组，因为此时T的值为数字类型。这可以让我们把泛型变量T当做类型的一部分使用，而不是整个类型，增加了灵活性。
+
+我们也可以这样实现上面的例子：
+
+```typescript
+function loggingIdentity<T>(arg: Array<T>): Array<T> {
+    console.log(arg.length);  // Array has a .length, so no more error
+    return arg;
+}
+```
+
+使用过其它语言的话，你可能对这种语法已经很熟悉了。在下一节，会介绍如何创建自定义泛型像Array<T>一样。
+
+### 泛型类型
+
+上一节，我们创建了identity通用函数，可以适用于不同的类型。在这节，我们研究一下函数本身的类型，以及如何创建泛型接口。
+
+泛型函数的类型与非泛型函数的类型没什么不同，只是有一个类型参数在最前面，像函数声明一样：
+
+```typescript
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+var myIdentity: <T>(arg: T)=>T = identity;
+```
+
+我们也可以使用不同的泛型参数名，只要在数量上和使用方式上能对应上就可以。
+
+```typescript
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+var myIdentity: <U>(arg: U)=>U = identity;
+```
+
+我们还可以使用带有调用签名的对象字面量来定义泛型函数：
+
+```typescript
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+var myIdentity: { <T>(arg: T): T} = identity;
+```
+
+这引导我们去写第一个泛型接口了。我们把上面例子里的对象字面量拿出来做为一个接口：
+
+```typescript
+interface GenericIdentityFn {
+    <T>(arg: T): T;
+}
+
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+var myIdentity: GenericIdentityFn = identity;
+```
+
+我们可以把泛型类型参数变成接口的一个参数。这样我们就能清楚的知道使用的具体是什么类型。并且接口里的其它成员也能知道这个类型参数。
+
+```typescript
+interface GenericIdentityFn<T> {
+    (arg: T): T;
+}
+
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+var myIdentity: GenericIdentityFn<number> = identity;
+```
+
+我们并没有描述泛型函数，而是使用一个非泛型函数签名作为泛型类型一部分。当我们使用GenericIdentityFn的时候，我也得传入一个类型参数来指定泛型类型（这个例子是：number），锁定了之后代码里使用的类型。
+
+除了泛型接口，我们还可以创建泛型类。注意，无法创建枚举泛型和泛型模块。
