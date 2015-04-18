@@ -46,6 +46,9 @@
   * [Hello World泛型](#Hello World泛型)
   * [使用泛型变量](#使用泛型变量)
   * [泛型类型](#泛型类型)
+  * [泛型类](#泛型类)
+  * [泛型约束](#泛型约束)
+* [常见错误](#常见错误)
 
 ## 基本类型
 
@@ -1573,7 +1576,7 @@ alert("card: " + pickedCard2.card + " of " + pickedCard2.suit);
 
 在像C#和Java这样的语言中，可以使用‘泛型’来创建可重用的组件，一个组件可以支持多种类型的数据。这样用户就可以以自己的数据类型来使用组件。
 
-### <a name="Hello World泛型">Hello World泛型
+### <a name="hello-world泛型">Hello World泛型
 
 下面来创建第一个使用泛型的例子：identity函数。这个函数会返回任何传入它的值。你可以把这个函数当成是‘echo’命令。
 
@@ -1732,3 +1735,152 @@ var myIdentity: GenericIdentityFn<number> = identity;
 我们并没有描述泛型函数，而是使用一个非泛型函数签名作为泛型类型一部分。当我们使用GenericIdentityFn的时候，我也得传入一个类型参数来指定泛型类型（这个例子是：number），锁定了之后代码里使用的类型。
 
 除了泛型接口，我们还可以创建泛型类。注意，无法创建枚举泛型和泛型模块。
+
+### 泛型类
+
+泛型类看上去与泛型接口差不多。泛型类使用<>括起泛型类型，跟在类名后面。
+
+```typescript
+class GenericNumber<T> {
+    zeroValue: T;
+    add: (x: T, y: T) => T;
+}
+
+var myGenericNumber = new GenericNumber<number>();
+myGenericNumber.zeroValue = 0;
+myGenericNumber.add = function(x, y) { return x + y; };
+```
+
+‘GenericNumber’类的使用是十分直观的，并且你应该注意到了我们并不限制只能使用数字类型。也可以使用字符串或其它更复杂的类型。
+
+```typescript
+var stringNumeric = new GenericNumber<string>();
+stringNumeric.zerValue = "";
+stringNumeric.add = function(x, y) { return x + y; };
+
+alert(stringNumeric.add(stringNumeric.zeroValue, "test"));
+```
+
+与接口一样，直接把泛型类型放在类后面，可以帮助我们确认类的所有属性都在使用相同的类型。
+
+我们在[类](#类)那节说过，类有两部分：静态部分和实例部分。泛型类指的是实例部分的类型，所以类的静态属性不能使用这个泛型类型。
+
+### 泛型约束
+
+你应该会记得之前的一个例子，我们有时候想操作某类型的一组值，并且我们知道这组值具有什么样的属性。在‘loggingIdentity’例子中，我们想访问‘arg’的‘length’属性，但是编译器并不能证明每种类型都有‘length’属性，所以就报错了。
+
+```typescript
+function loggingIdentity<T>(arg: T): T {
+    console.log(arg.length);  // Error: T doesn't have .length
+    return arg;
+}
+```
+
+相比于操作任意类型，我们想要限制函数去处理任意带有‘length’属性的类型。只要传入的类型有这个属性，就允许通过。所以我们必须对T定义约束。
+
+为此，我们定义一个接口来描述约束条件。创建一个包含‘length’属性的接口，使用这个接口和extends关键字还实现约束。
+
+```typescript
+interface Lengthwise {
+    length: number;
+}
+
+function loggingIdentity<T extends Lengthwise>(arg: T): T {
+    console.log(arg.length);  // Now we know it has a .length property, so no more error
+    return arg;
+}
+```
+
+现在这个泛型函数被定义了约束，因此它不再是适用于任意类型：
+
+```typescript
+loggingIdentity(3);  // Error, number doesn't have a .length property
+```
+
+我们需要传入符合约束类型的值，必须包含必须的属性：
+
+```typescript
+loggintIdentity({ length: 10, value: 3 });
+```
+
+#### 在泛型约束中使用类型参数
+
+有时候，我们需要使用类型参数去约束另一个类型参数。比如，
+
+```typescript
+function find<T, U extends Findable<T>>(n: T, s: U) {  // errors because type parameter used in contraint
+  // ... 
+}
+find(giraffe, myAnimals);
+```
+
+可以通过下面的方法来实现，重写上面的代码，
+
+```typescript
+function find<T>(n: T, s: Findable<T>) {
+  // ...
+}
+find(giraffe, myAnimals);
+```
+
+注意：上面两种写法并不完全等同，因为第一段程序的返回值可能是U，而第二段程序却没有这一限制。
+
+#### 在泛型里使用类类型
+
+在TypeScript使用泛型创建工厂函数时，需要引用构造函数的类类型。比如，
+
+```typescript
+function create<T>(c: {new(): T;}): T {
+    return new c();
+}
+```
+
+一个更高级的例子，使用原型属性推断并约束构造函数与类实例的关系。
+
+```typescript
+class BeeKeeper {
+    hasMask: boolean;
+}
+
+class ZooKeeper {
+    nametag: string; 
+}
+
+class Animal {
+    numLegs: number;
+}
+
+class Bee extends Animal {
+    keeper: BeeKeeper;
+}
+
+class Lion extends Animal {
+    keeper: ZooKeeper;
+}
+
+function findKeeper<A extends Animal, K> (a: {new(): A; 
+    prototype: {keeper: K}}): K {
+
+    return a.prototype.keeper;
+}
+
+findKeeper(Lion).nametag;  // typechecks!
+```
+
+## 常见错误
+
+下面列出了一些在使用TypeScript和编译器的时候常见的错误
+
+### 常见疑难问题
+
+#### "tsc.exe" exited with error code 1.
+
+**Fixes:**
+
+检查文件编码是不是UTF-8 - [https://typescript.codeplex.com/workitem/1587](https://typescript.codeplex.com/workitem/1587)
+
+#### external module XYZ cannot be resolved
+
+**Fixes:**
+
+检查模块路径的大小写 - [https://typescript.codeplex.com/workitem/2134](https://typescript.codeplex.com/workitem/2134)
