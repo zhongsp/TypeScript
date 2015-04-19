@@ -63,6 +63,7 @@
   * [基础](#基础)
   * [最佳通用类型](#最佳通用类型)
   * [上下文类型](#上下文类型)
+* [类型兼容性](#类型兼容性)
 
 ## 基本类型
 
@@ -2321,3 +2322,25 @@ function createZoo(): Animal[] {
 ```
 
 这个例子里，最佳通用类型有4个候选者：Animal，Rhino，Elephant和Snake。当然，Animal会被做为最佳通用类型。
+
+## 类型兼容性
+
+TypeScript里的类型兼容性是以结构性子类型来判断的。结构性类型是完全根据成员关联类型的一种方式。与正常的类型判断不同。看下面的例子：
+
+```typescript
+interface Named {
+    name: string;
+}
+
+class Person {
+    name: string;
+}
+
+var p: Named;
+// OK, because of structural typing
+p = new Person();
+```
+
+在正常使用类型的语言像C#或Java中，这段代码会报错，因为Person类没有明确说明其实现了Named接口。
+
+TypeScript的结构性子类型是根据JavaScript代码的通常写法来设计的。因为JavaScript里常用匿名对象像函数表达式或对象字面量，所以用结构性类型系统来描述这些类型比使用正常的类型系统更好。
