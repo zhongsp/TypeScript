@@ -1,6 +1,7 @@
 # TypeScript手册
 
-翻译：钟胜平 [@zhongsp](https://github.com/zhongsp)
+翻译：钟胜平（[@zhongsp](https://github.com/zhongsp)）
+
 2015年4月
 
 TypeScript是微软公司的注册商标.
