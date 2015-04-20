@@ -1,6 +1,9 @@
 # TypeScript手册
 
-[TypeScript Handbook](http://www.typescriptlang.org/Handbook)
+翻译：钟胜平 [@zhongsp](https://github.com/zhongsp)
+2015年4月
+
+TypeScript是微软公司的注册商标.
 
 ## 目录
 
@@ -2801,4 +2804,4 @@ addLater(3, 4, (x) => console.log('x = ' + x));
 function addLater(x: number, y: number, (sum: number) => void): void;
 ```
 
-如果你想看其它模式的实现方式，请在[这里](#https://typescript.codeplex.com/wikipage?title=https%3a%2f%2fgithub.com%2fMicrosoft%2fTypeScript%2fissues&referringTitle=Writing%20Definition%20%28.d.ts%29%20Files)留言，我们会尽可能地加到这里来。
+如果你想看其它模式的实现方式，请在[这里](https://typescript.codeplex.com/wikipage?title=https%3a%2f%2fgithub.com%2fMicrosoft%2fTypeScript%2fissues&referringTitle=Writing%20Definition%20%28.d.ts%29%20Files)留言，我们会尽可能地加到这里来。
