@@ -8,14 +8,14 @@ TypeScript是微软公司的注册商标.
 
 ## 目录
 
-* [基本类型](#基本类型)
-  * [Boolean](#boolean)
-  * [Number](#number)
-  * [String](#string)
-  * [Array](#array)
-  * [Enum](#enum)
-  * [Any](#any)
-  * [Void](#void)
+* [基本类型](#1)
+  * [Boolean](#1.1)
+  * [Number](#1.2)
+  * [String](#1.3)
+  * [Array](#1.4)
+  * [Enum](#1.5)
+  * [Any](#1.6)
+  * [Void](#1.7)
 * [接口](#接口)
   * [第一个接口例子](#第一个接口例子)
   * [可选属性](#可选属性)
@@ -78,11 +78,11 @@ TypeScript是微软公司的注册商标.
   * [指导与说明](#指导与说明)
   * [例子](#例子)
 
-## 基本类型
+## <a name="1"></a>基本类型
 
 为了写出有用的程序，我们需要有能力去处理简单的数据单位：数字，字符串，结构，布尔值等。在TypeScript里，包含了与JavaScript中几乎相同的数据类型，此外还有便于我们操作的枚举类型。
 
-### Boolean
+### <a name="1.1"></a>Boolean
 
 最基本的数据类型就是true/false值，在JavaScript和TypeScript里叫做布尔值。
 
@@ -90,7 +90,7 @@ TypeScript是微软公司的注册商标.
 var isDone: boolean = false;
 ```
 
-### Number
+### <a name="1.2"></a>Number
 
 与JavaScript一样，所有的数字在TypeScript里都是浮点数。它们的类型是‘number’。
 
@@ -98,7 +98,7 @@ var isDone: boolean = false;
 var height: number = 6;
 ```
 
-### String
+### <a name="1.3"></a>String
 
 像其它语言里一样，我们使用‘string’表示文本数据类型。与JavaScript里相同，可以使用双引号（"）或单引号（'）表示字符串。
 
@@ -107,7 +107,7 @@ var name: string = "bob";
 name = "smith";
 ```
 
-### Array
+### <a name="1.4"></a>Array
 
 TypeScript像JavaScript一样，允许你操作数组数据。可以用两种方式定义数组。第一种，可以在元素类型后面接‘[]’，表示由此此类元素构成的一个数组：
 
@@ -121,7 +121,7 @@ var list:number[] = [1, 2 ,3];
 var list:Array<number> = [1, 2, 3];
 ```
 
-### Enum
+### <a name="1.5"></a>Enum
 
 ‘enum’类型是对标准JavaScript数据类型的一个补充。像其它语言，如C#，使用枚举类型可以为一组数值赋予友好的名字。
 
@@ -153,7 +153,7 @@ var colorName: string = Color[2];
 alert(colorName);
 ```
 
-### Any
+### <a name="1.6"></a>Any
 
 有时，我们可能会为暂时还不清楚的变量指定类型。这些值可能来自于动态的内容，比如第三方程序库。这种情况下，我们不希望类型检查器对这些值进行检查或者说让它们直接通过编译阶段的检查。这时，我们可以使用‘any’类型来标记这些变量：
 
@@ -173,7 +173,7 @@ var list:any[] = [1, true, "free"];
 list[1] = 100;
 ```
 
-### Void
+### <a name="1.7"></a>Void
 
 某种程度上来说，‘void’类型与‘any’类型是相反的，表示没有任何类型。当一个函数不返回任何值是，你通常会见到其返回值类型是‘void’：
 
