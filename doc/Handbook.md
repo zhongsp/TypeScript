@@ -1317,23 +1317,23 @@ var t = new shapes.Triangle();
 
 通过下面的例子可以迅速回想起这两种JavaScript中的函数：
 
-```typescript
+```javascript
 //Named function
 function add(x, y) {
-    return x+y;
+    return x + y;
 }
 
 //Anonymous function
-var myAdd = function(x, y) { return x+y; };
+var myAdd = function(x, y) { return x + y; };
 ```
 
-在JavaScript里，函数可以可以访问函数外部的变量。它为什么可以工作以及使用这个特征的好坏已经超出了本文的范围，但是对这种特征的理解对学习JavaScript和TypeScript都是很有好处的。
+在JavaScript里，函数可以可以使用函数体外部的变量。当函数这么做时，我们说它‘捕获’了这些变量。至于为什么可以这样做以及其中的利弊超出了本文的范围，但是深刻理解这个机制对学习JavaScript和TypeScript会很有帮助。
 
-```typescript
+```javascript
 var z = 100;
 
 function addToZ(x, y) {
-    return x+y+z;
+    return x + y + z;
 }
 ```
 
@@ -1341,39 +1341,39 @@ function addToZ(x, y) {
 
 #### <a name="5.2.1"></a>为函数定义类型
 
-让我们为上面的函数例子添加类型：
+让我们为上面那个函数例子添加类型：
 
 ```typescript
 function add(x: number, y: number): number {
-    return x+y;
+    return x + y;
 }
 
-var myAdd = function(x: number, y: number): number { return x+y; };
+var myAdd = function(x: number, y: number): number { return x + y; };
 ```
 
-我们可以为每个参数添加类型之后为函数本身添加返回值类型。TypeScript能够根据返回语句自动地推断出返回值类型，因此我们通常省略返回值类型。
+我们可以给每个参数添加类型之后再为函数本身添加返回值类型。TypeScript能够根据返回语句自动推断出返回值类型，因此我们通常省略它。
 
 #### <a name="5.2.2"></a>书写完整函数类型
 
 现在我们已经为函数指定了类型，下面让我们写出函数的完整类型。
 
 ```typescript
-var myAdd: (x:number, y:number)=>number = 
-    function(x: number, y: number): number { return x+y; };
+var myAdd: (x:number, y:number) => number = 
+    function(x: number, y: number): number { return x + y; };
 ```
 
-函数类型包含两部分：参数类型和返回值类型。当写出完整函数类型的时候，这两部分都是需要的。我们以参数列表的形式写出参数类型，为每个参数指定一个名字和类型。这个名字只是增加可读性。我们也可以这么写：
+函数类型包含两部分：参数类型和返回值类型。当写出完整函数类型的时候，这两部分都是需要的。我们以参数列表的形式写出参数类型，为每个参数指定一个名字和类型。这个名字只是为了增加可读性。我们也可以这么写：
 
 ```typescript
 var myAdd: (baseValue:number, increment:number)=>number = 
     function(x: number, y: number): number { return x+y; };
 ```
 
-只要参数类型是匹配的，那么就认为它是有效的函数类型，而不在乎参数名字是否正确。
+只要参数类型是匹配的，那么就认为它是有效的函数类型，而不在乎参数名是否正确。
 
 对于返回值，我们在函数和返回值类型之前使用(=>)符号，使之清晰明了。如之前提到的，返回值类型是函数类型的必要部分，如果函数没有返回任何值，你也必须指定返回值类型为‘void’而不能留空。
 
-函数的类型只是由参数类型和返回值组成的。函数中使用的外部变量不会体现在类型里。实际上，这此外部变量是函数的隐藏状态不是组成API的一部分。
+函数的类型只是由参数类型和返回值组成的。函数中使用的‘捕获’变量不会体现在类型里。实际上，这些变量是函数的隐藏状态并不是组成API的一部分。
 
 #### <a name="5.2.3"></a>推断类型
 
@@ -1381,18 +1381,18 @@ var myAdd: (baseValue:number, increment:number)=>number =
 
 ```typescript
 // myAdd has the full function type
-var myAdd = function(x: number, y: number): number { return x+y; };
+var myAdd = function(x: number, y: number): number { return x + y; };
 
 // The parameters 'x' and 'y' have the type number
-var myAdd: (baseValue:number, increment:number)=>number = 
-    function(x, y) { return x+y; };
+var myAdd: (baseValue:number, increment:number) => number = 
+    function(x, y) { return x + y; };
 ```
 
 这叫做‘按上下文归类’，是类型推断的一种。它帮助我们更好地为程序指定类型。
 
 ### <a name="5.3"></a>可选参数和默认参数
 
-不同于JavaScript，TypeScript里每个函数参数都是必须的。这并不是说参数一定是个非‘null’值，而是编译器检查用户是否为每个参数都传入了值。编译器还要求你只能传这些参数，也就是说参数的数量也是固定的。
+不同于JavaScript，TypeScript里每个函数参数都是必须的。这并不是说参数一定是个非‘null’值，而是编译器检查用户是否为每个参数都传入了值。编译器还要求只能传递指定的参数，也就是说参数的数量也是固定的。
 
 ```typescript
 function buildName(firstName: string, lastName: string) {
@@ -1447,11 +1447,11 @@ function buildName(firstName: string, lastName?: string) {
 function buildName(firstName: string, lastName = "Smith") {
 ```
 
-共享同样的类型`(firstName: string, lastName?: string)=>string`。默认参数的默认值消失了，只保留了它是一个可选参数的信息。
+共享同样的类型`(firstName: string, lastName?: string) => string`。默认参数的默认值消失了，只保留了它是一个可选参数的信息。
 
 ### <a name="5.4"></a>剩余参数
 
-必要参数，默认参数和可选参数有个共同点：它们只代表某一个参数。有时，你想同时操作多个参数，或者你并不知道会有多少参数传递进来。JavaScript里，你可以使用arguments来访问传入的参数。
+必要参数，默认参数和可选参数有个共同点：它们表示某一个参数。有时，你想同时操作多个参数，或者你并不知道会有多少参数传递进来。在JavaScript里，你可以使用arguments来访问所有传入的参数。
 
 在TypeScript里，你可以把所有参数收集到一个变量里：
 
@@ -1465,21 +1465,21 @@ var employeeName = buildName("Joseph", "Samuel", "Lucas", "MacKinzie");
 
 剩余参数会被当做个数不限的可选参数。可以一个都没有，同样也可以有任意个。编译器创建参数数组，名字是你在省略号（...）后面给定的名字，你可以在函数体内使用这个数组。
 
-这个省略号也在带有剩余参数的函数类型上使用到。
+这个省略号也会在带有剩余参数的函数类型定义上使用到。
 
 ```typescript
 function buildName(firstName: string, ...restOfName: string[]) {
   return firstName + " " + restOfName.join(" ");
 }
 
-var buildNameFun: (fname: string, ...rest: string[])=>string = buildName;
+var buildNameFun: (fname: string, ...rest: string[]) => string = buildName;
 ```
 
 ### <a name="5.5"></a>Lambda表达式和使用‘this’
 
-JavaScript里‘this’工作机制对JavaScript程序员来说是老生常谈了。的确，学会如何使用它绝对是JavaScript编程中的一件大事。由于TypeScript是JavaScript的超集，TypeScript程序员也需要弄清‘this’工作机制并且当有bug的时候能够找出错误所在。对于‘this’工作机制可以单独写一本书了，并已有人这么做了。在这里，我们只介绍一些基础。
+JavaScript里‘this’的工作机制对JavaScript程序员来说已经是老生常谈了。的确，学会如何使用它绝对是JavaScript编程中的一件大事。由于TypeScript是JavaScript的超集，TypeScript程序员也需要弄清‘this’工作机制并且当有bug的时候能够找出错误所在。‘this’的工作机制可以单独写一本书了，并确已有人这么做了。在这里，我们只介绍一些基础知识。
 
-JavaScript里，‘this’的值在函数被调用的时候才会指定。这是个很强大灵活的特点，但是你需要花点时间弄清楚函数调用上下文是什么。众所周知这不是一件很简单的事，特别是函数当做回调函数使用的时候。
+JavaScript里，‘this’的值在函数被调用的时候才会指定。这是个既强大又灵活的特点，但是你需要花点时间弄清楚函数调用的上下文是什么。众所周知这不是一件很简单的事，特别是函数当做回调函数使用的时候。
 
 下面看一个例子：
 
@@ -1503,11 +1503,11 @@ var pickedCard = cardPicker();
 alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 ```
 
-执行这个例子会报错。因为createCardPicker返回的函数里的‘this’被设置成了‘window’而不是‘deck’。这里没有对‘this’进行动态绑定因此为Window。（注意在严格模式下，会是undefined而不是Window）。
+执行这个例子会报错。因为createCardPicker返回的函数里的‘this’被设置成了‘window’而不是‘deck’。这里没有对‘this’进行动态绑定因此为window。（注意在严格模式下，会是undefined而不是window）。
 
-为了解决这个问题，我们可以在函数被返回时就绑好正确的‘this’。这样的话，不论之后怎么使用它，都会引用原先的‘deck’对象。
+为了解决这个问题，我们可以在函数被返回时就绑好正确的‘this’。这样的话，无论之后怎么使用它，都会引用绑定的‘deck’对象。
 
-我们把函数表达式变为使用lambda表达式（()=>{}）。这样就会在函数创建的时候就指定了‘this’值，而不是在函数调用的时候。
+我们把函数表达式变为使用lambda表达式（ () => {} ）。这样就会在函数创建的时候就指定了‘this’值，而不是在函数调用的时候。
 
 ```typescript
 var deck = {
@@ -1530,7 +1530,7 @@ var pickedCard = cardPicker();
 alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 ```
 
-为了解更多关于‘this’的信息，请阅读Yahuda Katz的[Understanding JavaScript Function Invocation and “this”](#http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/).
+为了解更多关于‘this’的信息，请阅读Yahuda Katz的[Understanding JavaScript Function Invocation and “this”](http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/).
 
 ### <a name="5.6"></a>重载
 
@@ -1561,9 +1561,9 @@ var pickedCard2 = pickCard(15);
 alert("card: " + pickedCard2.card + " of " + pickedCard2.suit);
 ```
 
-‘pickCard’方法根据传入参数的不同会返回两种不同的类型。如果传入的是代表纸牌的对象，函数作用是抓一张牌。如果用户抓牌，我们告诉他抓到了什么牌。但是这怎么在类型系统里表示呢。
+‘pickCard’方法根据传入参数的不同会返回两种不同的类型。如果传入的是代表纸牌的对象，函数作用是从中抓一张牌。如果用户想抓牌，我们告诉他抓到了什么牌。但是这怎么在类型系统里表示呢。
 
-方法是为同一个函数提供多个函数类型定义做为重载。编译器会根据这个列表去处理函数的调用。下面我们来重载‘pickCard’函数。
+方法是为同一个函数提供多个函数类型定义来进行函数重载。编译器会根据这个列表去处理函数的调用。下面我们来重载‘pickCard’函数。
 
 ```typescript
 var suits = ["hearts", "spades", "clubs", "diamonds"];
