@@ -2,7 +2,7 @@ var gulp = require('gulp'),
   ts = require('gulp-typescript');
 
 gulp.task('typescript', function() {
-  var tsResult = gulp.src('ts/*.ts')
+  var tsResult = gulp.src('ts/**/*.ts')
     .pipe(ts({
       target: 'ES5',
       declarationFiles: false,
@@ -15,7 +15,7 @@ gulp.task('typescript', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch(['ts/*.ts'], ['typescript']);
+  gulp.watch(['ts/**/*.ts'], ['typescript']);
 });
 
 gulp.task('default', ['typescript', 'watch']);
