@@ -536,15 +536,15 @@ tom.move(34);
 
 ### <a name="3.3"></a>公共，私有与保护的修饰符
 
-#### <a name="3.3.1"></a>默认为public
+#### <a name="3.3.1"></a>默认值是public
 
-你会注意到，上面的例子中我们没有用‘public’去修饰任何类成员的可见性。在C#里需要使用‘public’明确地指定成员的可见性。在TypeScript里，所有成员都默认为public。
+在上面的例子里，我们可以自由的访问程序里定义的成员。如果你对其它语言中的类比较了解，就会注意到我们在之前的代码里并没有使用`public`来做修饰；例如，C#要求必须明确地使用`public`指定成员是可见的。在TypeScript里，每个成员默认为`public`的。
 
-你也可以把成员标记为‘private’来控制什么是可以在类外部访问的。我们重写一下上面的‘Animal’类：
+你仍然可以使用`public`明确地指定其访问类型，并且这确实是一个最佳实践。我们可以用下面的方式来重写上面的`Animal`类：
 
 ```typescript
 class Animal {
-    private name: string;
+    public name: string;
     constructor(theName: string) { this.name = theName; }
     move(meters: number) {
         alert(this.name + " moved " + meters + "m.");
@@ -552,7 +552,7 @@ class Animal {
 }
 ```
 
-#### <a name="3.3.2"></a>理解private
+#### <a name="3.3.2"></a>理解`private`
 
 TypeScript使用的是结构性类型系统。当我们比较两种不同的类型时，并不在乎它们从哪儿来的，如果它们中每个成员的类型都是兼容的，我们就说这两个类型是兼容的。
 
