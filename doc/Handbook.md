@@ -554,9 +554,20 @@ class Animal {
 
 #### <a name="3.3.2"></a>理解`private`
 
-TypeScript使用的是结构性类型系统。当我们比较两种不同的类型时，并不在乎它们从哪儿来的，如果它们中每个成员的类型都是兼容的，我们就说这两个类型是兼容的。
+当成员被标记成`private`时，它就不能在声明它的类的外部访问。比如：
 
-当我们比较具有‘private’成员的类型的时候，会稍有不同。如果一个类型中有个私有成员，那么只有另外一个类型中也存在这样一个私有成员并且它们必须来自同一处定义，我们才认为这两个类型是兼容的。
+```TypeScript
+class Animal {
+    private name: string;
+    constructor(theName: string) { this.name = theName; }
+}
+
+new Animal("cat").name; // Error: 'name' is private;
+```
+
+TypeScript使用的是结构性类型系统。当我们比较两种不同的类型时，并不在乎它们从哪儿来的，如果它们中每个成员的类型都是兼容的，我们就认为它们的类型是兼容的。
+
+然而，当我们比较带有`private`或`protected`成员的类型的时候，情况就不同了。如果其中一个类型里包含一个`private`成员，那么只有当另外一个类型中也存在这样一个`private`成员， 并且它们是来自同一处声明时，我们才认为这两个类型是兼容的。对于`protected`成员也使用这个规则。
 
 下面来看一个例子，详细的解释了这点：
 
@@ -567,7 +578,7 @@ class Animal {
 }
 
 class Rhino extends Animal {
-  constructor() { super("Rhino"); }
+    constructor() { super("Rhino"); }
 }
 
 class Employee {
@@ -583,7 +594,7 @@ animal = rhino;
 animal = employee; //error: Animal and Employee are not compatible
 ```
 
-这个例子中有‘Animal’和‘Rhino’两个类，‘Rhino’是‘Animal’类的子类。还有一个‘Employee’类，其类型看上去与‘Animal’是相同的。我们创建了几个这些类的实例，并相互赋值来看看会发生什么。因为‘Animal’和‘Rhino’共享了来自‘Animal’里的私有成员定义‘private name: string’，因此它们是兼容的。然而‘Employee’却不是这样。当把‘Employee’赋值给‘Animal’的时候，得到一个错误，说它们的类型不兼容。尽管‘Employee’里也有一个私有成员‘name’，但它明显不是‘Animal’里面定义的那个。
+这个例子中有`Animal`和`Rhino`两个类，`Rhino`是`Animal`类的子类。还有一个`Employee`类，其类型看上去与`Animal`是相同的。我们创建了几个这些类的实例，并相互赋值来看看会发生什么。因为`Animal`和`Rhino`共享了来自`Animal`里的私有成员定义`private name: string`，因此它们是兼容的。然而`Employee`却不是这样。当把`Employee`赋值给`Animal`的时候，得到一个错误，说它们的类型不兼容。尽管`Employee`里也有一个私有成员`name`，但它明显不是`Animal`里面定义的那个。
 
 #### <a name="3.3.3"></a>参数属性
 
