@@ -596,9 +596,38 @@ animal = employee; //error: Animal and Employee are not compatible
 
 这个例子中有`Animal`和`Rhino`两个类，`Rhino`是`Animal`类的子类。还有一个`Employee`类，其类型看上去与`Animal`是相同的。我们创建了几个这些类的实例，并相互赋值来看看会发生什么。因为`Animal`和`Rhino`共享了来自`Animal`里的私有成员定义`private name: string`，因此它们是兼容的。然而`Employee`却不是这样。当把`Employee`赋值给`Animal`的时候，得到一个错误，说它们的类型不兼容。尽管`Employee`里也有一个私有成员`name`，但它明显不是`Animal`里面定义的那个。
 
-#### <a name="3.3.3"></a>参数属性
+#### <a name="3.3.3"></a>理解`protected`
 
-‘public’和‘private’关键字也提供了一种简便的方法通过参数属性来创建和初始化类成员。参数属性让你一步就可以创建并初始化一个类成员。下面的代码改写了上面的例子。注意，我们删除了‘name’并直接使用‘private name: string’参数在构造函数里创建并初始化‘name’成员。
+`protected`修饰符与`private`修饰符的行为很相似，但有一点不同，`protected`成员在派生类中仍然可以访问。例如：
+
+```TypeScript
+class Person {
+    protected name: string;
+    constructor(name: string) { this.name = name; }
+}
+
+class Employee extends Person {
+    private department: string;
+    
+    constructor(name: string, department: string) {
+        super(name);
+        this.department = department;
+    }
+    
+    public getElevatorPitch() {
+        return "Hello, my name is " + this.name + " and I work in " + this.department + ".";
+    }
+}
+
+var howard = new Employee("Howard", "Sales");
+console.log(howard.getElevatorPitch());
+```
+
+注意，我们不能在`Person`类外使用`name`，但是我们仍然可以通过`Employee`类的实例方法访问，因为`Employee`是由`Person`派生出来的。
+
+#### <a name="3.3.4"></a>参数属性
+
+在上面的例子中，我们不得不定义一个私有成员`name`和一个构造函数参数`theName`，并且立刻给`name`和`theName`赋值。这种情况经常会遇到。*参数属性*可以方便地让我们在一个地方定义并初始化一个成员。下面的例子是对之前`Animal`类的修改版，使用了参数属性：
 
 ```typescript
 class Animal {
