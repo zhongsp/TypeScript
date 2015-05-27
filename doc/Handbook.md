@@ -100,11 +100,29 @@ var height: number = 6;
 
 ### <a name="1.3"></a>String
 
-像其它语言里一样，我们使用‘string’表示文本数据类型。与JavaScript里相同，可以使用双引号（"）或单引号（'）表示字符串。
+JavaScript程序的另一项基本操作是处理网页或服务器端的文本数据。
+像其它语言里一样，我们使用`string`表示文本数据类型。
+和JavaScript一样，可以使用双引号（`"`）或单引号（`'`）表示字符串。
 
 ```typescript
 var name: string = "bob";
 name = "smith";
+```
+
+你还可以使用*模版字符串*，它可以定义多行文本和内嵌表达式。
+
+```TypeScript
+var name: string = `Gene`;
+var age: number = 37;
+var sentence: string = `Hello, my name is ${ name }.
+
+I'll be ${ age + 1 } years old next month`.
+```
+
+这与下面定义`sentence`的方式效果相同：
+
+```TypeScript
+var sentence: string = "Hello, my name is " + ".\n\n" + "I'll be " + (age + 1) + " years old next month."
 ```
 
 ### <a name="1.4"></a>Array
@@ -502,24 +520,24 @@ var greeter = new Greeter("world");
 class Animal {
     name: string;
     constructor(theName: string) { this.name = theName; }
-    move(meters: number = 0) {
-        alert(this.name + " moved " + meters + "m.");
+    move(distanceInMeters: number = 0) {
+        alert(`${this.name} moved ${distanceInMeters}m.`);
     }
 }
 
 class Snake extends Animal {
     constructor(name: string) { super(name); }
-    move(meters = 5) {
+    move(distanceInMeters = 5) {
         alert("Slithering...");
-        super.move(meters);
+        super.move(distanceInMeters);
     }
 }
 
 class Horse extends Animal {
     constructor(name: string) { super(name); }
-    move(meters = 45) {
+    move(distanceInMeters = 45) {
         alert("Galloping...");
-        super.move(meters);
+        super.move(distanceInMeters);
     }
 }
 
@@ -546,8 +564,8 @@ tom.move(34);
 class Animal {
     public name: string;
     constructor(theName: string) { this.name = theName; }
-    move(meters: number) {
-        alert(this.name + " moved " + meters + "m.");
+    move(distanceInMeters: number) {
+        alert(`${this.name} moved ${distanceInMeters}m.`);
     }
 }
 ```
@@ -562,7 +580,7 @@ class Animal {
     constructor(theName: string) { this.name = theName; }
 }
 
-new Animal("cat").name; // Error: 'name' is private;
+new Animal("Cat").name; // Error: 'name' is private;
 ```
 
 TypeScript使用的是结构性类型系统。当我们比较两种不同的类型时，并不在乎它们从哪儿来的，如果它们中每个成员的类型都是兼容的，我们就认为它们的类型是兼容的。
@@ -615,7 +633,7 @@ class Employee extends Person {
     }
     
     public getElevatorPitch() {
-        return "Hello, my name is " + this.name + " and I work in " + this.department + ".";
+        return `Hello, my name is ${this.name} and I work in ${this.department}.`;
     }
 }
 
@@ -632,8 +650,8 @@ console.log(howard.getElevatorPitch());
 ```typescript
 class Animal {
     constructor(private name: string) { }
-    move(meters: number) {
-        alert(this.name + " moved " + meters + "m.");
+    move(distanceInMeters: number) {
+        alert(`${this.name} moved ${distanceInMeters}m.`);
     }
 }
 ```
