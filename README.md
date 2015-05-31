@@ -16,6 +16,10 @@ TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
 * Read [TypeScript Language Specification (Recommended)](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)
 * Read [TypeScript 语言规范 (译完第一章)](./doc/TypeScript Language Specification.md)
 
+** Others **
+
+* [编码规范](./doc/coding_guidelines.md)
+
 I'd love for you to contribute to the translation:)
 
 ## Using Gulp with TypeScript
