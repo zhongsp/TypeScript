@@ -4,6 +4,7 @@ TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
 **Beyond Handbook && Latest features**
 
 * [Tuple Types](./doc/tuple_types.md) (TypeScript 1.3) 
+* [Protected members](./doc/protected.md) (TypeScript 1.3) 
 
 **TypeScript Handbook**
 
