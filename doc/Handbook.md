@@ -31,7 +31,7 @@ TypeScript是微软公司的注册商标.
   * [存取器](#3.4)
   * [静态属性](#3.5)
   * [高级技巧](#3.6)
-* [模块](#4)
+* [命名空间和模块](#4)
   * [多文件中的模块](#4.1)
   * [外部模块](#4.2)
   * [Export =](#4.3)
@@ -830,13 +830,16 @@ var point3d: Point3d = {x: 1, y: 2, z: 3};
 
 ## <a name="4"></a>模块
 
-这节会列出多种在TypeScript里组织代码的方法。我们将介绍内部和外部模块，以及如何在适合的地方使用它们。我们也会涉及到一些高级主题，如怎么使用外部模块，当使用TypeScript模块时如何避免常见的陷井。
+这节会列出多种在TypeScript里组织代码的方法。
+我们将介绍命名空间（之前叫做“内部模块”）和模块（之前叫做“外部模块”）并且会讨论在什么样的场合下适合使用它们以及怎样使用它们。
+我们也会涉及到一些高级主题，如怎么使用外部模块，当使用TypeScript模块时如何避免常见的陷井。
 
-**第一步**
+### 第一步
 
-让我们先写一段程序，我们将在整个小节中都使用这个例子。我们定义几个简单的字符串验证器，好比你会使用它们来验证表单里的用户输入或验证外部数据。
+我们先来写一段程序并将在整个小节中都使用这个例子。
+我们定义几个简单的字符串验证器，好比你会使用它们来验证表单里的用户输入或验证外部数据。
 
-*所有的验证器都在一个文件里*
+#### 所有的验证器都放在一个文件里
 
 ```typescript
 interface StringValidator {
@@ -872,16 +875,20 @@ strings.forEach(s => {
 });
 ```
 
-**增加模块支持**
+### 使用命名空间
 
-随着我们增加更多的验证器，我们想要将它们组织在一起来保持对它们的追踪记录并且不用担心与其它对象产生命名冲突。我们把验证器包裹到一个模块里，而不是把它们放在全局命名空间下。
+随着我们增加更多的验证器，我们想要将它们组织在一起来保持对它们的追踪记录并且不用担心与其它对象产生命名冲突。
+我们把验证器包裹到一个命名空间内，而不是把它们放在全局命名空间下。
 
-这个例子里，我们把所有验证器相关的类型都放到一个叫做*Validation*的模块里。由于我们想在模块外这些接口和类都是可见的，我们需要使用*export*。相反地，变量*lettersRegexp*和*numberRegexp*是具体实现，所以没有使用export，因此它们在模块外部是不可见的。在测试代码的底部，使用模块导出内容的时候需要增加一些限制，比如*Validation.LettersOnlyValidator*。
+这个例子里，我们把所有验证器相关的类型都放到一个叫做`Validation`的命名空间里。
+因为我们想让这些接口和类在命名空间外也是可访问的，所以我们需要使用`export`。
+相反的，变量`lettersRegexp`和`numberRegexp`是具体实现，所以没有导出，因此它们在命名空间外是不能访问的。
+在文件末尾的测试代码里，我们需要限制类型名称，因为这是在命名空间外访问，比如`Validation.LettersOnlyValidator`。
 
-*模块化的验证器*
+#### 使用命名空间的验证器
 
 ```typescript
-module Validation {
+namespace Validation {
     export interface StringValidator {
         isAcceptable(s: string): boolean;
     }
@@ -915,30 +922,32 @@ strings.forEach(s => {
     }
 });
 ```
-
-### <a name="4.1"></a>多文件中的模块
+### 分割成多文件
 
 当应用变得越来越大时，我们需要将代码分散到不同的文件中以便于维护。
 
-现在，我们把Validation模块分散多个文件中。尽管是分开的文件，它们仍可以操作同一个模块，并且使用的时候就好像它们是定义在一个文件中一样。因为在不同文件之间存在依赖关系，我们加入了引用标签来告诉编译器文件之间的关系。我们的测试代码保持不变。
+### <a name="4.1"></a>多文件中的命名空间
 
-**多文件内部模块**
+现在，我们把`Validation`命名空间分割成多个文件。
+尽管是不同的文件，它们仍是同一个命名空间，并且在使用的时候就如同它们在一个文件中定义的一样。
+因为不同文件之间存在依赖关系，所以我们加入了引用标签来告诉编译器文件之间的关联。
+我们的测试代码保持不变。
 
-*Validation.ts*
+#### Validation.ts
 
 ```typescript
-module Validation {
+namespace Validation {
     export interface StringValidator {
         isAcceptable(s: string): boolean;
     }
 }
 ```
 
-*LettersOnlyValidator.ts*
+#### LettersOnlyValidator.ts
 
 ```typescript
 /// <reference path="Validation.ts" />
-module Validation {
+namespace Validation {
     var lettersRegexp = /^[A-Za-z]+$/;
     export class LettersOnlyValidator implements StringValidator {
         isAcceptable(s: string) {
@@ -948,11 +957,11 @@ module Validation {
 }
 ```
 
-*ZipCodeValidator.ts*
+#### ZipCodeValidator.ts
 
 ```typescript
 /// <reference path="Validation.ts" />
-module Validation {
+namespace Validation {
     var numberRegexp = /^[0-9]+$/;
     export class ZipCodeValidator implements StringValidator {
         isAcceptable(s: string) {
@@ -962,7 +971,7 @@ module Validation {
 }
 ```
 
-*Test.ts*
+#### Test.ts
 
 ```typescript
 /// <reference path="Validation.ts" />
@@ -983,23 +992,25 @@ strings.forEach(s => {
 });
 ```
 
-涉及到多文件时，我们必须确保所有编译后的代码都加载了。我们有两种方式。
+当涉及到多文件时，我们必须确保所有编译后的代码都被加载了。
+我们有两种方式。
 
-第一种方式，把所有的输入文件编译为一个输出文件，需要使用 *--out* 标记：
+第一种方式，把所有的输入文件编译为一个输出文件，需要使用`--out`标记：
 
-```sh
+```Shell
 tsc --out sample.js Test.ts
 ```
 
 编译器会根据源码里的引用标签自动地对输出进行排序。你也可以单独地指定每个文件。
 
-```sh
+```Shell
 tsc --out sample.js Validation.ts LettersOnlyValidator.ts ZipCodeValidator.ts Test.ts
 ```
 
-第二种方式，我们可以编译每一个文件，之后在页面上通过`<script>`标签把所有生成的js文件按正确的顺序都引进来。比如：
+第二种方式，我们可以编译每一个文件（默认方式），那么每个源文件都会对应生成一个JavaScript文件。
+然后，在页面上通过`<script>`标签把所有生成的JavaScript文件按正确的顺序引进来，比如：
 
-*MyTestPage.html (excerpt)*
+#### MyTestPage.html（摘录部分）
 
 ```html
 <script src="Validation.js" type="text/javascript" />
@@ -1008,31 +1019,36 @@ tsc --out sample.js Validation.ts LettersOnlyValidator.ts ZipCodeValidator.ts Te
 <script src="Test.js" type="text/javascript" />
 ```
 
-### <a name="4.2"></a>外部模块
+### <a name="4.2"></a>使用模块
 
-TypeScript中同样存在外部模块的概念。外部模块在两种情况下会用到：node.js和require.js。对于没有使用node.js和require.js的应用来说是不需要使用外部模块的，最好使用上面说的内部模块的方式来组织代码。
+TypeScript中同样存在模块的概念。
+模块会在两种情况下被用到：Node.js或require.js。
+对于没有使用Node.js和require.js的应用来说是不需要使用外部模块的，最好使用上面介绍的命名空间的方式来组织代码。
 
-在外部模块，不同文件之间的关系是通过imports和exports来指定的。在TypeScript里，任何具有顶级*import*和*export*的文件都会被视为段级模块。
+使用模块时，不同文件之间的关系是通过文件级别的导入和导出来指定的。
+在TypeScript里，任何具有顶级`import`和`export`的文件都会被视为模块。
 
-下面，我们把之前的例子改写成外部模块。注意，我们不再使用module关键字 - 文件本身会被视为一个模块并以文件名来区分。
+下面，我们把之前的例子改写成使用模块。
+注意，我们不再使用`module`关键字 - 文件本身会被视为一个模块并以文件名来区分。
 
-引用标签用*import*来代替，指明了模块之前的依赖关系。*import*语句有两部分：当前文件使用模块时使用的名字，require关键字指定了依赖模块的路径：
+引用标签用`import`语句来代替，指明了模块之前的依赖关系。
+`import`语句有两部分：模块在当前文件中的名字，`require`关键字指定了依赖模块的路径：
 
 ```typescript
 import someMod = require('someModule');
 ```
 
-我们通过顶级的*export*关键字指出了哪些对象在模块外是可见的，如同使用*export*定义内部模块的公共接口一样。
+我们通过顶级的`export`关键字指出了哪些对象在模块外是可见的，如同使用`export`定义命名空间的公共接口一样。
 
-为了编译，我们必须在命令行上指明生成模块的目标类型。对于node.js，使用*--module commonjs*。对于require.js，使用*--module amd*。比如：
+为了编译，我们必须在命令行上指明生成模块的目标类型。对于Node.js，使用*--module commonjs*。对于require.js，使用`--module amd`。比如：
 
-```sh
+```Shell
 ts --module commonjs Test.ts
 ```
 
 编译的时候，每个外部模块会变成一个单独的文件。如同引用标签，编译器会按照*import*语句编译相应的文件。
 
-*Validation.ts*
+#### Validation.ts
 
 ```typescript
 export interface StringValidator {
@@ -1040,7 +1056,7 @@ export interface StringValidator {
 }
 ```
 
-*LettersOnlyValidator.ts*
+#### LettersOnlyValidator.ts
 
 ```typescript
 import validation = require('./Validation');
@@ -1052,7 +1068,7 @@ export class LettersOnlyValidator implements validation.StringValidator {
 }
 ```
 
-*ZipCodeValidator.ts*
+#### ZipCodeValidator.ts
 
 ```typescript
 import validation = require('./Validation');
@@ -1064,7 +1080,7 @@ export class ZipCodeValidator implements validation.StringValidator {
 }
 ```
 
-*Test.ts*
+#### Test.ts
 
 ```typescript
 import validation = require('./Validation');
@@ -1085,20 +1101,21 @@ strings.forEach(s => {
 });
 ```
 
-**生成外部模块的代码**
+### 生成模块代码
 
-根据编译时指定的目标模块类型，编译器会生成相应的代码。想要了解更多关于*define*和*require*函数的使用方法，请阅读相应模块加载器的说明文档。
+根据编译时指定的目标模块类型，编译器会生成相应的代码，或者是适合Node.js（commonjs）或者是适合require.js（AMD）模块加载系统的代码。
+想要了解更多关于`define`和`require`函数的使用方法，请阅读相应模块加载器的说明文档。
 
 这个例子展示了在导入导出阶段使用的名字是怎么转换成模块加载代码的。
 
-*SimpleModule.ts*
+#### SimpleModule.ts
 
 ```typescript
 import m = require('mod');
 export var t = m.something + 1;
 ```
 
-*AMD/RequireJS SimpleModule.js*
+#### AMD/RequireJS SimpleModule.js
 
 ```javascript
 define(["require"，"exports"，"mod"]，function(require, exports, m) {
@@ -1106,7 +1123,7 @@ define(["require"，"exports"，"mod"]，function(require, exports, m) {
 });
 ```
 
-*CommonJS / Node SimpleModule.js*
+#### CommonJS / Node SimpleModule.js
 
 ```javascript
 var m = require('mod');
@@ -1115,13 +1132,17 @@ exports.t = m.something + 1;
 
 ### <a name="4.3"></a>Export =
 
-在上面的例子中，使用验证器的时候，每个模块只导出一个值。像这种情况，在验证器对象前面再加上限定名就显得累赘了，最好是直接使用一个标识符。
+在上面的例子中，使用验证器的时候，每个模块只导出一个值。
+像这种情况，在验证器对象前面再加上限定名就显得累赘了，最好是直接使用一个标识符。
 
-‘export =’语法指定了模块导出的单个对象。它可以是类，接口，模块，函数或枚举类型。当import的时候，直接使用模块导出的标识符，不再需要其它限定名。
+`export =`语法指定了模块导出的单个对象。
+它可以是类，接口，模块，函数或枚举类型。
+当import的时候，直接使用模块导出的标识符，不再需要其它限定名。
 
-下面，我们简化验证器的实现，使用‘export =’语法使每个模块导出单一对象。这会简化对模块的使用 - 我们可以用‘zipValidator’代替‘zip.ZipCodeValidator’。
+下面，我们简化验证器的实现，使用`export =`语法使每个模块导出单一对象。
+这会简化对模块的使用 - 我们可以用`zipValidator`代替`zip.ZipCodeValidator`。
 
-*Validation.ts*
+#### Validation.ts
 
 ```typescript
 export interface StringValidator {
@@ -1129,7 +1150,7 @@ export interface StringValidator {
 }
 ```
 
-*LettersOnlyValidator.ts*
+#### LettersOnlyValidator.ts
 
 ```typescript
 import validation = require('./Validation');
@@ -1142,7 +1163,7 @@ class LettersOnlyValidator implements validation.StringValidator {
 export = LettersOnlyValidator;
 ```
 
-*ZipCodeValidator.ts*
+#### ZipCodeValidator.ts
 
 ```typescript
 import validation = require('./Validation');
@@ -1155,7 +1176,7 @@ class ZipCodeValidator implements validation.StringValidator {
 export = ZipCodeValidator;
 ```
 
-*Test.ts*
+#### Test.ts
 
 ```typescript
 import validation = require('./Validation');
@@ -1178,13 +1199,15 @@ strings.forEach(s => {
 
 ### <a name="4.4"></a>别名
 
-另一种简化模块操作的方法是使用*import q = x.y.z*给常用的模块起一个短的名字。不要与*import x = require('name')*用来加载外部模块的语法弄混了，这里的语法是为指定的符号创建一个别名。你可以用这种方法为任意标识符创建别名，也包括导入的外部模块中的对象。
+另一种简化模块操作的方法是使用`import q = x.y.z`给常用的模块起一个短的名字。
+不要与`import x = require('name')`用来加载模块的语法弄混了，这里的语法是为指定的符号创建一个别名。
+你可以用这种方法为任意标识符创建别名，也包括导入的模块中的对象。
 
-*创建别名基本方法*
+#### 创建别名基本方法
 
 ```typescript
-module Shapes {
-    export module Polygons {
+namespace Shapes {
+    export namespace Polygons {
         export class Triangle { }
         export class Square { }
     }
@@ -1194,19 +1217,28 @@ import polygons = Shapes.Polygons;
 var sq = new polygons.Square(); // Same as 'new Shapes.Polygons.Square()'
 ```
 
-注意，我们并没有使用*require*关键字，而是直接使用导入符号的限定名赋值。这与使用*var*相似，但它还适用于类型和导入的具有命名空间含义的符号。重要的是，对于值来讲，*import*会产生与原始符号不同的引用，所以改变别名的值并不会影响原始变量的值。
+注意，我们并没有使用`require`关键字，而是直接使用导入符号的限定名赋值。
+这与使用`var`相似，但它还适用于类型和导入的具有命名空间含义的符号。
+重要的是，对于值来讲，`import`会产生与原始符号不同的引用，所以改变别名的值并不会影响原始变量的值。
 
 ### <a name="4.5"></a>可选模块的加载与其它高级加载的场景
 
-有些时候，你只想在某种条件下才去加载一个模块。在TypeScript里，我们可以使用下面的方式来实现它以及其它高级加载的场景，直接调用模块加载器而不必担心类型安全问题。
+有些时候，你只想在某种条件下才去加载一个模块。
+在TypeScript里，我们可以使用下面的方式来实现它以及其它高级加载的场景，直接调用模块加载器而不必担心类型安全问题。
 
-编译器能探测出一个模块是否在生成的JavaScript里被使用到了。对于那些只做为类型系统部分使用的模块来讲，不会生成对应require代码。挑出未使用的引用有益于性能优化，同时也允许可选择性的加载模块。
+编译器能探测出一个模块是否在生成的JavaScript里被使用到了。
+对于那些只做为类型系统部分使用的模块来讲，不会生成对应`require代码`。
+挑出未使用的引用有益于性能优化，同时也允许可选择性的加载模块。
 
-这种模式的核心是*import id = require('...')*让我们可以访问外部模块导出的类型。模块加载是动态调用的，像下面if语句展示的那样。它利用了挑出对未使用引用的优化，模块只在需要的时候才去加载。为了让这种方法可行，通过import定义的符号只能在表示类型的位置使用（也就是说那段代码永远不会被编译生成JavaScript）。
+这种模式的核心是`import id = require('...')`让我们可以访问外部模块导出的类型。
+模块加载是动态调用的（通过`require`），像下面`if`语句展示的那样。
+它利用了挑出对未使用引用的优化，模块只在需要的时候才去加载。
+为了让这种方法可行，通过`import`定义的符号只能在表示类型的位置使用（也就是说那段代码永远不会被编译生成JavaScript）。
 
-为了确保使用正确，我们可以使用*typeof*关键字。在要求是类型的位置使用*typeof*关键字时，会得到类型值，在这个例子里得到的是外部模块的类型。
+为了确保使用正确，我们可以使用`typeof`关键字。
+在要求是类型的位置使用`typeof`关键字时，会得到类型值，在这个例子里得到的是外部模块的类型。
 
-*Dynamic Module Loading in node.js*
+#### Dynamic Module Loading in Node.js
 
 ```typescript
 declare var require;
@@ -1217,7 +1249,7 @@ if (needZipValidation) {
 }
 ```
 
-*Sample: Dynamic Module Loading in require.js*
+#### Sample: Dynamic Module Loading in require.js
 
 ```typescript
 declare var require;
@@ -1231,16 +1263,24 @@ if (needZipValidation) {
 
 ### <a name="4.6"></a>使用其它JavaScript库
 
-为了描述不是用TypeScript写的程序库的类型，我们需要对程序库暴露的API进行声明。由于大部分程序库只提供少数的顶级对象，因此用模块来表示它们是一个好办法。我们叫它声明不是对执行环境的定义。通常会在‘.d.ts’里写这些定义。如果你熟悉C/C++，你可以把它们当做.h文件或‘extern’。让我们看一些内部和外部的例子。
+为了描述不是用TypeScript写的程序库的类型，我们需要对程序库暴露的API进行声明。
+由于大部分程序库只提供少数的顶级对象，命名空间和模块是用来表示它们是一个好办法。
+我们叫它声明不是对执行环境的定义。
+通常会在`.d.ts`里写这些定义。
+如果你熟悉C/C++，你可以把它们当做`.h`文件。
+让我们看一些例子。
 
-#### <a name="4.6.1"></a>内部环境模块
+#### <a name="4.6.1"></a>外来的命名空间
 
-流行的程序库D3在全局对象‘D3’里定义它的功能。因为这个库通过一个*script*标签加载（不是通过模块加载器），它的声明文件使用内部模块来定义它的类型。为了让TypeScript编译器识别它的类型，我们使用内部环境模块声明。比如：
+流行的程序库D3在全局对象`d3`里定义它的功能。
+因为这个库通过一个`<script>`标签加载（不是通过模块加载器），它的声明文件使用内部模块来定义它的类型。
+为了让TypeScript编译器识别它的类型，我们使用内部环境模块声明。
+比如，我们像下面这样写：
 
-*D3.d.ts (simplified excerpt)*
+#### D3.d.ts (部分摘录)
 
 ```typescript
-declare module D3 {
+declare namespace d3 {
     export interface Selectors {
         select: {
             (selector: string): Selection;
@@ -1261,11 +1301,14 @@ declare module D3 {
 declare var d3: D3.Base;
 ```
 
-#### <a name="4.6.2"></a>外部环境模块
+#### <a name="4.6.2"></a>外来的模块
 
-在node.js里，大多数的任务可以通过加载一个或多个模块来完成。我们可以使用顶级export声明来为每个模块定义各自的‘.d.ts’文件，但全部放在一个大的文件中会更方便。为此，我们把模块名用引号括起来，方便之后的import。例如：
+在Node.js里，大多数的任务可以通过加载一个或多个模块来完成。
+我们可以使用顶级export声明来为每个模块定义各自的`.d.ts`文件，但全部放在一个大的文件中会更方便。
+为此，我们把模块名用引号括起来，方便之后的import。
+例如：
 
-*node.d.ts (siplified excerpt)*
+#### node.d.ts (部分摘录)
 
 ```typescript
 declare module "url" {
@@ -1285,7 +1328,7 @@ declare module "path" {
 }
 ```
 
-现在我们可以*///&lt;reference path="node.d.ts"/&gt;*, 然后使用*import url = require('url');*加载这个模块。
+现在我们可以`///<reference path="node.d.ts"/>`, 然后使用`import url = require('url');`加载这个模块。
 
 ```typescript
 ///<reference path="node.d.ts"/>
@@ -1293,87 +1336,97 @@ import url = require("url");
 var myUrl = url.parse("http://www.typescriptlang.org");
 ```
 
-### <a name="4.7"></a>模块陷井
+### <a name="4.7"></a>命名空间和模块的陷井
 
 这一节，将会介绍使用内部和外部模块时常见的陷井和怎么去避免它。
 
-#### <a name="4.7.1"></a>/// <reference> to an external module
+#### <a name="4.7.1"></a>对模块使用`/// <reference>`
 
-一个常见的错误是使用`/// <reference>`引用外部模块文件，应该使用import。要理解这之间的不同，我们首先应该弄清编译器是怎么找到外部模块的类型信息的。
+一个常见的错误是使用`/// <reference>`引用模块文件，应该使用import。
+要理解这之间的不同，我们首先应该弄清编译器是怎么找到模块的类型信息的。
 
-首先，根据*import x = require(...);*声明查找*.ts*文件。这个文件应该是使用了顶级import或export声明的执行文件。
+首先，根据`import x = require(...);`声明查找`.ts`文件。
+这个文件应该是使用了顶级import或export声明的执行文件。
 
-其次，与前一步相似，去查找*.d.ts*文件，不同的是它不是执行文件而是声明文件（同样具有顶级的import或export声明）。
+其次，与前一步相似，去查找`.d.ts`文件，不同的是它不是执行文件而是声明文件（同样具有顶级的import或export声明）。
 
-最后，尝试寻找外部环境模块的声明，此声明里包含了对应的用引号括起来的模块名。
+最后，在`declare`的模块里寻找名字匹配的“外来模块的声明”。
 
-*myModules.d.ts*
+#### myModules.d.ts
 
 ```typescript
-// In a .d.ts file or .ts file that is not an external module:
+// In a .d.ts file or .ts file that is not a module:
 declare module "SomeModule" {
     export function fn(): string;
 }
 ```
 
-*myOtherModule.ts*
+#### myOtherModule.ts
 
 ```typescript
 /// <reference path="myModules.d.ts" />
 import m = require("SomeModule");
 ```
 
-这里的引用标签指定了外部环境模块的位置。这就是一些Typescript例子中引用node.d.ts的方法。
+这里的引用标签指定了外部环境模块的位置。
+这就是一些Typescript例子中引用node.d.ts的方法。
 
 #### <a name="4.7.2"></a>不必要的命名空间
 
-如果你想把内部模块转换为外部模块，它可能会像下面这个文件一件：
+如果你想把命名空间转换为模块，它可能会像下面这个文件一件：
 
-*shapes.ts*
+#### shapes.ts
 
 ```typescript
-export module Shapes {
+export namespace Shapes {
     export class Triangle { /* ... */ }
     export class Square { /* ... */ }
 }
 ```
 
-顶层的模块*Shapes*包裹了*Triangle*和*Square*。这对于使用它的人来说是让人迷惑和讨厌的：
+顶层的模块`Shapes`包裹了`Triangle`和`Square`。
+这对于使用它的人来说是让人迷惑和讨厌的：
 
-*shapeConsumer.ts*
+#### shapeConsumer.ts
 
 ```typescript
 import shapes = require('./shapes');
 var t = new shapes.Shapes.Triangle(); // shapes.Shapes?
 ```
 
-TypeScript里外部模块的一个特点是不同的外部模块永远也不会在相同的作用域内使用相同的名字。因为使用外部模块的人会为它们命名，所以完全没有必要把导出的符号包裹在一个命名空间里。
+TypeScript里模块的一个特点是不同的模块永远也不会在相同的作用域内使用相同的名字。
+因为使用模块的人会为它们命名，所以完全没有必要把导出的符号包裹在一个命名空间里。
 
-再次重申，不应该对外部模块使用命名空间，使用命名空间是为了提供逻辑分组和避免命名冲突。外部模块文件本身已经是一个逻辑分组，并且它的名字是由导入这个模块的代码指定，所以没有必要为导出的对象增加额外的模块层。
+再次重申，不应该对模块使用命名空间，使用命名空间是为了提供逻辑分组和避免命名冲突。
+模块文件本身已经是一个逻辑分组，并且它的名字是由导入这个模块的代码指定，所以没有必要为导出的对象增加额外的模块层。
 
-改进的例子：
+下面是改进的例子：
 
-*shapes.ts*
+#### shapes.ts
 
 ```typescript
 export class Triangle { /* ... */ }
 export class Square { /* ... */ }
 ```
 
-*shapeConsumer.ts*
+#### shapeConsumer.ts
 
 ```typescript
 import shapes = require('./shapes');
 var t = new shapes.Triangle(); 
 ```
 
-#### <a name="4.7.3"></a>外部模块的取舍
+#### <a name="4.7.3"></a>模块的取舍
 
-就像每个JS文件对应一个模块一样，TypeScript里外部模块文件与生成的JS文件也是一一对应的。这会产生一个效果，就是无法使用*--out*来让编译器合并多个外部模块文件为一个JavaScript文件。
+就像每个JS文件对应一个模块一样，TypeScript里模块文件与生成的JS文件也是一一对应的。
+这会产生一个效果，就是无法使用*--out*来让编译器合并多个模块文件为一个JavaScript文件。
 
 ## <a name="5"></a>函数
 
-函数是JavaScript应用程序的基础。它帮助你实现抽象层，模拟类，信息隐藏和模块。在TypeScript里，虽然已经支持类和模块，但函数仍然是主要的定义行为的地方。TypeScript为JavaScript函数添加了额外的功能，让我们可以更容易的使用。
+函数是JavaScript应用程序的基础。
+它帮助你实现抽象层，模拟类，信息隐藏和模块。
+在TypeScript里，虽然已经支持类，命名空间和模块，但函数仍然是主要的定义*行为*的地方。
+TypeScript为JavaScript函数添加了额外的功能，让我们可以更容易的使用。
 
 ### <a name="5.1"></a>Functions
 
@@ -1826,7 +1879,8 @@ var myIdentity: GenericIdentityFn<number> = identity;
 
 我们并没有描述泛型函数，而是使用一个非泛型函数签名作为泛型类型一部分。当我们使用GenericIdentityFn的时候，我也得传入一个类型参数来指定泛型类型（这个例子是：number），锁定了之后代码里使用的类型。
 
-除了泛型接口，我们还可以创建泛型类。注意，无法创建枚举泛型和泛型模块。
+除了泛型接口，我们还可以创建泛型类。
+注意，无法创建枚举泛型和命名空间泛型。
 
 ### <a name="6.4"></a>泛型类
 
@@ -2649,7 +2703,9 @@ identity = reverse;  // Okay because (x: any)=>any matches (y: any)=>any
 
 #### <a name="12.1.2"></a>命名空间
 
-当定义接口（例如：“options”对象），你会选择是否将这些类型放进模块里。这主要是靠主观判断 -- 使用的人主要是用这些类型声明变量和参数，并且类型命名不会引起命名冲突，放在全局命名空间里更好。如果类型不是被直接使用，或者没法起一个唯一的名字的话，就使用模块来避免与其它类型发生冲突。
+当定义接口（例如：“options”对象），你会选择是否将这些类型放进命名空间里。
+这主要是靠主观判断 -- 使用的人主要是用这些类型声明变量和参数，并且类型命名不会引起命名冲突，放在全局命名空间里更好。
+如果类型不是被直接使用，或者没法起一个唯一的名字的话，就使用命名空间来避免与其它类型发生冲突。
 
 #### <a name="12.1.3"></a>回调函数
 
@@ -2743,7 +2799,7 @@ animalFactory.create("cat", { height: 32 });
 **类型**
 
 ```typescript
-module animalFactory {
+namespace animalFactory {
     interface AnimalOptions {
         name: string;
         height?: number;
@@ -2765,9 +2821,9 @@ zooKeeper(giraffeCage);
 **类型**
 
 ```typescript
-// 注意：函数必须在模块之前
+// 注意：函数必须在命名空间之前
 function zooKeeper(cage: AnimalCage);
-module zooKeeper {
+namespace zooKeeper {
     var workSchedule: string;
 }
 ```
@@ -2814,7 +2870,7 @@ zoo.open();
 **类型**
 
 ```typescript
-module zoo {
+namespace zoo {
   function open(): void;
 }
 
@@ -2843,7 +2899,7 @@ eagle.favorite = 'golden';
 ```typescript
 // Note: can use any name here, but has to be the same throughout this file
 declare function eagle(name: string): eagle;
-declare module eagle {
+declare namespace eagle {
     var favorite: string;
     function fly(): void;
 }
@@ -2869,4 +2925,5 @@ addLater(3, 4, (x) => console.log('x = ' + x));
 function addLater(x: number, y: number, (sum: number) => void): void;
 ```
 
-如果你想看其它模式的实现方式，请在[这里](https://typescript.codeplex.com/wikipage?title=https%3a%2f%2fgithub.com%2fMicrosoft%2fTypeScript%2fissues&referringTitle=Writing%20Definition%20%28.d.ts%29%20Files)留言，我们会尽可能地加到这里来。
+如果你想看其它模式的实现方式，请在[这里](https://github.com/Microsoft/TypeScript-Handbook/issues)留言！
+我们会尽可能地加到这里来。
