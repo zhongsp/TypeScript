@@ -65,7 +65,7 @@ TypeScript是微软公司的注册商标.
   * [合并模块](#9.3)
   * [模块与类和函数和枚举类型合并](#9.4)
   * [无效的合并](#9.5)
-* [类型推断](#10)
+* [类型推论](#10)
   * [基础](#10.1)
   * [最佳通用类型](#10.2)
   * [上下文类型](#10.3)
@@ -84,9 +84,9 @@ TypeScript是微软公司的注册商标.
 
 为了让程序有价值，我们需要能够处理最简单的数据单元：数字，字符串，结构体，布尔值等。TypeScript支持与JavaScript几乎相同的数据类型，此外还提供了实用的枚举类型方便我们使用。
 
-### <a name="1.1"></a>Boolean
+### <a name="1.1"></a>布尔值
 
-最基本的数据类型就是简单的true/false值，在JavaScript和TypeScript里叫做`布尔值`（其它语言中也一样）。
+最基本的数据类型就是简单的true/false值，在JavaScript和TypeScript里叫做`boolean`（其它语言中也一样）。
 
 ```typescript
 var isDone: boolean = false;
@@ -100,7 +100,7 @@ var isDone: boolean = false;
 var height: number = 6;
 ```
 
-### <a name="1.3"></a>String
+### <a name="1.3"></a>字符串
 
 JavaScript程序的另一项基本操作是处理网页或服务器端的文本数据。
 像其它语言里一样，我们使用`string`表示文本数据类型。
@@ -141,7 +141,7 @@ var list: number[] = [1, 2 ,3];
 var list: Array<number> = [1, 2, 3];
 ```
 
-### <a name="1.5"></a>Enum
+### <a name="1.5"></a>枚举
 
 `enum`类型是对JavaScript标准数据类型的一个补充。像C#等其它语言一样，使用枚举类型可以为一组数值赋予友好的名字。
 
@@ -1507,7 +1507,7 @@ var myAdd: (baseValue:number, increment:number) => number =
     function(x, y) { return x + y; };
 ```
 
-这叫做‘按上下文归类’，是类型推断的一种。它帮助我们更好地为程序指定类型。
+这叫做‘按上下文归类’，是类型推论的一种。它帮助我们更好地为程序指定类型。
 
 ### <a name="5.3"></a>可选参数和默认参数
 
@@ -1765,13 +1765,13 @@ var output = identity<string>("myString");  // type of output will be 'string'
 
 这里我们明确的指定了‘T’是字符串类型，并做为一个参数传给函数，使用了<>括起来。
 
-第二种方法更普遍。利用了类型推断，编译器会根据传入的参数自动地帮助我们确定T的类型：
+第二种方法更普遍。利用了类型推论，编译器会根据传入的参数自动地帮助我们确定T的类型：
 
 ```typescript
 var output = identity("myString");  // type of output will be 'string'
 ```
 
-注意我们并没用<>明确的指定类型，编译器看到了“myString”，把T设置为此类型。类型推断帮助我们保持代码精简和高可读性。如果编译器不能够自动地推断出类型的话，只能像上面那样明确的传入T的类型，在一些复杂的情况下，这是可能出现的。
+注意我们并没用<>明确的指定类型，编译器看到了“myString”，把T设置为此类型。类型推论帮助我们保持代码精简和高可读性。如果编译器不能够自动地推断出类型的话，只能像上面那样明确的传入T的类型，在一些复杂的情况下，这是可能出现的。
 
 ### <a name="6.2"></a>使用泛型变量
 使用泛型创建像‘identity’这样的泛型函数时，编译器要求你在函数体必须正确的使用这个通用的类型。换句话说，你必须把这些参数当做是任意或所有类型。
@@ -2384,13 +2384,13 @@ module Color {
 
 并不是所有的合并都被允许。现在，类不能与类合并，变量与类型不能合并，接口与类不能合并。想要模仿类的合并，请参考[Mixins in TypeScript](https://typescript.codeplex.com/wikipage?title=Mixins%20in%20TypeScript&referringTitle=Declaration%20Merging)。
 
-## <a name="10"></a>类型推断
+## <a name="10"></a>类型推论
 
-这节介绍TypeScript里的类型推断。即，类型是在哪里如何被推断的。
+这节介绍TypeScript里的类型推论。即，类型是在哪里如何被推断的。
 
 ### <a name="10.1"></a>基础
 
-TypeScript里，在有此没有明确指出类型的地方，类型推断会帮助提供类型。如下面的例子
+TypeScript里，在有此没有明确指出类型的地方，类型推论会帮助提供类型。如下面的例子
 
 ```typescript
 var x = 3;
@@ -2398,7 +2398,7 @@ var x = 3;
 
 变量x的类型被推断为数字。这种推断发生在初始化变量和成员，设置默认参数值和决定函数返回值时。
 
-大多数情况下，类型推断是直截了当地。后面的小节，我们会浏览类型推断时的细微差别。
+大多数情况下，类型推论是直截了当地。后面的小节，我们会浏览类型推论时的细微差别。
 
 ### <a name="10.2"></a>最佳通用类型
 
@@ -2422,11 +2422,11 @@ var zoo = [new Rhino(), new Elephant(), new Snake()];
 var zoo: Animal[] = [new Rhino(), new Elephant(), new Snake()];
 ```
 
-如果没有找到最佳通用类型的话，类型推断的结果是空对象类型，{}。因为这个类型没有任何成员，所以访问其成员的时候会报错。
+如果没有找到最佳通用类型的话，类型推论的结果是空对象类型，{}。因为这个类型没有任何成员，所以访问其成员的时候会报错。
 
 ### <a name="10.3"></a>上下文类型
 
-TypeScript类型推断也可能按照相反的方向进行。这被叫做“按上下文归类”。按上下文归类会发生在表达式的类型与所处的位置相关时。比如：
+TypeScript类型推论也可能按照相反的方向进行。这被叫做“按上下文归类”。按上下文归类会发生在表达式的类型与所处的位置相关时。比如：
 
 ```typescript
 window.onmousedown = function(mouseEvent) { 
