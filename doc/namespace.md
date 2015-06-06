@@ -1,6 +1,6 @@
 # 命名空间
 
-[`[PR#2923`]](https://github.com/Microsoft/TypeScript/pull/2923)
+[\[PR#2923\]](https://github.com/Microsoft/TypeScript/pull/2923)
 
 `namespace`是TS1.5新加的关键字，它用来定义以前版本的内部模块。变更如下：
 
@@ -9,7 +9,7 @@
 
 为了兼容性的考虑，目前仍然可以使用`module`关键字来定义命名空间，已有的代码不会受到任何影响。我们会考虑使用一个编译选项来阻止使用`module`关键字定义命名空间。
 
-下文截取自 [`[Handbook: 命名空间和模块`]](https://github.com/zhongsp/TypeScript/blob/master/doc/Handbook.md#4)
+下文截取自 [\[Handbook: 命名空间和模块\]](https://github.com/zhongsp/TypeScript/blob/master/doc/Handbook.md#4)
 
 ### 使用命名空间
 
