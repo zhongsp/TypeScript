@@ -3,13 +3,14 @@ TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
 
 **Beyond Handbook && Latest features**
 
+* [命名空间 - Namespace](./doc/namespace.md) (TypeScript 1.5)
 * [元组类型 - Tuple Types](./doc/tuple_types.md) (TypeScript 1.3) 
 * [受保护的成员 - Protected members](./doc/protected.md) (TypeScript 1.3) 
 
 **TypeScript Handbook**
 
-* Read [TypeScript Handbook (Recommended, BUT not up to date)](http://www.typescriptlang.org/Handbook)
-* Read [TypeScript 手册 (翻译完成)](./doc/Handbook.md)(持续更新中，最新版)
+* Read [TypeScript Handbook (Recommended, BUT not up to date officially)](http://www.typescriptlang.org/Handbook)
+* Read [TypeScript 手册 (翻译完成)](./doc/Handbook.md) (持续更新中，最新版)
 
 **TypeScript Language Specification**
 
