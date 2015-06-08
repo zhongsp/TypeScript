@@ -209,14 +209,14 @@ TypeScript的核心原则之一是对值所具有的`外形`进行类型检查�
 
 ### <a name="2.1"></a>接口初探
 
-下面通过一个例子来观察接口是如何工作的：
+下面通过一个简单示例来观察接口是如何工作的：
 
-```typescript
-function printLabel(labelledObj: {label: string}) {
+```TypeScript
+function printLabel(labelledObj: { label: string }) {
   console.log(labelledObj.label);
 }
 
-var myObj = {size: 10, label: "Size 10 Object"};
+var myObj = { size: 10, label: "Size 10 Object" };
 printLabel(myObj);
 ```
 
