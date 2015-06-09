@@ -42,3 +42,267 @@ printLabel(myObj);
 只要传入的对象满足上面提到的必要条件，那么它就是被允许的。
 
 还有一点值得提的是，类型检查器不会去检查属性的顺序，只要相应的属性存在并且类型也是对的就可以。
+
+# 可选属性
+接口里的属性不全都是必需的。
+有些是只在某些条件下存在，或者根本不存在。
+可选属性在应用“option bags”模式时很常用，即给函数传入的参数对象中只有部分属性赋值了。
+
+下面是应用了“option bags”的例子：
+
+```TypeScript
+interface SquareConfig {
+  color?: string;
+  width?: number;
+}
+
+function createSquare(config: SquareConfig): {color: string; area: number} {
+  var newSquare = {color: "white", area: 100};
+  if (config.color) {
+    newSquare.color = config.color;
+  }
+  if (config.width) {
+    newSquare.area = config.width * config.width;
+  }
+  return newSquare;
+}
+
+var mySquare = createSquare({color: "black"});
+```
+
+带有可选属性的接口与普通的接口定义差不多，只是在可选属性名字定义的后面加一个`?`符号。
+
+可选属性的好处之一是可以对可能存在的属性进行预定义，好处之二是可以捕获引用了不存在的属性时的错误。
+比如，我们故意将拼写错误的属性名传入`createSquare`，就会得到一个错误提示。
+
+```TypeScript
+interface SquareConfig {
+  color?: string;
+  width?: number;
+}
+
+function createSquare(config: SquareConfig): {color: string; area: number} {
+  var newSquare = {color: "white", area: 100};
+  if (config.color) {
+    newSquare.color = config.collor;  // Type-checker can catch the mistyped name here
+  }
+  if (config.width) {
+    newSquare.area = config.width * config.width;
+  }
+  return newSquare;
+}
+
+var mySquare = createSquare({color: "black"});
+```
+
+# 函数类型
+
+接口能够描述JavaScript中对象拥有的各种各样的外形。
+除了描述带有属性的普通对象外，接口也可以描述函数类型。
+
+为了使用接口表示函数类型，我们需要给接口定义一个调用签名。
+它就像是一个只有参数列表和返回值类型的函数定义。
+
+```TypeScript
+interface SearchFunc {
+  (source: string, subString: string): boolean;
+}
+```
+
+这样定义后，我们可以像使用其它接口一样使用这个函数类型的接口。
+下例展示了如何创建一个函数类型的变量，并将一个同类型的函数赋值给这个变量。
+
+```TypeScript
+var mySearch: SearchFunc;
+mySearch = function(source: string, subString: string) {
+  var result = source.search(subString);
+  if (result == -1) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+```
+
+对于函数类型的类型检查来说，函数的参数名不需要与接口里定义的名字相匹配。
+比如，我们使用下面的代码重写上面的例子：
+
+```TypeScript
+var mySearch: SearchFunc;
+mySearch = function(src: string, sub: string) {
+  var result = src.search(sub);
+  if (result == -1) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+```
+
+函数的参数会逐个进行检查，要求对应位置上的参数类型是兼容的。
+函数的返回值类型是通过其返回值推断出来的（此例是`false`和`true`）。
+如果让这个函数返回数字或字符串，类型检查器会警告我们函数的返回值类型与`SearchFunc`接口中的定义不匹配。
+
+# 数组类型
+
+与使用接口描述函数类型差不多，我们也可以描述数组类型。
+数组类型具有一个`index`类型表示索引的类型，还有一个相应的返回值类型表示通过索引得到的元素的类型。
+
+```TypeScript
+interface StringArray {
+  [index: number]: string;
+}
+
+var myArray: StringArray;
+myArray = ["Bob", "Fred"];
+```
+
+支持两种索引类型：string和number。
+数组可以同时使用这两种索引类型，但是有一个限制，数字索引返回值的类型必须是字符串索引返回值的类型的子类型。
+
+索引签名能够很好的描述数组和`dictionary`模式，它们也要求所有属性要与返回值类型相匹配。
+下面的例子里，length属性与一般的索引返回值类型不匹配，所以类型检查器给出一个错误提示：
+
+```TypeScript
+interface Dictionary {
+  [index: string]: string;
+  length: number;    // error, the type of `length` is not a subtype of the indexer
+}
+```
+
+# 类类型
+
+## 实现接口
+
+与C#或Java里接口的基本作用一样，TypeScript也能够用它来明确的强制一个类去符合某种契约。
+
+```TypeScript
+interface ClockInterface {
+    currentTime: Date;
+}
+
+class Clock implements ClockInterface {
+    currentTime: Date;
+    constructor(h: number, m: number) { }
+}
+```
+
+你也可以在接口中描述一个方法，在类里实现它，如同下面的`setTime`方法一样：
+
+```TypeScript
+interface ClockInterface {
+    currentTime: Date;
+    setTime(d: Date);
+}
+
+class Clock implements ClockInterface {
+    currentTime: Date;
+    setTime(d: Date) {
+        this.currentTime = d;
+    }
+    constructor(h: number, m: number) { }
+}
+```
+
+接口描述了类的公共部分，而不是公共和私有两部分。
+它不会帮你检查类是否具有某些私有成员。
+
+## 类静态部分与实例部分的区别
+
+当你操作类和接口的时候，你要知道类是具有两个类型的：静态部分的类型和实例的类型。
+你会注意到，当你用构造器签名去定义一个接口并试图定义一个类去实现这个接口时会得到一个错误：
+
+```TypeScript
+interface ClockInterface {
+    new (hour: number, minute: number);
+}
+
+class Clock implements ClockInterface {
+    currentTime: Date;
+    constructor(h: number, m: number) { }
+}
+```
+
+这里因为当一个类实现了一个接口时，只对其实例部分进行类型检查。
+constructor存在于类的静态部分，所以不在检查的范围内。
+
+取而代之，我们应该直接操作类的`静态`部分。
+看下面的例子， 我们直接操作类静态部分：
+
+```TypeScript
+interface ClockStatic {
+    new (hour: number, minute: number);
+}
+
+class Clock {
+    currentTime: Date;
+    constructor(h: number, m: number) { }
+}
+
+var cs: ClockStatic = Clock;
+var newClock = new cs(7, 30);
+```
+
+# 扩展接口
+
+和类一样，接口也可以相互扩展。
+扩展接口时会将其它接口里的属性拷贝到这个接口里，因此允许你把接口拆分成单独的可重用的组件。
+
+```TypeScript
+interface Shape {
+    color: string;
+}
+
+interface Square extends Shape {
+    sideLength: number;
+}
+
+var square = <Square>{};
+square.color = "blue";
+square.sideLength = 10;
+```
+
+一个接口可以继承多个接口，创建出多个接口的合成接口。
+
+```TypeScript
+interface Shape {
+    color: string;
+}
+
+interface PenStroke {
+    penWidth: number;
+}
+
+interface Square extends Shape, PenStroke {
+    sideLength: number;
+}
+
+var square = <Square>{};
+square.color = "blue";
+square.sideLength = 10;
+square.penWidth = 5.0;
+```
+
+# 混合类型
+
+先前我们提过，接口能够描述JavaScript里丰富的类型。
+因为JavaScript其动态灵活的特点，有时你会希望一个对象可以同时具有上面提到的多种类型。
+
+一个例子就是，一个对象可以同时做为函数和对象使用，并带有额外的属性。
+
+```TypeScript
+interface Counter {
+    (start: number): string;
+    interval: number;
+    reset(): void;
+}
+
+var c: Counter;
+c(10);
+c.reset();
+c.interval = 5.0;
+```
+
+使用第三方库的时候，你可能会像上面那样去定义完整的类型。
