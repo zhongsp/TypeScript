@@ -1,5 +1,5 @@
 {
-    "gitbook": ">=2.0.0",
+    "gitbook": ">2.0.0",
     "title": "TypeScript Handbook",
     "structure": {
         "readme": "./doc/handbook/README.md",
