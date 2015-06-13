@@ -227,7 +227,7 @@ alert(stringNumeric.add(stringNumeric.zeroValue, "test"));
 # 泛型约束
 
 你应该会记得之前的一个例子，我们有时候想操作某类型的一组值，并且我们知道这组值具有什么样的属性。
-在‘loggingIdentity’例子中，我们想访问‘arg’的‘length’属性，但是编译器并不能证明每种类型都有‘length’属性，所以就报错了。
+在`loggingIdentity`例子中，我们想访问`arg`的`length`属性，但是编译器并不能证明每种类型都有`length`属性，所以就报错了。
 
 ```TypeScript
 function loggingIdentity<T>(arg: T): T {
@@ -236,12 +236,12 @@ function loggingIdentity<T>(arg: T): T {
 }
 ```
 
-相比于操作any所有类型，我们想要限制函数去处理任意带有‘.length’属性的所有类型。
+相比于操作any所有类型，我们想要限制函数去处理任意带有`.length`属性的所有类型。
 只要传入的类型有这个属性，我们就允许，就是说至少包含这一属性。
 为此，我们需要列出对于T的约束要求。
 
 为此，我们定义一个接口来描述约束条件。
-创建一个包含‘.length’属性的接口，使用这个接口和`extends`关键字还实现约束：
+创建一个包含`.length`属性的接口，使用这个接口和`extends`关键字还实现约束：
 
 ```TypeScript
 interface Lengthwise {

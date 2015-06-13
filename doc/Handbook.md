@@ -2113,7 +2113,7 @@ findKeeper(Lion).nametag;  // typechecks!
 
 除了传统的面向对象继承方式，还有一种流行的从可重用组件中创建类的方式，就是通过联合一个简单类的代码。你可能在Scala这样的语言里对mixins已经熟悉了，它在JavaScript中也是很流行的。
 
-### <a name="8.1"></a>Mixin 例子
+### <a name="8.1"></a>混入示例
 
 下面的代码演示了如何在TypeScript里使用mixins。后面我们还会解释这段代码是怎么工作的。
 
@@ -2175,7 +2175,9 @@ function applyMixins(derivedCtor: any, baseCtors: any[]) {
 
 ### <a name="8.2"></a>理解这个例子
 
-代码里首先定义了两个类，它们做为mixins。可以看到每个类都只定义了一个特定的行为或能力。稍后我们使用它们来创建一个新类，同时具有这两种能力。
+代码里首先定义了两个类，它们将做为mixins。
+可以看到每个类都只定义了一个特定的行为或功能。
+稍后我们使用它们来创建一个新类，同时具有这两种功能。
 
 ```typescript
 // Disposable Mixin
