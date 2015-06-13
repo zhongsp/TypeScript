@@ -8,3 +8,4 @@
 * [声明合并](./Declaration Merging.md)
 * [类型推论](./Type Inference.md)
 * [类型兼容性](./Type Compatibility.md)
+* [书写.d.ts文件](./Writing Definition Files.md)

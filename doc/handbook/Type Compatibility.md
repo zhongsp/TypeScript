@@ -257,5 +257,5 @@ identity = reverse;  // Okay because (x: any)=>any matches (y: any)=>any
 它们的不同点在于，赋值扩展了子类型兼容，允许给`any`赋值或从`any`取值和允许数字赋值给枚举类型或枚举类型赋值给数字。
 
 语言里的不同地方分别使用了它们之中的机制。
-实际上，类型兼容性是由赋值兼容性来控制的甚至在implements和extends语句里。
+实际上，类型兼容性是由赋值兼容性来控制的甚至在`implements`和`extends`语句里。
 更多信息，请参阅[TypeScript语言规范](http://go.microsoft.com/fwlink/?LinkId=267121).
