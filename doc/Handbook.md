@@ -2251,46 +2251,13 @@ TypeScript有一些独特的概念，有的是因为我们需要描述JavaScript
 
 Typescript里声明可用于三个地方：命名空间/模块，类型或者值。创建命名空间/模块的声明可以通过（.）标识符访问其中的类型。创建类型的声明就是用给定的名字创建相应类型。最后，创建值的声明是在生成的JavaScript里存在的那部分（比如：函数和变量）。
 
-<table>
-  <tbody>
-    <tr>
-      <th>Declaration Type </th>
-      <th>Namespace </th>
-      <th>Type </th>
-      <th>Value </th>
-    </tr>
-    <tr>
-      <td>Module</td>
-      <td>X </td>
-      <td></td>
-      <td>X </td>
-    </tr>
-    <tr>
-      <td>Class</td>
-      <td></td>
-      <td>X </td>
-      <td>X </td>
-    </tr>
-    <tr>
-      <td>Interface</td>
-      <td></td>
-      <td>X </td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Function</td>
-      <td></td>
-      <td></td>
-      <td>X </td>
-    </tr>
-    <tr>
-      <td>Variable</td>
-      <td></td>
-      <td></td>
-      <td>X </td>
-    </tr>
-  </tbody>
-</table>
+| Declaration Type | Namespace | Type | Value |
+|------------------|:---------:|:----:|:-----:|
+| Module           |     X     |      |   X   |
+| Class            |           |   X  |   X   |
+| Interface        |           |   X  |       |
+| Function         |           |      |   X   |
+| Variable         |           |      |   X   |
 
 理解每个声明创建了什么，有助于理解当声明合并时什么东西被合并了。
 
@@ -2379,7 +2346,7 @@ module Animals {
 
 除了这些合并外，你还需要了解非导出成员是如何处理的。非导出成员仅在其原始存在于的模块（未合并的）之内可见。这就是说合并之后，从其它模块合并进来的成员无法访问非导出成员了。
 
-看下例：
+下例提供了更清晰的说明：
 
 ```typescript
 module Animal {
@@ -2458,7 +2425,7 @@ module Color {
 }
 ```
 
-### <a name="9.5"></a>无效的合并
+### <a name="9.5"></a>非法的合并
 
 并不是所有的合并都被允许。现在，类不能与类合并，变量与类型不能合并，接口与类不能合并。想要模仿类的合并，请参考[Mixins in TypeScript](https://typescript.codeplex.com/wikipage?title=Mixins%20in%20TypeScript&referringTitle=Declaration%20Merging)。
 
