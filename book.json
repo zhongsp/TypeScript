@@ -1,5 +1,8 @@
 {
+    "gitbook": ">=2.0.0",
+    "title": "TypeScript Handbook",
     "structure": {
-        "readme": "./doc/handbook/README.md"
+        "readme": "./doc/handbook/README.md",
+        "summary": "./doc/handbook/SUMMARY.md"
     }
 }
