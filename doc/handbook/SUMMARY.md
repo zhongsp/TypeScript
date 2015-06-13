@@ -1,4 +1,4 @@
-* [基础类型](./Basic Types.md)
+* [基础类型](./doc/handbook/Basic Types.md)
 * [接口](./Interfaces.md)
 * [类](./Classes.md)
 * [命名空间和模块](./Modules.md)
