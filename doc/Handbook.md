@@ -1485,7 +1485,8 @@ TypeScript为JavaScript函数添加了额外的功能，让我们可以更容易
 
 ### <a name="5.1"></a>Functions
 
-和JavaScript一样，TypeScript函数可以创建有名字的函数和匿名函数。你可以随意选择适合应用程序的方式，不论是定义一系列API函数还是只使用一次的函数。
+和JavaScript一样，TypeScript函数可以创建有名字的函数和匿名函数。
+你可以随意选择适合应用程序的方式，不论是定义一系列API函数还是只使用一次的函数。
 
 通过下面的例子可以迅速回想起这两种JavaScript中的函数：
 
@@ -1513,7 +1514,7 @@ function addToZ(x, y) {
 
 #### <a name="5.2.1"></a>为函数定义类型
 
-让我们为上面那个函数例子添加类型：
+让我们为上面那个函数添加类型：
 
 ```typescript
 function add(x: number, y: number): number {
@@ -1560,11 +1561,15 @@ var myAdd: (baseValue:number, increment:number) => number =
     function(x, y) { return x + y; };
 ```
 
-这叫做‘按上下文归类’，是类型推论的一种。它帮助我们更好地为程序指定类型。
+这叫做‘按上下文归类’，是类型推论的一种。
+它帮助我们更好地为程序指定类型。
 
 ### <a name="5.3"></a>可选参数和默认参数
 
-不同于JavaScript，TypeScript里每个函数参数都是必须的。这并不是说参数一定是个非‘null’值，而是编译器检查用户是否为每个参数都传入了值。编译器还要求只能传递指定的参数，也就是说参数的数量也是固定的。
+不同于JavaScript，TypeScript里每个函数参数都是必须的。
+这并不是指参数一定是个非`null`值，而是编译器检查用户是否为每个参数都传入了值。
+编译器还会假设只有这些参数会被传递进函数。
+简短地说，传递给函数的参数数量必须与函数期望的参数数量一致。
 
 ```typescript
 function buildName(firstName: string, lastName: string) {
@@ -1675,9 +1680,12 @@ var pickedCard = cardPicker();
 alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 ```
 
-执行这个例子会报错。因为createCardPicker返回的函数里的‘this’被设置成了‘window’而不是‘deck’。这里没有对‘this’进行动态绑定因此为window。（注意在严格模式下，会是undefined而不是window）。
+如果我们运行这个程序，会发现它并没有弹出对话框而是报错了。
+因为`createCardPicker`返回的函数里的`this`被设置成了`window`而不是`deck`对象。
+当你调用`cardPicker()`时会发生这种情况。这里没有对`this`进行动态绑定因此为window。（注意在严格模式下，会是undefined而不是window）。
 
-为了解决这个问题，我们可以在函数被返回时就绑好正确的‘this’。这样的话，无论之后怎么使用它，都会引用绑定的‘deck’对象。
+为了解决这个问题，我们可以在函数被返回时就绑好正确的`this`。
+这样的话，无论之后怎么使用它，都会引用绑定的‘deck’对象。
 
 我们把函数表达式变为使用lambda表达式（ () => {} ）。这样就会在函数创建的时候就指定了‘this’值，而不是在函数调用的时候。
 
@@ -1702,11 +1710,12 @@ var pickedCard = cardPicker();
 alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 ```
 
-为了解更多关于‘this’的信息，请阅读Yahuda Katz的[Understanding JavaScript Function Invocation and “this”](http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/).
+为了解更多关于`this`的信息，请阅读Yahuda Katz的[Understanding JavaScript Function Invocation and "this"](http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/)。
 
 ### <a name="5.6"></a>重载
 
-JavaScript本身是个动态语言。JavaScript里函数根据传入不同的参数而返回不同类型的数据是很常见的。
+JavaScript本身是个动态语言。
+JavaScript里函数根据传入不同的参数而返回不同类型的数据是很常见的。
 
 ```typescript
 var suits = ["hearts", "spades", "clubs", "diamonds"];
@@ -1764,11 +1773,15 @@ var pickedCard2 = pickCard(15);
 alert("card: " + pickedCard2.card + " of " + pickedCard2.suit);
 ```
 
-这样改变后，重载的函数在调用的时候会进行正确的类型检查。
+这样改变后，重载的`pickCard`函数在调用的时候会进行正确的类型检查。
 
-为了让编译器能够选择正确的检查类型，它与JavaScript里的处理流程相似。它查找重载列表，尝试使用第一个重载定义。如果匹配的话就使用这个。因此，在定义重载的时候，一定要把最精确的定义放在最前面。
+为了让编译器能够选择正确的检查类型，它与JavaScript里的处理流程相似。
+它查找重载列表，尝试使用第一个重载定义。
+如果匹配的话就使用这个。
+因此，在定义重载的时候，一定要把最精确的定义放在最前面。
 
-注意，‘function pickCard(x): any’并不是重载列表的一部分，因此这里只有两个重载：一个是接收对象另一个接收数字。以其它参数调用‘pickCard’会产生错误。
+注意，`function pickCard(x): any`并不是重载列表的一部分，因此这里只有两个重载：一个是接收对象另一个接收数字。
+以其它参数调用`pickCard`会产生错误。
 
 ## <a name="6"></a>泛型
 
