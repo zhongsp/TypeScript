@@ -1,6 +1,8 @@
 # TypeScript
 TypeScript is a superset of JavaScript that compiles to clean JavaScript output.  http://www.typescriptlang.org
 
+[TypeScript手册中文版 - Published with GitBook](http://zhongsp.gitbooks.io/typescript-handbook/content/)
+
 **Beyond Handbook && Latest features**
 
 * [tsconfig.json](./doc/tsconfig.json.md) (TypeScript 1.5)
