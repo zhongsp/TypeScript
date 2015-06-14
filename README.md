@@ -7,6 +7,7 @@ TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
 
 * [tsconfig.json](./doc/tsconfig.json.md) (TypeScript 1.5)
 * [命名空间 - Namespace](./doc/namespace.md) (TypeScript 1.5)
+* [let和const](./doc/let_and_const.md) (TypeScript 1.4)
 * [元组类型 - Tuple Types](./doc/tuple_types.md) (TypeScript 1.3) 
 * [受保护的成员 - Protected members](./doc/protected.md) (TypeScript 1.3) 
 
