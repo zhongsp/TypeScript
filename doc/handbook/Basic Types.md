@@ -107,7 +107,7 @@ alert(colorName);
 
 # 任意值
 
-有时，我们可能会想要给在编写程序时并不清楚的变量指定其类型。
+有时，我们可能会想要为那些在编写程序阶段还不清楚其类型的变量指定一个类型。
 这些值可能来自于动态的内容，比如来自用户或第三方代码库。
 这种情况下，我们不希望类型检查器对这些值进行检查或者说让它们直接通过编译阶段的检查。
 那么我们可以使用`any`类型来标记这些变量：
@@ -119,6 +119,16 @@ notSure = false; // okay, definitely a boolean
 ```
 
 在对现有代码进行改写的时候，`any`类型是十分有用的，它允许你在编译时可选择地包含或移除类型检查。
+你可能认为`Object`有差不多的作用，就像它在其它语言中那样。
+但是`Object`类型的变量只是允许你给它赋任意值 -- 但是你不像在它上面调用任意方法，就算它真的包含了这些方法：
+
+```TypeScript
+var notSure: any = 4;
+notSure.ifItExists(); // okay, ifItExists might exist at runtime
+notSure.toFixed(); // okay, toFixed exists (but the compiler doesn't check)
+var prettySure: Object = 4;
+prettySure.toFixed(); // Error: Property 'toFixed' doesn't exist on type 'Object'. 
+```
 
 当你只知道数据的类型的一部分时，`any`类型也是有用的。
 比如，你有一个数组，它包含了不同的数据类型：
@@ -131,7 +141,7 @@ list[1] = 100;
 
 # 空值
 
-某种程度上来说，`void`类型与`any`类型是相反的，它表示没有任何类型。
+某种程度上来说，`void`类型像是与`any`类型相反，它表示没有任何类型。
 当一个函数没有返回值时，你通常会见到其返回值类型是`void`：
 
 ```TypeScript
@@ -139,3 +149,10 @@ function warnUser(): void {
     alert("This is my warning message");
 }
 ```
+
+声明一个`void`类型的变量没有什么大用，因为你只能为它赋予`undefined`和`null`：
+
+```TypeScript
+var unusable: void = undefined;
+```
+

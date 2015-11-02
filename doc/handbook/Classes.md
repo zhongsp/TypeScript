@@ -1,7 +1,7 @@
 # 介绍
 
 传统的JavaScript程序使用函数和基于原型的继承来创建可重用的组件，但这对于熟悉使用面向对象方式的程序员来说有些棘手，因为他们用的是基于类的继承并且对象是从类构建出来的。
-从JavaScript的下个版本ECMAScript6开始，JavaScript程序将可以使用这种基于类的面向对象方法。
+从ECMAScript 2015，也就是ECMAScript 6，JavaScript程序将可以使用这种基于类的面向对象方法。
 在TypeScript里，我们允许开发者现在就使用这些特性，并且编译后的JavaScript可以在所有主流浏览器和平台上运行，而不需要等到下个JavaScript版本。
 
 # 类
@@ -43,14 +43,14 @@ class Animal {
     name:string;
     constructor(theName: string) { this.name = theName; }
     move(distanceInMeters: number = 0) {
-        alert(`${this.name} moved ${distanceInMeters}m.`);
+        console.log(`${this.name} moved ${distanceInMeters}m.`);
     }
 }
 
 class Snake extends Animal {
     constructor(name: string) { super(name); }
     move(distanceInMeters = 5) {
-        alert("Slithering...");
+        console.log("Slithering...");
         super.move(distanceInMeters);
     }
 }
@@ -58,7 +58,7 @@ class Snake extends Animal {
 class Horse extends Animal {
     constructor(name: string) { super(name); }
     move(distanceInMeters = 45) {
-        alert("Galloping...");
+        console.log("Galloping...");
         super.move(distanceInMeters);
     }
 }
@@ -73,8 +73,16 @@ tom.move(34);
 这个例子展示了TypeScript中继承的一些特征，与其它语言类似。
 我们使用`extends`来创建子类。你可以看到`Horse`和`Snake`类是基类`Animal`的子类，并且可以访问其属性和方法。
 
-这个例子也说明了，在子类里可以重写父类的方法。
+这个例子演示了如何在子类里可以重写父类的方法。
 `Snake`类和`Horse`类都创建了`move`方法，重写了从`Animal`继承来的`move`方法，使得`move`方法根据不同的类而具有不同的功能。
+注意，即使`tom`被声明为`Animal`类型，因为它的值是`Horse`，`tom.move(34)`调用`Horse`里的重写方法：
+
+```
+Slithering...
+Sammy the Python moved 5m.
+Galloping...
+Tommy the Palomino moved 34m.
+```
 
 # 公共，私有与受保护的修饰符
 
@@ -84,15 +92,15 @@ tom.move(34);
 如果你对其它语言中的类比较了解，就会注意到我们在之前的代码里并没有使用`public`来做修饰；例如，C#要求必须明确地使用`public`指定成员是可见的。
 在TypeScript里，每个成员默认为`public`的。
 
-你仍然可以使用`public`明确地指定其访问类型，并且这确实是一个最佳实践。
+你也可以明确的将一个成员标记成`public`。
 我们可以用下面的方式来重写上面的`Animal`类：
 
 ```TypeScript
 class Animal {
     public name: string;
-    constructor(theName: string) { this.name = theName; }
+    public constructor(theName: string) { this.name = theName; }
     move(distanceInMeters: number) {
-        alert(`${this.name} moved ${distanceInMeters}m.`);
+        console.log(`${this.name} moved ${distanceInMeters}m.`);
     }
 }
 ```
@@ -111,7 +119,7 @@ new Animal("Cat").name; // Error: 'name' is private;
 ```
 
 TypeScript使用的是结构性类型系统。
-当我们比较两种不同的类型时，并不在乎它们从哪儿来的，如果它们中每个成员的类型都是兼容的，我们就认为它们的类型是兼容的。
+当我们比较两种不同的类型时，并不在乎它们从哪儿来的，如果所有成员的类型都是兼容的，我们就认为它们的类型是兼容的。
 
 然而，当我们比较带有`private`或`protected`成员的类型的时候，情况就不同了。
 如果其中一个类型里包含一个`private`成员，那么只有当另外一个类型中也存在这样一个`private`成员， 并且它们是来自同一处声明时，我们才认为这两个类型是兼容的。
@@ -189,7 +197,7 @@ console.log(howard.name); // error
 class Animal {
     constructor(private name: string) { }
     move(distanceInMeters: number) {
-        alert(`${this.name} moved ${distanceInMeters}m.`);
+        console.log(`${this.name} moved ${distanceInMeters}m.`);
     }
 }
 ```
@@ -216,7 +224,7 @@ class Employee {
 var employee = new Employee();
 employee.fullName = "Bob Smith";
 if (employee.fullName) {
-    alert(employee.fullName);
+    console.log(employee.fullName);
 }
 ```
 
@@ -241,7 +249,7 @@ class Employee {
             this._fullName = newName;
         }
         else {
-            alert("Error: Unauthorized update of employee!");
+            console.log("Error: Unauthorized update of employee!");
         }
     }
 }
@@ -255,7 +263,7 @@ if (employee.fullName) {
 
 我们可以修改一下密码，来验证一下存取器是否是工作的。当密码不对时，会提示我们没有权限去修改employee。
 
-注意：若要使用存取器，要求设置编译器输出目标为ECMAScript 5。
+注意：若要使用存取器，要求设置编译器输出目标为ECMAScript 5或更高。
 
 # 静态属性
 
@@ -279,8 +287,8 @@ class Grid {
 var grid1 = new Grid(1.0);  // 1x scale
 var grid2 = new Grid(5.0);  // 5x scale
 
-alert(grid1.calculateDistanceFromOrigin({x: 10, y: 10}));
-alert(grid2.calculateDistanceFromOrigin({x: 10, y: 10}));
+console.log(grid1.calculateDistanceFromOrigin({x: 10, y: 10}));
+console.log(grid2.calculateDistanceFromOrigin({x: 10, y: 10}));
 ```
 
 # 高级技巧
@@ -303,7 +311,7 @@ class Greeter {
 
 var greeter: Greeter;
 greeter = new Greeter("world");
-alert(greeter.greet());
+console.log(greeter.greet());
 ```
 
 在这里，我们写了`var greeter: Greeter`，意思是`Greeter`类实例的类型是`Greeter`。
@@ -326,7 +334,7 @@ var Greeter = (function () {
 
 var greeter;
 greeter = new Greeter("world");
-alert(greeter.greet());
+console.log(greeter.greet());
 ```
 
 上面的代码里，`var Greeter`将被赋值为构造函数。
@@ -352,12 +360,12 @@ class Greeter {
 
 var greeter1: Greeter;
 greeter1 = new Greeter();
-alert(greeter1.greet());
+console.log(greeter1.greet());
 
 var greeterMaker: typeof Greeter = Greeter;
 greeterMaker.standardGreeting = "Hey there!";
 var greeter2:Greeter = new greeterMaker();
-alert(greeter2.greet());
+console.log(greeter2.greet());
 ```
 
 这个例子里，`greeter1`与之前看到的一样。
