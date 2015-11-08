@@ -1,6 +1,6 @@
 # 介绍
 
-TypeScript的核心原则之一是对值所具有的`shape`进行类型检查。
+TypeScript的核心原则之一是对值所具有的*shape*进行类型检查。
 它有时被称做“鸭式辨型法”或“结构性子类型化”。
 在TypeScript里，接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约。
 
@@ -73,7 +73,7 @@ var mySquare = createSquare({color: "black"});
 带有可选属性的接口与普通的接口定义差不多，只是在可选属性名字定义的后面加一个`?`符号。
 
 可选属性的好处之一是可以对可能存在的属性进行预定义，好处之二是可以捕获引用了不存在的属性时的错误。
-比如，我们故意将拼写错误的属性名传入`createSquare`，就会得到一个错误提示。
+比如，我们故意将`createSquare`里的`color`属性名拼错，就会得到一个错误提示：
 
 ```TypeScript
 interface SquareConfig {
@@ -84,6 +84,7 @@ interface SquareConfig {
 function createSquare(config: SquareConfig): {color: string; area: number} {
   var newSquare = {color: "white", area: 100};
   if (config.color) {
+    // Error: Property 'collor' does not exist on type 'SquareConfig'
     newSquare.color = config.collor;  // Type-checker can catch the mistyped name here
   }
   if (config.width) {
@@ -101,7 +102,7 @@ var mySquare = createSquare({color: "black"});
 除了描述带有属性的普通对象外，接口也可以描述函数类型。
 
 为了使用接口表示函数类型，我们需要给接口定义一个调用签名。
-它就像是一个只有参数列表和返回值类型的函数定义。
+它就像是一个只有参数列表和返回值类型的函数定义。参数列表里的每个参数都需要名字和类型。
 
 ```TypeScript
 interface SearchFunc {
@@ -130,7 +131,7 @@ mySearch = function(source: string, subString: string) {
 
 ```TypeScript
 var mySearch: SearchFunc;
-mySearch = function(src: string, sub: string) {
+mySearch = function(src: string, sub: string): boolean {
   var result = src.search(sub);
   if (result == -1) {
     return false;
@@ -142,8 +143,22 @@ mySearch = function(src: string, sub: string) {
 ```
 
 函数的参数会逐个进行检查，要求对应位置上的参数类型是兼容的。
+如果你不想指定类型，Typescript的类型系统会推断出参数类型，因为函数直接赋值给了`SearchFunc`类型变量。
 函数的返回值类型是通过其返回值推断出来的（此例是`false`和`true`）。
 如果让这个函数返回数字或字符串，类型检查器会警告我们函数的返回值类型与`SearchFunc`接口中的定义不匹配。
+
+```TypeScript
+var mySearch: SearchFunc;
+mySearch = function(src, sub) {
+    var result = src.search(sub);
+    if (result == -1) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+```
 
 # 数组类型
 
@@ -163,12 +178,14 @@ myArray = ["Bob", "Fred"];
 数组可以同时使用这两种索引类型，但是有一个限制，数字索引返回值的类型必须是字符串索引返回值的类型的子类型。
 
 索引签名能够很好的描述数组和`dictionary`模式，它们也要求所有属性要与返回值类型相匹配。
-下面的例子里，length属性与一般的索引返回值类型不匹配，所以类型检查器给出一个错误提示：
+因为字符串索引表明`obj.property`和`obj["property"]`两种形式都可以。
+下面的例子里，`length`的类型与字符串索引类型不匹配，所以类型检查器给出一个错误提示：
 
 ```TypeScript
-interface Dictionary {
-  [index: string]: string;
-  length: number;    // error, the type of `length` is not a subtype of the indexer
+interface NumberDictionary {
+  [index: string]: number;
+  length: number;    // 可以，length是number类型
+  name: string       // 错误，`name`的类型不是索引类型的子类型
 }
 ```
 
@@ -215,11 +232,11 @@ class Clock implements ClockInterface {
 你会注意到，当你用构造器签名去定义一个接口并试图定义一个类去实现这个接口时会得到一个错误：
 
 ```TypeScript
-interface ClockInterface {
+interface ClockConstructor {
     new (hour: number, minute: number);
 }
 
-class Clock implements ClockInterface {
+class Clock implements ClockConstructor {
     currentTime: Date;
     constructor(h: number, m: number) { }
 }
@@ -228,27 +245,45 @@ class Clock implements ClockInterface {
 这里因为当一个类实现了一个接口时，只对其实例部分进行类型检查。
 constructor存在于类的静态部分，所以不在检查的范围内。
 
-取而代之，我们应该直接操作类的`静态`部分。
-看下面的例子， 我们直接操作类静态部分：
+因此，我们应该直接操作类的静态部分。
+看下面的例子，我们定义了两个接口，`ClockConstructor`为构造函数所用和`ClockInterface`为实例方法所用。
+为了方便我们定义一个构造函数`createClock`，它用传入的类型创建实例。
 
 ```TypeScript
-interface ClockStatic {
-    new (hour: number, minute: number);
+interface ClockConstructor {
+    new (hour: number, minute: number): ClockInterface;
+}
+interface ClockInterface {
+    tick();
 }
 
-class Clock {
-    currentTime: Date;
+function createClock(ctor: ClockConstructor, hour: number, minute: number): ClockInterface {
+    return new ctor(hour, minute);
+}
+
+class DigitalClock implements ClockInterface {
     constructor(h: number, m: number) { }
+    tick() {
+        console.log("beep beep");
+    }
+}
+class AnalogClock implements ClockInterface {
+    constructor(h: number, m: number) { }
+    tick() {
+        console.log("tick tock");
+    }
 }
 
-var cs: ClockStatic = Clock;
-var newClock = new cs(7, 30);
+var digital = createClock(DigitalClock, 12, 17);
+var analog = createClock(AnalogClock, 7, 32);
 ```
+
+因为`createClock`的第一个参数是`ClockConstructor`类型，在`createClock(AnalogClock, 12, 17)`里，会检查`AnalogClock`是否符合构造函数签名。
 
 # 扩展接口
 
 和类一样，接口也可以相互扩展。
-扩展接口时会将其它接口里的属性拷贝到这个接口里，因此允许你把接口拆分成单独的可重用的组件。
+这让我们能够从一个接口里复制成员到另一个接口里，可以更灵活地将接口分割到可重用的模块里。
 
 ```TypeScript
 interface Shape {
@@ -305,4 +340,44 @@ c.reset();
 c.interval = 5.0;
 ```
 
-使用第三方库的时候，你可能会像上面那样去定义完整的类型。
+在使用JavaScript第三方库的时候，你可能需要像上面那样去完整地定义类型。
+
+# 接口继承类
+
+当接口继承了一个类类型时，它会继承类的成员但不包括其实现。
+就好像接口声明了所有类中存在的成员，但并没有提供具体实现一样。
+接口同样会继承到类的private和protected成员。
+这意味着当你创建了一个接口继承了一个拥有私有或受保护的成员的类时，这个接口类型只能被这个类或其子类所实现（implement）。
+
+这是很有用的，当你有一个很深层次的继承，但是只想你的代码只是针对拥有特定属性的子类起作用的时候。子类除了继承自基类外与基类没有任何联系。
+例：
+
+```TypeScript
+class Control {  
+    private state: any; 
+}
+
+interface SelectableControl extends Control {  
+    select(): void;  
+}
+
+class Button extends Control {  
+    select() { }  
+}
+class TextBox extends Control {  
+    select() { }  
+}
+class Image extends Control {  
+}
+class Location {  
+    select() { }  
+}
+```
+
+在上面的例子里，`SelectableControl`包含了`Control`的所有成员，包括私有成员`state`。
+因为`state`是私有成员，所以只能够是`Control`的子类们才能实现`SelectableControl`接口。
+因为只有`Control`的子类才能够拥有一个声明于`Control`的私有成员`state`，这对私有成员的兼容性是必需的。
+
+在`Control`类内部，是允许通过`SelectableControl`的实例来访问私有成员`state`的。
+实际上，`SelectableControl`就像`Control`一样，并拥有一个`select`方法。
+`Button`和`TextBox`类是`SelectableControl`的子类（类为它们都继承自`Control`并有`select`方法），但`Image`和`Location`类并不是这样的。
