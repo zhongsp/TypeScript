@@ -1,523 +1,40 @@
+> **关于术语的一点说明:**
+必须要注意一点在TypeScript 1.5里，术语名称已经发生了变化。
+"Internal modules" 现在叫做 "namespaces"。
+"External modules" 现在则简称为 "modules"，为了与[ECMAScript 2015](http://www.ecma-international.org/ecma-262/6.0/)里的术语保持一致，(也就是说 `module X {` 相当于现在推荐的写法 `namespace X {`)。
+
 # 介绍
 
-这篇文章将概括介绍在TypeScript里组织代码的各种方法。
-我们将介绍命名空间（之前叫做“内部模块”）和模块（之前叫做“外部模块”），并且会讨论它们适合使用于什么样的场合，以及怎样使用它们。
-我们也将探讨一些命名空间和模块的高级用法，如怎么使用外部模块，并列出一些在使用上常见的陷井。
+这篇文章将概括介绍在TypeScript里使用模块与命名空间组织代码的方法。
+我们也会谈及命名空间和模块的高级使用场景，并指出在使用它们的过程中常见的陷井。
 
-## 关于术语的一个注意事项
+查看[模块](./Modules.md)章节了解关于模块的更多信息。
+查看[命名空间](./Namespaces.md)章节了解关于命名空间的更多信息。
 
-我们刚刚提及了“内部模块”和“外部模块”。
-如果你觉得对这个术语似曾相识，那么一定要注意在TypeScript1.5里，它们的命名发生了变化。
-“内部模块”变成了“命名空间”。
-“外部模块”变成了简单的“模块”，这是为了与ECMAScript 6中的术语保持一致。
 
-并且，任何使用`module`关键字声明内部模块的地方，都可以使用`namespace`关键字来代替。
+# 使用命名空间
 
-这样就避免了新用户把它们搞混了。
+命名空间是在全局命名空间里的一个有名字的JavaScript普通对象。
+这令命名空间十分容易使用。
+它们可以在多文件中同时使用，并通过`--outFile`结合在一起。
+命名空间是帮助你组织Web应用的好助手，可以把所有依赖都放在页面的`<script>`里。
 
-## 第一步
+但就像其它全局命名空间污染一样，这很难去了解组件之间的依赖关系，尤其是在大型的应用中。
 
-我们先来写一段程序并将在整篇文章中都使用这个例子。
-我们定义几个简单的字符串验证器，假设你会使用它们来验证表单里的用户输入或验证外部数据。
+# 拥抱模块化
 
-##### 所有的验证器都放在一个文件里
+像命名空间一样，模块可以包含代码和声明。
+不同的是模块可以*声明*它的依赖。
 
-```TypeScript
-interface StringValidator {
-    isAcceptable(s: string): boolean;
-}
+模块也会把依赖添加到模块加载器上（例如CommonJs/requirejs）。
+对于小型的JS应用来说这可能是不必要的，但是对于大型应用，这一点点的花费会带来长久的模块化和可维护性上的便利。
+模块也提供了更好的代码重用，更强的封闭性和更好的支持用工具进行优化。
 
-var lettersRegexp = /^[A-Za-z]+$/;
-var numberRegexp = /^[0-9]+$/;
+对于Node.js应用来说，模块是默认的并组是推荐的组织代码的方式。
 
-class LettersOnlyValidator implements StringValidator {
-    isAcceptable(s: string) {
-        return lettersRegexp.test(s);
-    }
-}
+从ECMAScript 2015开始，模块成为了语言内置的部分，应该会被所有正常的解释引擎所支持。
 
-class ZipCodeValidator implements StringValidator {
-    isAcceptable(s: string) {
-        return s.length === 5 && numberRegexp.test(s);
-    }
-}
-
-// Some samples to try
-var strings = ['Hello', '98052', '101'];
-// Validators to use
-var validators: { [s: string]: StringValidator; } = {};
-validators['ZIP code'] = new ZipCodeValidator();
-validators['Letters only'] = new LettersOnlyValidator();
-// Show whether each string passed each validator
-strings.forEach(s => {
-    for (var name in validators) {
-        console.log('"' + s + '" ' + (validators[name].isAcceptable(s) ? ' matches ' : ' does not match ') + name);
-    }
-});
-```
-
-## 使用命名空间
-
-随着更多验证器的加入，我们需要一种手段来组织代码，以便于在记录它们的类型的同时还不用担心与其它对象产生命名冲突。
-因此，我们把验证器包裹到一个命名空间内，而不是把它们放在全局命名空间下。
-
-下面的例子里，把所有与验证器相关的类型都放到一个叫做`Validation`的命名空间里。
-因为我们想让这些接口和类在命名空间之外也是可访问的，所以需要使用`export`。
-相反的，变量`lettersRegexp`和`numberRegexp`是实现的细节，不需要导出，因此它们在命名空间外是不能访问的。
-在文件末尾的测试代码里，由于是在命名空间之外访问，因此需要限定类型的名称，比如`Validation.LettersOnlyValidator`。
-
-##### 使用命名空间的验证器
-
-```TypeScript
-namespace Validation {
-    export interface StringValidator {
-        isAcceptable(s: string): boolean;
-    }
-
-    var lettersRegexp = /^[A-Za-z]+$/;
-    var numberRegexp = /^[0-9]+$/;
-
-    export class LettersOnlyValidator implements StringValidator {
-        isAcceptable(s: string) {
-            return lettersRegexp.test(s);
-        }
-    }
-
-    export class ZipCodeValidator implements StringValidator {
-        isAcceptable(s: string) {
-            return s.length === 5 && numberRegexp.test(s);
-        }
-    }
-}
-
-// Some samples to try
-var strings = ['Hello', '98052', '101'];
-// Validators to use
-var validators: { [s: string]: Validation.StringValidator; } = {};
-validators['ZIP code'] = new Validation.ZipCodeValidator();
-validators['Letters only'] = new Validation.LettersOnlyValidator();
-// Show whether each string passed each validator
-strings.forEach(s => {
-    for (var name in validators) {
-        console.log('"' + s + '" ' + (validators[name].isAcceptable(s) ? ' matches ' : ' does not match ') + name);
-    }
-});
-```
-
-# 分离成多文件
-
-当应用变得越来越大时，我们需要将代码分离到不同的文件中以便于维护。
-
-## 多文件中的命名空间
-
-现在，我们把`Validation`命名空间分割成多个文件。
-尽管是不同的文件，它们仍是同一个命名空间，并且在使用的时候就如同它们在一个文件中定义的一样。
-因为不同文件之间存在依赖关系，所以我们加入了引用标签来告诉编译器文件之间的关联。
-我们的测试代码保持不变。
-
-##### Validation.ts
-
-```TypeScript
-namespace Validation {
-    export interface StringValidator {
-        isAcceptable(s: string): boolean;
-    }
-}
-```
-
-##### LettersOnlyValidator.ts
-
-```TypeScript
-/// <reference path="Validation.ts" />
-namespace Validation {
-    var lettersRegexp = /^[A-Za-z]+$/;
-    export class LettersOnlyValidator implements StringValidator {
-        isAcceptable(s: string) {
-            return lettersRegexp.test(s);
-        }
-    }
-}
-```
-
-##### ZipCodeValidator.ts
-
-```TypeScript
-/// <reference path="Validation.ts" />
-namespace Validation {
-    var numberRegexp = /^[0-9]+$/;
-    export class ZipCodeValidator implements StringValidator {
-        isAcceptable(s: string) {
-            return s.length === 5 && numberRegexp.test(s);
-        }
-    }
-}
-```
-
-##### Test.ts
-
-```TypeScript
-/// <reference path="Validation.ts" />
-/// <reference path="LettersOnlyValidator.ts" />
-/// <reference path="ZipCodeValidator.ts" />
-
-// Some samples to try
-var strings = ['Hello', '98052', '101'];
-// Validators to use
-var validators: { [s: string]: Validation.StringValidator; } = {};
-validators['ZIP code'] = new Validation.ZipCodeValidator();
-validators['Letters only'] = new Validation.LettersOnlyValidator();
-// Show whether each string passed each validator
-strings.forEach(s => {
-    for (var name in validators) {
-        console.log('"' + s + '" ' + (validators[name].isAcceptable(s) ? ' matches ' : ' does not match ') + name);
-    }
-});
-```
-
-当涉及到多文件时，我们必须确保所有编译后的代码都被加载了。
-我们有两种方式。
-
-第一种方式，把所有的输入文件编译为一个输出文件，需要使用`--out`标记：
-
-```Shell
-tsc --out sample.js Test.ts
-```
-
-编译器会根据源码里的引用标签自动地对输出进行排序。你也可以单独地指定每个文件。
-
-```Shell
-tsc --out sample.js Validation.ts LettersOnlyValidator.ts ZipCodeValidator.ts Test.ts
-```
-
-第二种方式，我们可以编译每一个文件（默认方式），那么每个源文件都会对应生成一个JavaScript文件。
-然后，在页面上通过`<script>`标签把所有生成的JavaScript文件按正确的顺序引进来，比如：
-
-##### MyTestPage.html（摘录部分）
-
-```html
-<script src="Validation.js" type="text/javascript" />
-<script src="LettersOnlyValidator.js" type="text/javascript" />
-<script src="ZipCodeValidator.js" type="text/javascript" />
-<script src="Test.js" type="text/javascript" />
-```
-
-# 使用模块
-
-TypeScript中同样存在模块的概念。
-模块会在两种情况下被用到：Node.js或require.js。
-对于没有使用Node.js和require.js的应用来说是不需要使用外部模块的，最好使用上面介绍的命名空间的方式来组织代码。
-
-使用模块时，不同文件之间的关系是通过文件级别的导入和导出来指定的。
-在TypeScript里，任何具有顶级`import`和`export`的文件都会被视为模块。
-
-下面，我们把之前的例子改写成使用模块。
-注意，我们不再使用`module`关键字 - 文件本身会被视为一个模块并以文件名来区分。
-
-引用标签用`import`语句来代替，指明了模块之前的依赖关系。
-`import`语句有两部分：模块在当前文件中的名字，`require`关键字指定了依赖模块的路径：
-
-```typescript
-import someMod = require('someModule');
-```
-
-我们通过顶级的`export`关键字指出了哪些对象在模块外是可见的，如同使用`export`定义命名空间的公共接口一样。
-
-为了编译，我们必须在命令行上指明生成模块的目标类型。对于Node.js，使用`--module commonjs`。对于require.js，使用`--module amd`。比如：
-
-```Shell
-ts --module commonjs Test.ts
-```
-
-编译的时候，每个外部模块会变成一个单独的`.js`文件。
-如同引用标签，编译器会按照`import`语句编译相应的文件。
-
-##### Validation.ts
-
-```TypeScript
-export interface StringValidator {
-    isAcceptable(s: string): boolean;
-}
-```
-
-##### LettersOnlyValidator.ts
-
-```TypeScript
-import validation = require('./Validation');
-var lettersRegexp = /^[A-Za-z]+$/;
-export class LettersOnlyValidator implements validation.StringValidator {
-    isAcceptable(s: string) {
-        return lettersRegexp.test(s);
-    }
-}
-```
-
-##### ZipCodeValidator.ts
-
-```TypeScript
-import validation = require('./Validation');
-var numberRegexp = /^[0-9]+$/;
-export class ZipCodeValidator implements validation.StringValidator {
-    isAcceptable(s: string) {
-        return s.length === 5 && numberRegexp.test(s);
-    }
-}
-```
-
-##### Test.ts
-
-```TypeScript
-import validation = require('./Validation');
-import zip = require('./ZipCodeValidator');
-import letters = require('./LettersOnlyValidator');
-
-// Some samples to try
-var strings = ['Hello', '98052', '101'];
-// Validators to use
-var validators: { [s: string]: validation.StringValidator; } = {};
-validators['ZIP code'] = new zip.ZipCodeValidator();
-validators['Letters only'] = new letters.LettersOnlyValidator();
-// Show whether each string passed each validator
-strings.forEach(s => {
-    for (var name in validators) {
-        console.log('"' + s + '" ' + (validators[name].isAcceptable(s) ? ' matches ' : ' does not match ') + name);
-    }
-});
-```
-
-## 生成模块代码
-
-根据编译时指定的目标模块类型，编译器会生成相应的代码，或者是适合Node.js（commonjs）或者是适合require.js（AMD）模块加载系统的代码。
-想要了解更多关于`define`和`require`函数的使用方法，请阅读相应模块加载器的说明文档。
-
-这个例子展示了在导入导出阶段使用的名字是怎么转换成模块加载代码的。
-
-##### SimpleModule.ts
-
-```TypeScript
-import m = require('mod');
-export var t = m.something + 1;
-```
-
-##### AMD / RequireJS SimpleModule.js:
-
-```JavaScript
-define(["require", "exports", 'mod'], function(require, exports, m) {
-    exports.t = m.something + 1;
-});
-```
-
-##### CommonJS / Node SimpleModule.js:
-
-```JavaScript
-var m = require('mod');
-exports.t = m.something + 1;
-```
-
-# Export =
-在上面的例子中，使用验证器的时候，每个模块只导出一个值。
-像这种情况，在验证器对象前面再加上限定名就显得累赘了，最好是直接使用一个标识符。
-
-`export =`语法指定了模块导出的单个对象。
-它可以是类，接口，模块，函数或枚举类型。
-当import的时候，直接使用模块导出的标识符，不再需要其它限定名。
-
-下面，我们简化验证器的实现，使用`export =`语法使每个模块导出单一对象。
-这会简化对模块的使用 - 我们可以用`zipValidator`代替`zip.ZipCodeValidator`。
-
-##### Validation.ts
-
-```TypeScript
-export interface StringValidator {
-    isAcceptable(s: string): boolean;
-}
-```
-
-##### LettersOnlyValidator.ts
-
-```TypeScript
-import validation = require('./Validation');
-var lettersRegexp = /^[A-Za-z]+$/;
-class LettersOnlyValidator implements validation.StringValidator {
-    isAcceptable(s: string) {
-        return lettersRegexp.test(s);
-    }
-}
-export = LettersOnlyValidator;
-```
-
-##### ZipCodeValidator.ts
-
-```TypeScript
-import validation = require('./Validation');
-var numberRegexp = /^[0-9]+$/;
-class ZipCodeValidator implements validation.StringValidator {
-    isAcceptable(s: string) {
-        return s.length === 5 && numberRegexp.test(s);
-    }
-}
-export = ZipCodeValidator;
-```
-
-##### Test.ts
-
-```TypeScript
-import validation = require('./Validation');
-import zipValidator = require('./ZipCodeValidator');
-import lettersValidator = require('./LettersOnlyValidator');
-
-// Some samples to try
-var strings = ['Hello', '98052', '101'];
-// Validators to use
-var validators: { [s: string]: validation.StringValidator; } = {};
-validators['ZIP code'] = new zipValidator();
-validators['Letters only'] = new lettersValidator();
-// Show whether each string passed each validator
-strings.forEach(s => {
-    for (var name in validators) {
-        console.log('"' + s + '" ' + (validators[name].isAcceptable(s) ? ' matches ' : ' does not match ') + name);
-    }
-});
-```
-
-# 别名
-
-另一种简化模块操作的方法是使用`import q = x.y.z`给常用的模块起一个短的名字。
-不要与`import x = require('name')`用来加载模块的语法弄混了，这里的语法是为指定的符号创建一个别名。
-你可以用这种方法为任意标识符创建别名，也包括导入的模块中的对象。
-
-##### 创建别名的基本方法
-
-```TypeScript
-namespace Shapes {
-    export namespace Polygons {
-        export class Triangle { }
-        export class Square { }
-    }
-}
-
-import polygons = Shapes.Polygons;
-var sq = new polygons.Square(); // Same as 'new Shapes.Polygons.Square()'
-```
-
-注意，我们并没有使用`require`关键字，而是直接使用导入符号的限定名赋值。
-这与使用`var`相似，但它还适用于类型和导入的具有命名空间含义的符号。
-重要的是，对于值来讲，`import`会生成与原始符号不同的引用，所以改变别名的值并不会影响原始变量的值。
-
-# 可选模块的加载与其它高级加载的场景
-
-有些时候，你只想在某种条件下才去加载一个模块。
-在TypeScript里，我们可以使用下面的方式来实现它以及其它高级加载的场景，直接调用模块加载器而不必担心类型安全问题。
-
-编译器能探测出一个模块是否在生成的JavaScript里被使用到了。
-对于那些只做为类型系统部分使用的模块来讲，不会生成对应`require`代码。
-挑出未使用的引用有益于性能优化，同时也允许可选择性的加载模块。
-
-这种模式的核心是`import id = require('...')`让我们可以访问外部模块导出的类型。
-模块加载是动态调用的（通过`require`），像下面`if`语句展示的那样。
-它利用了挑出对未使用引用的优化，模块只在需要的时候才去加载。
-为了让这种方法可行，通过`import`定义的符号只能在表示类型的位置使用（也就是说那段代码永远不会被编译生成JavaScript）。
-
-为了确保使用正确，我们可以使用`typeof`关键字。
-在要求是类型的位置使用`typeof`关键字时，会得到类型值，在这个例子里得到的是外部模块的类型。
-
-##### Node.js动态模块加载
-
-```TypeScript
-declare var require;
-import Zip = require('./ZipCodeValidator');
-if (needZipValidation) {
-    var x: typeof Zip = require('./ZipCodeValidator');
-    if (x.isAcceptable('.....')) { /* ... */ }
-}
-```
-
-##### require.js动态模块加载
-
-```TypeScript
-declare var require;
-import Zip = require('./ZipCodeValidator');
-if (needZipValidation) {
-    require(['./ZipCodeValidator'], (x: typeof Zip) => {
-        if (x.isAcceptable('...')) { /* ... */ }
-    });
-}
-```
-
-# 使用其它JavaScript库
-
-为了描述不是用TypeScript写的程序库的类型，我们需要对程序库暴露的API进行声明。
-由于大部分程序库只提供少数的顶级对象，命名空间和模块是用来表示它们是一个好办法。
-我们叫它声明因为它不是外部程序的具体实现。
-通常会在`.d.ts`里写这些定义。
-如果你熟悉C/C++，你可以把它们当做`.h`文件。
-让我们看一些例子。
-
-## 外部命名空间
-
-流行的程序库D3在全局对象`d3`里定义它的功能。
-因为这个库通过一个`<script>`标签加载（不是通过模块加载器），它的声明文件使用内部模块来定义它的类型。
-为了让TypeScript编译器识别它的类型，我们使用外部命名空间声明。
-比如，我们可以像下面这样写：
-
-##### D3.d.ts (部分摘录)
-
-<!-- TODO: This is not at all how it's done on DT - do we want to change this? -->
-```TypeScript
-declare namespace d3 {
-    export interface Selectors {
-        select: {
-            (selector: string): Selection;
-            (element: EventTarget): Selection;
-        };
-    }
-
-    export interface Event {
-        x: number;
-        y: number;
-    }
-
-    export interface Base extends Selectors {
-        event: Event;
-    }
-}
-
-declare var d3: D3.Base;
-```
-
-## 外来的模块
-
-在Node.js里，大多数的任务可以通过加载一个或多个模块来完成。
-我们可以使用顶级export声明来为每个模块定义各自的`.d.ts`文件，但全部放在一个大的文件中会更方便。
-为此，我们把模块名用引号括起来，方便之后的import。
-例如：
-
-##### node.d.ts (部分摘录)
-
-```TypeScript
-declare module "url" {
-    export interface Url {
-        protocol?: string;
-        hostname?: string;
-        pathname?: string;
-    }
-
-    export function parse(urlStr: string, parseQueryString?, slashesDenoteHost?): Url;
-}
-
-declare module "path" {
-    export function normalize(p: string): string;
-    export function join(...paths: any[]): string;
-    export var sep: string;
-}
-```
-
-现在我们可以`///<reference path="node.d.ts"/>`, 然后使用`import url = require('url');`加载这个模块。
-
-```TypeScript
-/// <reference path="node.d.ts"/>
-import url = require("url");
-var myUrl = url.parse("http://www.typescriptlang.org");
-```
+对于新的项目来说模块应该是首选组织代码的形式。
 
 # 命名空间和模块的陷井
 
@@ -529,7 +46,7 @@ var myUrl = url.parse("http://www.typescriptlang.org");
 要理解这之间的不同，我们首先应该弄清编译器定位模块类型信息的3种方法。
 
 首先，根据`import x = require(...);`声明查找`.ts`文件。
-这个文件应该是使用了顶级import或export声明的具体实现文件。
+这个文件应该是使用了顶层import或export声明的具体实现文件。
 
 其次，与前一步相似，去查找`.d.ts`文件，不同的是它不是具体实现文件而是声明文件（同样具有顶级的import或export声明）。
 
@@ -537,7 +54,7 @@ var myUrl = url.parse("http://www.typescriptlang.org");
 
 ##### myModules.d.ts
 
-```TypeScript
+```ts
 // In a .d.ts file or .ts file that is not a module:
 declare module "SomeModule" {
     export function fn(): string;
@@ -546,7 +63,7 @@ declare module "SomeModule" {
 
 ##### myOtherModule.ts
 
-```TypeScript
+```ts
 /// <reference path="myModules.d.ts" />
 import m = require("SomeModule");
 ```
@@ -559,7 +76,8 @@ import m = require("SomeModule");
 如果你想把命名空间转换为模块，它可能会像下面这个文件一件：
 
 ##### shapes.ts
-```TypeScript
+
+```ts
 export namespace Shapes {
     export class Triangle { /* ... */ }
     export class Square { /* ... */ }
@@ -570,7 +88,8 @@ export namespace Shapes {
 这对于使用它的人来说是让人迷惑和讨厌的：
 
 ##### shapeConsumer.ts
-```TypeScript
+
+```ts
 import shapes = require('./shapes');
 var t = new shapes.Shapes.Triangle(); // shapes.Shapes?
 ```
@@ -585,13 +104,14 @@ TypeScript里模块的一个特点是不同的模块永远也不会在相同的�
 
 ##### shapes.ts
 
-```TypeScript
+```ts
 export class Triangle { /* ... */ }
 export class Square { /* ... */ }
 ```
 
 ##### shapeConsumer.ts
-```TypeScript
+
+```ts
 import shapes = require('./shapes');
 var t = new shapes.Triangle();
 ```
