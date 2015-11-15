@@ -2,6 +2,7 @@
 * [接口](./doc/handbook/Interfaces.md)
 * [类](./doc/handbook/Classes.md)
 * [命名空间和模块](./doc/handbook/Namespaces and Modules.md)
+* [命名空间](./doc/handbook/Namespaces.md)
 * [模块](./doc/handbook/Modules.md)
 * [函数](./doc/handbook/Functions.md)
 * [泛型](./doc/handbook/Generics.md)
