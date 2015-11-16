@@ -1,7 +1,7 @@
 # TypeScript
 TypeScript is a superset of JavaScript that compiles to clean JavaScript output.  http://www.typescriptlang.org
 
-[TypeScript手册中文版 - Published with GitBook](http://zhongsp.gitbooks.io/typescript-handbook/content/)
+:book: [TypeScript手册中文版 - Published with GitBook](http://zhongsp.gitbooks.io/typescript-handbook/content/)
 
 **Beyond Handbook && Latest features**
 
@@ -14,7 +14,7 @@ TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
 **TypeScript Handbook**
 
 * Read [TypeScript Handbook (Recommended, BUT not up to date officially)](http://www.typescriptlang.org/Handbook)
-* Read [TypeScript 手册 (翻译完成)](./doc/Handbook.md) (持续更新中，最新版)
+* Read [TypeScript手册中文版 - Published with GitBook（持续更新中，最新版）](http://zhongsp.gitbooks.io/typescript-handbook/content/):book: 
 
 **TypeScript Language Specification**
 
