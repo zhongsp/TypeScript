@@ -19,7 +19,7 @@ var sym3 = Symbol("key");
 sym2 === sym3; // false, symbols是唯一的
 ```
 
-如字符串，symbols可以被用做对象属性的键。
+像字符串一样，symbols也可以被用做对象属性的键。
 
 ```ts
 let sym = Symbol();
@@ -30,7 +30,7 @@ obj[sym] = "value";
 console.log(obj[sym]); // "value"
 ```
 
-Symbols也可以与计算出的属性声明相结合来声明对象的属性和类成员。
+Symbols也可以与计算出的属性名声明相结合来声明对象的属性和类成员。
 
 ```ts
 const getClassNameSymbol = Symbol();
@@ -45,16 +45,16 @@ let c = new C();
 let className = c[getClassNameSymbol](); // "C"
 ```
 
-# 众所周知的Symbols
+# 大家熟悉的Symbols
 
-除了用户定义的symbols，还有一些众所周知的内置symbols。
+除了用户定义的symbols，还有一些已经熟悉的内置symbols。
 内置symbols用来表示语言内部的行为。
 
 下面是这样一些symbols的示例：
 
 ## `Symbol.hasInstance`
 
-这个方法是构造器对象用来识别一个对象是否是其实例。会被instanceof运算符调用。
+这个方法是构造器对象用来识别一个对象是否是其实例。会被`instanceof`运算符调用。
 
 ## `Symbol.isConcatSpreadable`
 
