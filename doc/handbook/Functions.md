@@ -12,7 +12,7 @@ TypeScript为JavaScript函数添加了额外的功能，让我们可以更容易
 
 通过下面的例子可以迅速回想起这两种JavaScript中的函数：
 
-```TypeScript
+```ts
 // Named function
 function add(x, y) {
     return x+y;
@@ -26,7 +26,7 @@ var myAdd = function(x, y) { return x+y; };
 当函数这么做时，我们说它‘捕获’了这些变量。
 至于为什么可以这样做以及其中的利弊超出了本文的范围，但是深刻理解这个机制对学习JavaScript和TypeScript会很有帮助。
 
-```TypeScript
+```ts
 var z = 100;
 
 function addToZ(x, y) {
@@ -40,7 +40,7 @@ function addToZ(x, y) {
 
 让我们为上面那个函数添加类型：
 
-```TypeScript
+```ts
 function add(x: number, y: number): number {
     return x+y;
 }
@@ -55,7 +55,7 @@ TypeScript能够根据返回语句自动推断出返回值类型，因此我们�
 
 现在我们已经为函数指定了类型，下面让我们写出函数的完整类型。
 
-```TypeScript
+```ts
 var myAdd: (x:number, y:number)=>number =
     function(x: number, y: number): number { return x+y; };
 ```
@@ -66,7 +66,7 @@ var myAdd: (x:number, y:number)=>number =
 这个名字只是为了增加可读性。
 我们也可以这么写：
 
-```TypeScript
+```ts
 var myAdd: (baseValue:number, increment:number)=>number =
     function(x: number, y: number): number { return x+y; };
 ```
@@ -85,7 +85,7 @@ var myAdd: (baseValue:number, increment:number)=>number =
 
 尝试这个例子的时候，你会发现如果你在赋值语句的一边指定了类型但是另一边没有类型的话，TypeScript编译器会自动识别出类型：
 
-```TypeScript
+```ts
 // myAdd has the full function type
 var myAdd = function(x: number, y: number): number { return x+y; };
 
@@ -104,7 +104,7 @@ var myAdd: (baseValue:number, increment:number)=>number =
 编译器还会假设只有这些参数会被传递进函数。
 简短地说，传递给函数的参数数量必须与函数期望的参数数量一致。
 
-```TypeScript
+```ts
 function buildName(firstName: string, lastName: string) {
     return firstName + " " + lastName;
 }
@@ -119,7 +119,7 @@ JavaScript里，每个参数都是可选的，可传可不传。
 在TypeScript里我们可以在参数名旁使用`?`实现可选参数的功能。
 比如，我们想让last name是可选的：
 
-```TypeScript
+```ts
 function buildName(firstName: string, lastName?: string) {
     if (lastName)
         return firstName + " " + lastName;
@@ -138,7 +138,7 @@ var result3 = buildName("Bob", "Adams");  // ah, just right
 TypeScript里，我们还可以为可选参数设置默认值。
 仍然修改上例，把last name的默认值设置为`"Smith"`。
 
-```TypeScript
+```ts
 function buildName(firstName: string, lastName = "Smith") {
     return firstName + " " + lastName;
 }
@@ -152,13 +152,13 @@ var result3 = buildName("Bob", "Adams");  // ah, just right
 
 可选参数与默认值参数共享参数类型。
 
-```TypeScript
+```ts
 function buildName(firstName: string, lastName?: string) {
 ```
 
 和
 
-```TypeScript
+```ts
 function buildName(firstName: string, lastName = "Smith") {
 ```
 
@@ -173,7 +173,7 @@ function buildName(firstName: string, lastName = "Smith") {
 
 在TypeScript里，你可以把所有参数收集到一个变量里：
 
-```TypeScript
+```ts
 function buildName(firstName: string, ...restOfName: string[]) {
   return firstName + " " + restOfName.join(" ");
 }
@@ -187,7 +187,7 @@ var employeeName = buildName("Joseph", "Samuel", "Lucas", "MacKinzie");
 
 这个省略号也会在带有剩余参数的函数类型定义上使用到：
 
-```TypeScript
+```ts
 function buildName(firstName: string, ...restOfName: string[]) {
   return firstName + " " + restOfName.join(" ");
 }
@@ -208,7 +208,7 @@ JavaScript里，`this`的值在函数被调用的时候才会指定。
 
 下面看一个例子：
 
-```TypeScript
+```ts
 var deck = {
     suits: ["hearts", "spades", "clubs", "diamonds"],
     cards: Array(52),
@@ -238,7 +238,7 @@ alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 我们把函数表达式变为使用lambda表达式（ () => {} ）。
 这样就会在函数创建的时候就指定了‘this’值，而不是在函数调用的时候。
 
-```TypeScript
+```ts
 var deck = {
     suits: ["hearts", "spades", "clubs", "diamonds"],
     cards: Array(52),
@@ -266,7 +266,7 @@ alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 JavaScript本身是个动态语言。
 JavaScript里函数根据传入不同的参数而返回不同类型的数据是很常见的。
 
-```TypeScript
+```ts
 var suits = ["hearts", "spades", "clubs", "diamonds"];
 
 function pickCard(x): any {
@@ -300,7 +300,7 @@ alert("card: " + pickedCard2.card + " of " + pickedCard2.suit);
 编译器会根据这个列表去处理函数的调用。
 下面我们来重载`pickCard`函数。
 
-```TypeScript
+```ts
 var suits = ["hearts", "spades", "clubs", "diamonds"];
 
 function pickCard(x: {suit: string; card: number; }[]): number;

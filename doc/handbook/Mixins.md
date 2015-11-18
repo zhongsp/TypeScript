@@ -8,7 +8,7 @@
 下面的代码演示了如何在TypeScript里使用混入。
 后面我们还会解释这段代码是怎么工作的。
 
-```TypeScript
+```ts
 // Disposable Mixin
 class Disposable {
     isDisposed: boolean;
@@ -70,7 +70,7 @@ function applyMixins(derivedCtor: any, baseCtors: any[]) {
 可以看到每个类都只定义了一个特定的行为或功能。
 稍后我们使用它们来创建一个新类，同时具有这两种功能。
 
-```TypeScript
+```ts
 // Disposable Mixin
 class Disposable {
     isDisposed: boolean;
@@ -95,7 +95,7 @@ class Activatable {
 下面创建一个类，结合了这两个mixins。
 下面来看一下具体是怎么操作的：
 
-```TypeScript
+```ts
 class SmartObject implements Disposable, Activatable {
 ```
 
@@ -108,7 +108,7 @@ class SmartObject implements Disposable, Activatable {
 这告诉编译器这些成员在运行时是可用的。
 这样就能使用mixin带来的便利，虽说需要提前定义一些占位属性。
 
-```TypeScript
+```ts
 // Disposable
 isDisposed: boolean = false;
 dispose: () => void;
@@ -120,14 +120,14 @@ deactivate: () => void;
 
 最后，把mixins混入定义的类，完成全部实现部分。
 
-```TypeScript
+```ts
 applyMixins(SmartObject, [Disposable, Activatable])
 ```
 
 最后，创建这个帮助函数，帮我们做混入操作。
 它会遍历mixins上的所有属性，并复制到目标上去，把之前的占位属性替换成真正的实现代码。
 
-```TypeScript
+```ts
 function applyMixins(derivedCtor: any, baseCtors: any[]) {
     baseCtors.forEach(baseCtor => {
         Object.getOwnPropertyNames(baseCtor.prototype).forEach(name => {

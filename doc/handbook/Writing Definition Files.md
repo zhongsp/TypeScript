@@ -30,20 +30,20 @@ TypeScript 0.9.7+不会强制这种可选参数的使用，参数可选的双向
 
 #### 匿名类型var
 
-```TypeScript
+```ts
 declare var MyPoint: { x: number; y: number; };
 ```
 
 #### 接口类型var
 
-```TypeScript
+```ts
 interface SomePoint { x: number; y: number; }
 declare var MyPoint: SomePoint;
 ```
 
 从使用者角度来讲，它们是相同的，但是SomePoint类型能够通过接口合并来扩展：
 
-```TypeScript
+```ts
 interface SomePoint { z: number; }
 MyPoint.z = 4; // OK
 ```
@@ -62,7 +62,7 @@ TypeScript的类会创建出两个类型：实例类型，定义了类型的实�
 
 #### 标准版
 
-```TypeScript
+```ts
 class A {
     static st: string;
     inst: number;
@@ -72,7 +72,7 @@ class A {
 
 #### 分解版
 
-```TypeScript
+```ts
 interface A_Static {
     new(m: any): A_Instance;
     st: string;
@@ -103,7 +103,7 @@ declare var A: A_Static;
 
 #### 使用方法
 
-```TypeScript
+```ts
 animalFactory.create("dog");
 animalFactory.create("giraffe", { name: "ronald" });
 animalFactory.create("panda", { name: "bob", height: 400 });
@@ -113,7 +113,7 @@ animalFactory.create("cat", { height: 32 });
 
 #### 类型
 
-```TypeScript
+```ts
 namespace animalFactory {
     interface AnimalOptions {
         name: string;
@@ -128,14 +128,14 @@ namespace animalFactory {
 
 #### 使用方法
 
-```TypeScript
+```ts
 zooKeeper.workSchedule = "morning";
 zooKeeper(giraffeCage);
 ```
 
 #### 类型
 
-```TypeScript
+```ts
 // Note: Function must precede namespace
 function zooKeeper(cage: AnimalCage);
 namespace zooKeeper {
@@ -147,7 +147,7 @@ namespace zooKeeper {
 
 #### 使用方法
 
-```TypeScript
+```ts
 var w = widget(32, 16);
 var y = new widget("sprocket");
 // w and y are both widgets
@@ -157,7 +157,7 @@ y.sprock();
 
 #### 类型
 
-```TypeScript
+```ts
 interface Widget {
     sprock(): void;
 }
@@ -174,7 +174,7 @@ declare var widget: WidgetFactory;
 
 #### 使用方法
 
-```TypeScript
+```ts
 // Either
 import x = require('zoo');
 x.open();
@@ -184,7 +184,7 @@ zoo.open();
 
 #### 类型
 
-```TypeScript
+```ts
 namespace zoo {
   function open(): void;
 }
@@ -198,7 +198,7 @@ declare module "zoo" {
 
 #### 使用方法
 
-```TypeScript
+```ts
 // Super-chainable library for eagles
 import eagle = require('./eagle');
 // Call directly
@@ -211,7 +211,7 @@ eagle.favorite = 'golden';
 
 #### 类型
 
-```TypeScript
+```ts
 // Note: can use any name here, but has to be the same throughout this file
 declare function eagle(name: string): eagle;
 declare namespace eagle {
@@ -229,13 +229,13 @@ export = eagle;
 
 #### 使用方法
 
-```TypeScript
+```ts
 addLater(3, 4, x => console.log('x = ' + x));
 ```
 
 #### 类型
 
-```TypeScript
+```ts
 // Note: 'void' return type is preferred here
 function addLater(x: number, y: number, (sum: number) => void): void;
 ```

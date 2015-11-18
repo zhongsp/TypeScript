@@ -35,7 +35,7 @@ Typescript中的声明会创建以下三种实体之一：命名空间，类型�
 最简单最常见的就是合并接口，声明合并的种类是：接口合并。
 从根本上说，合并的机制是把各自声明里的成员放进一个同名的单一接口里。
 
-```TypeScript
+```ts
 interface Box {
     height: number;
     width: number;
@@ -56,7 +56,7 @@ var box: Box = {height: 5, width: 6, scale: 10};
 
 如下例所示：
 
-```TypeScript
+```ts
 interface Document {
     createElement(tagName: any): Element;
 }
@@ -73,7 +73,7 @@ interface Document {
 这三个接口合并成一个声明。
 注意每组接口里的声明顺序保持不变，只是靠后的接口会出现在它前面的接口声明之前。
 
-```TypeScript
+```ts
 interface Document {
     createElement(tagName: "div"): HTMLDivElement;
     createElement(tagName: "span"): HTMLSpanElement;
@@ -95,7 +95,7 @@ interface Document {
 
 `Animals`声明合并示例：
 
-```TypeScript
+```ts
 namespace Animals {
     export class Zebra { }
 }
@@ -108,7 +108,7 @@ namespace Animals {
 
 等同于：
 
-```TypeScript
+```ts
 namespace Animals {
     export interface Legged { numberOfLegs: number; }
 
@@ -122,7 +122,7 @@ namespace Animals {
 
 下例提供了更清晰的说明：
 
-```TypeScript
+```ts
 namespace Animal {
     var haveMuscles = true;
 
@@ -150,7 +150,7 @@ Typescript使用这个功能去实现一些JavaScript里的设计模式。
 首先，尝试将命名空间和类合并。
 这让我们可以定义内部类。
 
-```TypeScript
+```ts
 class Album {
     label: Album.AlbumLabel;
 }
@@ -166,7 +166,7 @@ namespace Album {
 除了内部类的模式，你在JavaScript里，创建一个函数稍后扩展它增加一些属性也是很常见的。
 Typescript使用声明合并来达到这个目的并保证类型安全。
 
-```TypeScript
+```ts
 function buildLabel(name: string): string {
     return buildLabel.prefix + name + buildLabel.suffix;
 }
@@ -181,7 +181,7 @@ alert(buildLabel("Sam Smith"));
 
 相似的，命名空间可以用来扩展枚举型：
 
-```TypeScript
+```ts
 enum Color {
     red = 1,
     green = 2,

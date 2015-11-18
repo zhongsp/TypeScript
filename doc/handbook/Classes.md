@@ -8,7 +8,7 @@
 
 下面看一个使用类的例子：
 
-```TypeScript
+```ts
 class Greeter {
     greeting: string;
     constructor(message: string) {
@@ -38,7 +38,7 @@ var greeter = new Greeter("world");
 
 看下面的例子：
 
-```TypeScript
+```ts
 class Animal {
     name:string;
     constructor(theName: string) { this.name = theName; }
@@ -97,7 +97,7 @@ Tommy the Palomino moved 34m.
 你也可以明确的将一个成员标记成`public`。
 我们可以用下面的方式来重写上面的`Animal`类：
 
-```TypeScript
+```ts
 class Animal {
     public name: string;
     public constructor(theName: string) { this.name = theName; }
@@ -111,7 +111,7 @@ class Animal {
 
 当成员被标记成`private`时，它就不能在声明它的类的外部访问。比如：
 
-```TypeScript
+```ts
 class Animal {
     private name: string;
     constructor(theName: string) { this.name = theName; }
@@ -129,7 +129,7 @@ TypeScript使用的是结构性类型系统。
 
 下面来看一个例子，详细的解释了这点：
 
-```TypeScript
+```ts
 class Animal {
     private name: string;
     constructor(theName: string) { this.name = theName; }
@@ -163,7 +163,7 @@ animal = employee; // Error: Animal and Employee are not compatible
 
 `protected`修饰符与`private`修饰符的行为很相似，但有一点不同，`protected`成员在派生类中仍然可以访问。例如：
 
-```TypeScript
+```ts
 class Person {
     protected name: string;
     constructor(name: string) { this.name = name; }
@@ -195,7 +195,7 @@ console.log(howard.name); // error
 这种情况经常会遇到。*参数属性*可以方便地让我们在一个地方定义并初始化一个成员。
 下面的例子是对之前`Animal`类的修改版，使用了参数属性：
 
-```TypeScript
+```ts
 class Animal {
     constructor(private name: string) { }
     move(distanceInMeters: number) {
@@ -218,7 +218,7 @@ TypeScript支持getters/setters来截取对对象成员的访问。
 下面来看如何把一类改写成使用`get`和`set`。
 首先是一个没用使用存取器的例子。
 
-```TypeScript
+```ts
 class Employee {
     fullName: string;
 }
@@ -236,7 +236,7 @@ if (employee.fullName) {
 我们把对fullName的直接访问改成了可以检查密码的`set`方法。
 我们也加了一个`get`方法，让上面的例子仍然可以工作。
 
-```TypeScript
+```ts
 var passcode = "secret passcode";
 
 class Employee {
@@ -275,7 +275,7 @@ if (employee.fullName) {
 每个实例想要访问这个属性的时候，都要在origin前面加上类名。
 如同在实例属性上使用`this.`前缀来访问属性一样，这里我们使用`Grid.`来访问静态属性。
 
-```TypeScript
+```ts
 class Grid {
     static origin = {x: 0, y: 0};
     calculateDistanceFromOrigin(point: {x: number; y: number;}) {
@@ -357,7 +357,7 @@ department.generateReports(); // error: method doesn't exist on declared abstrac
 当你在TypeScript里定义类的时候，实际上同时定义了很多东西。
 首先是类的*实例*的类型。
 
-```TypeScript
+```ts
 class Greeter {
     greeting: string;
     constructor(message: string) {
@@ -380,7 +380,7 @@ console.log(greeter.greet());
 这个函数会在我们使用`new`创建类实例的时候被调用。
 下面我们来看看，上面的代码被编译成JavaScript后是什么样子的：
 
-```TypeScript
+```ts
 var Greeter = (function () {
     function Greeter(message) {
         this.greeting = message;
@@ -403,7 +403,7 @@ console.log(greeter.greet());
 
 让我们来改写一下这个例子，看看它们之前的区别：
 
-```TypeScript
+```ts
 class Greeter {
     static standardGreeting = "Hello, there";
     greeting: string;
@@ -444,7 +444,7 @@ console.log(greeter2.greet());
 如上一节里所讲的，类定义会创建两个东西：类实例的类型和一个构造函数。
 因为类可以创建出类型，所以你能够在可以使用接口的地方使用类。
 
-```TypeScript
+```ts
 class Point {
     x: number;
     y: number;

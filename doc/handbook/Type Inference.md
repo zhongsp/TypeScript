@@ -6,7 +6,7 @@
 
 TypeScript里，在有些没有明确指出类型的地方，类型推论会帮助提供类型。如下面的例子
 
-```TypeScript
+```ts
 var x = 3;
 ```
 
@@ -20,7 +20,7 @@ var x = 3;
 
 当需要从几个表达式中推断类型时候，会使用这些表达式的类型来推断出一个最合适的通用类型。例如，
 
-```TypeScript
+```ts
 var x = [0, 1, null];
 ```
 
@@ -30,14 +30,14 @@ var x = [0, 1, null];
 
 由于最终的通用类型取自候选类型，有些时候候选类型共享相同的通用类型，但是却没有一个类型能做为所有候选类型的类型。例如：
 
-```TypeScript
+```ts
 var zoo = [new Rhino(), new Elephant(), new Snake()];
 ```
 
 这里，我们想让zoo被推断为`Animal[]`类型，但是这个数组里没有对象是`Animal`类型的，因此不能推断出这个结果。
 为了更正，当候选类型不能使用的时候我们需要明确的指出类型：
 
-```TypeScript
+```ts
 var zoo: Animal[] = [new Rhino(), new Elephant(), new Snake()];
 ```
 
@@ -50,7 +50,7 @@ var zoo: Animal[] = [new Rhino(), new Elephant(), new Snake()];
 TypeScript类型推论也可能按照相反的方向进行。
 这被叫做“按上下文归类”。按上下文归类会发生在表达式的类型与所处的位置相关时。比如：
 
-```TypeScript
+```ts
 window.onmousedown = function(mouseEvent) {
     console.log(mouseEvent.buton);  //<- Error
 };
@@ -63,7 +63,7 @@ window.onmousedown = function(mouseEvent) {
 如果上下文类型表达式包含了明确的类型信息，上下文的类型被忽略。
 重写上面的例子：
 
-```TypeScript
+```ts
 window.onmousedown = function(mouseEvent: any) {
     console.log(mouseEvent.buton);  //<- Now, no error is given
 };
@@ -76,7 +76,7 @@ window.onmousedown = function(mouseEvent: any) {
 通常包含函数的参数，赋值表达式的右边，类型断言，对象成员和数组字面量和返回值语句。
 上下文类型也会做为最佳通用类型的候选类型。比如：
 
-```TypeScript
+```ts
 function createZoo(): Animal[] {
     return [new Rhino(), new Elephant(), new Snake()];
 }

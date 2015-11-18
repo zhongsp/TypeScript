@@ -14,7 +14,7 @@
 
 不用泛型的话，这个函数可能是下面这样：
 
-```TypeScript
+```ts
 function identity(arg: number): number {
     return arg;
 }
@@ -22,7 +22,7 @@ function identity(arg: number): number {
 
 或者，我们使用`any`类型来定义函数：
 
-```TypeScript
+```ts
 function identity(arg: any): any {
     return arg;
 }
@@ -34,7 +34,7 @@ function identity(arg: any): any {
 因此，我们需要一种方法使用返回值的类型与传入参数的类型是相同的。
 这里，我们使用了*类型变量*，它是一种特殊的变量，只用于表示类型而不是值。
 
-```TypeScript
+```ts
 function identity<T>(arg: T): T {
     return arg;
 }
@@ -51,7 +51,7 @@ function identity<T>(arg: T): T {
 我们定义了泛型函数后，可以用两种方法使用。
 第一种是，传入所有的参数，包含类型参数：
 
-```TypeScript
+```ts
 var output = identity<string>("myString");  // type of output will be 'string'
 ```
 
@@ -59,7 +59,7 @@ var output = identity<string>("myString");  // type of output will be 'string'
 
 第二种方法更普遍。利用了*类型推论*，编译器会根据传入的参数自动地帮助我们确定T的类型：
 
-```TypeScript
+```ts
 var output = identity("myString");  // type of output will be 'string'
 ```
 
@@ -73,7 +73,7 @@ var output = identity("myString");  // type of output will be 'string'
 
 看下之前`identity`例子：
 
-```TypeScript
+```ts
 function identity<T>(arg: T): T {
     return arg;
 }
@@ -82,7 +82,7 @@ function identity<T>(arg: T): T {
 如果我们想同时打印出`arg`的长度。
 我们很可能会这样做：
 
-```TypeScript
+```ts
 function loggingIdentity<T>(arg: T): T {
     console.log(arg.length);  // Error: T doesn't have .length
     return arg;
@@ -95,7 +95,7 @@ function loggingIdentity<T>(arg: T): T {
 现在假设我们想操作`T`类型的数组而不直接是`T`。由于我们操作的是数组，所以`.length`属性是应该存在的。
 我们可以像创建其它数组一样创建这个数组：
 
-```TypeScript
+```ts
 function loggingIdentity<T>(arg: T[]): T[] {
     console.log(arg.length);  // Array has a .length, so no more error
     return arg;
@@ -108,7 +108,7 @@ function loggingIdentity<T>(arg: T[]): T[] {
 
 我们也可以这样实现上面的例子：
 
-```TypeScript
+```ts
 function loggingIdentity<T>(arg: Array<T>): Array<T> {
     console.log(arg.length);  // Array has a .length, so no more error
     return arg;
@@ -125,7 +125,7 @@ function loggingIdentity<T>(arg: Array<T>): Array<T> {
 
 泛型函数的类型与非泛型函数的类型没什么不同，只是有一个类型参数在最前面，像函数声明一样：
 
-```TypeScript
+```ts
 function identity<T>(arg: T): T {
     return arg;
 }
@@ -135,7 +135,7 @@ var myIdentity: <T>(arg: T) => T = identity;
 
 我们也可以使用不同的泛型参数名，只要在数量上和使用方式上能对应上就可以。
 
-```TypeScript
+```ts
 function identity<T>(arg: T): T {
     return arg;
 }
@@ -145,7 +145,7 @@ var myIdentity: <U>(arg: U) => U = identity;
 
 我们还可以使用带有调用签名的对象字面量来定义泛型函数：
 
-```TypeScript
+```ts
 function identity<T>(arg: T): T {
     return arg;
 }
@@ -156,7 +156,7 @@ var myIdentity: {<T>(arg: T): T} = identity;
 这引导我们去写第一个泛型接口了。
 我们把上面例子里的对象字面量拿出来做为一个接口：
 
-```TypeScript
+```ts
 interface GenericIdentityFn {
     <T>(arg: T): T;
 }
@@ -172,7 +172,7 @@ var myIdentity: GenericIdentityFn = identity;
 这样我们就能清楚的知道使用的具体是哪个泛型类型（比如：`Dictionary<string>而不只是Dictionary`）。
 这样接口里的其它成员也能知道这个参数的类型了。
 
-```TypeScript
+```ts
 interface GenericIdentityFn<T> {
     (arg: T): T;
 }
@@ -197,7 +197,7 @@ var myIdentity: GenericIdentityFn<number> = identity;
 泛型类看上去与泛型接口差不多。
 泛型类使用（`<>`）括起泛型类型，跟在类名后面。
 
-```TypeScript
+```ts
 class GenericNumber<T> {
     zeroValue: T;
     add: (x: T, y: T) => T;
@@ -211,7 +211,7 @@ myGenericNumber.add = function(x, y) { return x + y; };
 `GenericNumber`类的使用是十分直观的，并且你应该注意到了我们并不限制只能使用数字类型。
 也可以使用字符串或其它更复杂的类型。
 
-```TypeScript
+```ts
 var stringNumeric = new GenericNumber<string>();
 stringNumeric.zeroValue = "";
 stringNumeric.add = function(x, y) { return x + y; };
@@ -229,7 +229,7 @@ alert(stringNumeric.add(stringNumeric.zeroValue, "test"));
 你应该会记得之前的一个例子，我们有时候想操作某类型的一组值，并且我们知道这组值具有什么样的属性。
 在`loggingIdentity`例子中，我们想访问`arg`的`length`属性，但是编译器并不能证明每种类型都有`length`属性，所以就报错了。
 
-```TypeScript
+```ts
 function loggingIdentity<T>(arg: T): T {
     console.log(arg.length);  // Error: T doesn't have .length
     return arg;
@@ -243,7 +243,7 @@ function loggingIdentity<T>(arg: T): T {
 为此，我们定义一个接口来描述约束条件。
 创建一个包含`.length`属性的接口，使用这个接口和`extends`关键字还实现约束：
 
-```TypeScript
+```ts
 interface Lengthwise {
     length: number;
 }
@@ -256,13 +256,13 @@ function loggingIdentity<T extends Lengthwise>(arg: T): T {
 
 现在这个泛型函数被定义了约束，因此它不再是适用于任意类型：
 
-```TypeScript
+```ts
 loggingIdentity(3);  // Error, number doesn't have a .length property
 ```
 
 我们需要传入符合约束类型的值，必须包含必须的属性：
 
-```TypeScript
+```ts
 loggingIdentity({length: 10, value: 3});
 ```
 
@@ -270,7 +270,7 @@ loggingIdentity({length: 10, value: 3});
 
 有时候，我们需要使用类型参数去约束另一个类型参数。比如，
 
-```TypeScript
+```ts
 function find<T, U extends Findable<T>>(n: T, s: U) {   // errors because type parameter used in constraint
   // ...
 }
@@ -279,7 +279,7 @@ find (giraffe, myAnimals);
 
 可以通过下面的方法来实现，重写上面的代码，
 
-```TypeScript
+```ts
 function find<T>(n: T, s: Findable<T>) {
   // ...
 }
@@ -292,7 +292,7 @@ find(giraffe, myAnimals);
 
 在TypeScript使用泛型创建工厂函数时，需要引用构造函数的类类型。比如，
 
-```TypeScript
+```ts
 function create<T>(c: {new(): T; }): T {
     return new c();
 }
@@ -300,7 +300,7 @@ function create<T>(c: {new(): T; }): T {
 
 一个更高级的例子，使用原型属性推断并约束构造函数与类实例的关系。
 
-```TypeScript
+```ts
 class BeeKeeper {
     hasMask: boolean;
 }

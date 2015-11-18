@@ -8,7 +8,7 @@ TypeScript的核心原则之一是对值所具有的*shape*进行类型检查。
 
 下面通过一个简单示例来观察接口是如何工作的：
 
-```TypeScript
+```ts
 function printLabel(labelledObj: { label: string }) {
   console.log(labelledObj.label);
 }
@@ -23,7 +23,7 @@ printLabel(myObj);
 
 下面我们重写上面的例子，这次使用接口来描述：必须包含一个`label`属性且类型为`string`：
 
-```TypeScript
+```ts
 interface LabelledValue {
   label: string;
 }
@@ -50,7 +50,7 @@ printLabel(myObj);
 
 下面是应用了“option bags”的例子：
 
-```TypeScript
+```ts
 interface SquareConfig {
   color?: string;
   width?: number;
@@ -75,7 +75,7 @@ var mySquare = createSquare({color: "black"});
 可选属性的好处之一是可以对可能存在的属性进行预定义，好处之二是可以捕获引用了不存在的属性时的错误。
 比如，我们故意将`createSquare`里的`color`属性名拼错，就会得到一个错误提示：
 
-```TypeScript
+```ts
 interface SquareConfig {
   color?: string;
   width?: number;
@@ -104,7 +104,7 @@ var mySquare = createSquare({color: "black"});
 为了使用接口表示函数类型，我们需要给接口定义一个调用签名。
 它就像是一个只有参数列表和返回值类型的函数定义。参数列表里的每个参数都需要名字和类型。
 
-```TypeScript
+```ts
 interface SearchFunc {
   (source: string, subString: string): boolean;
 }
@@ -113,7 +113,7 @@ interface SearchFunc {
 这样定义后，我们可以像使用其它接口一样使用这个函数类型的接口。
 下例展示了如何创建一个函数类型的变量，并将一个同类型的函数赋值给这个变量。
 
-```TypeScript
+```ts
 var mySearch: SearchFunc;
 mySearch = function(source: string, subString: string) {
   var result = source.search(subString);
@@ -129,7 +129,7 @@ mySearch = function(source: string, subString: string) {
 对于函数类型的类型检查来说，函数的参数名不需要与接口里定义的名字相匹配。
 比如，我们使用下面的代码重写上面的例子：
 
-```TypeScript
+```ts
 var mySearch: SearchFunc;
 mySearch = function(src: string, sub: string): boolean {
   var result = src.search(sub);
@@ -147,7 +147,7 @@ mySearch = function(src: string, sub: string): boolean {
 函数的返回值类型是通过其返回值推断出来的（此例是`false`和`true`）。
 如果让这个函数返回数字或字符串，类型检查器会警告我们函数的返回值类型与`SearchFunc`接口中的定义不匹配。
 
-```TypeScript
+```ts
 var mySearch: SearchFunc;
 mySearch = function(src, sub) {
     var result = src.search(sub);
@@ -165,7 +165,7 @@ mySearch = function(src, sub) {
 与使用接口描述函数类型差不多，我们也可以描述数组类型。
 数组类型具有一个`index`类型表示索引的类型，还有一个相应的返回值类型表示通过索引得到的元素的类型。
 
-```TypeScript
+```ts
 interface StringArray {
   [index: number]: string;
 }
@@ -181,7 +181,7 @@ myArray = ["Bob", "Fred"];
 因为字符串索引表明`obj.property`和`obj["property"]`两种形式都可以。
 下面的例子里，`length`的类型与字符串索引类型不匹配，所以类型检查器给出一个错误提示：
 
-```TypeScript
+```ts
 interface NumberDictionary {
   [index: string]: number;
   length: number;    // 可以，length是number类型
@@ -195,7 +195,7 @@ interface NumberDictionary {
 
 与C#或Java里接口的基本作用一样，TypeScript也能够用它来明确的强制一个类去符合某种契约。
 
-```TypeScript
+```ts
 interface ClockInterface {
     currentTime: Date;
 }
@@ -208,7 +208,7 @@ class Clock implements ClockInterface {
 
 你也可以在接口中描述一个方法，在类里实现它，如同下面的`setTime`方法一样：
 
-```TypeScript
+```ts
 interface ClockInterface {
     currentTime: Date;
     setTime(d: Date);
@@ -231,7 +231,7 @@ class Clock implements ClockInterface {
 当你操作类和接口的时候，你要知道类是具有两个类型的：静态部分的类型和实例的类型。
 你会注意到，当你用构造器签名去定义一个接口并试图定义一个类去实现这个接口时会得到一个错误：
 
-```TypeScript
+```ts
 interface ClockConstructor {
     new (hour: number, minute: number);
 }
@@ -249,7 +249,7 @@ constructor存在于类的静态部分，所以不在检查的范围内。
 看下面的例子，我们定义了两个接口，`ClockConstructor`为构造函数所用和`ClockInterface`为实例方法所用。
 为了方便我们定义一个构造函数`createClock`，它用传入的类型创建实例。
 
-```TypeScript
+```ts
 interface ClockConstructor {
     new (hour: number, minute: number): ClockInterface;
 }
@@ -285,7 +285,7 @@ var analog = createClock(AnalogClock, 7, 32);
 和类一样，接口也可以相互扩展。
 这让我们能够从一个接口里复制成员到另一个接口里，可以更灵活地将接口分割到可重用的模块里。
 
-```TypeScript
+```ts
 interface Shape {
     color: string;
 }
@@ -301,7 +301,7 @@ square.sideLength = 10;
 
 一个接口可以继承多个接口，创建出多个接口的合成接口。
 
-```TypeScript
+```ts
 interface Shape {
     color: string;
 }
@@ -327,7 +327,7 @@ square.penWidth = 5.0;
 
 一个例子就是，一个对象可以同时做为函数和对象使用，并带有额外的属性。
 
-```TypeScript
+```ts
 interface Counter {
     (start: number): string;
     interval: number;
@@ -352,7 +352,7 @@ c.interval = 5.0;
 这是很有用的，当你有一个很深层次的继承，但是只想你的代码只是针对拥有特定属性的子类起作用的时候。子类除了继承自基类外与基类没有任何联系。
 例：
 
-```TypeScript
+```ts
 class Control {  
     private state: any; 
 }

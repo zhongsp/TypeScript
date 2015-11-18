@@ -7,7 +7,7 @@ TypeScript支持与JavaScript几乎相同的数据类型，此外还提供了实
 
 最基本的数据类型就是简单的true/false值，在JavaScript和TypeScript里叫做`boolean`（其它语言中也一样）。
 
-```typescript
+```ts
 var isDone: boolean = false;
 ```
 
@@ -17,7 +17,7 @@ var isDone: boolean = false;
 这些浮点数的类型是`number`。
 除了支持十进制和十六进制字面量，Typescript还支持ECMAScript 2015中引入的二进制和八进制字面量。
 
-```typescript
+```ts
 var decLiteral: number = 6;
 var hexLiteral: number = 0x9837abdef;
 var binaryLiteral: number = 0b0010;
@@ -30,7 +30,7 @@ JavaScript程序的另一项基本操作是处理网页或服务器端的文本�
 像其它语言里一样，我们使用`string`表示文本数据类型。
 和JavaScript一样，可以使用双引号（`"`）或单引号（`'`）表示字符串。
 
-```TypeScript
+```ts
 var name: string = "bob";
 name = "smith";
 ```
@@ -38,7 +38,7 @@ name = "smith";
 你还可以使用*模版字符串*，它可以定义多行文本和内嵌表达式。
 这种字符串是被反引号包围（`` ` ``），并且以`${ expr }`这种形式嵌入表达式
 
-```TypeScript
+```ts
 var name: string = `Gene`;
 var age: number = 37;
 var sentence: string = `Hello, my name is ${ name }.
@@ -48,7 +48,7 @@ I'll be ${ age + 1 } years old next month.`;
 
 这与下面定义`sentence`的方式效果相同：
 
-```TypeScript
+```ts
 var sentence: string = "Hello, my name is " + name + ".\n\n" +
     "I'll be " + (age + 1) + " years old next month.";
 ```
@@ -59,13 +59,13 @@ TypeScript像JavaScript一样可以操作数组元素。
 有两种方式可以定义数组。
 第一种，可以在元素类型后面接上`[]`，表示由此类型元素组成的一个数组：
 
-```TypeScript
+```ts
 var list: number[] = [1, 2, 3];
 ```
 
 第二种方式是使用数组泛型，`Array<元素类型>`：
 
-```TypeScript
+```ts
 var list: Array<number> = [1, 2, 3];
 ```
 
@@ -105,7 +105,7 @@ x[6] = true; // Error, 布尔不是(string | number)类型
 `enum`类型是对JavaScript标准数据类型的一个补充。
 像C#等其它语言一样，使用枚举类型可以为一组数值赋予友好的名字。
 
-```TypeScript
+```ts
 enum Color {Red, Green, Blue};
 var c: Color = Color.Green;
 ```
@@ -114,14 +114,14 @@ var c: Color = Color.Green;
 你也可以手动的指定成员的数值。
 例如，我们将上面的例子改成从`1`开始编号：
 
-```TypeScript
+```ts
 enum Color {Red = 1, Green, Blue};
 var c: Color = Color.Green;
 ```
 
 或者，全部都采用手动赋值：
 
-```TypeScript
+```ts
 enum Color {Red = 1, Green = 2, Blue = 4};
 var c: Color = Color.Green;
 ```
@@ -129,7 +129,7 @@ var c: Color = Color.Green;
 枚举类型提供的一个便利是你可以由枚举的值得到它的名字。
 例如，我们知道数值为2，但是不确定它映射到Color里的哪个名字，我们可以查找相应的名字：
 
-```TypeScript
+```ts
 enum Color {Red = 1, Green, Blue};
 var colorName: string = Color[2];
 
@@ -143,7 +143,7 @@ alert(colorName);
 这种情况下，我们不希望类型检查器对这些值进行检查或者说让它们直接通过编译阶段的检查。
 那么我们可以使用`any`类型来标记这些变量：
 
-```TypeScript
+```ts
 var notSure: any = 4;
 notSure = "maybe a string instead";
 notSure = false; // okay, definitely a boolean
@@ -153,7 +153,7 @@ notSure = false; // okay, definitely a boolean
 你可能认为`Object`有差不多的作用，就像它在其它语言中那样。
 但是`Object`类型的变量只是允许你给它赋任意值 -- 但是你不像在它上面调用任意方法，就算它真的包含了这些方法：
 
-```TypeScript
+```ts
 var notSure: any = 4;
 notSure.ifItExists(); // okay, ifItExists might exist at runtime
 notSure.toFixed(); // okay, toFixed exists (but the compiler doesn't check)
@@ -164,7 +164,7 @@ prettySure.toFixed(); // Error: Property 'toFixed' doesn't exist on type 'Object
 当你只知道数据的类型的一部分时，`any`类型也是有用的。
 比如，你有一个数组，它包含了不同的数据类型：
 
-```TypeScript
+```ts
 var list: any[] = [1, true, "free"];
 
 list[1] = 100;
@@ -175,7 +175,7 @@ list[1] = 100;
 某种程度上来说，`void`类型像是与`any`类型相反，它表示没有任何类型。
 当一个函数没有返回值时，你通常会见到其返回值类型是`void`：
 
-```TypeScript
+```ts
 function warnUser(): void {
     alert("This is my warning message");
 }
@@ -183,7 +183,7 @@ function warnUser(): void {
 
 声明一个`void`类型的变量没有什么大用，因为你只能为它赋予`undefined`和`null`：
 
-```TypeScript
+```ts
 var unusable: void = undefined;
 ```
 
