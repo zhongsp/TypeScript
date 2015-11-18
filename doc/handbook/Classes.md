@@ -77,6 +77,8 @@ tom.move(34);
 `Snake`类和`Horse`类都创建了`move`方法，重写了从`Animal`继承来的`move`方法，使得`move`方法根据不同的类而具有不同的功能。
 注意，即使`tom`被声明为`Animal`类型，因为它的值是`Horse`，`tom.move(34)`调用`Horse`里的重写方法：
 
+包含constructor函数的派生类必须调用`super()`，它会执行基类的构造方法。
+
 ```
 Slithering...
 Sammy the Python moved 5m.
@@ -289,6 +291,63 @@ var grid2 = new Grid(5.0);  // 5x scale
 
 console.log(grid1.calculateDistanceFromOrigin({x: 10, y: 10}));
 console.log(grid2.calculateDistanceFromOrigin({x: 10, y: 10}));
+```
+
+# 抽象类
+
+抽象类是供其它类继承的基类。
+他们一般不会直接被实例化。
+不同于接口，抽象类可以包含成员的实现细节。
+`abstract`关键字是用于定义抽象类和在抽象类内部定义抽象方法。
+
+```ts
+abstract class Animal {
+    abstract makeSound(): void;
+    move(): void {
+        console.log('roaming the earch...');
+    }
+}
+```
+
+抽象类中的抽象方法不包含具体实现并且必须在派生类中实现。
+抽象方法的语法与接口方法相似。
+两者都是定义方法签名不包含方法体。
+然而，抽象方法必须使用`abstract`关键字并且可以包含访问符。
+
+```ts
+abstract class Department {
+
+    constructor(public name: string) {
+    }
+
+    printName(): void {
+        console.log('Department name: ' + this.name);
+    }
+
+    abstract printMeeting(): void; // 必须在派生类中实现
+}
+
+class AccountingDepartment extends Department {
+
+    constructor() {
+        super('Accounting and Auditing'); // constructors in derived classes must call super()
+    }
+
+    printMeeting(): void {
+        console.log('The Accounting Department meets each Monday at 10am.');
+    }
+
+    generateReports(): void {
+        console.log('Generating accounting reports...');
+    }
+}
+
+let department: Department; // ok to create a reference to an abstract type
+department = new Department(); // error: cannot create an instance of an abstract class
+department = new AccountingDepartment(); // ok to create and assign a non-abstract subclass
+department.printName();
+department.printMeeting();
+department.generateReports(); // error: method doesn't exist on declared abstract type
 ```
 
 # 高级技巧
