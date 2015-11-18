@@ -69,6 +69,37 @@ var list: number[] = [1, 2, 3];
 var list: Array<number> = [1, 2, 3];
 ```
 
+# 元组 Tuple
+
+元组类型允许你表示一个已经元素数量和其类型的数组，各元素的类型不必相同。
+比如，你可以定义一对值分别为`string`和`number`类型。
+
+```ts
+// Declare a tuple type
+var x: [string, number];
+// Initialize it
+x = ['hello', 10]; // OK
+// Initialize it incorrectly
+x = [10, 'hello']; // Error
+```
+
+当访问一个已知索引的元素，会得到正确的类型：
+
+```ts
+console.log(x[0].substr(1)); // OK
+console.log(x[1].substr(1)); // Error, 'number' does not have 'substr'
+```
+
+当访问一个越界的元素，会使用联合类型替代：
+
+```ts
+x[3] = 'world'; // OK, 字符串可以赋值给(string | number)类型
+console.log(x[5].toString()); // OK, 'string' 和 'number' 都有 toString
+x[6] = true; // Error, 布尔不是(string | number)类型
+```
+
+联合类型是高级主题，我们会在以后的章节里讨论它。
+
 # 枚举
 
 `enum`类型是对JavaScript标准数据类型的一个补充。
