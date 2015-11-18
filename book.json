@@ -2,6 +2,7 @@
     "gitbook": ">2.0.0",
     "title": "TypeScript Handbook",
     "structure": {
-        "summary": "./doc/handbook/SUMMARY.md"
+        "summary": "./doc/handbook/SUMMARY.md",
+        "readme": "preface.md"
     }
 }
