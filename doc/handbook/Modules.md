@@ -49,7 +49,7 @@ export class ZipCodeValidator implements StringValidator {
 导出语句很便利，因为我们可能需要对导出的部分重命名，所以上面的例子可以这样改写：
 
 ```ts
- class ZipCodeValidator implements StringValidator {
+class ZipCodeValidator implements StringValidator {
     isAcceptable(s: string) {
         return s.length === 5 && numberRegexp.test(s);
     }
@@ -693,9 +693,7 @@ test(c, "1+2*33/11="); // prints 9
 #### ProgrammerCalculator.ts
 
 ```ts
-
 import { Calculator } from "./Calculator";
-
 
 class ProgrammerCalculator extends Calculator {
     static digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
@@ -728,7 +726,6 @@ export { test } from "./Calculator";
 
 ```ts
 import { Calculator, test } from "./ProgrammerCalculator";
-
 
 var c = new Calculator(2);
 test(c, "001+010="); // prints 3
