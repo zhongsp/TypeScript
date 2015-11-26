@@ -15,11 +15,11 @@ TypeScript为JavaScript函数添加了额外的功能，让我们可以更容易
 ```ts
 // Named function
 function add(x, y) {
-    return x+y;
+    return x + y;
 }
 
 // Anonymous function
-var myAdd = function(x, y) { return x+y; };
+var myAdd = function(x, y) { return x + y; };
 ```
 
 在JavaScript里，函数可以可以使用函数体外部的变量。
@@ -30,7 +30,7 @@ var myAdd = function(x, y) { return x+y; };
 var z = 100;
 
 function addToZ(x, y) {
-    return x+y+z;
+    return x + y + z;
 }
 ```
 
@@ -42,7 +42,7 @@ function addToZ(x, y) {
 
 ```ts
 function add(x: number, y: number): number {
-    return x+y;
+    return x + y;
 }
 
 var myAdd = function(x: number, y: number): number { return x+y; };
@@ -67,8 +67,8 @@ var myAdd: (x:number, y:number)=>number =
 我们也可以这么写：
 
 ```ts
-var myAdd: (baseValue:number, increment:number)=>number =
-    function(x: number, y: number): number { return x+y; };
+var myAdd: (baseValue:number, increment:number) => number =
+    function(x: number, y: number): number { return x + y; };
 ```
 
 只要参数类型是匹配的，那么就认为它是有效的函数类型，而不在乎参数名是否正确。
@@ -87,31 +87,31 @@ var myAdd: (baseValue:number, increment:number)=>number =
 
 ```ts
 // myAdd has the full function type
-var myAdd = function(x: number, y: number): number { return x+y; };
+var myAdd = function(x: number, y: number): number { return x + y; };
 
 // The parameters `x` and `y` have the type number
-var myAdd: (baseValue:number, increment:number)=>number =
-    function(x, y) { return x+y; };
+var myAdd: (baseValue:number, increment:number) => number =
+    function(x, y) { return x + y; };
 ```
 
-这叫做‘按上下文归类’，是类型推论的一种。
+这叫做“按上下文归类”，是类型推论的一种。
 它帮助我们更好地为程序指定类型。
 
 # 可选参数和默认参数
 
-不同于JavaScript，TypeScript里每个函数参数都是必须的。
-这并不是指参数一定是个非`null`值，而是编译器检查用户是否为每个参数都传入了值。
+TypeScript里的每个函数参数都是必须的。
+这不是指不能传递`null`或`undefined`作为参数，而是说编译器检查用户是否为每个参数都传入了值。
 编译器还会假设只有这些参数会被传递进函数。
-简短地说，传递给函数的参数数量必须与函数期望的参数数量一致。
+简短地说，传递给一个函数的参数个数必须与函数期望的参数个数一致。
 
 ```ts
 function buildName(firstName: string, lastName: string) {
     return firstName + " " + lastName;
 }
 
-var result1 = buildName("Bob");  // error, too few parameters
+var result1 = buildName("Bob");                  // error, too few parameters
 var result2 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters
-var result3 = buildName("Bob", "Adams");  // ah, just right
+var result3 = buildName("Bob", "Adams");         // ah, just right
 ```
 
 JavaScript里，每个参数都是可选的，可传可不传。
@@ -135,35 +135,55 @@ var result3 = buildName("Bob", "Adams");  // ah, just right
 可选参数必须在必须跟在必须参数后面。
 如果上例我们想让first name是可选的，那么就必须调整它们的位置，把first name放在后面。
 
-TypeScript里，我们还可以为可选参数设置默认值。
-仍然修改上例，把last name的默认值设置为`"Smith"`。
+在TypeScript里，我们也可以为参数提供一个默认值当用户没有传递这个参数或传递的值是`undefined`时。
+它们叫做有默认初始化值的参数。
+让我们修改上例，把last name的默认值设置为`"Smith"`。
 
 ```ts
 function buildName(firstName: string, lastName = "Smith") {
     return firstName + " " + lastName;
 }
 
-var result1 = buildName("Bob");  // works correctly now, also
-var result2 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters
-var result3 = buildName("Bob", "Adams");  // ah, just right
+var result1 = buildName("Bob");                  // works correctly now, returns "Bob Smith"
+var result2 = buildName("Bob, undefined");       // still works, also returns "Bob Smith"
+var result3 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters
+var result4 = buildName("Bob", "Adams");         // ah, just right
 ```
 
-和可选参数一样，带默认值的参数也要放在必须参数后面。
-
-可选参数与默认值参数共享参数类型。
+在所有必须参数后面的带默认初始化的参数都是可选的，与可选参数一样，在调用函数的时候可以省略。
+也就是说可选参数与末尾的默认参数共享参数类型。
 
 ```ts
 function buildName(firstName: string, lastName?: string) {
+    // ...
+}
 ```
 
 和
 
 ```ts
 function buildName(firstName: string, lastName = "Smith") {
+    // ...
+}
 ```
 
 共享同样的类型`(firstName: string, lastName?: string) => string`。
 默认参数的默认值消失了，只保留了它是一个可选参数的信息。
+
+与普通可选参数不同的是，带默认值的参数不需要放在必须参数的后面。
+如果带默认值的参数出现在必须参数前面，用户必须明确的传入`undefined`值来获得默认值。
+例如，我们重写最后一个例子，让`firstName`是带默认值的参数：
+
+```ts
+function buildName(firstName = "Will", lastName: string) {
+    return firstName + " " + lastName;
+}
+
+var result1 = buildName("Bob");                  // error, too few parameters
+var result2 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters
+var result3 = buildName("Bob", "Adams");         // okay and returns "Bob Adams"
+var result4 = buildName(undefined, "Adams");     // okay and returns "Will Adams"
+```
 
 # 剩余参数
 
