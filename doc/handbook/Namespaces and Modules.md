@@ -17,24 +17,23 @@
 命名空间是在全局命名空间里的一个有名字的JavaScript普通对象。
 这令命名空间十分容易使用。
 它们可以在多文件中同时使用，并通过`--outFile`结合在一起。
-命名空间是帮助你组织Web应用的好助手，可以把所有依赖都放在页面的`<script>`里。
+命名空间是一个帮助你组织Web应用不错的方式，你可以把所有依赖都放在HTML页面的`<script>`标签里。
 
 但就像其它全局命名空间污染一样，这很难去了解组件之间的依赖关系，尤其是在大型的应用中。
 
-# 拥抱模块化
+# 使用模块
 
 像命名空间一样，模块可以包含代码和声明。
 不同的是模块可以*声明*它的依赖。
 
-模块也会把依赖添加到模块加载器上（例如CommonJs/requirejs）。
+模块也会把依赖添加到模块加载器上（例如CommonJs/Require.js）。
 对于小型的JS应用来说这可能是不必要的，但是对于大型应用，这一点点的花费会带来长久的模块化和可维护性上的便利。
 模块也提供了更好的代码重用，更强的封闭性和更好的支持用工具进行优化。
 
 对于Node.js应用来说，模块是默认的并组是推荐的组织代码的方式。
 
 从ECMAScript 2015开始，模块成为了语言内置的部分，应该会被所有正常的解释引擎所支持。
-
-对于新的项目来说模块应该是首选组织代码的形式。
+因此，对于新项目来说推荐使用模块做为组织代码的方式。
 
 # 命名空间和模块的陷井
 
@@ -42,17 +41,14 @@
 
 ## 对模块使用`/// <reference>`
 
-一个常见的错误是使用`/// <reference>`引用模块文件，应该使用import。
-要理解这之间的不同，我们首先应该弄清编译器定位模块类型信息的3种方法。
+一个常见的错误是使用`/// <reference>`引用模块文件，应该使用`import`。
+要理解这之间的区别，我们首先应该弄清编译器是如何根据`import`（例如，`import x from "...";`或`import x = require("...")`里面的`...`，等等）路径来定位模块的类型信息的。
 
-首先，根据`import x = require(...);`声明查找`.ts`文件。
-这个文件应该是使用了顶层import或export声明的具体实现文件。
+编译器首先尝试去查找相应路径下的`.ts`，`.tsx`再或者`.d.ts`。
+如果这些文件都找不到，编译器会查找*外部模块声明*。
+回想一下，这些是在`.d.ts`文件里声明的。
 
-其次，与前一步相似，去查找`.d.ts`文件，不同的是它不是具体实现文件而是声明文件（同样具有顶级的import或export声明）。
-
-最后，是查找“外部模块的声明”，它是通过`declare`和使用被引号括住的名字定义的。
-
-##### myModules.d.ts
+* `myModules.d.ts`
 
 ```ts
 // In a .d.ts file or .ts file that is not a module:
@@ -61,21 +57,21 @@ declare module "SomeModule" {
 }
 ```
 
-##### myOtherModule.ts
+* `myOtherModule.ts`
 
 ```ts
 /// <reference path="myModules.d.ts" />
-import m = require("SomeModule");
+import * as m from "SomeModule";
 ```
 
 这里的引用标签指定了外来模块的位置。
-这就是一些Typescript例子中引用node.d.ts的方法。
+这就是一些Typescript例子中引用`node.d.ts`的方法。
 
 ## 不必要的命名空间
 
 如果你想把命名空间转换为模块，它可能会像下面这个文件一件：
 
-##### shapes.ts
+* `shapes.ts`
 
 ```ts
 export namespace Shapes {
@@ -87,10 +83,10 @@ export namespace Shapes {
 顶层的模块`Shapes`包裹了`Triangle`和`Square`。
 这对于使用它的人来说是让人迷惑和讨厌的：
 
-##### shapeConsumer.ts
+* `shapeConsumer.ts`
 
 ```ts
-import shapes = require('./shapes');
+import * as shapes from "./shapes";
 var t = new shapes.Shapes.Triangle(); // shapes.Shapes?
 ```
 
@@ -102,17 +98,17 @@ TypeScript里模块的一个特点是不同的模块永远也不会在相同的�
 
 下面是改进的例子：
 
-##### shapes.ts
+* `shapes.ts`
 
 ```ts
 export class Triangle { /* ... */ }
 export class Square { /* ... */ }
 ```
 
-##### shapeConsumer.ts
+* `shapeConsumer.ts`
 
 ```ts
-import shapes = require('./shapes');
+import * as shapes from "./shapes";
 var t = new shapes.Triangle();
 ```
 
