@@ -185,7 +185,7 @@ zoo.open();
 #### 类型
 
 ```ts
-namespace zoo {
+declare namespace zoo {
   function open(): void;
 }
 
