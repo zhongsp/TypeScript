@@ -204,9 +204,9 @@ import eagle = require('./eagle');
 // Call directly
 eagle('bald').fly();
 // Invoke with new
-var eddie = new eagle(1000);
+var eddie = new eagle('Mille');
 // Set properties
-eagle.favorite = 'golden';
+eddie.favorite = 'golden';
 ```
 
 #### 类型
