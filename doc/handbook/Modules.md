@@ -420,26 +420,28 @@ strings.forEach(s => {
 ##### 示例：Node.js里的动态模块加载
 
 ```ts
-declare var require;
+declare function require(moduleName: string): any;
 
 import { ZipCodeValidator as Zip } from "./ZipCodeValidator";
 
 if (needZipValidation) {
-    var x: typeof Zip = require("./ZipCodeValidator");
-    if (new x().isAcceptable(".....")) { /* ... */ }
+    var ZipCodeValidator: typeof Zip = require("./ZipCodeValidator");
+    var validator = new ZipCodeValidator();
+    if (validator.isAcceptable("...")) { /* ... */ }
 }
 ```
 
 ##### 示例：require.js里的动态模块加载
 
 ```ts
-declare var require;
+declare function require(moduleNames: string[], onLoad: (...args: any[]) => void): void;
 
 import { ZipCodeValidator as Zip } from "./ZipCodeValidator";
 
 if (needZipValidation) {
-    require(["./ZipCodeValidator"], (x: typeof Zip) => {
-        if (new x().isAcceptable("...")) { /* ... */ }
+    require(["./ZipCodeValidator"], (ZipCodeValidator: typeof Zip) => {
+        var validator = new ZipCodeValidator();
+        if (validator.isAcceptable("...")) { /* ... */ }
     });
 }
 ```
@@ -447,13 +449,14 @@ if (needZipValidation) {
 ##### 示例：System.js里的动态模块加载
 
 ```ts
-declare var System;
+declare var System: any;
 
 import { ZipCodeValidator as Zip } from "./ZipCodeValidator";
 
 if (needZipValidation) {
-    System.import("./ZipCodeValidator").then((x: typeof Zip) => {
-        if (new x().isAcceptable("...")) { /* ... */ }
+    System.import("./ZipCodeValidator").then((ZipCodeValidator: typeof Zip) => {
+        var x = new ZipCodeValidator();
+        if (x.isAcceptable("...")) { /* ... */ }
     });
 }
 ```
