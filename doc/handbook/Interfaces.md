@@ -179,7 +179,7 @@ myArray = ["Bob", "Fred"];
 
 索引签名能够很好的描述数组和`dictionary`模式，它们也要求所有属性要与返回值类型相匹配。
 因为字符串索引表明`obj.property`和`obj["property"]`两种形式都可以。
-下面的例子里，`length`的类型与字符串索引类型不匹配，所以类型检查器给出一个错误提示：
+下面的例子里，`name`的类型与字符串索引类型不匹配，所以类型检查器给出一个错误提示：
 
 ```ts
 interface NumberDictionary {
