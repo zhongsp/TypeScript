@@ -8,7 +8,7 @@ TypeScript支持与JavaScript几乎相同的数据类型，此外还提供了实
 最基本的数据类型就是简单的true/false值，在JavaScript和TypeScript里叫做`boolean`（其它语言中也一样）。
 
 ```ts
-var isDone: boolean = false;
+let isDone: boolean = false;
 ```
 
 # 数字
@@ -18,10 +18,10 @@ var isDone: boolean = false;
 除了支持十进制和十六进制字面量，Typescript还支持ECMAScript 2015中引入的二进制和八进制字面量。
 
 ```ts
-var decLiteral: number = 6;
-var hexLiteral: number = 0x9837abdef;
-var binaryLiteral: number = 0b0010;
-var octalLiteral: number = 0o74563;
+let decLiteral: number = 6;
+let hexLiteral: number = 0xf00d;
+let binaryLiteral: number = 0b1010;
+let octalLiteral: number = 0o744;
 ```
 
 # 字符串
@@ -31,7 +31,7 @@ JavaScript程序的另一项基本操作是处理网页或服务器端的文本�
 和JavaScript一样，可以使用双引号（`"`）或单引号（`'`）表示字符串。
 
 ```ts
-var name: string = "bob";
+let name: string = "bob";
 name = "smith";
 ```
 
@@ -39,9 +39,9 @@ name = "smith";
 这种字符串是被反引号包围（`` ` ``），并且以`${ expr }`这种形式嵌入表达式
 
 ```ts
-var name: string = `Gene`;
-var age: number = 37;
-var sentence: string = `Hello, my name is ${ name }.
+let name: string = `Gene`;
+let age: number = 37;
+let sentence: string = `Hello, my name is ${ name }.
 
 I'll be ${ age + 1 } years old next month.`;
 ```
@@ -49,7 +49,7 @@ I'll be ${ age + 1 } years old next month.`;
 这与下面定义`sentence`的方式效果相同：
 
 ```ts
-var sentence: string = "Hello, my name is " + name + ".\n\n" +
+let sentence: string = "Hello, my name is " + name + ".\n\n" +
     "I'll be " + (age + 1) + " years old next month.";
 ```
 
@@ -60,13 +60,13 @@ TypeScript像JavaScript一样可以操作数组元素。
 第一种，可以在元素类型后面接上`[]`，表示由此类型元素组成的一个数组：
 
 ```ts
-var list: number[] = [1, 2, 3];
+let list: number[] = [1, 2, 3];
 ```
 
 第二种方式是使用数组泛型，`Array<元素类型>`：
 
 ```ts
-var list: Array<number> = [1, 2, 3];
+let list: Array<number> = [1, 2, 3];
 ```
 
 # 元组 Tuple
@@ -76,7 +76,7 @@ var list: Array<number> = [1, 2, 3];
 
 ```ts
 // Declare a tuple type
-var x: [string, number];
+let x: [string, number];
 // Initialize it
 x = ['hello', 10]; // OK
 // Initialize it incorrectly
@@ -94,7 +94,9 @@ console.log(x[1].substr(1)); // Error, 'number' does not have 'substr'
 
 ```ts
 x[3] = 'world'; // OK, 字符串可以赋值给(string | number)类型
+
 console.log(x[5].toString()); // OK, 'string' 和 'number' 都有 toString
+
 x[6] = true; // Error, 布尔不是(string | number)类型
 ```
 
@@ -107,7 +109,7 @@ x[6] = true; // Error, 布尔不是(string | number)类型
 
 ```ts
 enum Color {Red, Green, Blue};
-var c: Color = Color.Green;
+let c: Color = Color.Green;
 ```
 
 默认情况下，从`0`开始为元素编号。
@@ -116,14 +118,14 @@ var c: Color = Color.Green;
 
 ```ts
 enum Color {Red = 1, Green, Blue};
-var c: Color = Color.Green;
+let c: Color = Color.Green;
 ```
 
 或者，全部都采用手动赋值：
 
 ```ts
 enum Color {Red = 1, Green = 2, Blue = 4};
-var c: Color = Color.Green;
+let c: Color = Color.Green;
 ```
 
 枚举类型提供的一个便利是你可以由枚举的值得到它的名字。
@@ -131,7 +133,7 @@ var c: Color = Color.Green;
 
 ```ts
 enum Color {Red = 1, Green, Blue};
-var colorName: string = Color[2];
+let colorName: string = Color[2];
 
 alert(colorName);
 ```
@@ -144,7 +146,7 @@ alert(colorName);
 那么我们可以使用`any`类型来标记这些变量：
 
 ```ts
-var notSure: any = 4;
+let notSure: any = 4;
 notSure = "maybe a string instead";
 notSure = false; // okay, definitely a boolean
 ```
@@ -154,18 +156,19 @@ notSure = false; // okay, definitely a boolean
 但是`Object`类型的变量只是允许你给它赋任意值 -- 但是你不像在它上面调用任意方法，就算它真的包含了这些方法：
 
 ```ts
-var notSure: any = 4;
+let notSure: any = 4;
 notSure.ifItExists(); // okay, ifItExists might exist at runtime
 notSure.toFixed(); // okay, toFixed exists (but the compiler doesn't check)
-var prettySure: Object = 4;
-prettySure.toFixed(); // Error: Property 'toFixed' doesn't exist on type 'Object'. 
+
+let prettySure: Object = 4;
+prettySure.toFixed(); // Error: Property 'toFixed' doesn't exist on type 'Object'.
 ```
 
 当你只知道数据的类型的一部分时，`any`类型也是有用的。
 比如，你有一个数组，它包含了不同的数据类型：
 
 ```ts
-var list: any[] = [1, true, "free"];
+let list: any[] = [1, true, "free"];
 
 list[1] = 100;
 ```
@@ -184,6 +187,11 @@ function warnUser(): void {
 声明一个`void`类型的变量没有什么大用，因为你只能为它赋予`undefined`和`null`：
 
 ```ts
-var unusable: void = undefined;
+let unusable: void = undefined;
 ```
 
+# 关于`let`
+
+你可能已经注意到了，我们使用`let`关键字来代替大家所熟悉的JavaScript关键字`var`。
+`let`关键字是JavaScript的一个新概念，TypeScript实现了它。
+我们会在以后详细介绍它，很多常见的问题都可以通过使用`let`来解决，所以尽可能地使用`let`来代替`var`吧。

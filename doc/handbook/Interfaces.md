@@ -13,7 +13,7 @@ function printLabel(labelledObj: { label: string }) {
   console.log(labelledObj.label);
 }
 
-var myObj = { size: 10, label: "Size 10 Object" };
+let myObj = { size: 10, label: "Size 10 Object" };
 printLabel(myObj);
 ```
 
@@ -32,7 +32,7 @@ function printLabel(labelledObj: LabelledValue) {
   console.log(labelledObj.label);
 }
 
-var myObj = {size: 10, label: "Size 10 Object"};
+let myObj = {size: 10, label: "Size 10 Object"};
 printLabel(myObj);
 ```
 
@@ -57,7 +57,7 @@ interface SquareConfig {
 }
 
 function createSquare(config: SquareConfig): {color: string; area: number} {
-  var newSquare = {color: "white", area: 100};
+  let newSquare = {color: "white", area: 100};
   if (config.color) {
     newSquare.color = config.color;
   }
@@ -67,7 +67,7 @@ function createSquare(config: SquareConfig): {color: string; area: number} {
   return newSquare;
 }
 
-var mySquare = createSquare({color: "black"});
+let mySquare = createSquare({color: "black"});
 ```
 
 带有可选属性的接口与普通的接口定义差不多，只是在可选属性名字定义的后面加一个`?`符号。
@@ -82,7 +82,7 @@ interface SquareConfig {
 }
 
 function createSquare(config: SquareConfig): {color: string; area: number} {
-  var newSquare = {color: "white", area: 100};
+  let newSquare = {color: "white", area: 100};
   if (config.color) {
     // Error: Property 'collor' does not exist on type 'SquareConfig'
     newSquare.color = config.collor;  // Type-checker can catch the mistyped name here
@@ -93,7 +93,7 @@ function createSquare(config: SquareConfig): {color: string; area: number} {
   return newSquare;
 }
 
-var mySquare = createSquare({color: "black"});
+let mySquare = createSquare({color: "black"});
 ```
 
 # 函数类型
@@ -114,9 +114,9 @@ interface SearchFunc {
 下例展示了如何创建一个函数类型的变量，并将一个同类型的函数赋值给这个变量。
 
 ```ts
-var mySearch: SearchFunc;
+let mySearch: SearchFunc;
 mySearch = function(source: string, subString: string) {
-  var result = source.search(subString);
+  let result = source.search(subString);
   if (result == -1) {
     return false;
   }
@@ -130,9 +130,9 @@ mySearch = function(source: string, subString: string) {
 比如，我们使用下面的代码重写上面的例子：
 
 ```ts
-var mySearch: SearchFunc;
+let mySearch: SearchFunc;
 mySearch = function(src: string, sub: string): boolean {
-  var result = src.search(sub);
+  let result = src.search(sub);
   if (result == -1) {
     return false;
   }
@@ -148,9 +148,9 @@ mySearch = function(src: string, sub: string): boolean {
 如果让这个函数返回数字或字符串，类型检查器会警告我们函数的返回值类型与`SearchFunc`接口中的定义不匹配。
 
 ```ts
-var mySearch: SearchFunc;
+let mySearch: SearchFunc;
 mySearch = function(src, sub) {
-    var result = src.search(sub);
+    let result = src.search(sub);
     if (result == -1) {
         return false;
     }
@@ -170,7 +170,7 @@ interface StringArray {
   [index: number]: string;
 }
 
-var myArray: StringArray;
+let myArray: StringArray;
 myArray = ["Bob", "Fred"];
 ```
 
@@ -274,8 +274,8 @@ class AnalogClock implements ClockInterface {
     }
 }
 
-var digital = createClock(DigitalClock, 12, 17);
-var analog = createClock(AnalogClock, 7, 32);
+let digital = createClock(DigitalClock, 12, 17);
+let analog = createClock(AnalogClock, 7, 32);
 ```
 
 因为`createClock`的第一个参数是`ClockConstructor`类型，在`createClock(AnalogClock, 12, 17)`里，会检查`AnalogClock`是否符合构造函数签名。
@@ -294,7 +294,7 @@ interface Square extends Shape {
     sideLength: number;
 }
 
-var square = <Square>{};
+let square = <Square>{};
 square.color = "blue";
 square.sideLength = 10;
 ```
@@ -314,7 +314,7 @@ interface Square extends Shape, PenStroke {
     sideLength: number;
 }
 
-var square = <Square>{};
+let square = <Square>{};
 square.color = "blue";
 square.sideLength = 10;
 square.penWidth = 5.0;
@@ -335,13 +335,13 @@ interface Counter {
 }
 
 function getCounter(): Counter {
-    var counter = <Counter>function (start: number) { };
+    let counter = <Counter>function (start: number) { };
     counter.interval = 123;
     counter.reset = function () { };
     return counter;
 }
 
-var c = getCounter();
+let c = getCounter();
 c(10);
 c.reset();
 c.interval = 5.0;

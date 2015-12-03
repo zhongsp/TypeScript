@@ -19,7 +19,7 @@ class Greeter {
     }
 }
 
-var greeter = new Greeter("world");
+let greeter = new Greeter("world");
 ```
 
 如果你使用过C#或Java，你会对这种语法非常熟悉。
@@ -63,8 +63,8 @@ class Horse extends Animal {
     }
 }
 
-var sam = new Snake("Sammy the Python");
-var tom: Animal = new Horse("Tommy the Palomino");
+let sam = new Snake("Sammy the Python");
+let tom: Animal = new Horse("Tommy the Palomino");
 
 sam.move();
 tom.move(34);
@@ -144,9 +144,9 @@ class Employee {
     constructor(theName: string) { this.name = theName; } 
 }
 
-var animal = new Animal("Goat");
-var rhino = new Rhino();
-var employee = new Employee("Bob");
+let animal = new Animal("Goat");
+let rhino = new Rhino();
+let employee = new Employee("Bob");
 
 animal = rhino;
 animal = employee; // Error: Animal and Employee are not compatible
@@ -182,7 +182,7 @@ class Employee extends Person {
     }
 }
 
-var howard = new Employee("Howard", "Sales");
+let howard = new Employee("Howard", "Sales");
 console.log(howard.getElevatorPitch());
 console.log(howard.name); // error
 ```
@@ -223,7 +223,7 @@ class Employee {
     fullName: string;
 }
 
-var employee = new Employee();
+let employee = new Employee();
 employee.fullName = "Bob Smith";
 if (employee.fullName) {
     console.log(employee.fullName);
@@ -237,7 +237,7 @@ if (employee.fullName) {
 我们也加了一个`get`方法，让上面的例子仍然可以工作。
 
 ```ts
-var passcode = "secret passcode";
+let passcode = "secret passcode";
 
 class Employee {
     private _fullName: string;
@@ -256,7 +256,7 @@ class Employee {
     }
 }
 
-var employee = new Employee();
+let employee = new Employee();
 employee.fullName = "Bob Smith";
 if (employee.fullName) {
     alert(employee.fullName);
@@ -279,15 +279,15 @@ if (employee.fullName) {
 class Grid {
     static origin = {x: 0, y: 0};
     calculateDistanceFromOrigin(point: {x: number; y: number;}) {
-        var xDist = (point.x - Grid.origin.x);
-        var yDist = (point.y - Grid.origin.y);
+        let xDist = (point.x - Grid.origin.x);
+        let yDist = (point.y - Grid.origin.y);
         return Math.sqrt(xDist * xDist + yDist * yDist) / this.scale;
     }
     constructor (public scale: number) { }
 }
 
-var grid1 = new Grid(1.0);  // 1x scale
-var grid2 = new Grid(5.0);  // 5x scale
+let grid1 = new Grid(1.0);  // 1x scale
+let grid2 = new Grid(5.0);  // 5x scale
 
 console.log(grid1.calculateDistanceFromOrigin({x: 10, y: 10}));
 console.log(grid2.calculateDistanceFromOrigin({x: 10, y: 10}));
@@ -368,12 +368,12 @@ class Greeter {
     }
 }
 
-var greeter: Greeter;
+let greeter: Greeter;
 greeter = new Greeter("world");
 console.log(greeter.greet());
 ```
 
-在这里，我们写了`var greeter: Greeter`，意思是`Greeter`类实例的类型是`Greeter`。
+在这里，我们写了`let greeter: Greeter`，意思是`Greeter`类实例的类型是`Greeter`。
 这对于用过其它面向对象语言的程序员来讲已经是老习惯了。
 
 我们也创建了一个叫做*构造函数*的值。
@@ -381,7 +381,7 @@ console.log(greeter.greet());
 下面我们来看看，上面的代码被编译成JavaScript后是什么样子的：
 
 ```ts
-var Greeter = (function () {
+let Greeter = (function () {
     function Greeter(message) {
         this.greeting = message;
     }
@@ -391,12 +391,12 @@ var Greeter = (function () {
     return Greeter;
 })();
 
-var greeter;
+let greeter;
 greeter = new Greeter("world");
 console.log(greeter.greet());
 ```
 
-上面的代码里，`var Greeter`将被赋值为构造函数。
+上面的代码里，`let Greeter`将被赋值为构造函数。
 当我们使用`new`并执行这个函数后，便会得到一个类的实例。
 这个构造函数也包含了类的所有静态属性。
 换个角度说，我们可以认为类具有实例部分与静态部分这两个部分。
@@ -417,13 +417,13 @@ class Greeter {
     }
 }
 
-var greeter1: Greeter;
+let greeter1: Greeter;
 greeter1 = new Greeter();
 console.log(greeter1.greet());
 
-var greeterMaker: typeof Greeter = Greeter;
+let greeterMaker: typeof Greeter = Greeter;
 greeterMaker.standardGreeting = "Hey there!";
-var greeter2:Greeter = new greeterMaker();
+let greeter2:Greeter = new greeterMaker();
 console.log(greeter2.greet());
 ```
 
@@ -454,5 +454,5 @@ interface Point3d extends Point {
     z: number;
 }
 
-var point3d: Point3d = {x: 1, y: 2, z: 3};
+let point3d: Point3d = {x: 1, y: 2, z: 3};
 ```

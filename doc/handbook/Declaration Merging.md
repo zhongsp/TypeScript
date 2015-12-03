@@ -45,7 +45,7 @@ interface Box {
     scale: number;
 }
 
-var box: Box = {height: 5, width: 6, scale: 10};
+let box: Box = {height: 5, width: 6, scale: 10};
 ```
 
 接口中非函数的成员必须是唯一的。如果多个接口中具有相同名字的非函数成员就会报错。
@@ -124,7 +124,7 @@ namespace Animals {
 
 ```ts
 namespace Animal {
-    var haveMuscles = true;
+    let haveMuscles = true;
 
     export function animalsHaveMuscles() {
         return haveMuscles;
@@ -172,8 +172,8 @@ function buildLabel(name: string): string {
 }
 
 namespace buildLabel {
-    export var suffix = "";
-    export var prefix = "Hello, ";
+    export let suffix = "";
+    export let prefix = "Hello, ";
 }
 
 alert(buildLabel("Sam Smith"));

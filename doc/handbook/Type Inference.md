@@ -7,7 +7,7 @@
 TypeScript里，在有些没有明确指出类型的地方，类型推论会帮助提供类型。如下面的例子
 
 ```ts
-var x = 3;
+let x = 3;
 ```
 
 变量`x`的类型被推断为数字。
@@ -21,7 +21,7 @@ var x = 3;
 当需要从几个表达式中推断类型时候，会使用这些表达式的类型来推断出一个最合适的通用类型。例如，
 
 ```ts
-var x = [0, 1, null];
+let x = [0, 1, null];
 ```
 
 为了推断`x`的类型，我们必须考虑所有元素的类型。
@@ -31,14 +31,14 @@ var x = [0, 1, null];
 由于最终的通用类型取自候选类型，有些时候候选类型共享相同的通用类型，但是却没有一个类型能做为所有候选类型的类型。例如：
 
 ```ts
-var zoo = [new Rhino(), new Elephant(), new Snake()];
+let zoo = [new Rhino(), new Elephant(), new Snake()];
 ```
 
 这里，我们想让zoo被推断为`Animal[]`类型，但是这个数组里没有对象是`Animal`类型的，因此不能推断出这个结果。
 为了更正，当候选类型不能使用的时候我们需要明确的指出类型：
 
 ```ts
-var zoo: Animal[] = [new Rhino(), new Elephant(), new Snake()];
+let zoo: Animal[] = [new Rhino(), new Elephant(), new Snake()];
 ```
 
 如果没有找到最佳通用类型的话，类型推论的结果是空对象类型，`{}`。

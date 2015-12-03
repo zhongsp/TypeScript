@@ -52,7 +52,7 @@ function identity<T>(arg: T): T {
 第一种是，传入所有的参数，包含类型参数：
 
 ```ts
-var output = identity<string>("myString");  // type of output will be 'string'
+let output = identity<string>("myString");  // type of output will be 'string'
 ```
 
 这里我们明确的指定了`T`是字符串类型，并做为一个参数传给函数，使用了`<>`括起来而不是`()`。
@@ -60,7 +60,7 @@ var output = identity<string>("myString");  // type of output will be 'string'
 第二种方法更普遍。利用了*类型推论*，编译器会根据传入的参数自动地帮助我们确定T的类型：
 
 ```ts
-var output = identity("myString");  // type of output will be 'string'
+let output = identity("myString");  // type of output will be 'string'
 ```
 
 注意我们并没用`<>`明确的指定类型，编译器看到了`myString`，把`T`设置为此类型。
@@ -130,7 +130,7 @@ function identity<T>(arg: T): T {
     return arg;
 }
 
-var myIdentity: <T>(arg: T) => T = identity;
+let myIdentity: <T>(arg: T) => T = identity;
 ```
 
 我们也可以使用不同的泛型参数名，只要在数量上和使用方式上能对应上就可以。
@@ -140,7 +140,7 @@ function identity<T>(arg: T): T {
     return arg;
 }
 
-var myIdentity: <U>(arg: U) => U = identity;
+let myIdentity: <U>(arg: U) => U = identity;
 ```
 
 我们还可以使用带有调用签名的对象字面量来定义泛型函数：
@@ -150,7 +150,7 @@ function identity<T>(arg: T): T {
     return arg;
 }
 
-var myIdentity: {<T>(arg: T): T} = identity;
+let myIdentity: {<T>(arg: T): T} = identity;
 ```
 
 这引导我们去写第一个泛型接口了。
@@ -165,7 +165,7 @@ function identity<T>(arg: T): T {
     return arg;
 }
 
-var myIdentity: GenericIdentityFn = identity;
+let myIdentity: GenericIdentityFn = identity;
 ```
 
 一个相似的例子，我们可能想把泛型参数当作整个接口的一个参数。
@@ -181,7 +181,7 @@ function identity<T>(arg: T): T {
     return arg;
 }
 
-var myIdentity: GenericIdentityFn<number> = identity;
+let myIdentity: GenericIdentityFn<number> = identity;
 ```
 
 注意，我们的示例做了少许改动。
@@ -203,7 +203,7 @@ class GenericNumber<T> {
     add: (x: T, y: T) => T;
 }
 
-var myGenericNumber = new GenericNumber<number>();
+let myGenericNumber = new GenericNumber<number>();
 myGenericNumber.zeroValue = 0;
 myGenericNumber.add = function(x, y) { return x + y; };
 ```
@@ -212,7 +212,7 @@ myGenericNumber.add = function(x, y) { return x + y; };
 也可以使用字符串或其它更复杂的类型。
 
 ```ts
-var stringNumeric = new GenericNumber<string>();
+let stringNumeric = new GenericNumber<string>();
 stringNumeric.zeroValue = "";
 stringNumeric.add = function(x, y) { return x + y; };
 

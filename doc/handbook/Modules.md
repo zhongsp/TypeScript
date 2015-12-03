@@ -96,21 +96,21 @@ export * from "./ZipCodeValidator";  // exports class ZipCodeValidator
 ```ts
 import { ZipCodeValidator } from "./ZipCodeValidator";
 
-var myValidator = new ZipCodeValidator();
+let myValidator = new ZipCodeValidator();
 ```
 
 可以对导入内容重命名
 
 ```ts
 import { ZipCodeValidator as ZCV } from "./ZipCodeValidator";
-var myValidator = new ZCV();
+let myValidator = new ZCV();
 ```
 
 ## 将整个模块导入到一个变量，并通过它来访问模块的导出部分
 
 ```ts
 import * as validator from "./ZipCodeValidator";
-var myValidator = new validator.ZipCodeValidator();
+let myValidator = new validator.ZipCodeValidator();
 ```
 
 ## 具有副作用的导入模块
@@ -135,7 +135,7 @@ import "./my-module.js";
 ##### JQuery.d.ts
 
 ```ts
-declare var $: JQuery;
+declare let $: JQuery;
 export default $;
 ```
 
@@ -166,7 +166,7 @@ export default class ZipCodeValidator {
 ```ts
 import validator from "./ZipCodeValidator";
 
-var validator = new validator();
+let validator = new validator();
 ```
 
 或者
@@ -186,7 +186,7 @@ export default function (s: string) {
 ```ts
 import validate from "./StaticZipCodeValidator";
 
-var strings = ["Hello", "98052", "101"];
+let strings = ["Hello", "98052", "101"];
 
 // Use function validate
 strings.forEach(s => {
@@ -221,12 +221,12 @@ TypeScript模块支持`export =`语法，以配合传统的CommonJS和AMD的工�
 `export =`语法定义一个模块的导出对象。
 它可以是类，接口，命名空间，函数或枚举。
 
-若要导入一个使用了`export =`的模块时，必须使用TypeScript提供的特定语法`import var = require("module")`。
+若要导入一个使用了`export =`的模块时，必须使用TypeScript提供的特定语法`import let = require("module")`。
 
 ##### ZipCodeValidator.ts
 
 ```ts
-var numberRegexp = /^[0-9]+$/;
+let numberRegexp = /^[0-9]+$/;
 class ZipCodeValidator {
     isAcceptable(s: string) {
         return s.length === 5 && numberRegexp.test(s);
@@ -241,10 +241,10 @@ export = ZipCodeValidator;
 import zip = require("./ZipCodeValidator");
 
 // Some samples to try
-var strings = ["Hello", "98052", "101"];
+let strings = ["Hello", "98052", "101"];
 
 // Validators to use
-var validator = new zip.ZipCodeValidator();
+let validator = new zip.ZipCodeValidator();
 
 // Show whether each string passed each validator
 strings.forEach(s => {
@@ -264,7 +264,7 @@ strings.forEach(s => {
 
 ```ts
 import m = require("mod");
-export var t = m.something + 1;
+export let t = m.something + 1;
 ```
 
 ##### AMD / RequireJS SimpleModule.js
@@ -278,7 +278,7 @@ define(["require", "exports", "./mod"], function (require, exports, mod_1) {
 ##### CommonJS / Node SimpleModule.js
 
 ```js
-var mod_1 = require("./mod");
+let mod_1 = require("./mod");
 exports.t = mod_1.something + 1;
 ```
 
@@ -287,13 +287,13 @@ exports.t = mod_1.something + 1;
 ```js
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
-        var v = factory(require, exports); if (v !== undefined) module.exports = v;
+        let v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
         define(["require", "exports", "./mod"], factory);
     }
 })(function (require, exports) {
-    var mod_1 = require("./mod");
+    let mod_1 = require("./mod");
     exports.t = mod_1.something + 1;
 });
 ```
@@ -302,8 +302,8 @@ exports.t = mod_1.something + 1;
 
 ```js
 System.register(["./mod"], function(exports_1) {
-    var mod_1;
-    var t;
+    let mod_1;
+    let t;
     return {
         setters:[
             function (mod_1_1) {
@@ -320,7 +320,7 @@ System.register(["./mod"], function(exports_1) {
 
 ```js
 import { something } from "./mod";
-export var t = something + 1;
+export let t = something + 1;
 ```
 
 # 简单示例
@@ -391,7 +391,7 @@ validators["Letters only"] = new LettersOnlyValidator();
 
 // Show whether each string passed each validator
 strings.forEach(s => {
-    for (var name in validators) {
+    for (let name in validators) {
         console.log(`"${ s }" - ${ validators[name].isAcceptable(s) ? "matches" : "does not match" } ${ name }`);
     }
 });
@@ -423,8 +423,8 @@ declare function require(moduleName: string): any;
 import { ZipCodeValidator as Zip } from "./ZipCodeValidator";
 
 if (needZipValidation) {
-    var ZipCodeValidator: typeof Zip = require("./ZipCodeValidator");
-    var validator = new ZipCodeValidator();
+    let ZipCodeValidator: typeof Zip = require("./ZipCodeValidator");
+    let validator = new ZipCodeValidator();
     if (validator.isAcceptable("...")) { /* ... */ }
 }
 ```
@@ -438,7 +438,7 @@ import { ZipCodeValidator as Zip } from "./ZipCodeValidator";
 
 if (needZipValidation) {
     require(["./ZipCodeValidator"], (ZipCodeValidator: typeof Zip) => {
-        var validator = new ZipCodeValidator();
+        let validator = new ZipCodeValidator();
         if (validator.isAcceptable("...")) { /* ... */ }
     });
 }
@@ -447,13 +447,13 @@ if (needZipValidation) {
 ##### 示例：System.js里的动态模块加载
 
 ```ts
-declare var System: any;
+declare let System: any;
 
 import { ZipCodeValidator as Zip } from "./ZipCodeValidator";
 
 if (needZipValidation) {
     System.import("./ZipCodeValidator").then((ZipCodeValidator: typeof Zip) => {
-        var x = new ZipCodeValidator();
+        let x = new ZipCodeValidator();
         if (x.isAcceptable("...")) { /* ... */ }
     });
 }
@@ -492,7 +492,7 @@ declare module "url" {
 declare module "path" {
     export function normalize(p: string): string;
     export function join(...paths: any[]): string;
-    export var sep: string;
+    export let sep: string;
 }
 ```
 
@@ -501,7 +501,7 @@ declare module "path" {
 ```ts
 /// <reference path="node.d.ts"/>
 import * as URL from "url";
-var myUrl = URL.parse("http://www.typescriptlang.org");
+let myUrl = URL.parse("http://www.typescriptlang.org");
 ```
 
 # 创建模块结构指导
@@ -544,7 +544,7 @@ export default function getThing() { return 'thing'; }
 ```ts
 import t from "./MyClass";
 import f from "./MyFunc";
-var x = new t();
+let x = new t();
 console.log(f());
 ```
 
@@ -567,8 +567,8 @@ export function someFunc() { /* ... */ }
 
 ```ts
 import { SomeType, SomeFunc } from "./MyThings";
-var x = new SomeType();
-var y = someFunc();
+let x = new SomeType();
+let y = someFunc();
 ```
 
 ### 使用命名空间导入模式当你要导出大量内容的时候
@@ -586,7 +586,7 @@ export class Flower { ... }
 
 ```ts
 import * as myLargeModule from "./MyLargeModule.ts";
-var x = new myLargeModule.Dog();
+let x = new myLargeModule.Dog();
 ```
 
 ## 使用重新导出进行扩展
@@ -683,7 +683,7 @@ export function test(c: Calculator, input: string) {
 import { Calculator, test } from "./Calculator";
 
 
-var c = new Calculator();
+let c = new Calculator();
 test(c, "1+2*33/11="); // prints 9
 ```
 
@@ -726,7 +726,7 @@ export { test } from "./Calculator";
 ```ts
 import { Calculator, test } from "./ProgrammerCalculator";
 
-var c = new Calculator(2);
+let c = new Calculator(2);
 test(c, "001+010="); // prints 3
 ```
 

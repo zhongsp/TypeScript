@@ -48,7 +48,7 @@ class SmartObject implements Disposable, Activatable {
 }
 applyMixins(SmartObject, [Disposable, Activatable])
 
-var smartObj = new SmartObject();
+let smartObj = new SmartObject();
 setTimeout(() => smartObj.interact(), 1000);
 
 ////////////////////////////////////////

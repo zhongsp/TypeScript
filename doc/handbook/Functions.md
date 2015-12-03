@@ -19,7 +19,7 @@ function add(x, y) {
 }
 
 // Anonymous function
-var myAdd = function(x, y) { return x + y; };
+let myAdd = function(x, y) { return x + y; };
 ```
 
 在JavaScript里，函数可以可以使用函数体外部的变量。
@@ -27,7 +27,7 @@ var myAdd = function(x, y) { return x + y; };
 至于为什么可以这样做以及其中的利弊超出了本文的范围，但是深刻理解这个机制对学习JavaScript和TypeScript会很有帮助。
 
 ```ts
-var z = 100;
+let z = 100;
 
 function addToZ(x, y) {
     return x + y + z;
@@ -45,7 +45,7 @@ function add(x: number, y: number): number {
     return x + y;
 }
 
-var myAdd = function(x: number, y: number): number { return x+y; };
+let myAdd = function(x: number, y: number): number { return x+y; };
 ```
 
 我们可以给每个参数添加类型之后再为函数本身添加返回值类型。
@@ -56,7 +56,7 @@ TypeScript能够根据返回语句自动推断出返回值类型，因此我们�
 现在我们已经为函数指定了类型，下面让我们写出函数的完整类型。
 
 ```ts
-var myAdd: (x:number, y:number)=>number =
+let myAdd: (x:number, y:number)=>number =
     function(x: number, y: number): number { return x+y; };
 ```
 
@@ -67,7 +67,7 @@ var myAdd: (x:number, y:number)=>number =
 我们也可以这么写：
 
 ```ts
-var myAdd: (baseValue:number, increment:number) => number =
+let myAdd: (baseValue:number, increment:number) => number =
     function(x: number, y: number): number { return x + y; };
 ```
 
@@ -87,10 +87,10 @@ var myAdd: (baseValue:number, increment:number) => number =
 
 ```ts
 // myAdd has the full function type
-var myAdd = function(x: number, y: number): number { return x + y; };
+let myAdd = function(x: number, y: number): number { return x + y; };
 
 // The parameters `x` and `y` have the type number
-var myAdd: (baseValue:number, increment:number) => number =
+let myAdd: (baseValue:number, increment:number) => number =
     function(x, y) { return x + y; };
 ```
 
@@ -109,9 +109,9 @@ function buildName(firstName: string, lastName: string) {
     return firstName + " " + lastName;
 }
 
-var result1 = buildName("Bob");                  // error, too few parameters
-var result2 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters
-var result3 = buildName("Bob", "Adams");         // ah, just right
+let result1 = buildName("Bob");                  // error, too few parameters
+let result2 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters
+let result3 = buildName("Bob", "Adams");         // ah, just right
 ```
 
 JavaScript里，每个参数都是可选的，可传可不传。
@@ -127,9 +127,9 @@ function buildName(firstName: string, lastName?: string) {
         return firstName;
 }
 
-var result1 = buildName("Bob");  // works correctly now
-var result2 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters
-var result3 = buildName("Bob", "Adams");  // ah, just right
+let result1 = buildName("Bob");  // works correctly now
+let result2 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters
+let result3 = buildName("Bob", "Adams");  // ah, just right
 ```
 
 可选参数必须在必须跟在必须参数后面。
@@ -144,10 +144,10 @@ function buildName(firstName: string, lastName = "Smith") {
     return firstName + " " + lastName;
 }
 
-var result1 = buildName("Bob");                  // works correctly now, returns "Bob Smith"
-var result2 = buildName("Bob, undefined");       // still works, also returns "Bob Smith"
-var result3 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters
-var result4 = buildName("Bob", "Adams");         // ah, just right
+let result1 = buildName("Bob");                  // works correctly now, returns "Bob Smith"
+let result2 = buildName("Bob, undefined");       // still works, also returns "Bob Smith"
+let result3 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters
+let result4 = buildName("Bob", "Adams");         // ah, just right
 ```
 
 在所有必须参数后面的带默认初始化的参数都是可选的，与可选参数一样，在调用函数的时候可以省略。
@@ -179,10 +179,10 @@ function buildName(firstName = "Will", lastName: string) {
     return firstName + " " + lastName;
 }
 
-var result1 = buildName("Bob");                  // error, too few parameters
-var result2 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters
-var result3 = buildName("Bob", "Adams");         // okay and returns "Bob Adams"
-var result4 = buildName(undefined, "Adams");     // okay and returns "Will Adams"
+let result1 = buildName("Bob");                  // error, too few parameters
+let result2 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters
+let result3 = buildName("Bob", "Adams");         // okay and returns "Bob Adams"
+let result4 = buildName(undefined, "Adams");     // okay and returns "Will Adams"
 ```
 
 # 剩余参数
@@ -198,7 +198,7 @@ function buildName(firstName: string, ...restOfName: string[]) {
   return firstName + " " + restOfName.join(" ");
 }
 
-var employeeName = buildName("Joseph", "Samuel", "Lucas", "MacKinzie");
+let employeeName = buildName("Joseph", "Samuel", "Lucas", "MacKinzie");
 ```
 
 剩余参数会被当做个数不限的可选参数。
@@ -212,7 +212,7 @@ function buildName(firstName: string, ...restOfName: string[]) {
   return firstName + " " + restOfName.join(" ");
 }
 
-var buildNameFun: (fname: string, ...rest: string[]) => string = buildName;
+let buildNameFun: (fname: string, ...rest: string[]) => string = buildName;
 ```
 
 # Lambda表达式和使用`this`
@@ -229,21 +229,21 @@ JavaScript里，`this`的值在函数被调用的时候才会指定。
 下面看一个例子：
 
 ```ts
-var deck = {
+let deck = {
     suits: ["hearts", "spades", "clubs", "diamonds"],
     cards: Array(52),
     createCardPicker: function() {
         return function() {
-            var pickedCard = Math.floor(Math.random() * 52);
-            var pickedSuit = Math.floor(pickedCard / 13);
+            let pickedCard = Math.floor(Math.random() * 52);
+            let pickedSuit = Math.floor(pickedCard / 13);
       
             return {suit: this.suits[pickedSuit], card: pickedCard % 13};
         }
     }
 }
 
-var cardPicker = deck.createCardPicker();
-var pickedCard = cardPicker();
+let cardPicker = deck.createCardPicker();
+let pickedCard = cardPicker();
 
 alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 ```
@@ -259,22 +259,22 @@ alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 这样就会在函数创建的时候就指定了‘this’值，而不是在函数调用的时候。
 
 ```ts
-var deck = {
+let deck = {
     suits: ["hearts", "spades", "clubs", "diamonds"],
     cards: Array(52),
     createCardPicker: function() {
         // Notice: the line below is now a lambda, allowing us to capture `this` earlier
         return () => {
-            var pickedCard = Math.floor(Math.random() * 52);
-            var pickedSuit = Math.floor(pickedCard / 13);
+            let pickedCard = Math.floor(Math.random() * 52);
+            let pickedSuit = Math.floor(pickedCard / 13);
       
             return {suit: this.suits[pickedSuit], card: pickedCard % 13};
         }
     }
 }
 
-var cardPicker = deck.createCardPicker();
-var pickedCard = cardPicker();
+let cardPicker = deck.createCardPicker();
+let pickedCard = cardPicker();
 
 alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 ```
@@ -287,27 +287,27 @@ JavaScript本身是个动态语言。
 JavaScript里函数根据传入不同的参数而返回不同类型的数据是很常见的。
 
 ```ts
-var suits = ["hearts", "spades", "clubs", "diamonds"];
+let suits = ["hearts", "spades", "clubs", "diamonds"];
 
 function pickCard(x): any {
     // Check to see if we're working with an object/array
     // if so, they gave us the deck and we'll pick the card
     if (typeof x == "object") {
-        var pickedCard = Math.floor(Math.random() * x.length);
+        let pickedCard = Math.floor(Math.random() * x.length);
         return pickedCard;
     }
     // Otherwise just let them pick the card
     else if (typeof x == "number") {
-        var pickedSuit = Math.floor(x / 13);
+        let pickedSuit = Math.floor(x / 13);
         return { suit: suits[pickedSuit], card: x % 13 };
     }
 }
 
-var myDeck = [{ suit: "diamonds", card: 2 }, { suit: "spades", card: 10 }, { suit: "hearts", card: 4 }];
-var pickedCard1 = myDeck[pickCard(myDeck)];
+let myDeck = [{ suit: "diamonds", card: 2 }, { suit: "spades", card: 10 }, { suit: "hearts", card: 4 }];
+let pickedCard1 = myDeck[pickCard(myDeck)];
 alert("card: " + pickedCard1.card + " of " + pickedCard1.suit);
 
-var pickedCard2 = pickCard(15);
+let pickedCard2 = pickCard(15);
 alert("card: " + pickedCard2.card + " of " + pickedCard2.suit);
 ```
 
@@ -321,7 +321,7 @@ alert("card: " + pickedCard2.card + " of " + pickedCard2.suit);
 下面我们来重载`pickCard`函数。
 
 ```ts
-var suits = ["hearts", "spades", "clubs", "diamonds"];
+let suits = ["hearts", "spades", "clubs", "diamonds"];
 
 function pickCard(x: {suit: string; card: number; }[]): number;
 function pickCard(x: number): {suit: string; card: number; };
@@ -329,21 +329,21 @@ function pickCard(x): any {
     // Check to see if we're working with an object/array
     // if so, they gave us the deck and we'll pick the card
     if (typeof x == "object") {
-        var pickedCard = Math.floor(Math.random() * x.length);
+        let pickedCard = Math.floor(Math.random() * x.length);
         return pickedCard;
     }
     // Otherwise just let them pick the card
     else if (typeof x == "number") {
-        var pickedSuit = Math.floor(x / 13);
+        let pickedSuit = Math.floor(x / 13);
         return { suit: suits[pickedSuit], card: x % 13 };
     }
 }
 
-var myDeck = [{ suit: "diamonds", card: 2 }, { suit: "spades", card: 10 }, { suit: "hearts", card: 4 }];
-var pickedCard1 = myDeck[pickCard(myDeck)];
+let myDeck = [{ suit: "diamonds", card: 2 }, { suit: "spades", card: 10 }, { suit: "hearts", card: 4 }];
+let pickedCard1 = myDeck[pickCard(myDeck)];
 alert("card: " + pickedCard1.card + " of " + pickedCard1.suit);
 
-var pickedCard2 = pickCard(15);
+let pickedCard2 = pickCard(15);
 alert("card: " + pickedCard2.card + " of " + pickedCard2.suit);
 ```
 

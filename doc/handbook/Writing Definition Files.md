@@ -31,14 +31,14 @@ TypeScript 0.9.7+不会强制这种可选参数的使用，参数可选的双向
 #### 匿名类型var
 
 ```ts
-declare var MyPoint: { x: number; y: number; };
+declare let MyPoint: { x: number; y: number; };
 ```
 
 #### 接口类型var
 
 ```ts
 interface SomePoint { x: number; y: number; }
-declare var MyPoint: SomePoint;
+declare let MyPoint: SomePoint;
 ```
 
 从使用者角度来讲，它们是相同的，但是SomePoint类型能够通过接口合并来扩展：
@@ -80,7 +80,7 @@ interface A_Static {
 interface A_Instance {
     inst: number;
 }
-declare var A: A_Static;
+declare let A: A_Static;
 ```
 
 这里的利弊如下：
@@ -139,7 +139,7 @@ zooKeeper(giraffeCage);
 // Note: Function must precede namespace
 function zooKeeper(cage: AnimalCage);
 namespace zooKeeper {
-    var workSchedule: string;
+    let workSchedule: string;
 }
 ```
 
@@ -148,8 +148,8 @@ namespace zooKeeper {
 #### 使用方法
 
 ```ts
-var w = widget(32, 16);
-var y = new widget("sprocket");
+let w = widget(32, 16);
+let y = new widget("sprocket");
 // w and y are both widgets
 w.sprock();
 y.sprock();
@@ -167,7 +167,7 @@ interface WidgetFactory {
     (width: number, height: number): Widget;
 }
 
-declare var widget: WidgetFactory;
+declare let widget: WidgetFactory;
 ```
 
 ## 全局的/不清楚的Libraries
@@ -204,7 +204,7 @@ import eagle = require('./eagle');
 // Call directly
 eagle('bald').fly();
 // Invoke with new
-var eddie = new eagle('Mille');
+let eddie = new eagle('Mille');
 // Set properties
 eddie.favorite = 'golden';
 ```
@@ -215,7 +215,7 @@ eddie.favorite = 'golden';
 // Note: can use any name here, but has to be the same throughout this file
 declare function eagle(name: string): eagle;
 declare namespace eagle {
-    var favorite: string;
+    let favorite: string;
     function fly(): void;
 }
 interface eagle {

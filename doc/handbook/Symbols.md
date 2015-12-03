@@ -5,16 +5,16 @@
 `symbol`类型的值是通过`Symbol`构造函数创建的。
 
 ```ts
-var sym1 = Symbol();
+let sym1 = Symbol();
 
-var sym2 = Symbol("key"); // 可选的字符串key
+let sym2 = Symbol("key"); // 可选的字符串key
 ```
 
 Symbols是不可改变的且唯一。
 
 ```ts
-var sym2 = Symbol("key");
-var sym3 = Symbol("key");
+let sym2 = Symbol("key");
+let sym3 = Symbol("key");
 
 sym2 === sym3; // false, symbols是唯一的
 ```

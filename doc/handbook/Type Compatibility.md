@@ -14,7 +14,7 @@ class Person {
     name: string;
 }
 
-var p: Named;
+let p: Named;
 // OK, because of structural typing
 p = new Person();
 ```
@@ -36,9 +36,9 @@ interface Named {
     name: string;
 }
 
-var x: Named;
+let x: Named;
 // y's inferred type is { name: string; location: string; }
-var y = { name: 'Alice', location: 'Seattle' };
+let y = { name: 'Alice', location: 'Seattle' };
 x = y;
 ```
 
@@ -65,8 +65,8 @@ greet(y); // OK
 让我们以两个函数开始，它们仅有参数列表不同：
 
 ```ts
-var x = (a: number) => 0;
-var y = (b: number, s: string) => 0;
+let x = (a: number) => 0;
+let y = (b: number, s: string) => 0;
 
 y = x; // OK
 x = y; // Error
@@ -85,7 +85,7 @@ x = y; // Error
 尽管如此，传入一个只使用第一个参数的回调函数也是很有用的：
 
 ```ts
-var items = [1, 2, 3];
+let items = [1, 2, 3];
 
 // Don't force these extra arguments
 items.forEach((item, index, array) => console.log(item));
@@ -97,8 +97,8 @@ items.forEach((item) => console.log(item));
 下面来看看如何处理返回值类型，创建两个仅是返回值类型不同的函数：
 
 ```ts
-var x = () => ({name: 'Alice'});
-var y = () => ({name: 'Alice', location: 'Seattle'});
+let x = () => ({name: 'Alice'});
+let y = () => ({name: 'Alice', location: 'Seattle'});
 
 x = y; // OK
 y = x; // Error because x() lacks a location property
@@ -169,7 +169,7 @@ invokeLater([1, 2], (x?, y?) => console.log(x + ', ' + y));
 enum Status { Ready, Waiting };
 enum Color { Red, Blue, Green };
 
-var status = Status.Ready;
+let status = Status.Ready;
 status = Color.Green;  //error
 ```
 
@@ -190,8 +190,8 @@ class Size {
     constructor(numFeet: number) { }
 }
 
-var a: Animal;
-var s: Size;
+let a: Animal;
+let s: Size;
 
 a = s;  //OK
 s = a;  //OK
@@ -210,8 +210,8 @@ s = a;  //OK
 ```ts
 interface Empty<T> {
 }
-var x: Empty<number>;
-var y: Empty<string>;
+let x: Empty<number>;
+let y: Empty<string>;
 
 x = y;  // okay, y matches structure of x
 ```
@@ -223,8 +223,8 @@ x = y;  // okay, y matches structure of x
 interface NotEmpty<T> {
     data: T;
 }
-var x: NotEmpty<number>;
-var y: NotEmpty<string>;
+let x: NotEmpty<number>;
+let y: NotEmpty<string>;
 
 x = y;  // error, x and y are not compatible
 ```
@@ -237,11 +237,11 @@ x = y;  // error, x and y are not compatible
 比如，
 
 ```ts
-var identity = function<T>(x: T): T {
+let identity = function<T>(x: T): T {
     // ...
 }
 
-var reverse = function<U>(y: U): U {
+let reverse = function<U>(y: U): U {
     // ...
 }
 

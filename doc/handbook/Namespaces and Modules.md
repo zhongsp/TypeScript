@@ -87,7 +87,7 @@ export namespace Shapes {
 
 ```ts
 import * as shapes from "./shapes";
-var t = new shapes.Shapes.Triangle(); // shapes.Shapes?
+let t = new shapes.Shapes.Triangle(); // shapes.Shapes?
 ```
 
 TypeScript里模块的一个特点是不同的模块永远也不会在相同的作用域内使用相同的名字。
@@ -109,7 +109,7 @@ export class Square { /* ... */ }
 
 ```ts
 import * as shapes from "./shapes";
-var t = new shapes.Triangle();
+let t = new shapes.Triangle();
 ```
 
 ## 模块的取舍
