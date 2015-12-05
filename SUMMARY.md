@@ -2,6 +2,7 @@
 
 * [基础类型](./doc/handbook/Basic Types.md)
 * [枚举](./doc/handbook/Enums.md)
+* [变量声明](./doc/handbook/Variable Declarations.md)
 * [接口](./doc/handbook/Interfaces.md)
 * [类](./doc/handbook/Classes.md)
 * [命名空间和模块](./doc/handbook/Namespaces and Modules.md)
