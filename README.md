@@ -26,6 +26,7 @@ TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
 * [Symbols](./doc/handbook/Symbols.md)
 * [Decorators](./doc/handbook/Decorators.md)
 * [tsconfig.json](./doc/handbook/tsconfig.json.md)
+* [编译选项](./doc/handbook/Compiler Options.md)
 
 **TypeScript Handbook**
 
