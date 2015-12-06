@@ -18,3 +18,4 @@
 * [Iterators 和 Generators](./doc/handbook/Iterators and Generators.md)
 * [Symbols](./doc/handbook/Symbols.md)
 * [Decorators](./doc/handbook/Decorators.md)
+* [tsconfig.json](./doc/handbook/tsconfig.json.md)

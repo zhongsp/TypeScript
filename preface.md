@@ -39,10 +39,12 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * [Iterators 和 Generators](./doc/handbook/Iterators and Generators.md)
 * [Symbols](./doc/handbook/Symbols.md)
 * [Decorators](./doc/handbook/Decorators.md)
+* [tsconfig.json](./doc/handbook/tsconfig.json.md)
 
 
 ## 主要修改
 
+* 2015-12-06 新增章节：[tsconfig.json](./doc/handbook/tsconfig.json.md)
 * 2015-12-05 新增章节：[变量声明：let和const](./doc/handbook/Variable Declarations.md)
 * 2015-11-30 新增章节：[枚举](./doc/handbook/Enums.md)
 * 2015-11-28 新增章节：[Decorators](./doc/handbook/Decorators.md)
