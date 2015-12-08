@@ -19,4 +19,4 @@
 * [Symbols](./doc/handbook/Symbols.md)
 * [Decorators](./doc/handbook/Decorators.md)
 * [tsconfig.json](./doc/handbook/tsconfig.json.md)
-* [编译选项](/doc/handbook/Complier Options.md)
+* [编译选项](./doc/handbook/Complier Options.md)
