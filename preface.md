@@ -25,6 +25,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * [枚举](./doc/handbook/Enums.md)
 * [变量声明](./doc/handbook/Variable Declarations.md)
 * [接口](./doc/handbook/Interfaces.md)
+* [高级类型](./doc/handbook/Advanced Types.md)
 * [类](./doc/handbook/Classes.md)
 * [命名空间和模块](./doc/handbook/Namespaces and Modules.md)
 * [命名空间](./doc/handbook/Namespaces.md)
@@ -45,7 +46,8 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 
 ## 主要修改
 
-* 2015-12-06 新增章节：[编译选项](/doc/handbook/Complier Options.md)
+* 2015-12-11 新增章节：[高级类型](./doc/handbook/Advanced Types.md)
+* 2015-12-06 新增章节：[编译选项](./doc/handbook/Complier Options.md)
 * 2015-12-06 新增章节：[tsconfig.json](./doc/handbook/tsconfig.json.md)
 * 2015-12-05 新增章节：[变量声明：let和const](./doc/handbook/Variable Declarations.md)
 * 2015-11-30 新增章节：[枚举](./doc/handbook/Enums.md)

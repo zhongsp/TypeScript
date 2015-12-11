@@ -1,0 +1,314 @@
+# 联合类型
+
+偶尔你会遇到这种情况，一个第三方库可以传入或返回`number`或`string`类型的数据。
+例如下面的函数：
+
+```ts
+/**
+ * 拿到一个字符串并在左边添加"padding"。
+ * 如果 'padding' 是个字符串, 那么 'padding' 被加到左边。
+ * 如果 'padding' 是个数字, 那么在左边加入此数量的空格.
+ */
+function padLeft(value: string, padding: any) {
+    // ...
+}
+
+padLeft("Hello world", 4); // 返回 "    Hello world"
+```
+
+`padLeft`存在一个问题，`padding`参数的类型指定成了`any`。
+这就是说我们可以传入一个既不是`number`也不是`string`类型的参数，但是TypeScript却不报错。
+
+```ts
+let indentedString = padLeft("Hello world", true); // 编译阶段通过。运行时报错
+```
+
+在一些传统的面向对象语言里，我们可能将这两种类型抽象成有层级的类型。
+
+```ts
+interface Padder {
+    getPaddingString(): string
+}
+
+class SpaceRepeatingPadder implements Padder {
+    constructor(private numSpaces: number) { }
+    getPaddingString() {
+        return Array(this.numSpaces).join(" ");
+    }
+}
+
+class StringPadder implements Padder {
+    constructor(private value: string) { }
+    getPaddingString() {
+        return this.value;
+    }
+}
+
+function padLeft(value: string, padder: Padder) {
+    return padder.getPaddingString() + value;
+}
+
+padLeft("Hello world", new SpaceRepeatingPadder(4));
+```
+
+这样就清楚多了，但是做的也有点过。
+原始版本的`padLeft`有一点好处是我们可以传入一个原始值。
+使用起来清晰明了。
+如果我们想定义一个已经存在了的函数那么新的方案也不合适了。
+
+不用`any`，我们可以使用*联合类型*做为`padding`的参数：
+
+```ts
+/**
+ * Takes a string and adds "padding" to the left.
+ * If 'padding' is a string, then 'padding' is appended to the left side.
+ * If 'padding' is a number, then that number of spaces is added to the left side.
+ */
+function padLeft(value: string, padding: string | number) {
+    // ...
+}
+
+let indentedString = padLeft("Hello world", true); // errors during compilation
+```
+
+联合类型表示一个值可以是几种类型之一。
+我们用竖线（`|`）分隔每个类型，所以`number | string | boolean`表示一个值可以是`number`，`string`，或`boolean`。
+
+如果一个值是联合类型，我们只能访问此联合类型的所有类型里共有的成员。
+
+```ts
+interface Bird {
+    fly();
+    layEggs();
+}
+
+interface Fish {
+    swim();
+    layEggs();
+}
+
+function getSmallPet(): Fish | Bird {
+    // ...
+}
+
+let pet = getSmallPet();
+pet.layEggs(); // okay
+pet.swim();    // errors
+```
+
+这里的联合类型可能有点复杂，但是你很容易就习惯了。
+如果一个值类型是`A | B`，我们只能*确定*它具有成员同时存在于`A`*和*`B`里。
+这个例子里，`Bird`具有一个`fly`成员。
+我们能不确定一个`Bird | Fish`类型的变量是否有`fly`方法。
+如果变量在运行时真是`Fish`，那么调用`pet.fly()`就出错了。
+
+# 类型保护与区分类型
+
+联合类型非常适合这样的情形，可接收的值有不同的类型。
+当我们想明确地知道是否拿到`Fish`时会怎么做？
+JavaScript里常用来区分2个可能值的方法是检查它们是否存在。
+像之前提到的，我们只能访问联合类型的所有类型中共有的成员。
+
+```ts
+let pet = getSmallPet();
+
+// 每一个成员访问都会报错
+if (pet.swim) {
+    pet.swim();
+}
+else if (pet.fly) {
+    pet.fly();
+}
+```
+
+为了让这码代码工作，我们要使用类型断言：
+
+```ts
+let pet = getSmallPet();
+
+if ((<Fish>pet).swim) {
+    (<Fish>pet).swim();
+}
+else {
+    (<Bird>pet).fly();
+}
+```
+
+## 用户自定义的类型保护
+
+可以注意到我们使用了多次类型断言。
+如果我们只要检查过一次类型，就能够在后面的每个分支里清楚`pet`的类型的话就好了。
+
+TypeScript里的*类型保护*机制让它成为了现实。
+类型保护就是一些表达式，它们会在运行时检查以确保在某个作用域里的类型。
+要定义一个类型保护，我们只要简单地定义一个函数，它的返回值是一个*类型断言*：
+
+```ts
+function isFish(pet: Fish | Bird): pet is Fish {
+    return (<Fish>pet).swim !== undefined;
+}
+```
+
+在这个例子里，`pet is Fish`就是类型断言。
+一个断言是`parameterName is Type`这种形式，`parameterName`必须是来自于当前函数签名里的一个参数名。
+
+每当使用一些变量调用`isFish`时，TypeScript会将变量缩减为那个具体的类型，只要这个类型与变量的原始类型是兼容的。
+
+```ts
+// 'swim' 和 'fly' 调用都没有问题了
+
+if (isFish(pet) {
+    pet.swim();
+}
+else {
+    pet.fly();
+}
+```
+
+注意TypeScript不仅知道在`if`分支里`pet`是`Fish`类型；
+它还清楚在`else`分支里，一定*不是*`Fish`类型，一定是`Bird`类型。
+
+## `typeof`类型保护
+
+我们还没有真正的展示使用联合类型来实现`padLeft`的版本。
+我们可以像下面这样使用类型断言来写：
+
+```ts
+function isNumber(x: any): x is number {
+    return typeof x === "number";
+}
+
+function isString(x: any): x is string {
+    return typeof x === "string";
+}
+
+function padLeft(value: string, padding: string | number) {
+    if (isNumber(padding)) {
+        return Array(padding).join(" ") + value;
+    }
+    if (isString(padding)) {
+        return padding + value;
+    }
+    throw new Error(`Expected string or number, got '${value}'.`);
+}
+```
+
+然而，必须要定义一个函数来判断类型是否是原始类型，这太痛苦了。
+幸运的是，现在我们不必将`typeof x === "number"`抽象成一个函数，因为TypeScript可以将它识别为一个类型保护。
+也就是说我们可以直接在代码里检查类型了。
+
+```ts
+function padLeft(value: string, padding: string | number) {
+    if (typeof padding === "number") {
+        return Array(padding).join(" ") + value;
+    }
+    if (typeof padding === "string") {
+        return padding + value;
+    }
+    throw new Error(`Expected string or number, got '${value}'.`);
+}
+```
+
+这些*`typeof`类型保护*只有2个形式能被识别：`typeof v === "typename"`和`typeof v !== "typename"`，`"typename"`必须是`"number"`，`"string"`，`"boolean"`或`"symbol"`。
+但是TypeScript并不会阻止你使用除这些以外的字符串，或者将它们位置对换，且语言不会把它们识别为类型保护。
+
+## `instanceof`类型保护
+
+如果你已经阅读了`typeof`类型保护并且对JavaScript里的`instanceof`操作符熟悉的话，你可能已经猜到了这节要讲的内容。
+
+*`instanceof`类型保护*是通过其构造函数来细化其类型。
+比如，我们借鉴一下之前字符串补充的例子：
+
+```ts
+interface Padder {
+    getPaddingString(): string
+}
+
+class SpaceRepeatingPadder implements Padder {
+    constructor(private numSpaces: number) { }
+    getPaddingString() {
+        return Array(this.numSpaces).join(" ");
+    }
+}
+
+class StringPadder implements Padder {
+    constructor(private value: string) { }
+    getPaddingString() {
+        return this.value;
+    }
+}
+
+function getRandomPadder() {
+    return Math.random() < 0.5 ?
+        new SpaceRepeatingPadder(4) :
+        new StringPadder("  ");
+}
+
+// 类型为SpaceRepeatingPadder | StringPadder
+let padder: Padding = getRandomPadder();
+
+if (padder instanceof SpaceRepeatingPadder) {
+    padder; // 类型细化为'SpaceRepeatingPadder'
+}
+if (padder instanceof StringPadder) {
+    padder; // 类型细化为'StringPadder'
+}
+```
+
+`instanceof`的右侧要求为一个构造函数，TypeScript将细化为：
+
+1. 这个函数的`prototype`属性，如果它的类型不为`any`的话
+2. 类型中构造签名所返回的类型的联合，顺序保持一至。
+
+# 类型别名
+
+类型别名会给一个类型起个新名字。
+类型别名有时和接口很像，但是可以作用于原始值，联合类型，元组以及其它任何你需要手写的类型。
+
+```ts
+type XCoord = number;
+type YCoord = number;
+
+type XYCoord = { x: XCoord; y: YCoord };
+type XYZCoord = { x: XCoord; y: YCoord; z: number };
+
+type Coordinate = XCoord | XYCoord | XYZCoord;
+type CoordList = Coordinate[];
+
+let coord: CoordList = [{ x: 10, y: 10}, { x: 0, y: 42, z: 10 }, { x: 5 }];
+```
+
+起别名不会新建一个类型 - 它创建了一个新*名字*来引用那个类型。
+所以`10`是绝对有效的`XCoord`和`YCoord`，因为它们都引用`number`。
+给原始类型起别名通常没什么用，尽管可以做为文档的一种形式使用。
+
+像接口一起，类型别名也可以是泛型 - 我们可以添加类型参数并且在别名声明的右侧传入：
+
+```ts
+type Container<T> = { value: T };
+```
+
+我们也可以使用类型别名来在属性里引用自己：
+
+```ts
+type Tree<T> = {
+    value: T;
+    left: Tree<T>;
+    right: Tree<T>;
+}
+```
+
+然而，类型别名不可能出现在声明右侧以外的地方：
+
+```ts
+type Yikes = Array<Yikes>; // 错误
+```
+
+## 接口 vs. 类型别名
+
+像我们提到的，类型别名可以像接口一样；然而，仍有一些细微差别。
+
+一个重要区别是类型别名不能被`extends`和`implements`也不能去`extends`和`implements`其它类型。
+因为[软件中的对象应该对于扩展是开放的，但是对于修改是封闭的](https://en.wikipedia.org/wiki/Open/closed_principle)，你应该尽量去使用接口代替类型别名。
+
+另一方面，如果你无法通过接口来描述一个类型并且需要使用联合类型或元组类型，这时通常会使用类型别名。

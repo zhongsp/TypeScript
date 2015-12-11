@@ -11,6 +11,7 @@ TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
 * [枚举](./doc/handbook/Enums.md)
 * [变量声明](./doc/handbook/Variable Declarations.md)
 * [接口](./doc/handbook/Interfaces.md)
+* [高级类型](./doc/handbook/Advanced Types.md)
 * [类](./doc/handbook/Classes.md)
 * [命名空间和模块](./doc/handbook/Namespaces and Modules.md)
 * [命名空间](./doc/handbook/Namespaces.md)
