@@ -435,7 +435,7 @@ console.log(greeter2.greet());
 我们创建了一个叫做`greeterMaker`的变量。
 这个变量保存了这个类或者说保存了类构造函数。
 然后我们使用`typeof Greeter`，意思是取Greeter类的类型，而不是实例的类型。
-或者理确切的说，"告诉我`Greeter`标识符的类型"，也就是构造函数的类型。
+或者更确切的说，"告诉我`Greeter`标识符的类型"，也就是构造函数的类型。
 这个类型包含了类的所有静态成员和构造函数。
 之后，就和前面一样，我们在`greeterMaker`上使用`new`，创建`Greeter`的实例。
 
