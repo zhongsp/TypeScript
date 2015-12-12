@@ -21,3 +21,4 @@
 * [Decorators](./doc/handbook/Decorators.md)
 * [tsconfig.json](./doc/handbook/tsconfig.json.md)
 * [编译选项](./doc/handbook/Compiler Options.md)
+* [在MSBuild里使用编译选项](./doc/handbook/Compiler Options in MSBuild.md)
