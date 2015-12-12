@@ -43,10 +43,12 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * [tsconfig.json](./doc/handbook/tsconfig.json.md)
 * [编译选项](/doc/handbook/Complier Options.md)
 * [在MSBuild里使用编译选项](./doc/handbook/Compiler Options in MSBuild.md)
+* [与其它构建工具整合](./doc/handbook/Integrating with Build Tools.md)
 
 
 ## 主要修改
 
+* 2015-12-12 新增章节：[与其它构建工具整合](./doc/handbook/Integrating with Build Tools.md)
 * 2015-12-12 新增章节：[在MSBuild里使用编译选项](./doc/handbook/Compiler Options in MSBuild.md)
 * 2015-12-11 新增章节：[高级类型](./doc/handbook/Advanced Types.md)
 * 2015-12-06 新增章节：[编译选项](./doc/handbook/Complier Options.md)

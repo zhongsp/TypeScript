@@ -22,3 +22,4 @@
 * [tsconfig.json](./doc/handbook/tsconfig.json.md)
 * [编译选项](./doc/handbook/Compiler Options.md)
 * [在MSBuild里使用编译选项](./doc/handbook/Compiler Options in MSBuild.md)
+* [与其它构建工具整合](./doc/handbook/Integrating with Build Tools.md)
