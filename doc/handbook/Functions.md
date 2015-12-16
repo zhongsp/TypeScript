@@ -22,7 +22,7 @@ function add(x, y) {
 let myAdd = function(x, y) { return x + y; };
 ```
 
-在JavaScript里，函数可以可以使用函数体外部的变量。
+在JavaScript里，函数可以使用函数体外部的变量。
 当函数这么做时，我们说它‘捕获’了这些变量。
 至于为什么可以这样做以及其中的利弊超出了本文的范围，但是深刻理解这个机制对学习JavaScript和TypeScript会很有帮助。
 
@@ -132,7 +132,7 @@ let result2 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters
 let result3 = buildName("Bob", "Adams");  // ah, just right
 ```
 
-可选参数必须在必须跟在必须参数后面。
+可选参数必须跟在必须参数后面。
 如果上例我们想让first name是可选的，那么就必须调整它们的位置，把first name放在后面。
 
 在TypeScript里，我们也可以为参数提供一个默认值当用户没有传递这个参数或传递的值是`undefined`时。
