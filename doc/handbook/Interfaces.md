@@ -44,6 +44,7 @@ printLabel(myObj);
 还有一点值得提的是，类型检查器不会去检查属性的顺序，只要相应的属性存在并且类型也是对的就可以。
 
 # 可选属性
+
 接口里的属性不全都是必需的。
 有些是只在某些条件下存在，或者根本不存在。
 可选属性在应用“option bags”模式时很常用，即给函数传入的参数对象中只有部分属性赋值了。
@@ -360,24 +361,24 @@ c.interval = 5.0;
 例：
 
 ```ts
-class Control {  
-    private state: any; 
+class Control {
+    private state: any;
 }
 
-interface SelectableControl extends Control {  
-    select(): void;  
+interface SelectableControl extends Control {
+    select(): void;
 }
 
-class Button extends Control {  
-    select() { }  
+class Button extends Control {
+    select() { }
 }
-class TextBox extends Control {  
-    select() { }  
+class TextBox extends Control {
+    select() { }
 }
-class Image extends Control {  
+class Image extends Control {
 }
-class Location {  
-    select() { }  
+class Location {
+    select() { }
 }
 ```
 

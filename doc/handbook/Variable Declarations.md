@@ -234,6 +234,7 @@ console.log(e);
 a++; // illegal to use 'a' before it's declared;
 let a;
 ```
+
 注意一点，我们仍然可以在一个拥有块作用域变量被声明前*获取*它。
 只是我不能在变量声明前去调用那个函数。
 如果生成代码目标为ES2015，现代的运行时会抛出一个错误；然而，现今TypeScript是不会报错的。
