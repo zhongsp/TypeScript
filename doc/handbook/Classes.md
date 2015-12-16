@@ -79,7 +79,7 @@ tom.move(34);
 
 包含constructor函数的派生类必须调用`super()`，它会执行基类的构造方法。
 
-```
+```plain
 Slithering...
 Sammy the Python moved 5m.
 Galloping...
@@ -141,7 +141,7 @@ class Rhino extends Animal {
 
 class Employee {
     private name: string;
-    constructor(theName: string) { this.name = theName; } 
+    constructor(theName: string) { this.name = theName; }
 }
 
 let animal = new Animal("Goat");
@@ -245,7 +245,7 @@ class Employee {
     get fullName(): string {
         return this._fullName;
     }
-  
+
     set fullName(newName: string) {
         if (passcode && passcode == "secret passcode") {
             this._fullName = newName;

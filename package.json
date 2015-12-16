@@ -1,12 +1,12 @@
 {
-  "name": "TypeScript-Tool",
+  "name": "typescript-handbook-cn",
   "version": "1.0.0",
-  "description": "TypeScript starter package",
+  "description": "The TypeScript Handbook is a comprehensive guide to the TypeScript language",
   "directories": {
     "doc": "doc"
   },
   "scripts": {
-    "test": " "
+    "test": "node lint.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,8 @@
   "homepage": "https://github.com/zhongsp/TypeScript",
   "devDependencies": {
     "gulp": "^3.8.11",
-    "gulp-typescript": "^2.6.0"
+    "gulp-typescript": "^2.6.0",
+    "glob": "^5.0.15",
+    "markdownlint": "0.0.8"
   }
 }
