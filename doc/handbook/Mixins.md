@@ -46,7 +46,7 @@ class SmartObject implements Disposable, Activatable {
     activate: () => void;
     deactivate: () => void;
 }
-applyMixins(SmartObject, [Disposable, Activatable])
+applyMixins(SmartObject, [Disposable, Activatable]);
 
 let smartObj = new SmartObject();
 setTimeout(() => smartObj.interact(), 1000);
@@ -59,7 +59,7 @@ function applyMixins(derivedCtor: any, baseCtors: any[]) {
     baseCtors.forEach(baseCtor => {
         Object.getOwnPropertyNames(baseCtor.prototype).forEach(name => {
             derivedCtor.prototype[name] = baseCtor.prototype[name];
-        })
+        });
     });
 }
 ```
@@ -121,7 +121,7 @@ deactivate: () => void;
 最后，把mixins混入定义的类，完成全部实现部分。
 
 ```ts
-applyMixins(SmartObject, [Disposable, Activatable])
+applyMixins(SmartObject, [Disposable, Activatable]);
 ```
 
 最后，创建这个帮助函数，帮我们做混入操作。

@@ -202,29 +202,32 @@ declare module "zoo" {
 
 ```ts
 // Super-chainable library for eagles
-import eagle = require('./eagle');
+import Eagle = require('./eagle');
+
 // Call directly
-eagle('bald').fly();
+Eagle('bald').fly();
+
 // Invoke with new
-let eddie = new eagle('Mille');
+var eddie = new Eagle('Mille');
+
 // Set properties
-eddie.favorite = 'golden';
+eddie.kind = 'golden';
 ```
 
 #### 类型
 
 ```ts
-// Note: can use any name here, but has to be the same throughout this file
-declare function eagle(name: string): eagle;
-declare namespace eagle {
-    let favorite: string;
-    function fly(): void;
-}
-interface eagle {
-    new(awesomeness: number): eagle;
+interface Eagle {
+    (kind: string): Eagle;
+    new (kind: string): Eagle;
+
+    kind: string;
+    fly(): void
 }
 
-export = eagle;
+declare var Eagle: Eagle;
+
+export = Eagle;
 ```
 
 ## 回调函数

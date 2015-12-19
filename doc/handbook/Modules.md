@@ -414,7 +414,6 @@ strings.forEach(s => {
 为了确保类型安全性，我们可以使用`typeof`关键字。
 `typeof`关键字，当在表示类型的地方使用时，会得出一个类型值，这里就表示模块的类型。
 
-
 ##### 示例：Node.js里的动态模块加载
 
 ```ts
@@ -467,7 +466,6 @@ if (needZipValidation) {
 通常会在`.d.ts`里写这些定义。
 如果你熟悉C/C++，你可以把它们当做`.h`文件。
 让我们看一些例子。
-
 
 ## 外部模块
 
@@ -720,6 +718,7 @@ export { test } from "./Calculator";
 
 新的`ProgrammerCalculator`模块导出的API与原先的`Calculator`模块很相似，但却没有改变原模块里的对象。
 下面是测试ProgrammerCalculator类的代码：
+
 
 #### TestProgrammerCalculator.ts
 
