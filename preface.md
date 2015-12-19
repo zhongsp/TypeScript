@@ -40,6 +40,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * [Iterators 和 Generators](./doc/handbook/Iterators and Generators.html)
 * [Symbols](./doc/handbook/Symbols.html)
 * [Decorators](./doc/handbook/Decorators.html)
+* [JSX](./doc/handbook/JSX.html)
 * [tsconfig.json](./doc/handbook/tsconfig.json.html)
 * [编译选项](/doc/handbook/Complier Options.html)
 * [在MSBuild里使用编译选项](./doc/handbook/Compiler Options in MSBuild.html)
@@ -49,6 +50,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 
 ## 主要修改
 
+* 2015-12-19 新增章节：[JSX](./doc/handbook/JSX.html)
 * 2015-12-12 新增章节：[NPM包的类型](./doc/handbook/Typings for NPM Packages.html)
 * 2015-12-12 新增章节：[与其它构建工具整合](./doc/handbook/Integrating with Build Tools.html)
 * 2015-12-12 新增章节：[在MSBuild里使用编译选项](./doc/handbook/Compiler Options in MSBuild.html)
