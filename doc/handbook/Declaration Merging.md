@@ -22,7 +22,9 @@ Typescript中的声明会创建以下三种实体之一：命名空间，类型�
 |------------------|:---------:|:----:|:-----:|
 | Namespace        |     X     |      |   X   |
 | Class            |           |   X  |   X   |
+| Enum             |           |   X  |   X   |
 | Interface        |           |   X  |       |
+| Type Alias       |           |   X  |       |
 | Function         |           |      |   X   |
 | Variable         |           |      |   X   |
 
