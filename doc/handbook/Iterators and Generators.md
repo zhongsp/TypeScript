@@ -6,7 +6,7 @@
 
 ## `for..of` 语句
 
-`for..of`会遍历可迭代的对象，调用对象上的`Symbol.iterator`属性。
+`for..of`会遍历可迭代的对象，调用对象上的`Symbol.iterator`方法。
 下面是在数组上使用`for..of`的简单例子：
 
 ```ts
@@ -19,7 +19,7 @@ for (let entry of someArray) {
 
 ### `for..of` vs. `for..in` 语句
 
-`for..of`和`for..in`均可迭代一个列表；但是用于迭代的值却不同，`for..in`迭代的是对象的*键*的列表，而`for..of`则迭代对象数字键对应的值。
+`for..of`和`for..in`均可迭代一个列表；但是用于迭代的值却不同，`for..in`迭代的是对象的 *键* 的列表，而`for..of`则迭代对象的键对应的值。
 
 下面的例子展示了两者之间的区别：
 
@@ -34,8 +34,8 @@ for (let i of list) {
    console.log(i); // "4", "5", "6"
 ```
 
-别一个区别是`for..in`可以操作任何对象；它提供了查看对象属性的一种方法。
-但是`for..in`关注于迭代对象的值。内置对象`Map`和`Set`已经实现了`Symbol.iterator`属性，让我们可以访问它们保存的值。
+另一个区别是`for..in`可以操作任何对象；它提供了查看对象属性的一种方法。
+但是`for..of`关注于迭代对象的值。内置对象`Map`和`Set`已经实现了`Symbol.iterator`方法，让我们可以访问它们保存的值。
 
 ```ts
 let pets = new Set(["Cat", "Dog", "Hamster"]);
