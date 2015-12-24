@@ -50,7 +50,7 @@ let className = c[getClassNameSymbol](); // "C"
 除了用户定义的symbols，还有一些已经众所周知的内置symbols。
 内置symbols用来表示语言内部的行为。
 
-下面是这样一些symbols的示例：
+以下为这些symbols的列表：
 
 ## `Symbol.hasInstance`
 
