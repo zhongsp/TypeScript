@@ -1,7 +1,7 @@
 # 介绍
 
 随着TypeScript和ES6里引入了类，现在在一些场景下我们会需要额外的特性,用来支持标注或修改类及其成员。
-Decorators提供了一种方式在类的声明和成员上使用元编程语法添加标注。
+Decorators提供了一种在类的声明和成员上使用元编程语法添加标注的方式。
 Javascript里的Decorators目前处在[建议征集的第一阶段](https://github.com/wycats/javascript-decorators/blob/master/README.md)，在TypeScript里做为实验性特性已经提供了支持。
 
 > 注意&emsp; Decorators是实验性的特性，在未来的版本中可能会发生改变。
