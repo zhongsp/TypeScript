@@ -45,9 +45,9 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * [编译选项](/doc/handbook/Complier Options.html)
 * [在MSBuild里使用编译选项](./doc/handbook/Compiler Options in MSBuild.html)
 * [与其它构建工具整合](./doc/handbook/Integrating with Build Tools.html)
-* [常见编译错误](./doc/handbook/Common Errors.html)
 * [NPM包的类型](./doc/handbook/Typings for NPM Packages.html)
 * Wiki
+  * [常见编译错误](./doc/handbook/Common Errors.html)
   * [支持TypeScript的编辑器](./doc/handbook/TypeScript-Editor-Support.html)
 
 
