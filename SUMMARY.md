@@ -24,4 +24,5 @@
 * [编译选项](./doc/handbook/Compiler Options.md)
 * [在MSBuild里使用编译选项](./doc/handbook/Compiler Options in MSBuild.md)
 * [与其它构建工具整合](./doc/handbook/Integrating with Build Tools.md)
+* [常见编译错误](./doc/handbook/Common Errors.html)
 * [NPM包的类型](./doc/handbook/Typings for NPM Packages.md)
