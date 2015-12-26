@@ -1,7 +1,7 @@
 # 介绍
 
-随着TypeScript和ES6里引入了类，现在在一些场景下我们会需要额外的特性来支持注解或修改类和类成员。
-Decorators提供了一种方式来添加注解和在类的声明和成员上使用元编程语法。
+随着TypeScript和ES6里引入了类，现在在一些场景下我们会需要额外的特性,用来支持标注或修改类及其成员。
+Decorators提供了一种在类的声明和成员上使用元编程语法添加标注的方式。
 Javascript里的Decorators目前处在[建议征集的第一阶段](https://github.com/wycats/javascript-decorators/blob/master/README.md)，在TypeScript里做为实验性特性已经提供了支持。
 
 > 注意&emsp; Decorators是实验性的特性，在未来的版本中可能会发生改变。
@@ -27,7 +27,7 @@ tsc --target ES5 --experimentalDecorators
 
 # Decorators （后文译作装饰器）
 
-*装饰器*是一种特殊类型的声明，它能够被附加到[类装饰器](#class-decorators)，[方法](#method-decorators)，[访问符](#accessor-decorators)，[属性](#property-decorators)，或 [参数](#parameter-decorators)上。
+*装饰器*是一种特殊类型的声明，它能够被附加到[类声明](#class-decorators)，[方法](#method-decorators)，[访问符](#accessor-decorators)，[属性](#property-decorators)，或 [参数](#parameter-decorators)上。
 装饰器利用`@expression`这种方式，`expression`求值后必须为一个函数，它使用被装饰的声明信息在运行时被调用。
 
 例如，有一个`@sealed`装饰器，我们会这样定义`sealed`函数：
@@ -117,10 +117,10 @@ f(): called
 
 ## 装饰器求值
 
-下在是定义好的步骤用来说明装饰器是如何应用到类里面不同声明上的：
+类中不同声明上的装饰器将按以下规定的顺序应用：
 
-1. *参数装饰器*，然后*方法*，*访问符*，或*属性装饰器*应用到每个实例成员。
-2. *参数装饰器*，然后*方法*，*访问符*，或*属性装饰器*应用到每个静态成员。
+1. *参数装饰器*，其次是*方法*，*访问符*，或*属性装饰器*应用到每个实例成员。
+2. *参数装饰器*，其次是*方法*，*访问符*，或*属性装饰器*应用到每个静态成员。
 3. *参数装饰器*应用到构造函数。
 4. *类装饰器*应用到类。
 
@@ -161,7 +161,7 @@ function sealed(constructor: Function) {
 }
 ```
 
-当`@sealed`被执行的时候，它为锁定构造函数和它的原型。
+当`@sealed`被执行的时候，它将密封此类的构造函数和原型。(注：参见[Object.seal](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/seal))
 
 ## <a name="method-decorators"></a>方法装饰器
 
