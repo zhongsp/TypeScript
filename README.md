@@ -33,6 +33,8 @@ TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
 * [与其它构建工具整合](./doc/handbook/Integrating with Build Tools.md)
 * [常见编译错误](./doc/handbook/Common Errors.md)
 * [NPM包的类型](./doc/handbook/Typings for NPM Packages.md)
+* Wiki
+  * [支持TypeScript的编辑器](./doc/handbook/TypeScript-Editor-Support.md)
 
 **TypeScript Handbook**
 
