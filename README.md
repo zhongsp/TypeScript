@@ -1,5 +1,7 @@
 # TypeScript
 
+[![Build Status](https://travis-ci.org/zhongsp/TypeScript.svg?branch=master)](https://travis-ci.org/zhongsp/TypeScript)
+
 TypeScript is a superset of JavaScript that compiles to clean JavaScript output.  http://www.typescriptlang.org
 
 请阅读 :book: [TypeScript Handbook 中文版 - Published with GitBook](http://zhongsp.gitbooks.io/typescript-handbook/content/)
