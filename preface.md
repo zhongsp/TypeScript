@@ -76,11 +76,3 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * [TypeScript on Github](https://github.com/Microsoft/TypeScript)
 * [TypeScript语言规范](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)
 * [本手册中文版Github地址](https://github.com/zhongsp/TypeScript)
-
-
-## Miscellaneous
-
-* [tsconfig.json](https://github.com/zhongsp/TypeScript/tree/master/doc/tsconfig.json.md) (TypeScript 1.5)
-* [let和const](https://github.com/zhongsp/TypeScript/tree/master/doc/let_and_const.md) (TypeScript 1.4)
-* [元组类型 - Tuple Types](https://github.com/zhongsp/TypeScript/tree/master/doc/tuple_types.md) (TypeScript 1.3) 
-* [受保护的成员 - Protected members](https://github.com/zhongsp/TypeScript/tree/master/doc/protected.md) (TypeScript 1.3) 
