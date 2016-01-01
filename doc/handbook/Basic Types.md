@@ -164,7 +164,7 @@ let prettySure: Object = 4;
 prettySure.toFixed(); // Error: Property 'toFixed' doesn't exist on type 'Object'.
 ```
 
-当你只知道一分部数据的类型时，`any`类型也是有用的。
+当你只知道一部分数据的类型时，`any`类型也是有用的。
 比如，你有一个数组，它包含了不同的类型的数据：
 
 ```ts
