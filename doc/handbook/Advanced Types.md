@@ -275,7 +275,7 @@ type XYZCoord = { x: XCoord; y: YCoord; z: number };
 type Coordinate = XCoord | XYCoord | XYZCoord;
 type CoordList = Coordinate[];
 
-let coord: CoordList = [{ x: 10, y: 10}, { x: 0, y: 42, z: 10 }, { x: 5 }];
+let coord: CoordList = [{ x: 10, y: 10}, { x: 0, y: 42, z: 10 }, 5];
 ```
 
 起别名不会新建一个类型 - 它创建了一个新*名字*来引用那个类型。
