@@ -13,19 +13,19 @@
 `--diagnostics`                         |           | 显示诊断信息。
 `--emitBOM`                             |           | 在输出文件的开头加入BOM头（UTF-8 Byte Order Mark）。
 `--emitDecoratorMetadata`<sup>[1]</sup> |           | 给源码里的装饰器声明加上设计类型元数据。查看[issue #2577](https://github.com/Microsoft/TypeScript/issues/2577)了解更多信息。
-`--inlineSourceMap`                     |           | 生成单一的带sourcemaps的文件，而不是单独生成一个文件。
+`--inlineSourceMap`                     |           | 生成单个sourcemaps文件，而不是将每sourcemaps生成不同的文件。
 `--inlineSources`                       |           | 将代码与sourcemaps生成到一个文件中，要求同时设置了`--inlineSourceMap`属性。
-`--isolatedModules`                     |           | 无条件地给没有解决的文件生成imports。
+`--isolatedModules`                     |           | 无条件地给没有解析的文件生成imports。
 `--jsx`                                 |           | 在'.tsx'文件里支持JSX：'React' 或 'Preserve'。查看[JSX](./JSX.md)。
 `--listFiles`                           |           | 编译过程中打印文件名。
 `--locale`                              |           | 显示错误信息时使用的语言，比如：en-us。
-`--mapRoot`                             |           | 指定sourcemap文件的地址，生不是生成一个地址。当`.map`文件是在运行时指定的，并不同于`js`文件的地址时使用这个标记。指定的地址会为嵌入到`sourceMap`里告诉调试器到哪里去找它们。
-`--moduleResolution`<sup>[1]</sup>      |           | 决定如果处理模块。或者是'node'对于Node.js/io.js，或者是'classic'（默认）。
-`--newLine`                             |           | 指定行结束符当生成文件时：'CRLF'（dos）或 'LF' （unix）。
+`--mapRoot`                             |           | 为调试器指定指定sourcemap文件的路径，而不是使用生成时的路径。当`.map`文件是在运行时指定的，并不同于`js`文件的地址时使用这个标记。指定的路径会嵌入到`sourceMap`里告诉调试器到哪里去找它们。
+`--moduleResolution`<sup>[1]</sup>      |           | 决定如何处理模块。或者是'node'对于Node.js/io.js，或者是'classic'（默认）。
+`--newLine`                             |           | 当生成文件时指定行结束符：'CRLF'（dos）或 'LF' （unix）。
 `--noEmit`                              |           | 不生成输出文件。
 `--noEmitOnError`                       |           | 报错时不生成输出文件。
 `--noEmitHelpers`                       |           | 不在输出文件中生成用户自定义的帮助函数代码，如`__extends`。
-`--noImplicitAny`                       |           | 当表达式或声明为'any'类型时报错。
+`--noImplicitAny`                       |           | 在表达式和声明上有隐含的'any'类型时报错。
 `--noLib`                               |           | 不包含默认的库文件（lib.d.ts）。
 `--noResolve`                           |           | 不把`/// <reference``>`或模块导入的文件加到编译文件列表。
 `--out`                                 |           | 弃用。使用 `--outFile` 代替。
