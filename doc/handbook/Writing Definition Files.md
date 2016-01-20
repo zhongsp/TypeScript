@@ -230,6 +230,25 @@ declare var Eagle: Eagle;
 export = Eagle;
 ```
 
+## Module as a Function
+
+#### Usage
+
+```ts
+// Common pattern for node modules (e.g. rimraf, debug, request, etc.)
+import sayHello = require('say-hello');
+sayHello('Travis');
+```
+
+#### Typing
+
+```ts
+declare module 'say-hello' {
+  function sayHello(name: string): void;
+  export = sayHello;
+}
+```
+
 ## 回调函数
 
 #### 应用示例
