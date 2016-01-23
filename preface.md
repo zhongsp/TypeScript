@@ -47,6 +47,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * [与其它构建工具整合](./doc/handbook/Integrating with Build Tools.html)
 * [NPM包的类型](./doc/handbook/Typings for NPM Packages.html)
 * Wiki
+  * [编码规范](./doc/handbook/coding_guidelines.html)
   * [常见编译错误](./doc/handbook/Common Errors.html)
   * [支持TypeScript的编辑器](./doc/handbook/TypeScript-Editor-Support.html)
   * [结合ASP.NET v5使用TypeScript](./doc/handbook/Using-TypeScript-With-ASP.NET-5.html)
@@ -55,6 +56,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 
 ## 主要修改
 
+* 2016-01-23 新增章节：[编码规范](./doc/handbook/coding_guidelines.html)
 * 2016-01-23 新增章节：[架构概述](./doc/handbook/Architectural-Overview.html)
 * 2015-12-27 新增章节：[结合ASP.NET v5使用TypeScript](./doc/handbook/Using-TypeScript-With-ASP.NET-5.html)
 * 2015-12-26 新增章节：[支持TypeScript的编辑器](./doc/handbook/TypeScript-Editor-Support.html)

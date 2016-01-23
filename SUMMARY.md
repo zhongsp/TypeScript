@@ -26,6 +26,7 @@
 * [与其它构建工具整合](./doc/handbook/Integrating with Build Tools.md)
 * [NPM包的类型](./doc/handbook/Typings for NPM Packages.md)
 * Wiki
+  * [编码规范](./doc/handbook/coding_guidelines.md)
   * [常见编译错误](./doc/handbook/Common Errors.md)
   * [支持TypeScript的编辑器](./doc/handbook/TypeScript-Editor-Support.md)
   * [结合ASP.NET v5使用TypeScript](./doc/handbook/Using-TypeScript-With-ASP.NET-5.md)
