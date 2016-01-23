@@ -29,3 +29,4 @@
   * [常见编译错误](./doc/handbook/Common Errors.md)
   * [支持TypeScript的编辑器](./doc/handbook/TypeScript-Editor-Support.md)
   * [结合ASP.NET v5使用TypeScript](./doc/handbook/Using-TypeScript-With-ASP.NET-5.md)
+  * [架构概述](./doc/handbook/Architectural-Overview.md)
