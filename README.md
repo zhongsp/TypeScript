@@ -35,6 +35,7 @@ TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
 * [与其它构建工具整合](./doc/handbook/Integrating with Build Tools.md)
 * [NPM包的类型](./doc/handbook/Typings for NPM Packages.md)
 * Wiki
+  * [编码规范](./doc/handbook/coding_guidelines.md)
   * [常见编译错误](./doc/handbook/Common Errors.md)
   * [支持TypeScript的编辑器](./doc/handbook/TypeScript-Editor-Support.md)
   * [结合ASP.NET v5使用TypeScript](./doc/handbook/Using-TypeScript-With-ASP.NET-5.md)
@@ -49,10 +50,6 @@ TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
 
 * Read [TypeScript Language Specification (Recommended)](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)
 * Read [TypeScript 语言规范 (译完第一章)](./doc/TypeScript Language Specification.md)
-
-**Others**
-
-* [编码规范](./doc/coding_guidelines.md)
 
 I'd love for you to contribute to the translation:)
 
