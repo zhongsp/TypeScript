@@ -52,10 +52,12 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [支持TypeScript的编辑器](./doc/handbook/TypeScript-Editor-Support.html)
   * [结合ASP.NET v5使用TypeScript](./doc/handbook/Using-TypeScript-With-ASP.NET-5.html)
   * [架构概述](./doc/handbook/Architectural-Overview.html)
+  * [发展路线图](./doc/handbook/Roadmap.html)
 
 
 ## 主要修改
 
+* 2016-01-24 新增章节：[发展路线图](./doc/handbook/Roadmap.md)
 * 2016-01-23 新增章节：[编码规范](./doc/handbook/coding_guidelines.html)
 * 2016-01-23 新增章节：[架构概述](./doc/handbook/Architectural-Overview.html)
 * 2015-12-27 新增章节：[结合ASP.NET v5使用TypeScript](./doc/handbook/Using-TypeScript-With-ASP.NET-5.html)
@@ -65,14 +67,6 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * 2015-12-12 新增章节：[NPM包的类型](./doc/handbook/Typings for NPM Packages.html)
 * 2015-12-12 新增章节：[与其它构建工具整合](./doc/handbook/Integrating with Build Tools.html)
 * 2015-12-12 新增章节：[在MSBuild里使用编译选项](./doc/handbook/Compiler Options in MSBuild.html)
-* 2015-12-11 新增章节：[高级类型](./doc/handbook/Advanced Types.html)
-* 2015-12-06 新增章节：[编译选项](./doc/handbook/Complier Options.html)
-* 2015-12-06 新增章节：[tsconfig.json](./doc/handbook/tsconfig.json.html)
-* 2015-12-05 新增章节：[变量声明：let和const](./doc/handbook/Variable Declarations.html)
-* 2015-11-30 新增章节：[枚举](./doc/handbook/Enums.html)
-* 2015-11-28 新增章节：[Decorators](./doc/handbook/Decorators.html)
-* 2015-11-18 新增章节：[抽象类](./doc/handbook/Classes.html#抽象类)
-* 2015-11-15 新增章节：[模块](./doc/handbook/Modules.html)
 
 
 ## 相关链接
