@@ -31,4 +31,4 @@
   * [支持TypeScript的编辑器](./doc/handbook/TypeScript-Editor-Support.md)
   * [结合ASP.NET v5使用TypeScript](./doc/handbook/Using-TypeScript-With-ASP.NET-5.md)
   * [架构概述](./doc/handbook/Architectural-Overview.md)
-  * [发展路线图](./doc/handbook/Roadmap.html)
+  * [发展路线图](./doc/handbook/Roadmap.md)
