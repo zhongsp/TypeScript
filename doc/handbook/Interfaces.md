@@ -388,4 +388,4 @@ class Location {
 
 在`Control`类内部，是允许通过`SelectableControl`的实例来访问私有成员`state`的。
 实际上，`SelectableControl`就像`Control`一样，并拥有一个`select`方法。
-`Button`和`TextBox`类是`SelectableControl`的子类（类为它们都继承自`Control`并有`select`方法），但`Image`和`Location`类并不是这样的。
+`Button`和`TextBox`类是`SelectableControl`的子类（因为它们都继承自`Control`并有`select`方法），但`Image`和`Location`类并不是这样的。
