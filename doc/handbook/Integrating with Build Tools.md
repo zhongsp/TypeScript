@@ -161,7 +161,7 @@ module.exports = {
 或者
 
 * [awesome-typescript-loader](https://www.npmjs.com/package/awesome-typescript-loader)
-* 
+
 # MSBuild
 
 更新工程文件，包含本地安装的`Microsoft.TypeScript.Default.props`（在顶端）和`Microsoft.TypeScript.targets`（在底部）文件：
