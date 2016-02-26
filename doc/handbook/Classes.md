@@ -189,9 +189,36 @@ console.log(howard.name); // error
 
 注意，我们不能在`Person`类外使用`name`，但是我们仍然可以通过`Employee`类的实例方法访问，因为`Employee`是由`Person`派生出来的。
 
+构造函数也可被标记为`protected`.
+这就是说这个类不能在包含它的类之外实例外，但是可以被继承。比如，
+
+```ts
+class Person {
+    protected name: string;
+    protected constructor(theName: string) { this.name = theName; }
+}
+
+// Employee can extend Person
+class Employee extends Person {
+    private department: string;
+
+    constructor(name: string, department: string) {
+        super(name);
+        this.department = department;
+    }
+
+    public getElevatorPitch() {
+        return `Hello, my name is ${this.name} and I work in ${this.department}.`;
+    }
+}
+
+let howard = new Employee("Howard", "Sales");
+let john = new Person("John"); // Error: The 'Person' constructor is protected
+```
+
 ## 参数属性
 
-在上面的例子中，我们不得不定义一个私有成员`name`和一个构造函数参数`theName`，并且立刻给`name`和`theName`赋值。
+在上面的例子中，我们不得不定义一个受保护的成员`name`和一个构造函数参数`theName`在`Person`类里，并且立刻给`name`和`theName`赋值。
 这种情况经常会遇到。*参数属性*可以方便地让我们在一个地方定义并初始化一个成员。
 下面的例子是对之前`Animal`类的修改版，使用了参数属性：
 
