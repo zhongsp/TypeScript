@@ -54,10 +54,13 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [结合ASP.NET v5使用TypeScript](./doc/handbook/Using-TypeScript-With-ASP.NET-5.html)
   * [架构概述](./doc/handbook/Architectural-Overview.html)
   * [发展路线图](./doc/handbook/Roadmap.html)
+* 快速上手
+  * [React和webpack](./doc/handbook/quick-start/react-webpack.html)
 
 
 ## 主要修改
 
+* 2016-02-27 新增章节：快速上手[React和webpack](./doc/handbook/quick-start/react-webpack.html)
 * 2016-01-31 新增章节：[TypeScript里的this](./doc/handbook/this-in-TypeScript.html)
 * 2016-01-24 新增章节：[发展路线图](./doc/handbook/Roadmap.html)
 * 2016-01-23 新增章节：[编码规范](./doc/handbook/coding_guidelines.html)
