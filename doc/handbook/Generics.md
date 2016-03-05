@@ -208,7 +208,7 @@ myGenericNumber.zeroValue = 0;
 myGenericNumber.add = function(x, y) { return x + y; };
 ```
 
-`GenericNumber`类的使用是十分直观的，并且你应该注意到了我们并不限制只能使用数字类型。
+`GenericNumber`类的使用是十分直观的，并且你可能已经注意到了，没有什么去限制它只能使用`number`类型。
 也可以使用字符串或其它更复杂的类型。
 
 ```ts
