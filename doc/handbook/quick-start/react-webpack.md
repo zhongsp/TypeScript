@@ -17,17 +17,25 @@ cd proj
 ```text
 proj/
    +- src/
+   |    +- components/
+   |
    +- dist/
 ```
 
 TypeScript文件会放在`src`文件夹里，通过TypeScript编译器编译，然后经webpack处理，最后生成一个`bundle.js`文件放在`dist`目录下。
+我们自定义的组件将会放在`src/components`文件夹下。
 
 下面来创建基本结构：
 
 ```shell
 mkdir src
+cd src
+mkdir components
+cd ..
 mkdir dist
 ```
+
+# 初始化工程
 
 现在把这个目录变成npm包。
 
@@ -48,7 +56,7 @@ npm init
 npm install -g typescript typings webpack
 ```
 
-Webpack这个工具可以将你的所有代码和依赖捆绑成一个单独的`.js`文件。
+Webpack这个工具可以将你的所有代码和可选择地将依赖捆绑成一个单独的`.js`文件。
 [Typings](https://www.npmjs.com/package/typings)是一个包管理器，它是用来获取定义文件的。
 
 现在我们添加React和React-DOM依赖到`package.json`文件里：
@@ -66,7 +74,8 @@ npm link typescript
 
 这些依赖会让TypeScript和webpack在一起良好地工作。
 ts-loader可以让webpack使用TypeScript的标准配置文件`tsconfig.json`编译TypeScript代码。
-source-map-loader使用TypeScript输出的sourcemap文件，来告诉webpack如何生成sourcemap。
+source-map-loader使用TypeScript输出的sourcemap文件来告诉webpack何时生成*自己的*sourcemaps。
+这就允许你在调试最终生成的文件时就好像在调试TypeScript源码一样。
 
 链接TypeScript，允许ts-loader使用全局安装的TypeScript，而不需要单独的本地拷贝。
 如果你想要一个本地的拷贝，执行`npm install typescript`。
@@ -84,7 +93,7 @@ typings install --ambient --save react-dom
 # 写一些代码
 
 下面使用React写一段TypeScript代码。
-在`src`目录下创建一个名为`index.tsx`的文件。
+首先，在`src/components`目录下创建一个名为`Hello.tsx`的文件，代码如下：
 
 ```ts
 import * as React from "react";
@@ -92,7 +101,7 @@ import * as ReactDOM from "react-dom";
 
 class HelloComponent extends React.Component<any, any> {
     render() {
-        return <h1>Hello from TypeScript and React!</h1>;
+        return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
     }
 }
 
@@ -102,10 +111,29 @@ ReactDOM.render(
 );
 ```
 
-注意，这个例子已经很像类了，我们不需要使用类。
+注意一点这个例子已经很像类了，我们不再需要使用类。
+使用React的其它方式（比如[无状态的功能组件](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions)）。
+
+接下来，在`src`下创建`index.tsx`文件，源码如下：
+
+```ts
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+
+import { Hello } from "./components/Hello";
+
+ReactDOM.render(
+    <Hello compiler="TypeScript" framework="React" />,
+    document.getElementById("example")
+);
+```
+
+我们仅仅将`Hello`组件导入`index.tsx`。
+注意，不同于`"react"`或`"react-dom"`，我们使用`index.tsx`的*相对路径* - 这很重要。
+如果不这样做，TypeScript只会尝试在`node_modules`文件夹里查找。
 其它使用React的方法也应该可以。
 
-我们还需要一个视图来显示`HelloComponent`。
+我们还需要一个页面来显示`Hello`组件。
 在根目录`proj`创建一个名为`index.html`的文件，如下：
 
 ```html
@@ -124,7 +152,7 @@ ReactDOM.render(
 
 # 添加TypeScript配置文件
 
-现在，可以把所有TypeScript文件放在一起 - 包括`index.tsx`和类型文件。
+现在，可以把所有TypeScript文件放在一起 - 包括我们编写的代码和必要的typings文件。
 
 现在需要创建`tsconfig.json`文件，它包含输入文件的列表和编译选项。
 在根目录下执行下在命令：
