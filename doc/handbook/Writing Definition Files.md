@@ -172,7 +172,7 @@ interface WidgetFactory {
 declare let widget: WidgetFactory;
 ```
 
-## 全局的或未知的外部Libraries
+## 全局或外部的未知代码库
 
 #### 应用示例
 
@@ -196,7 +196,7 @@ declare module "zoo" {
 }
 ```
 
-## 外部模块的单个复杂对象
+## 模块里的单一复杂对象
 
 #### 应用示例
 
