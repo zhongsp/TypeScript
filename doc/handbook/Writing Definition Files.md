@@ -230,9 +230,9 @@ declare var Eagle: Eagle;
 export = Eagle;
 ```
 
-## Module as a Function
+## 将模块做为函数
 
-#### Usage
+#### 应用示例
 
 ```ts
 // Common pattern for node modules (e.g. rimraf, debug, request, etc.)
@@ -240,7 +240,7 @@ import sayHello = require('say-hello');
 sayHello('Travis');
 ```
 
-#### Typing
+#### 类型声明
 
 ```ts
 declare module 'say-hello' {
