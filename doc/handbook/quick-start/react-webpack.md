@@ -99,16 +99,12 @@ typings install --ambient --save react-dom
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-class HelloComponent extends React.Component<any, any> {
+export class HelloComponent extends React.Component<any, any> {
     render() {
         return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
     }
 }
 
-ReactDOM.render(
-    <HelloComponent />,
-    document.getElementById("example")
-);
 ```
 
 注意一点这个例子已经很像类了，我们不再需要使用类。
@@ -120,10 +116,10 @@ ReactDOM.render(
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import { Hello } from "./components/Hello";
+import { HelloComponent } from "./components/Hello";
 
 ReactDOM.render(
-    <Hello compiler="TypeScript" framework="React" />,
+    <HelloComponent compiler="TypeScript" framework="React" />,
     document.getElementById("example")
 );
 ```
