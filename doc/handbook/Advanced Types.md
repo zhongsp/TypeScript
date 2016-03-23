@@ -266,20 +266,20 @@ if (padder instanceof StringPadder) {
 类型别名有时和接口很像，但是可以作用于原始值，联合类型，元组以及其它任何你需要手写的类型。
 
 ```ts
-type XCoord = number;
-type YCoord = number;
-
-type XYCoord = { x: XCoord; y: YCoord };
-type XYZCoord = { x: XCoord; y: YCoord; z: number };
-
-type Coordinate = XCoord | XYCoord | XYZCoord;
-type CoordList = Coordinate[];
-
-let coord: CoordList = [{ x: 10, y: 10}, { x: 0, y: 42, z: 10 }, 5];
+type Name = string;
+type NameResolver = () => string;
+type NameOrResolver = Name | NameResolver;
+function getName(n: NameOrResolver): Name {
+    if (typeof n === 'string') {
+        return n;
+    }
+    else {
+        return n();
+    }
+}
 ```
 
 起别名不会新建一个类型 - 它创建了一个新*名字*来引用那个类型。
-所以`10`是绝对有效的`XCoord`和`YCoord`，因为它们都引用`number`。
 给原始类型起别名通常没什么用，尽管可以做为文档的一种形式使用。
 
 同接口一样，类型别名也可以是泛型 - 我们可以添加类型参数并且在别名声明的右侧传入：
