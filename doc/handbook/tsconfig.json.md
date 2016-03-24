@@ -2,7 +2,6 @@
 
 如果一个目录下存在一个`tsconfig.json`文件，那么它意味着这个目录是TypeScript项目的根目录。
 `tsconfig.json`文件中指定了用来编译这个项目的根文件和编译选项。
-`tsconfig.json`从TypeScript 1.5开始支持。
 一个项目可以通过以下方式之一来编译：
 
 ## 使用tsconfig.json
@@ -82,6 +81,21 @@
 `tsconfig.json`可以是个空文件，那么编译器则使用默认编译选项，编译当前目录及其子目录下的所有文件。
 
 命令行上提供的编译选项会覆盖`tsconfig.json`文件中的对应选项。
+
+## `compileOnSave`
+
+在最顶层设置`compileOnSave`标记，可以让IDE在保存文件的时候根据`tsconfig.json`重新生成文件。
+
+```json
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "noImplicitAny" : true
+    }
+}
+```
+
+要想支持这个特性需要Visual Studio 2015， TypeScript1.8.4以上并且安装[atom-typescript](https://github.com/TypeStrong/atom-typescript/blob/master/docs/tsconfig.md#compileonsave)插件。
 
 ## 模式
 
