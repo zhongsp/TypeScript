@@ -27,7 +27,7 @@ var options = {
     MD023: true, // Headers must start at the beginning of the line
     MD024: false, // Multiple headers with the same content
     MD025: false, // Multiple top level headers in the same document
-    MD026: { punctuation: ".,;:!?" }, // Trailing punctuation in header
+    MD026: { punctuation: ".,;:!" }, // Trailing punctuation in header
     MD027: true, // Multiple spaces after blockquote symbol
     MD028: false, // Blank line inside blockquote
     MD029: { style: "ordered" }, // Ordered list item prefix
