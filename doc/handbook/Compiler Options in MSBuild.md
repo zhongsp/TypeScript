@@ -48,17 +48,42 @@
 `--sourceRoot`                               | TypeScriptSourceRoot                       | 文件路径
 `--suppressImplicitAnyIndexErrors`           | TypeScriptSuppressImplicitAnyIndexErrors   | 布尔值
 `--suppressExcessPropertyErrors`             |  TypeScriptSuppressExcessPropertyErrors    | 布尔值
-`--moduleResolution`                         | TypeScriptModuleResolution                 | `Classic` or `NodeJs`
+`--moduleResolution`                         | TypeScriptModuleResolution                 | `Classic` or `Node`
+`--experimentalAsyncFunctions`               | TypeScriptExperimentalAsyncFunctions       | 布尔值
 `--jsx`                                      | TypeScriptJSXEmit                          | `React` or `Preserve`
+`--reactNamespace`                           | TypeScriptReactNamespace                   | string
+`--skipDefaultLibCheck`                      | TypeScriptSkipDefaultLibCheck              | 布尔值
+`--allowUnusedLabels`                        | TypeScriptAllowUnusedLabels                | 布尔值
+`--noImplicitReturns`                        | TypeScriptNoImplicitReturns                | 布尔值
+`--noFallthroughCasesInSwitch`               | TypeScriptNoFallthroughCasesInSwitch       | 布尔值
+`--allowUnreachableCode`                     | TypeScriptAllowUnreachableCode             | 布尔值
+`--forceConsistentCasingInFileNames`         | TypeScriptForceConsistentCasingInFileNames | 布尔值
+`--allowSyntheticDefaultImports`             | TypeScriptAllowSyntheticDefaultImports     | 布尔值
+`--noImplicitUseStrict`                      | TypeScriptNoImplicitUseStrict              | 布尔值
 `--project`                                  | *VS不支持*                                  |
 `--watch`                                    | *VS不支持*                                  |
 `--diagnostics`                              | *VS不支持*                                  |
 `--listFiles`                                | *VS不支持*                                  |
 `--noEmit`                                   | *VS不支持*                                  |
+`--allowJs`                                  | *VS不支持*                                  |
 *VS特有选项*                                  | TypeScriptAdditionalFlags                  | *任意编译选项*
 
 
-## 我使用的Visual Studio版本里支持哪些选项
+## 我使用的Visual Studio版本里支持哪些选项?
 
 查找 `C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets` 文件。
 可用的MSBuild XML标签与相应的`tsc`编译选项的映射都在那里。
+
+## ToolsVersion
+
+工程文件里的`<TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>`属性值表明了构建时使用的编译器的版本号（这个例子里是1.7）
+这样就允许一个工程在不同的机器上使用固定的版本去编译。
+
+如果没有指定`TypeScriptToolsVersion`，则会使用机器上安装的最新版本的编译器去构建。
+
+如果用户使用的是更新版本的TypeScript，则会在首次加载工程的时候看到一个提示升级工程的对话框。
+
+## TypeScriptCompileBlocked
+
+如果你使用其它的构建工具（比如，gulp， grunt等等）并且使用VS做为开发和调试工具，那么在工程里设置`<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>`。
+这样VS只会提供给你编辑的功能，而不会在你按F5的时候去构建。
