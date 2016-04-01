@@ -58,8 +58,9 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [React和webpack](./doc/handbook/quick-start/react-webpack.html)
 
 
-## 主要修改
+## 主要修改 (Latest 10 updates)
 
+* 2016-04-01 新增特性：字符串字面量类型[高级类型](./doc/handbook/Advanced Types.html)
 * 2016-02-27 新增章节：快速上手[React和webpack](./doc/handbook/quick-start/react-webpack.html)
 * 2016-01-31 新增章节：[TypeScript里的this](./doc/handbook/this-in-TypeScript.html)
 * 2016-01-24 新增章节：[发展路线图](./doc/handbook/Roadmap.html)
@@ -69,9 +70,6 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * 2015-12-26 新增章节：[支持TypeScript的编辑器](./doc/handbook/TypeScript-Editor-Support.html)
 * 2015-12-26 新增章节：[常见编译错误](./doc/handbook/Common Errors.html)
 * 2015-12-19 新增章节：[JSX](./doc/handbook/JSX.html)
-* 2015-12-12 新增章节：[NPM包的类型](./doc/handbook/Typings for NPM Packages.html)
-* 2015-12-12 新增章节：[与其它构建工具整合](./doc/handbook/Integrating with Build Tools.html)
-* 2015-12-12 新增章节：[在MSBuild里使用编译选项](./doc/handbook/Compiler Options in MSBuild.html)
 
 
 ## 相关链接
