@@ -30,6 +30,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * [命名空间和模块](./doc/handbook/Namespaces and Modules.html)
 * [命名空间](./doc/handbook/Namespaces.html)
 * [模块](./doc/handbook/Modules.html)
+* [模块解析](./doc/handbook/Module Resolution.html)
 * [函数](./doc/handbook/Functions.html)
 * [泛型](./doc/handbook/Generics.html)
 * [混入](./doc/handbook/Mixins.html)
@@ -60,6 +61,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 
 ## 主要修改 (Latest 10 updates)
 
+* 2016-04-02 新增章节：[模块解析](./doc/handbook/Module Resolution.html)
 * 2016-04-01 新增特性：[多态的`this`类型](./doc/handbook/Advanced Types.html)
 * 2016-04-01 新增特性：[字符串字面量类型](./doc/handbook/Advanced Types.html)
 * 2016-02-27 新增章节：快速上手[React和webpack](./doc/handbook/quick-start/react-webpack.html)
@@ -69,7 +71,6 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * 2016-01-23 新增章节：[架构概述](./doc/handbook/Architectural-Overview.html)
 * 2015-12-27 新增章节：[结合ASP.NET v5使用TypeScript](./doc/handbook/Using-TypeScript-With-ASP.NET-5.html)
 * 2015-12-26 新增章节：[支持TypeScript的编辑器](./doc/handbook/TypeScript-Editor-Support.html)
-* 2015-12-26 新增章节：[常见编译错误](./doc/handbook/Common Errors.html)
 
 
 ## 相关链接
