@@ -148,7 +148,7 @@ function sayHello() {
 ## 更新 tsconfig.json
 
 现在安装好了 Angular 2 及其依赖项， 我们还需要启用 TypeScript 的实验性装饰器支持并且引入 es6-shim 的类型文件。
-将来的版本中，装饰器和 ES6 选项将成为默认选项，我们就可以不做此设置了。添加 
+将来的版本中，装饰器和 ES6 选项将成为默认选项，我们就可以不做此设置了。添加
 `"experimentalDecorators": true, "emitDecoratorMetadata": true` 选项到 `"compilerOptions"` 选项段， 添加 `"./typings/main.d.ts"` 到 `"files"` 选项段。
 最后，我们还将要创建新的代码文件 `"./src/model.ts"`、`"./src/main.ts"` ，也将它们添加到 `"files"` 中，现在 tsconfig 看起来像这样：
 
