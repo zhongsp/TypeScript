@@ -125,7 +125,7 @@ npm install -g jspm@beta
 
 _注意：目前jspm的0.16beta版本支持TypeScript_
 
-更多详细信息：[TypeScriptSamples/jspm](https://github.com/Microsoft/TypeScriptSamples/tree/jspm/jspm)
+更多详细信息：[TypeScriptSamples/jspm](https://github.com/Microsoft/TypeScriptSamples/tree/master/jspm)
 
 # webpack
 
