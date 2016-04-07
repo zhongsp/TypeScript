@@ -57,7 +57,7 @@ function sayHello() {
 
 ![Create tsconfig.json](new-tsconfig.png)
 
-将缺省的 `tsconfig.json` 内容改为如下所示：
+将默认的 `tsconfig.json` 内容改为如下所示：
 
 ```json
 {
@@ -75,15 +75,15 @@ function sayHello() {
 }
 ```
 
-看起来和缺省的设置差不多，但注意以下不同之处：
+看起来和默认的设置差不多，但注意以下不同之处：
 
 1. 设置 `"noImplicitAny": true`。
 2. 特别是这里 `"outDir": "./Scripts/App"`。
-3. 显式列出了 `"files"` 替换掉了依赖项 `"excludes"`。
+3. 显式列出了 `"files"` 而不是依据 `"excludes"`选项。
 4. 设置 `"compileOnSave": true`。
 
 当你写新代码时，设置 `"noImplicitAny"` 选项是个好主意 &mdash; 这可以确保你不会错写任何新的类型。
- 设置 `"compileOnSave"` 选项可以确保你在运行web程序前自动编译保存变更后的代码。
+设置 `"compileOnSave"` 选项可以确保你在运行web程序前自动编译保存变更后的代码。
 更多信息请参见 [the tsconfig.json documentation](../tsconfig.json.md)。
 
 ## 在视图中调用脚本
@@ -122,7 +122,7 @@ function sayHello() {
 
 ![Demo paused on breakpoint](paused-demo.png)
 
-这就是你需要知道在ASP.NET中使用TypeScript的基本知识了。接下来，我们引入Angular，写一个简单的Angular程序示例。
+这就是你需要知道的在ASP.NET中使用TypeScript的基本知识了。接下来，我们引入Angular，写一个简单的Angular程序示例。
 
 # 添加 Angular 2
 
@@ -147,7 +147,7 @@ function sayHello() {
 
 ## 更新 tsconfig.json
 
-现在安装好了 Angular 2 及其依赖项， 我们还需要启用 TypeScript 的实验性装饰器支持并且引入 es6-shim 的类型文件。
+现在安装好了 Angular 2 及其依赖项， 我们还需要启用 TypeScript 中实验性的装饰器支持并且引入 es6-shim 的类型文件。
 将来的版本中，装饰器和 ES6 选项将成为默认选项，我们就可以不做此设置了。添加
 `"experimentalDecorators": true, "emitDecoratorMetadata": true` 选项到 `"compilerOptions"` 选项段， 添加 `"./typings/main.d.ts"` 到 `"files"` 选项段。
 最后，我们还将要创建新的代码文件 `"./src/model.ts"`、`"./src/main.ts"` ，也将它们添加到 `"files"` 中，现在 tsconfig 看起来像这样：
