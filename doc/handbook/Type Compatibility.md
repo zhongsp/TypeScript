@@ -260,4 +260,4 @@ identity = reverse;  // Okay because (x: any)=>any matches (y: any)=>any
 
 语言里的不同地方分别使用了它们之中的机制。
 实际上，类型兼容性是由赋值兼容性来控制的甚至在`implements`和`extends`语句里。
-更多信息，请参阅[TypeScript语言规范](http://go.microsoft.com/fwlink/?LinkId=267121).
+更多信息，请参阅[TypeScript语言规范](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md).
