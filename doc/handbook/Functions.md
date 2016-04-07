@@ -3,7 +3,7 @@
 函数是JavaScript应用程序的基础。
 它帮助你实现抽象层，模拟类，信息隐藏和模块。
 在TypeScript里，虽然已经支持类，命名空间和模块，但函数仍然是主要的定义*行为*的地方。
-TypeScript为JavaScript函数添加了额外的功能，让我们可以更容易的使用。
+TypeScript为JavaScript函数添加了额外的功能，让我们可以更容易地使用。
 
 # 函数
 
@@ -145,7 +145,7 @@ function buildName(firstName: string, lastName = "Smith") {
 }
 
 let result1 = buildName("Bob");                  // works correctly now, returns "Bob Smith"
-let result2 = buildName("Bob, undefined");       // still works, also returns "Bob Smith"
+let result2 = buildName("Bob", undefined);       // still works, also returns "Bob Smith"
 let result3 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters
 let result4 = buildName("Bob", "Adams");         // ah, just right
 ```
