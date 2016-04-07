@@ -20,7 +20,7 @@ printLabel(myObj);
 类型检查器会查看`printLabel`的调用。
 `printLabel`有一个参数，并要求这个对象参数有一个名为`label`类型为`string`的属性。
 需要注意的是，我们传入的对象参数实际上会包含很多属性，但是编译器只会检查那些必需的属性是否存在，并且其类型是否匹配。
-然而，有些时候TypeScript却并不会这么宽松，我们下在会稍做讲解。
+然而，有些时候TypeScript却并不会这么宽松，我们下面会稍做讲解。
 
 下面我们重写上面的例子，这次使用接口来描述：必须包含一个`label`属性且类型为`string`：
 
@@ -122,7 +122,7 @@ let mySquare = createSquare({ colour: "red", width: 100 });
 注意传入`createSquare`的参数拼写为*`colour`*而不是`color`。
 在JavaScript里，这会默默地失败。
 
-你可以会争辩这个程序已经正确的类型化了，因为`width`属性是兼容的，不存在`color`属性，而且额外的`colour`属性是无意义的。
+你可能会争辩这个程序已经正确地类型化了，因为`width`属性是兼容的，不存在`color`属性，而且额外的`colour`属性是无意义的。
 
 然而，TypeScript会认为这段代码可能存在bug。
 对象字面量会被特殊对待而且会经过*额外属性检查*，当将它们赋值给变量或作为参数传递的时候。
@@ -140,7 +140,7 @@ let mySquare = createSquare({ colour: "red", width: 100 });
 let mySquare = createSquare({ colour: "red", width: 100 } as SquareConfig);
 ```
 
-另一个方法，可能会让人有点惊压，就是将一个对象赋值给别一个变量：
+另一个方法，可能会让人有点惊呀，就是将一个对象赋值给另一个变量：
 
 ```ts
 let squareOptions = { colour: "red", width: 100 };
@@ -336,7 +336,7 @@ let digital = createClock(DigitalClock, 12, 17);
 let analog = createClock(AnalogClock, 7, 32);
 ```
 
-因为`createClock`的第一个参数是`ClockConstructor`类型，在`createClock(AnalogClock, 12, 17)`里，会检查`AnalogClock`是否符合构造函数签名。
+因为`createClock`的第一个参数是`ClockConstructor`类型，在`createClock(AnalogClock, 7, 32)`里，会检查`AnalogClock`是否符合构造函数签名。
 
 # 扩展接口
 
