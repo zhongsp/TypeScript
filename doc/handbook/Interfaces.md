@@ -140,7 +140,7 @@ let mySquare = createSquare({ colour: "red", width: 100 });
 let mySquare = createSquare({ colour: "red", width: 100 } as SquareConfig);
 ```
 
-另一个方法，可能会让人有点惊呀，就是将一个对象赋值给另一个变量：
+另一个方法，可能会让人有点惊讶，就是将一个对象赋值给另一个变量：
 
 ```ts
 let squareOptions = { colour: "red", width: 100 };
