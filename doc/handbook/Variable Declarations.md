@@ -590,7 +590,7 @@ f({}) // error, 'a' is required if you supply an argument
 ```
 
 要小心使用解构。
-前面的例子表明，解构虽然简明但也有不少需要注意的地方。
-This is especially true with deeply nested destructuring, which gets *really* hard to understand even without piling on renaming, default values, and type annotations.
+从前面的例子可以看出，就算是最简单的解构也会有很多问题。
+尤其当存在深层嵌套解构的时候，就算这时没有堆叠在一起的重命名，默认值和类型注解，也是令人难以理解的。
 解构表达式要尽量保持小而简单。
-You can always write the assignments that destructuring would generate yourself.
+你自己也可以直接使用解构将会生成的赋值表达式。
