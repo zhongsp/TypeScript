@@ -121,7 +121,7 @@ Node则会以下面的顺序去解析`moduleB`，直到有一个匹配上。
 
 #### TypeScript如何解析模块
 
-TypeScript是模仿Nodejs.js运行时的解析策略来在编译阶段定位模块定义文件。
+TypeScript是模仿Node.js运行时的解析策略来在编译阶段定位模块定义文件。
 因此，TypeScript在Node解析逻辑基础上增加了TypeScript源文件的扩展名（`.ts`，`.tsx`和`.d.ts`）。
 同时，TypeScript在`package.json`里使用字段`"typings"`来表示类似`"main"`的意义 - 编译器会使用它来找到要使用的"main"定义文件。
 
@@ -135,7 +135,7 @@ TypeScript是模仿Nodejs.js运行时的解析策略来在编译阶段定位模�
 6. `/root/src/moduleB/index.tsx`
 7. `/root/src/moduleB/index.d.ts`
 
-回想一下Node.jss先查找`moduleB.js`文件，然后是合适的`package.json`，再之后是`index.js`。
+回想一下Node.js先查找`moduleB.js`文件，然后是合适的`package.json`，再之后是`index.js`。
 
 类似地，非相对的导入会遵循Node.js的解析逻辑，首先查找文件，然后是合适的文件夹。
 因此`/src/moduleA.ts`文件里的`import { b } from "moduleB"`会以下面的查找顺序解析：
@@ -203,6 +203,6 @@ tsc app.ts moduleA.ts --noResolve
 
 有些是被`tsconfig.json`自动加入的。
 它不会涉及到上面讨论的模块解析。
-如果编译器识别出一个文件是模块导入目标，它就会加到编译列表里，不管它是否被排队了。
+如果编译器识别出一个文件是模块导入目标，它就会加到编译列表里，不管它是否被排除了。
 
 因此，要从编译列表中排除一个文件，你需要在排除它的同时，还要排除所有对它进行`import`或使用了`/// <reference path="..." />`指令的文件。
