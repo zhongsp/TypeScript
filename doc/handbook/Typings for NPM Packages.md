@@ -1,12 +1,12 @@
-<!-- markdownlint-disable MD029 -->TypeScript编译器处理nodejs模块名时使用的是[Node.js模块解析算法](https://nodejs.org/api/modules.html#modules_all_together)。
-TypeScript编译器可以同时加载与npm包绑在一起的类型信息。
+<!-- markdownlint-disable MD029 -->TypeScript编译器处理Node模块名时使用的是[Node.js模块解析算法](https://nodejs.org/api/modules.html#modules_all_together)。
+TypeScript也可以同时加载与npm包绑在一起的类型声明文件。
 编译通过下面的规则来查找`"foo"`模块的类型信息：
 
 1. 尝试加载相应代码包目录下`package.json`文件（`node_modules/foo/`）。
 
 如果存在，从`"typings"`字段里读取类型文件的路径。比如，在下面的`package.json`里，编译器会认为类型文件位于`node_modules/foo/lib/foo.d.ts`。
 
-```JSON
+```json
 {
     "name": "foo",
     "author": "Vandelay Industries",
@@ -20,10 +20,10 @@ TypeScript编译器可以同时加载与npm包绑在一起的类型信息。
 
 解析模块的详细算法可以在[这里](https://github.com/Microsoft/TypeScript/issues/2338)找到。
 
-### 类型信息文件应该是什么样子的
+### 你的定义文件应该
 
-* 是一个`.d.ts`文件
-* 是一个外部模块
+* 是`.d.ts`文件
+* 写做外部模块
 * 不包含`///<reference>`引用
 
 基本的原理是类型文件不能引入新的可编译代码；
