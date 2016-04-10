@@ -3,6 +3,7 @@
 * [快速上手](./doc/handbook/quick-start/README.md)
   * [React与webpack](./doc/handbook/quick-start/react-webpack.md)
   * [ASP.NET 4](./doc/handbook/quick-start/asp-net.md)
+  * [Knockout](./doc/handbook/quick-start/knockout.md)
 * [新增功能](./doc/release-notes/README.md)
   * [TypeScript 1.4](./doc/release-notes/TypeScript 1.4.md)
   * [TypeScript 1.3](./doc/release-notes/TypeScript 1.3.md)
