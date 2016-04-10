@@ -9,7 +9,7 @@
 ![新创建一个空的工程](https://raw.githubusercontent.com/wiki/Microsoft/TypeScript/aspnet-screenshots/new-project.png)
 
 然后在工程根目录下添加一个`scripts`目录。
-这就是我们将要添加TypeScript文件和[`tsconfig.json`](tsconfig.json.md)文件来设置编译选项的地方。
+这就是我们将要添加TypeScript文件和[`tsconfig.json`](../handbook/tsconfig.json.md)文件来设置编译选项的地方。
 请注意目录名和路径都必须这样才能正常工作。
 添加`tsconfig.json`文件，右键点击`scripts`目录，选择`Add`，`New Item`。
 在`Client-side`下，你能够找到它，如下所示。
