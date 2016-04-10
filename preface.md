@@ -24,7 +24,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * [快速上手](./doc/handbook/quick-start/README.html)
   * [React与webpack](./doc/handbook/quick-start/react-webpack.html)
   * [ASP.NET 4](./doc/handbook/quick-start/asp-net.html)
-  * [Knockout](./doc/handbook/quick-start/knockout.html)
+  * [Knockout.js](./doc/handbook/quick-start/knockout.html)
 * [新增功能](./doc/release-notes/README.html)
   * [TypeScript 1.4](./doc/release-notes/TypeScript 1.4.html)
   * [TypeScript 1.3](./doc/release-notes/TypeScript 1.3.html)
@@ -69,7 +69,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 
 ## 主要修改 (Latest 10 updates)
 
-* 2016-04-10 新增章节：快速上手：[Knockout](./doc/handbook/quick-start/knockout.html)
+* 2016-04-10 新增章节：快速上手：[Knockout.js](./doc/handbook/quick-start/knockout.html)
 * 2016-04-10 新增章节：快速上手：[新增功能](./doc/release-notes/TypeScript 1.4.html)
 * 2016-04-02 新增章节：[模块解析](./doc/handbook/Module Resolution.html)
 * 2016-04-01 新增特性：[多态的`this`类型](./doc/handbook/Advanced Types.html)
