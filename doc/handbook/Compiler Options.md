@@ -58,5 +58,5 @@
 
 ## 相关信息
 
-* 对于 tsconfig.json 请查看 [tsconfig.json](./tsconfig.json.md)
-* 针对如何在MSBuild项目里使用编译器选项请查看[在MSBuild项目里设置编译器选项](./Compiler Options in MSBuild.md)
+* 在[tsconfig.json](./tsconfig.json.md)文件里设置编译器选项。
+* 在[MSBuild工程](./Compiler Options in MSBuild.md)里设置编译器选项。
