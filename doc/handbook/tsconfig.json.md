@@ -2,13 +2,12 @@
 
 如果一个目录下存在一个`tsconfig.json`文件，那么它意味着这个目录是TypeScript项目的根目录。
 `tsconfig.json`文件中指定了用来编译这个项目的根文件和编译选项。
-`tsconfig.json`从TypeScript 1.5开始支持。
 一个项目可以通过以下方式之一来编译：
 
 ## 使用tsconfig.json
 
 * 不带任何输入文件的情况下调用`tsc`，编译器会从当前目录开始去查找`tsconfig.json`文件，逐级向上搜索父目录。
-* 不带任何输入文件的情况下调用`tsc`，且使用命令行参数`-project`（或`-p`）指定一个包含`tsconfig.json`文件的目录。
+* 不带任何输入文件的情况下调用`tsc`，且使用命令行参数`--project`（或`-p`）指定一个包含`tsconfig.json`文件的目录。
 
 当命令行上指定了输入文件时，`tsconfig.json`文件会被忽略。
 
@@ -25,7 +24,7 @@
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
-        "out": "../../built/local/tsc.js",
+        "outFile": "../../built/local/tsc.js",
         "sourceMap": true
     },
     "files": [
@@ -82,6 +81,21 @@
 `tsconfig.json`可以是个空文件，那么编译器则使用默认编译选项，编译当前目录及其子目录下的所有文件。
 
 命令行上提供的编译选项会覆盖`tsconfig.json`文件中的对应选项。
+
+## `compileOnSave`
+
+在最顶层设置`compileOnSave`标记，可以让IDE在保存文件的时候根据`tsconfig.json`重新生成文件。
+
+```json
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "noImplicitAny" : true
+    }
+}
+```
+
+要想支持这个特性需要Visual Studio 2015， TypeScript1.8.4以上并且安装[atom-typescript](https://github.com/TypeStrong/atom-typescript/blob/master/docs/tsconfig.md#compileonsave)插件。
 
 ## 模式
 

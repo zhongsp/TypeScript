@@ -213,3 +213,71 @@ namespace Color {
 并不是所有的合并都被允许。
 现在，类不能与类合并，变量与类型不能合并，接口与类不能合并。
 想要模仿类的合并，请参考[Mixins in TypeScript](./Mixins.md)。
+
+# 模块扩展
+
+虽然JavaScript不支持合并，但你可以为导入的对象打补丁以更新它们。让我们考察一下这个玩具性的示例：
+
+```js
+// observable.js
+export class Observable<T> {
+    // ... implementation left as an exercise for the reader ...
+}
+
+// map.js
+import { Observable } from "./observable";
+Observable.prototype.map = function (f) {
+    // ... another exercise for the reader
+}
+```
+
+它也可以很好地工作在TypeScript中， 但编译器对 `Observable.prototype.map`一无所知。
+你可以使用扩展模块来将它告诉编译器：
+
+```ts
+// observable.ts stays the same
+// map.ts
+import { Observable } from "./observable";
+declare module "./observable" {
+    interface Observable<T> {
+        map<U>(f: (x: T) => U): Observable<U>;
+    }
+}
+Observable.prototype.map = function (f) {
+    // ... another exercise for the reader
+}
+
+
+// consumer.ts
+import { Observable } from "./observable";
+import "./map";
+let o: Observable<number>;
+o.map(x => x.toFixed());
+```
+
+模块名的解析和用`import`/`export`解析模块标识符的方式是一致的。
+更多信息请参考 [Modules](./Modules.md)。
+当这些声明在扩展中合并时，就好像在原始位置被声明了一样。但是，你不能在扩展中声明新的顶级声明--仅可以扩展模块中已经存在的声明。
+
+# 全局扩展
+
+你也以在模块内部添加声明到全局作用域中。
+
+```ts
+// observable.ts
+export class Observable<T> {
+    // ... still no implementation ...
+}
+
+declare global {
+    interface Array<T> {
+        toObservable(): Observable<T>;
+    }
+}
+
+Array.prototype.toObservable = function () {
+    // ...
+}
+```
+
+全局扩展与模块扩展的行为和限制是相同的。

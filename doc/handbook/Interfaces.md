@@ -20,6 +20,7 @@ printLabel(myObj);
 类型检查器会查看`printLabel`的调用。
 `printLabel`有一个参数，并要求这个对象参数有一个名为`label`类型为`string`的属性。
 需要注意的是，我们传入的对象参数实际上会包含很多属性，但是编译器只会检查那些必需的属性是否存在，并且其类型是否匹配。
+然而，有些时候TypeScript却并不会这么宽松，我们下面会稍做讲解。
 
 下面我们重写上面的例子，这次使用接口来描述：必须包含一个`label`属性且类型为`string`：
 
@@ -82,7 +83,7 @@ interface SquareConfig {
   width?: number;
 }
 
-function createSquare(config: SquareConfig): {color: string; area: number} {
+function createSquare(config: SquareConfig): { color: string; area: number } {
   let newSquare = {color: "white", area: 100};
   if (config.color) {
     // Error: Property 'collor' does not exist on type 'SquareConfig'
@@ -96,6 +97,62 @@ function createSquare(config: SquareConfig): {color: string; area: number} {
 
 let mySquare = createSquare({color: "black"});
 ```
+
+# 额外的属性检查
+
+我们在第一个例子里使用了接口，TypeScript让我们传入`{ size: number; label: string; }`到仅期望得到`{ label: string; }`的函数里。
+我们已经学过了可选属性，并且知道他们在“option bags”模式里很有用。
+
+然而，天真地将这两者结合的话就会像在JavaScript里那样搬起石头砸自己的脚。
+比如，拿`createSquare`例子来说：
+
+```ts
+interface SquareConfig {
+    color?: string;
+    width?: number;
+}
+
+function createSquare(config: SquareConfig): { color: string; area: number } {
+    // ...
+}
+
+let mySquare = createSquare({ colour: "red", width: 100 });
+```
+
+注意传入`createSquare`的参数拼写为*`colour`*而不是`color`。
+在JavaScript里，这会默默地失败。
+
+你可能会争辩这个程序已经正确地类型化了，因为`width`属性是兼容的，不存在`color`属性，而且额外的`colour`属性是无意义的。
+
+然而，TypeScript会认为这段代码可能存在bug。
+对象字面量会被特殊对待而且会经过*额外属性检查*，当将它们赋值给变量或作为参数传递的时候。
+如果一个对象字面量存在任何“目标类型”不包含的属性时，你会得到一个错误。
+
+```ts
+// error: 'colour' not expected in type 'SquareConfig'
+let mySquare = createSquare({ colour: "red", width: 100 });
+```
+
+绕开这些检查非常简单。
+最好而简便的方法是使用类型断言：
+
+```ts
+let mySquare = createSquare({ colour: "red", width: 100 } as SquareConfig);
+```
+
+另一个方法，可能会让人有点惊讶，就是将一个对象赋值给另一个变量：
+
+```ts
+let squareOptions = { colour: "red", width: 100 };
+let mySquare = createSquare(squareOptions);
+```
+
+因为`squareOptions`不会经过额外属性检查，所以编译器不会报错。
+
+要留意，在像上面一样的简单代码里，你可能不应该去绕开这些检查。
+对于包含方法和内部状态的复杂对象字面量来讲，你可能需要使用这些技巧，但是大部额外属性检查错误是真正的bug。
+就是说你遇到了额外类型检查出的错误，比如选择包，你应该去审查一下你的类型声明。
+在这里，如果支持传入`color`或`colour`属性到`createSquare`，你应该修改`SquareConfig`定义来体现出这一点。
 
 # 函数类型
 
@@ -279,7 +336,7 @@ let digital = createClock(DigitalClock, 12, 17);
 let analog = createClock(AnalogClock, 7, 32);
 ```
 
-因为`createClock`的第一个参数是`ClockConstructor`类型，在`createClock(AnalogClock, 12, 17)`里，会检查`AnalogClock`是否符合构造函数签名。
+因为`createClock`的第一个参数是`ClockConstructor`类型，在`createClock(AnalogClock, 7, 32)`里，会检查`AnalogClock`是否符合构造函数签名。
 
 # 扩展接口
 
@@ -388,4 +445,4 @@ class Location {
 
 在`Control`类内部，是允许通过`SelectableControl`的实例来访问私有成员`state`的。
 实际上，`SelectableControl`就像`Control`一样，并拥有一个`select`方法。
-`Button`和`TextBox`类是`SelectableControl`的子类（类为它们都继承自`Control`并有`select`方法），但`Image`和`Location`类并不是这样的。
+`Button`和`TextBox`类是`SelectableControl`的子类（因为它们都继承自`Control`并有`select`方法），但`Image`和`Location`类并不是这样的。

@@ -125,39 +125,79 @@ npm install -g jspm@beta
 
 _注意：目前jspm的0.16beta版本支持TypeScript_
 
-更多详细信息：[TypeScriptSamples/jspm](https://github.com/Microsoft/TypeScriptSamples/tree/jspm/jspm)
+更多详细信息：[TypeScriptSamples/jspm](https://github.com/Microsoft/TypeScriptSamples/tree/master/jspm)
 
 # webpack
 
 ### 安装
 
 ```sh
-npm install awesome-typescript-loader --save-dev
+npm install ts-loader --save-dev
 ```
 
 ### 基本webpack.config.js
 
 ```js
 module.exports = {
-
-    // Currently we need to add '.ts' to resolve.extensions array.
-    resolve: {
-        extensions: ['', '.ts', '.webpack.js', '.web.js', '.js']
+    entry: "./src/index.tsx",
+    output: {
+        filename: "bundle.js"
     },
-
-    // Source maps support (or 'inline-source-map' also works)
-    devtool: 'source-map',
-
-    // Add loader for .ts files.
+    resolve: {
+        // Add '.ts' and '.tsx' as a resolvable extension.
+        extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
+    },
     module: {
         loaders: [
-            {
-                test: /\.ts$/,
-                loader: 'awesome-typescript-loader'
-            }
+            // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
+            { test: /\.tsx?$/, loader: "ts-loader" }
         ]
     }
 };
 ```
 
-更多详细信息：[s-panferov/awesome-typescript-loader](https://github.com/s-panferov/awesome-typescript-loader)
+查看[更多关于ts-loader的详细信息](https://www.npmjs.com/package/ts-loader)
+
+或者
+
+* [awesome-typescript-loader](https://www.npmjs.com/package/awesome-typescript-loader)
+
+# MSBuild
+
+更新工程文件，包含本地安装的`Microsoft.TypeScript.Default.props`（在顶端）和`Microsoft.TypeScript.targets`（在底部）文件：
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Include default props at the bottom -->
+  <Import
+      Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props"
+      Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+
+  <!-- TypeScript configurations go here -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
+
+  <!-- Include default targets at the bottom -->
+  <Import
+      Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets"
+      Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+</Project>
+```
+
+关于配置MSBuild编译器选项的更多详细信息，请参考：[在MSBuild里使用编译选项](./Compiler Options in MSBuild.md)
+
+# NuGet
+
+* 右键点击 -> Manage NuGet Packages
+* 查找`Microsoft.TypeScript.MSBuild`
+* 点击`Install`
+* 安装完成后，Rebuild。
+
+更多详细信息请参考[Package Manager Dialog](http://docs.nuget.org/Consume/Package-Manager-Dialog)和[using nightly builds with NuGet](https://github.com/Microsoft/TypeScript/wiki/Nightly-drops#using-nuget-with-msbuild)

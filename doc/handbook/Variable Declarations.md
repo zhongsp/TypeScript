@@ -431,3 +431,166 @@ kitty.numLives--;
 这个手册大部分地方都使用了`let`。
 
 跟据你的自己判断，如果合适的话，与团队成员商议一下。
+
+# 解构
+
+Another TypeScript已经可以解析其它 ECMAScript 2015 特性了。
+完整列表请参见 [the article on the Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)。
+本章，我们将给出一个简短的概述。
+
+## 解构数组
+
+最简单的解构莫过于数组的解构赋值了：
+
+```ts
+let input = [1, 2];
+let [first, second] = input;
+console.log(first); // outputs 1
+console.log(second); // outputs 2
+```
+
+这创建了2个命名变量 `first` 和 `second`。
+相当于使用了索引，但更为方便：
+
+```ts
+first = input[0];
+second = input[1];
+```
+
+解构作用于已声明的变量会更好：
+
+```ts
+// swap variables
+[first, second] = [second, first];
+```
+
+作用于函数参数：
+
+```ts
+function f([first, second]: [number, number]) {
+    console.log(first);
+    console.log(second);
+}
+f(input);
+```
+
+你可以使用`...name`语法创建一个剩余变量列表：
+
+```ts
+let [first, ...rest] = [1, 2, 3, 4];
+console.log(first); // outputs 1
+console.log(rest); // outputs [ 2, 3, 4 ]
+```
+
+当然，由于是JavaScript, 你可以忽略你不关心的尾随元素：
+
+```ts
+let [first] = [1, 2, 3, 4];
+console.log(first); // outputs 1
+```
+
+或其它元素：
+
+```ts
+let [, second, , fourth] = [1, 2, 3, 4];
+```
+
+## 对象解构
+
+你也可以解构对象：
+
+```ts
+let o = {
+    a: "foo",
+    b: 12,
+    c: "bar"
+}
+let {a, b} = o;
+```
+
+这通过 `o.a` and `o.b` 创建了 `a` 和 `b` 。
+注意，如果你不需要 `c` 你可以忽略它。
+
+就像数组解构，你可以用没有声明的赋值：
+
+```ts
+({a, b} = {a: "baz", b: 101});
+```
+
+注意，我们需要用括号将它括起来，因为Javascript通常会将以 `{` 起始的语句解析为一个块。
+
+### 属性重命名
+
+你也可以给属性以不同的名字：
+
+```ts
+let {a: newName1, b: newName2} = o;
+```
+
+这里的语法开始变得混乱。
+你可以将 `a: newName1` 读做 "`a` 作为 `newName1`"。
+方向是从左到右，好像你写成了以下样子：
+
+```ts
+let newName1 = o.a;
+let newName2 = o.b;
+```
+
+令人困惑的是，这里的冒号*不是*指示类型的。
+如果你想指定它的类型， 仍然需要在其后写上完整的模式。
+
+```ts
+let {a, b}: {a: string, b: number} = o;
+```
+
+### 默认值
+
+默认值可以让你在属性为 undefined 时使用缺省值：
+
+```ts
+function keepWholeObject(wholeObject: {a: string, b?: number}) {
+    let {a, b = 1001} = wholeObject;
+}
+```
+
+现在，即使 `b` 为 undefined ， `keepWholeObject` 函数的变量 `wholeObject` 的属性 `a` 和 `b` 都会有值。
+
+## 函数声明
+
+解构也能用于函数声明。
+看以下简单的情况：
+
+```ts
+type C = {a: string, b?: number}
+function f({a, b}: C): void {
+    // ...
+}
+```
+
+但是，通常情况下更多的是指定默认值，解构默认值有些棘手。
+首先，你需要知道在设置默认值之前设置其类型。
+
+```ts
+function f({a, b} = {a: "", b: 0}): void {
+    // ...
+}
+f(); // ok, default to {a: "", b: 0}
+```
+
+其次，你需要知道在解构属性上给予一个默认或可选的属性用来替换主初始化列表。
+要知道 `C` 的定义有一个 `b` 可选属性：
+
+```ts
+function f({a, b = 0} = {a: ""}): void {
+    // ...
+}
+f({a: "yes"}) // ok, default b = 0
+f() // ok, default to {a: ""}, which then defaults b = 0
+f({}) // error, 'a' is required if you supply an argument
+```
+
+要小心使用解构。
+从前面的例子可以看出，就算是最简单的解构也会有很多问题。
+尤其当存在深层嵌套解构的时候，就算这时没有堆叠在一起的重命名，默认值和类型注解，也是令人难以理解的。
+解构表达式要尽量保持小而简单。
+你自己也可以直接使用解构将会生成的赋值表达式。

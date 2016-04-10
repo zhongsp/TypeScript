@@ -9,6 +9,7 @@
 * [命名空间和模块](./doc/handbook/Namespaces and Modules.md)
 * [命名空间](./doc/handbook/Namespaces.md)
 * [模块](./doc/handbook/Modules.md)
+* [模块解析](./doc/handbook/Module Resolution.md)
 * [函数](./doc/handbook/Functions.md)
 * [泛型](./doc/handbook/Generics.md)
 * [混入](./doc/handbook/Mixins.md)
@@ -26,9 +27,12 @@
 * [与其它构建工具整合](./doc/handbook/Integrating with Build Tools.md)
 * [NPM包的类型](./doc/handbook/Typings for NPM Packages.md)
 * Wiki
+  * [TypeScript里的this](./doc/handbook/this-in-TypeScript.md)
   * [编码规范](./doc/handbook/coding_guidelines.md)
   * [常见编译错误](./doc/handbook/Common Errors.md)
   * [支持TypeScript的编辑器](./doc/handbook/TypeScript-Editor-Support.md)
   * [结合ASP.NET v5使用TypeScript](./doc/handbook/Using-TypeScript-With-ASP.NET-5.md)
   * [架构概述](./doc/handbook/Architectural-Overview.md)
-  * [发展路线图](./doc/handbook/Roadmap.html)
+  * [发展路线图](./doc/handbook/Roadmap.md)
+* 快速上手
+  * [React和webpack](./doc/handbook/quick-start/react-webpack.md)

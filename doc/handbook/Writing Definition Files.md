@@ -172,7 +172,7 @@ interface WidgetFactory {
 declare let widget: WidgetFactory;
 ```
 
-## 全局的或未知的外部Libraries
+## 全局或外部的未知代码库
 
 #### 应用示例
 
@@ -196,7 +196,7 @@ declare module "zoo" {
 }
 ```
 
-## 外部模块的单个复杂对象
+## 模块里的单一复杂对象
 
 #### 应用示例
 
@@ -230,9 +230,9 @@ declare var Eagle: Eagle;
 export = Eagle;
 ```
 
-## Module as a Function
+## 将模块做为函数
 
-#### Usage
+#### 应用示例
 
 ```ts
 // Common pattern for node modules (e.g. rimraf, debug, request, etc.)
@@ -240,7 +240,7 @@ import sayHello = require('say-hello');
 sayHello('Travis');
 ```
 
-#### Typing
+#### 类型声明
 
 ```ts
 declare module 'say-hello' {

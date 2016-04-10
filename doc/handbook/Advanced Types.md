@@ -266,20 +266,20 @@ if (padder instanceof StringPadder) {
 类型别名有时和接口很像，但是可以作用于原始值，联合类型，元组以及其它任何你需要手写的类型。
 
 ```ts
-type XCoord = number;
-type YCoord = number;
-
-type XYCoord = { x: XCoord; y: YCoord };
-type XYZCoord = { x: XCoord; y: YCoord; z: number };
-
-type Coordinate = XCoord | XYCoord | XYZCoord;
-type CoordList = Coordinate[];
-
-let coord: CoordList = [{ x: 10, y: 10}, { x: 0, y: 42, z: 10 }, 5];
+type Name = string;
+type NameResolver = () => string;
+type NameOrResolver = Name | NameResolver;
+function getName(n: NameOrResolver): Name {
+    if (typeof n === 'string') {
+        return n;
+    }
+    else {
+        return n();
+    }
+}
 ```
 
 起别名不会新建一个类型 - 它创建了一个新*名字*来引用那个类型。
-所以`10`是绝对有效的`XCoord`和`YCoord`，因为它们都引用`number`。
 给原始类型起别名通常没什么用，尽管可以做为文档的一种形式使用。
 
 同接口一样，类型别名也可以是泛型 - 我们可以添加类型参数并且在别名声明的右侧传入：
@@ -312,3 +312,103 @@ type Yikes = Array<Yikes>; // 错误
 因为[软件中的对象应该对于扩展是开放的，但是对于修改是封闭的](https://en.wikipedia.org/wiki/Open/closed_principle)，你应该尽量去使用接口代替类型别名。
 
 另一方面，如果你无法通过接口来描述一个类型并且需要使用联合类型或元组类型，这时通常会使用类型别名。
+
+# 字符串字面量类型
+
+字符串字面量类型允许你指定字符串必须的固定值。
+在实际应用中，字符串字面量类型可以与联合类型，类型保护和类型别名很好的配合。
+通过结合使用这些特性，你可以实现类似枚举类型的字符串。
+
+```ts
+type Easing = "ease-in" | "ease-out" | "ease-in-out";
+class UIElement {
+    animate(dx: number, dy: number, easing: Easing) {
+        if (easing === "ease-in") {
+            // ...
+        }
+        else if (easing === "ease-out") {
+        }
+        else if (easing === "ease-in-out") {
+        }
+        else {
+            // error! should not pass null or undefined.
+        }
+    }
+}
+
+let button = new UIElement();
+button.animate(0, 0, "ease-in");
+button.animate(0, 0, "uneasy"); // error: "uneasy" is not allowed here
+```
+
+你只能从三种允许的字符中选择其一来做为参数传递，传入其它值则会产生错误。
+
+```text
+Argument of type '"uneasy"' is not assignable to parameter of type '"ease-in" | "ease-out" | "ease-in-out"'
+```
+
+字符串字面量类型还可以用于区分函数重载：
+
+```ts
+function createElement(tagName: "img"): HTMLImageElement;
+function createElement(tagName: "input"): HTMLInputElement;
+// ... more overloads ...
+function createElement(tagName: string): Element {
+    // ... code goes here ...
+}
+```
+
+# 多态的`this`类型
+
+多态的`this`类型表示的是某个包含类或接口的*子类型*。
+这被称做*F*-bounded多态性。
+它能很容易的表现连贯接口间的继承，比如。
+在计算器的例子里，在每个操作之后都返回`this`类型：
+
+```ts
+class BasicCalculator {
+    public constructor(protected value: number = 0) { }
+    public currentValue(): number {
+        return this.value;
+    }
+    public add(operand: number): this {
+        this.value += operand;
+        return this;
+    }
+    public multiply(operand: number): this {
+        this.value *= operand;
+        return this;
+    }
+    // ... other operations go here ...
+}
+
+let v = new BasicCalculator(2)
+            .multiply(5)
+            .add(1)
+            .currentValue();
+```
+
+由于这个类使用了`this`类型，你可以继承它，新的类可以直接使用之前的方法，不需要做任何的改变。
+
+```ts
+class ScientificCalculator extends BasicCalculator {
+    public constructor(value = 0) {
+        super(value);
+    }
+    public sin() {
+        this.value = Math.sin(this.value);
+        return this;
+    }
+    // ... other operations go here ...
+}
+
+let v = new ScientificCalculator(2)
+        .multiply(5)
+        .sin()
+        .add(1)
+        .currentValue();
+```
+
+如果没有`this`类型，`ScientificCalculator`就不能够在继承`BasicCalculator`的同时还保持接口的连贯性。
+`multiply`将会返回`BasicCalculator`，它并没有`sin`方法。
+然而，使用`this`类型，`multiply`会返回`this`，在这里就是`ScientificCalculator`。

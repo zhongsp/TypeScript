@@ -101,7 +101,7 @@ Tommy the Palomino moved 34m.
 class Animal {
     public name: string;
     public constructor(theName: string) { this.name = theName; }
-    move(distanceInMeters: number) {
+    public move(distanceInMeters: number) {
         console.log(`${this.name} moved ${distanceInMeters}m.`);
     }
 }
@@ -191,7 +191,7 @@ console.log(howard.name); // error
 
 ## 参数属性
 
-在上面的例子中，我们不得不定义一个私有成员`name`和一个构造函数参数`theName`，并且立刻给`name`和`theName`赋值。
+在上面的例子中，我们不得不定义一个受保护的成员`name`和一个构造函数参数`theName`在`Person`类里，并且立刻给`name`和`theName`赋值。
 这种情况经常会遇到。*参数属性*可以方便地让我们在一个地方定义并初始化一个成员。
 下面的例子是对之前`Animal`类的修改版，使用了参数属性：
 

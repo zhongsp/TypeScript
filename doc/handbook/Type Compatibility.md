@@ -62,8 +62,8 @@ greet(y); // OK
 
 # 比较两个函数
 
-比较原始类型和对象类型时是容易理解的，问题是如何判断两个函数是兼容的。
-让我们以两个函数开始，它们仅有参数列表不同：
+相对来讲，在比较原始类型和对象类型的时候是比较容易理解的，问题是如何判断两个函数是兼容的。
+下面我们从两个简单的函数入手，它们仅是参数列表略有不同：
 
 ```ts
 let x = (a: number) => 0;
@@ -162,7 +162,6 @@ invokeLater([1, 2], (x?, y?) => console.log(x + ', ' + y));
 
 对于有重载的函数，源函数的每个重载都要在目标函数上找到对应的函数签名。
 这确保了目标函数可以在所有源函数可调用的地方调用。
-对于特殊的函数重载签名不会用来做兼容性检查。
 
 # 枚举
 
@@ -261,4 +260,4 @@ identity = reverse;  // Okay because (x: any)=>any matches (y: any)=>any
 
 语言里的不同地方分别使用了它们之中的机制。
 实际上，类型兼容性是由赋值兼容性来控制的甚至在`implements`和`extends`语句里。
-更多信息，请参阅[TypeScript语言规范](http://go.microsoft.com/fwlink/?LinkId=267121).
+更多信息，请参阅[TypeScript语言规范](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md).

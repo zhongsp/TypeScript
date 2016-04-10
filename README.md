@@ -18,6 +18,7 @@ TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
 * [命名空间和模块](./doc/handbook/Namespaces and Modules.md)
 * [命名空间](./doc/handbook/Namespaces.md)
 * [模块](./doc/handbook/Modules.md)
+* [模块解析](./doc/handbook/Module Resolution.md)
 * [函数](./doc/handbook/Functions.md)
 * [泛型](./doc/handbook/Generics.md)
 * [混入](./doc/handbook/Mixins.md)
@@ -35,12 +36,16 @@ TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
 * [与其它构建工具整合](./doc/handbook/Integrating with Build Tools.md)
 * [NPM包的类型](./doc/handbook/Typings for NPM Packages.md)
 * Wiki
+  * [TypeScript里的this](./doc/handbook/this-in-TypeScript.md)
   * [编码规范](./doc/handbook/coding_guidelines.md)
   * [常见编译错误](./doc/handbook/Common Errors.md)
   * [支持TypeScript的编辑器](./doc/handbook/TypeScript-Editor-Support.md)
   * [结合ASP.NET v5使用TypeScript](./doc/handbook/Using-TypeScript-With-ASP.NET-5.md)
   * [架构概述](./doc/handbook/Architectural-Overview.md)
   * [发展路线图](./doc/handbook/Roadmap.md)
+* 快速上手
+  * [React和webpack](./doc/handbook/quick-start/react-webpack.md)
+  * [ASP.NET](./doc/handbook/quick-start/asp-net.md)
 
 **TypeScript Handbook**
 
@@ -53,30 +58,3 @@ TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
 * Read [TypeScript 语言规范 (译完第一章)](./doc/TypeScript Language Specification.md)
 
 I'd love for you to contribute to the translation:)
-
-
-## Using Gulp with TypeScript
-
-Install `gulp` and `gulp-typescript`. See [package.json](./package.json).
-
-```sh
-$ npm install --global gulp
-$ npm install --save-dev gulp gulp-typescript
-```
-
-Config gulp. See [gulpfile.js](./gulpfile.js).
-
-```js
-gulp.task('typescript', function() {
-  var tsResult = gulp.src('ts/*.ts')
-    .pipe(ts({
-      target: 'ES5',
-      declarationFiles: false,
-      noExternalResolve: true
-    }));
-
-  tsResult.dts.pipe(gulp.dest('dist/tsdefinitions'));
-
-  return tsResult.js.pipe(gulp.dest('dist/typescript'));
-});
-```
