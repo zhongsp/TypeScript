@@ -99,4 +99,4 @@
 
 ## 模式
 
-到这里查看模式: [http://json.schemastore.org/tsconfig](http://json.schemastore.org/tsconfig)
+到这里查看模式: [http://json.schemastore.org/tsconfig](http://json.schemastore.org/tsconfig).

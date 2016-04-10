@@ -29,9 +29,9 @@
   * [Symbols](./doc/handbook/Symbols.md)
   * [Decorators](./doc/handbook/Decorators.md)
   * [JSX](./doc/handbook/JSX.md)
-* [工程配置](./doc/handbook/README.md)
-  * [NPM包的类型](./doc/handbook/Typings for NPM Packages.md)
+* 工程配置
   * [tsconfig.json](./doc/handbook/tsconfig.json.md)
+  * [NPM包的类型](./doc/handbook/Typings for NPM Packages.md)
   * [编译选项](./doc/handbook/Compiler Options.md)
   * [在MSBuild里使用编译选项](./doc/handbook/Compiler Options in MSBuild.md)
   * [与其它构建工具整合](./doc/handbook/Integrating with Build Tools.md)
