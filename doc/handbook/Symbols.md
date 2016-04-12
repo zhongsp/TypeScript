@@ -24,9 +24,10 @@ sym2 === sym3; // false, symbols是唯一的
 ```ts
 let sym = Symbol();
 
-let obj = {};
+let obj = {
+    [sym]: "value"
+};
 
-obj[sym] = "value";
 console.log(obj[sym]); // "value"
 ```
 
