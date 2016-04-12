@@ -54,7 +54,7 @@
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
-        "out": "../../built/local/tsc.js",
+        "outFile": "../../built/local/tsc.js",
         "sourceMap": true
     },
     "exclude": [
