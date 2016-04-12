@@ -27,11 +27,12 @@ for (let entry of someArray) {
 let list = [4, 5, 6];
 
 for (let i in list) {
-   console.log(i); // "0", "1", "2",
+    console.log(i); // "0", "1", "2",
 }
 
 for (let i of list) {
-   console.log(i); // "4", "5", "6"
+    console.log(i); // "4", "5", "6"
+}
 ```
 
 另一个区别是`for..in`可以操作任何对象；它提供了查看对象属性的一种方法。
@@ -42,7 +43,7 @@ let pets = new Set(["Cat", "Dog", "Hamster"]);
 pets["species"] = "mammals";
 
 for (let pet in pets) {
-   console.log(pet); // "species"
+    console.log(pet); // "species"
 }
 
 for (let pet of pets) {
