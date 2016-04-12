@@ -245,7 +245,7 @@ function getRandomPadder() {
 }
 
 // 类型为SpaceRepeatingPadder | StringPadder
-let padder: Padding = getRandomPadder();
+let padder: Padder = getRandomPadder();
 
 if (padder instanceof SpaceRepeatingPadder) {
     padder; // 类型细化为'SpaceRepeatingPadder'
