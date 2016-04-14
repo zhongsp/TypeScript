@@ -5,58 +5,38 @@
 
 ```ts
 /**
- * 拿到一个字符串并在左边添加"padding"。
- * 如果 'padding' 是个字符串, 那么 'padding' 被加到左边。
- * 如果 'padding' 是个数字, 那么在左边加入此数量的空格.
+ * Takes a string and adds "padding" to the left.
+ * If 'padding' is a string, then 'padding' is appended to the left side.
+ * If 'padding' is a number, then that number of spaces is added to the left side.
  */
 function padLeft(value: string, padding: any) {
-    // ...
+    if (typeof padding === "number") {
+        return Array(padding + 1).join(" ") + value;
+    }
+    if (typeof padding === "string") {
+        return padding + value;
+    }
+    throw new Error(`Expected string or number, got '${value}'.`);
 }
 
-padLeft("Hello world", 4); // 返回 "    Hello world"
+padLeft("Hello world", 4); // returns "    Hello world"
 ```
 
 `padLeft`存在一个问题，`padding`参数的类型指定成了`any`。
 这就是说我们可以传入一个既不是`number`也不是`string`类型的参数，但是TypeScript却不报错。
 
 ```ts
-let indentedString = padLeft("Hello world", true); // 编译阶段通过。运行时报错
+let indentedString = padLeft("Hello world", true); // 编译阶段通过，运行时报错
 ```
 
-在一些传统的面向对象语言里，我们可能将这两种类型抽象成有层级的类型。
+在传统的面向对象语言里，我们可能会将这两种类型抽象成有层级的类型。
+这么做显然是非常清晰的，但同时也存在了过度设计。
+`padLeft`原始版本的好处之一是允许我们传入原始类型。
+这做的话使用起来既方便又不过于繁锁。
+如果我们就是想使用已经存在的函数的话，这种新的方式就不适用了。
 
-```ts
-interface Padder {
-    getPaddingString(): string
-}
+代替`any`， 我们可以使用*联合类型*做为`padding`的参数：
 
-class SpaceRepeatingPadder implements Padder {
-    constructor(private numSpaces: number) { }
-    getPaddingString() {
-        return Array(this.numSpaces).join(" ");
-    }
-}
-
-class StringPadder implements Padder {
-    constructor(private value: string) { }
-    getPaddingString() {
-        return this.value;
-    }
-}
-
-function padLeft(value: string, padder: Padder) {
-    return padder.getPaddingString() + value;
-}
-
-padLeft("Hello world", new SpaceRepeatingPadder(4));
-```
-
-这样就清楚多了，但是做的也有点过。
-原始版本的`padLeft`有一点好处是我们可以传入一个原始值。
-使用起来清晰明了。
-如果我们想定义一个已经存在了的函数那么新的方案也不合适了。
-
-不用`any`，我们可以使用*联合类型*做为`padding`的参数：
 
 ```ts
 /**
@@ -157,7 +137,7 @@ function isFish(pet: Fish | Bird): pet is Fish {
 ```ts
 // 'swim' 和 'fly' 调用都没有问题了
 
-if (isFish(pet) {
+if (isFish(pet)) {
     pet.swim();
 }
 else {
@@ -184,7 +164,7 @@ function isString(x: any): x is string {
 
 function padLeft(value: string, padding: string | number) {
     if (isNumber(padding)) {
-        return Array(padding).join(" ") + value;
+        return Array(padding + 1).join(" ") + value;
     }
     if (isString(padding)) {
         return padding + value;
@@ -200,7 +180,7 @@ function padLeft(value: string, padding: string | number) {
 ```ts
 function padLeft(value: string, padding: string | number) {
     if (typeof padding === "number") {
-        return Array(padding).join(" ") + value;
+        return Array(padding + 1).join(" ") + value;
     }
     if (typeof padding === "string") {
         return padding + value;
@@ -227,7 +207,7 @@ interface Padder {
 class SpaceRepeatingPadder implements Padder {
     constructor(private numSpaces: number) { }
     getPaddingString() {
-        return Array(this.numSpaces).join(" ");
+        return Array(this.numSpaces + 1).join(" ");
     }
 }
 
