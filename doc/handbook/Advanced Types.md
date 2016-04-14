@@ -1,6 +1,6 @@
 # 联合类型
 
-偶尔你会遇到这种情况，一个第三方库可以传入或返回`number`或`string`类型的数据。
+偶尔你会遇到这种情况，一个代码库希望传入`number`或`string`类型的参数。
 例如下面的函数：
 
 ```ts
@@ -150,7 +150,7 @@ else {
 
 ## `typeof`类型保护
 
-我们还没有真正的展示过如何使用联合类型来实现`padLeft`。
+我们还没有真正的讨论过如何使用联合类型来实现`padLeft`。
 我们可以像下面这样利用类型断言来写：
 
 ```ts
@@ -190,7 +190,7 @@ function padLeft(value: string, padding: string | number) {
 ```
 
 这些*`typeof`类型保护*只有2个形式能被识别：`typeof v === "typename"`和`typeof v !== "typename"`，`"typename"`必须是`"number"`，`"string"`，`"boolean"`或`"symbol"`。
-但是TypeScript并不会阻止你使用除这些以外的字符串，或者将它们位置对换，且语言不会把它们识别为类型保护。
+但是TypeScript并不会阻止你与其它字符串比较，或者将它们位置对换，且语言不会把它们识别为类型保护。
 
 ## `instanceof`类型保护
 
@@ -239,6 +239,44 @@ if (padder instanceof StringPadder) {
 
 1. 这个函数的`prototype`属性，如果它的类型不为`any`的话
 2. 类型中构造签名所返回的类型的联合，顺序保持一至。
+
+# 交叉类型
+
+交叉类型与联合类型密切相关，但是用法却完全不同。
+一个交叉类型，例如`Person & Serializable & Loggable`，同时是`Person`*和*`Serializable`*和*`Loggable`。
+就是说这个类型的对象同时拥有这三种类型的成员。
+实际应用中，你大多会在混入中见到交叉类型。
+下面是一个混入的例子：
+
+```ts
+function extend<T, U>(first: T, second: U): T & U {
+    let result = <T & U>{};
+    for (let id in first) {
+        (<any>result)[id] = (<any>first)[id];
+    }
+    for (let id in second) {
+        if (!result.hasOwnProperty(id)) {
+            (<any>result)[id] = (<any>second)[id];
+        }
+    }
+    return result;
+}
+
+class Person {
+    constructor(public name: string) { }
+}
+interface Loggable {
+    log(): void;
+}
+class ConsoleLogger implements Loggable {
+    log() {
+        // ...
+    }
+}
+var jim = extend(new Person("Jim"), new ConsoleLogger());
+var n = jim.name;
+jim.log();
+```
 
 # 类型别名
 
