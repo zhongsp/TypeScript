@@ -1,22 +1,20 @@
 # 介绍
 
-TypeScript有一些独特的概念，有的是因为我们需要描述JavaScript顶级对象的类型发生了哪些变化。
-这其中之一叫做`声明合并`。
-理解了这个概念，对于你使用TypeScript去操作现有的JavaScript来说是大有帮助的。
+TypeScript中有些独特的概念可以在类型层面上描述JavaScript对象的模型。
+这其中尤其独特的一个例子是“声明合并”的概念。
+理解了这个概念，将有助于操作现有的JavaScript代码。
 同时，也会有助于理解更多高级抽象的概念。
 
-首先，在了解如何进行声明合并之前，让我们先看一下什么叫做`声明合并`。
-
-在这个手册里，声明合并是指编译器会把两个相同名字的声明合并成一个单独的声明。
-合并后的声明同时具有那两个被合并的声明的特性。
-声明合并不限于只合并两个，任意数量都可以。
+对本文件来讲，“声明合并”是指编译器将针对同一个名字的两个独立声明合并为单一声明。
+合并后的声明同时拥有原先两个声明的特性。
+任何数量的声明都可被合并；不局限于两个声明。
 
 # 基础概念
 
-Typescript中的声明会创建以下三种实体之一：命名空间，类型或者值。
-用于创建命名空间的声明会新建一个命名空间：它包含了可以用（.）符号访问的一些名字。
-用于创建类型的声明所做的是：用给定的名字和结构创建一种类型。
-最后，创建值的声明就是那些可以在生成的JavaScript里看到的那部分（比如：函数和变量）。
+Typescript中的声明会创建以下三种实体之一：命名空间，类型或值。
+创建命名空间的声明会新建一个命名空间，它包含了用（.）符号来访问时使用的名字。
+创建类型的声明是：用声明的模型创建一个类型并绑定到给定的名字上。
+最后，创建值的声明会创建在JavaScript输出中看到的值。
 
 | Declaration Type | Namespace | Type | Value |
 |------------------|:---------:|:----:|:-----:|
@@ -28,14 +26,12 @@ Typescript中的声明会创建以下三种实体之一：命名空间，类型�
 | Function         |           |      |   X   |
 | Variable         |           |      |   X   |
 
-理解每个声明创建了什么，有助于理解当声明合并时什么东西被合并了。
-
-理解了每种声明会对应创建什么对于理解如果进行声明合并是有帮助的。
+理解每个声明创建了什么，有助于理解当声明合并时有哪些东西被合并了。
 
 # 合并接口
 
-最简单最常见的就是合并接口，声明合并的种类是：接口合并。
-从根本上说，合并的机制是把各自声明里的成员放进一个同名的单一接口里。
+最简单也最常见的声明合并类型是接口合并。
+从根本上说，合并的机制是把双方的成员放到一个同名的接口里。
 
 ```ts
 interface Box {
@@ -50,41 +46,72 @@ interface Box {
 let box: Box = {height: 5, width: 6, scale: 10};
 ```
 
-接口中非函数的成员必须是唯一的。如果多个接口中具有相同名字的非函数成员就会报错。
+接口的非函数的成员必须是唯一的。
+如果两个接口中同时声明了同名的非函数成员编译器则会报错。
 
 对于函数成员，每个同名函数声明都会被当成这个函数的一个重载。
-
-需要注意的是，接口A与它后面的接口A（把这个接口叫做A'）合并时，A'中的重载函数具有更高的优先级。
+同时需要注意，当接口`A`与后来的接口`A`合并时，后面的接口具有更高的优先级。
 
 如下例所示：
 
 ```ts
-interface Document {
-    createElement(tagName: any): Element;
+interface Cloner {
+    clone(animal: Animal): Animal;
 }
-interface Document {
-    createElement(tagName: string): HTMLElement;
+
+interface Cloner {
+    clone(animal: Sheep): Sheep;
 }
-interface Document {
-    createElement(tagName: "div"): HTMLDivElement;
-    createElement(tagName: "span"): HTMLSpanElement;
-    createElement(tagName: "canvas"): HTMLCanvasElement;
+
+interface Cloner {
+    clone(animal: Dog): Dog;
+    clone(animal: Cat): Cat;
 }
 ```
 
-这三个接口合并成一个声明。
-注意每组接口里的声明顺序保持不变，只是靠后的接口会出现在它前面的接口声明之前。
+这三个接口合并成一个声明：
+
+```ts
+interface Cloner {
+    clone(animal: Dog): Dog;
+    clone(animal: Cat): Cat;
+    clone(animal: Sheep): Sheep;
+    clone(animal: Animal): Animal;
+}
+```
+
+注意每组接口里的声明顺序保持不变，但各组接口之间的顺序是后来的接口重载出现在靠前位置。
+
+这个规则有一个例外是当出现特殊的函数签名时。
+如果签名里有一个参数的类型是*单一*的字符串字面量（比如，不是字符串字面量的联合类型），那么它将会被提升到重载列表的最顶端。
+
+比如，下面的接口会合并到一起：
 
 ```ts
 interface Document {
+    createElement(tagName: any): Element;
+}
+interface Document {
     createElement(tagName: "div"): HTMLDivElement;
     createElement(tagName: "span"): HTMLSpanElement;
+}
+interface Document {
+    createElement(tagName: string): HTMLElement;
     createElement(tagName: "canvas"): HTMLCanvasElement;
+}
+```
+
+合并后的`Document`将会像下面这样：
+
+```ts
+interface Document {
+    createElement(tagName: "canvas"): HTMLCanvasElement;
+    createElement(tagName: "div"): HTMLDivElement;
+    createElement(tagName: "span"): HTMLSpanElement;
     createElement(tagName: string): HTMLElement;
     createElement(tagName: any): Element;
 }
 ```
-
 
 # 合并命名空间
 
