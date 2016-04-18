@@ -27,6 +27,10 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [ASP.NET Core](./doc/handbook/quick-start/asp-net-core.html)
   * [Knockout.js](./doc/handbook/quick-start/knockout.html)
 * [新增功能](./doc/release-notes/README.html)
+  * [TypeScript 1.8](./doc/release-notes/TypeScript 1.8.html)
+  * [TypeScript 1.7](./doc/release-notes/TypeScript 1.7.html)
+  * [TypeScript 1.6](./doc/release-notes/TypeScript 1.6.html)
+  * [TypeScript 1.5](./doc/release-notes/TypeScript 1.5.html)
   * [TypeScript 1.4](./doc/release-notes/TypeScript 1.4.html)
   * [TypeScript 1.3](./doc/release-notes/TypeScript 1.3.html)
   * [TypeScript 1.1](./doc/release-notes/TypeScript 1.1.html)
@@ -71,6 +75,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 
 ## 主要修改 (Latest 10 updates)
 
+* 2016-04-18 新增章节：[新增功能](./doc/release-notes/README.html)
 * 2016-04-10 新增章节：快速上手：[ASP.NET Core](./doc/handbook/quick-start/asp-net-core.html)
 * 2016-04-10 新增章节：[三斜线指令](./doc/handbook/Triple-Slash Directives.html)
 * 2016-04-10 新增章节：快速上手：[Knockout.js](./doc/handbook/quick-start/knockout.html)
@@ -80,7 +85,6 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * 2016-04-01 新增特性：[字符串字面量类型](./doc/handbook/Advanced Types.html)
 * 2016-02-27 新增章节：快速上手：[React和webpack](./doc/handbook/quick-start/react-webpack.html)
 * 2016-01-31 新增章节：[TypeScript里的this](./doc/wiki/this-in-TypeScript.html)
-* 2016-01-24 新增章节：[发展路线图](./doc/wiki/Roadmap.html)
 
 
 ## 相关链接
