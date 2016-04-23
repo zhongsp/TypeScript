@@ -51,6 +51,7 @@ TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
   * [编译选项](./doc/handbook/Compiler Options.md)
   * [在MSBuild里使用编译选项](./doc/handbook/Compiler Options in MSBuild.md)
   * [与其它构建工具整合](./doc/handbook/Integrating with Build Tools.md)
+  * [使用TypeScript的每日构建版本](./doc/handbook/Nightly Builds.md)
 * [Wiki](./doc/wiki/README.md)
   * [TypeScript里的this](./doc/wiki/this-in-TypeScript.md)
   * [编码规范](./doc/wiki/coding_guidelines.md)
