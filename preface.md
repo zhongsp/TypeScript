@@ -63,6 +63,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [编译选项](./doc/handbook/Compiler Options.html)
   * [在MSBuild里使用编译选项](./doc/handbook/Compiler Options in MSBuild.html)
   * [与其它构建工具整合](./doc/handbook/Integrating with Build Tools.html)
+  * [使用TypeScript的每日构建版本](./doc/handbook/Nightly Builds.html)
 * [Wiki](./doc/wiki/README.html)
   * [TypeScript里的this](./doc/wiki/this-in-TypeScript.html)
   * [编码规范](./doc/wiki/coding_guidelines.html)
@@ -75,6 +76,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 
 ## 主要修改 (Latest 10 updates)
 
+* 2016-04-23 新增章节：[使用TypeScript的每日构建版本](./doc/handbook/Nightly Builds.html)
 * 2016-04-18 新增章节：[新增功能](./doc/release-notes/README.html)
 * 2016-04-10 新增章节：快速上手：[ASP.NET Core](./doc/handbook/quick-start/asp-net-core.html)
 * 2016-04-10 新增章节：[三斜线指令](./doc/handbook/Triple-Slash Directives.html)
@@ -84,7 +86,6 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * 2016-04-01 新增特性：[多态的`this`类型](./doc/handbook/Advanced Types.html)
 * 2016-04-01 新增特性：[字符串字面量类型](./doc/handbook/Advanced Types.html)
 * 2016-02-27 新增章节：快速上手：[React和webpack](./doc/handbook/quick-start/react-webpack.html)
-* 2016-01-31 新增章节：[TypeScript里的this](./doc/wiki/this-in-TypeScript.html)
 
 
 ## 相关链接
