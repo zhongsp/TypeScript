@@ -73,11 +73,11 @@ tom.move(34);
 这个例子展示了TypeScript中继承的一些特征，与其它语言类似。
 我们使用`extends`来创建子类。你可以看到`Horse`和`Snake`类是基类`Animal`的子类，并且可以访问其属性和方法。
 
+包含constructor函数的派生类必须调用`super()`，它会执行基类的构造方法。
+
 这个例子演示了如何在子类里可以重写父类的方法。
 `Snake`类和`Horse`类都创建了`move`方法，重写了从`Animal`继承来的`move`方法，使得`move`方法根据不同的类而具有不同的功能。
 注意，即使`tom`被声明为`Animal`类型，因为它的值是`Horse`，`tom.move(34)`调用`Horse`里的重写方法：
-
-包含constructor函数的派生类必须调用`super()`，它会执行基类的构造方法。
 
 ```plain
 Slithering...
