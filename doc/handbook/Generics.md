@@ -268,25 +268,22 @@ loggingIdentity({length: 10, value: 3});
 
 ## 在泛型约束中使用类型参数
 
-有时候，我们需要使用类型参数去约束另一个类型参数。比如，
+你可以声明一个类型参数去约束另一个类型参数。
+比如，我们想要把一个对象的属性复制到另一个对象。我们要确保没有从 `source` 中写入额外的属性，为此，我们在这两个类型间设置了约束：
 
 ```ts
-function find<T, U extends Findable<T>>(n: T, s: U) {   // errors because type parameter used in constraint
-  // ...
+function copyFields<T extends U, U>(target: T, source: U): T {
+    for (let id in source) {
+        target[id] = source[id];
+    }
+    return target;
 }
-find (giraffe, myAnimals);
+
+let x = { a: 1, b: 2, c: 3, d: 4 };
+
+copyFields(x, { b: 10, d: 20 }); // okay
+copyFields(x, { Q: 90 });  // error: property 'Q' isn't declared in 'x'.
 ```
-
-可以通过下面的方法来实现，重写上面的代码，
-
-```ts
-function find<T>(n: T, s: Findable<T>) {
-  // ...
-}
-find(giraffe, myAnimals);
-```
-
-*注意：* 上面两种写法并不完全等同，因为第一段程序的返回值可能是U，而第二段程序却没有这一限制。
 
 ## 在泛型里使用类类型
 
