@@ -83,8 +83,8 @@ source-map-loader使用TypeScript输出的sourcemap文件来告诉webpack何时�
 最后，我们使用`typings`工具来获取React的声明文件：
 
 ```shell
-typings install  --global --save dt~react                  
-typings install  --global --save dt~react-dom                   
+typings install  --global --save dt~react
+typings install  --global --save dt~react-dom
 ```
 
 `--global dt~`标记告诉typings从[DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)获取声明文件，这是由社区维护的`.d.ts`文件仓库。
