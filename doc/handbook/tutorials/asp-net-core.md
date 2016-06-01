@@ -14,12 +14,12 @@
 3. 选择 **Visual C#**
 4. 选择 **ASP.NET Web Application**
 
-   ![Create new ASP.NET project](new-asp-project.png)
+   ![Create new ASP.NET project](../../assets/images/tutorials/aspnet/new-asp-project.png)
 
 5. 选择 **ASP.NET 5 Empty** 工程模板
 
    取消复选 "Host in the cloud" 本指南将使用一个本地示例。
-   ![Use empty template](new-asp-project-empty.png)
+   ![Use empty template](../../assets/images/tutorials/aspnet/new-asp-project-empty.png)
 
 运行此应用以确保它能正常工作。
 
@@ -56,18 +56,18 @@ public void Configure(IApplicationBuilder app)
 
 下一步我们为 TypeScript 添加一个文件夹。
 
-![Create new folder](new-folder.png)
+![Create new folder](../../assets/images/tutorials/aspnet/new-folder.png)
 
 将文件夹命名为 `scripts`。
 
-![scripts folder](scripts-folder.png)
+![scripts folder](../../assets/images/tutorials/aspnet/scripts-folder.png)
 
 ## 添加 TypeScript 代码
 
 在`scripts`上右击并选择**New Item**。
 接着选择**TypeScript File**（也可能 .NET Core 部分），并将此文件命名为`app.ts`。
 
-![New item](new-item.png)
+![New item](../../assets/images/tutorials/aspnet/new-item.png)
 
 ## 添加示例代码
 
@@ -89,7 +89,7 @@ function sayHello() {
 右击scripts文件夹并选择**New Item**。
 接着选择**TypeScript Configuration File**，保持文件的默认名字为`tsconfig.json`。
 
-![Create tsconfig.json](new-tsconfig.png)
+![Create tsconfig.json](../../assets/images/tutorials/aspnet/new-tsconfig.png)
 
 将默认的`tsconfig.json`内容改为如下所示：
 
@@ -168,7 +168,7 @@ gulp.task('default', function () {
 现在，右击`gulpfile.js`并选择**Task Runner Explorer**。
 若'default'和'clean'任务没有显示输出内容的话，请刷新explorer：
 
-![Refresh Task Runner Explorer](task-runner-explorer.png)
+![Refresh Task Runner Explorer](../../assets/images/tutorials/aspnet/task-runner-explorer.png)
 
 ## 编写HTML页
 
@@ -198,7 +198,7 @@ gulp.task('default', function () {
 1. 运行项目。
 2. 在输入框中键入时，您应该看到一个消息：
 
-![Picture of running demo](running-demo.png)
+![Picture of running demo](../../assets/images/tutorials/aspnet/running-demo.png)
 
 ## 调试
 
@@ -207,7 +207,7 @@ gulp.task('default', function () {
 3. 在 `return` 那一行上打一个断点。
 4. 在输入框中键入一些内容，确认TypeScript代码命中断点，观察它是否能正确地工作。
 
-![Demo paused on breakpoint](paused-demo.png)
+![Demo paused on breakpoint](../../assets/images/tutorials/aspnet/paused-demo.png)
 
 这就是你需要知道的在ASP.NET中使用TypeScript的基本知识了。接下来，我们引入Angular，写一个简单的Angular程序示例。
 
