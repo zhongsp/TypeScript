@@ -22,10 +22,10 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 ## 目录
 
 * [快速上手](./doc/handbook/tutorials/README.html)
-  * [React与webpack](./doc/handbook/tutorials/react-webpack.html)
-  * [ASP.NET 4](./doc/handbook/tutorials/asp-net.html)
-  * [ASP.NET Core](./doc/handbook/tutorials/asp-net-core.html)
-  * [Knockout.js](./doc/handbook/tutorials/knockout.html)
+  * [React与webpack](./doc/handbook/tutorials/React & Webpack.html)
+  * [ASP.NET 4](./doc/handbook/tutorials/ASP.NET 4.html)
+  * [ASP.NET Core](./doc/handbook/tutorials/ASP.NET Core.html)
+  * [Knockout.js](./doc/handbook/tutorials/Knockout.html)
 * [新增功能](./doc/release-notes/README.html)
   * [TypeScript 1.8](./doc/release-notes/TypeScript 1.8.html)
   * [TypeScript 1.7](./doc/release-notes/TypeScript 1.7.html)
@@ -78,14 +78,14 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 
 * 2016-04-23 新增章节：[使用TypeScript的每日构建版本](./doc/handbook/Nightly Builds.html)
 * 2016-04-18 新增章节：[新增功能](./doc/release-notes/README.html)
-* 2016-04-10 新增章节：快速上手：[ASP.NET Core](./doc/handbook/tutorials/asp-net-core.html)
+* 2016-04-10 新增章节：快速上手：[ASP.NET Core](./doc/handbook/tutorials/ASP.NET Core.html)
 * 2016-04-10 新增章节：[三斜线指令](./doc/handbook/Triple-Slash Directives.html)
-* 2016-04-10 新增章节：快速上手：[Knockout.js](./doc/handbook/tutorials/knockout.html)
+* 2016-04-10 新增章节：快速上手：[Knockout.js](./doc/handbook/tutorials/Knockout.html)
 * 2016-04-10 新增章节：快速上手：[新增功能](./doc/release-notes/TypeScript 1.4.html)
 * 2016-04-02 新增章节：[模块解析](./doc/handbook/Module Resolution.html)
 * 2016-04-01 新增特性：[多态的`this`类型](./doc/handbook/Advanced Types.html)
 * 2016-04-01 新增特性：[字符串字面量类型](./doc/handbook/Advanced Types.html)
-* 2016-02-27 新增章节：快速上手：[React和webpack](./doc/handbook/tutorials/react-webpack.html)
+* 2016-02-27 新增章节：快速上手：[React和webpack](./doc/handbook/tutorials/React & Webpack.html)
 
 
 ## 相关链接
