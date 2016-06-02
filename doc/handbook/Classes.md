@@ -79,7 +79,7 @@ tom.move(34);
 `Snake`类和`Horse`类都创建了`move`方法，重写了从`Animal`继承来的`move`方法，使得`move`方法根据不同的类而具有不同的功能。
 注意，即使`tom`被声明为`Animal`类型，因为它的值是`Horse`，`tom.move(34)`调用`Horse`里的重写方法：
 
-```plain
+```text
 Slithering...
 Sammy the Python moved 5m.
 Galloping...
