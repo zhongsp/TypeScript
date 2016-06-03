@@ -1,6 +1,6 @@
 ## 编译选项
 
-选项                                     | 类型     | 默认值                    | 描述
+选项                                     | 类型      | 默认值                    | 描述
 ----------------------------------------|-----------|--------------------------|----------------------------------------------------------------------
 `--allowJs`                             | `boolean` |  `true`                  | 允许编译javascript文件。
 `--allowSyntheticDefaultImports`        | `boolean` | `(module === "system")`  | 允许从没有设置默认导出的模块中默认导入。这并不影响代码的显示，仅为了类型检查。
@@ -46,13 +46,14 @@
 `--skipDefaultLibCheck`                 | `boolean` | `false`                  |
 `--sourceMap`                           | `boolean` | `false`                  | 生成相应的'.map'文件。
 `--sourceRoot`                          | `string`  | `null`                   | 指定TypeScript源文件的路径，以便调试器定位。当TypeScript文件的位置是在运行时指定时使用此标记。路径信息会被加到`sourceMap`里。
+`--strictNullChecks`                    | `boolean` | `false`                  | 在严格的`null`检查模式下，`null`和`undefined`值不包含在任何类型里，只允许用它们自己和`any`来赋值（有个例外，`undefined`可以赋值到`void`）。
 `--stripInternal`<sup>[1]</sup>         | `boolean` | `false`                  | 不对具有`/** @internal */` JSDoc注解的代码生成代码。
 `--suppressExcessPropertyErrors`<sup>[1]</sup> | `boolean` | `false`                  | 阻止对对象字面量的额外属性检查。
 `--suppressImplicitAnyIndexErrors`      | `boolean` | `false`                  | 阻止`--noImplicitAny`对缺少索引签名的索引对象报错。查看[issue #1232](https://github.com/Microsoft/TypeScript/issues/1232#issuecomment-64510362)了解详情。
 `--target`<br/>`-t`                     | `string`  | `"ES5"`                  | 指定ECMAScript目标版本'ES3' (默认)，'ES5'，或'ES6'<sup>[1]</sup>
+`--traceResolution`                     | `boolean` | `false`                  | 生成模块解析日志信息
 `--version`<br/>`-v`                    |           |                          | 打印编译器版本号。
-`--watch`<br/>`-w`                      |           |                         | 在监视模式下运行编译器。会监视输出文件，在它们改变时重新编译。
-`@<file>`                               |           |                         | 从一个文件中读取命令选项与文件。例：tsc @args.txt
+`--watch`<br/>`-w`                      |           |                          | 在监视模式下运行编译器。会监视输出文件，在它们改变时重新编译。
 
 <sup>[1]</sup> 这些选项是试验性的。
 
