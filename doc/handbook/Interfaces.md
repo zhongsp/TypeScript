@@ -134,20 +134,32 @@ let mySquare = createSquare({ colour: "red", width: 100 });
 ```
 
 绕开这些检查非常简单。
-最好而简便的方法是使用类型断言：
+最简便的方法是使用类型断言：
 
 ```ts
-let mySquare = createSquare({ colour: "red", width: 100 } as SquareConfig);
+let mySquare = createSquare({ width: 100, opacity: 0.5 } as SquareConfig);
 ```
 
-另一个方法，可能会让人有点惊讶，就是将一个对象赋值给另一个变量：
+然而，最佳的方式是能够添加一个字符串索引签名，前提是你能够确定这个对象可能具有某些做为特殊用途使用的额外属性。
+如果`SquareConfig`带有上面定义的类型的`color`和`width`属性，并且*还会*带有任意数量的其它属性，那么我们可以这样定义它：
+
+```ts
+interface SquareConfig {
+    color?: string;
+    width?: number;
+    [propName: string]: any;
+}
+```
+
+我们稍后会讲到索引签名，但在这我们要表示的是`SquareConfig`可以有任意数量的属性，并且只要它们不是`color`和`width`，那么就无所谓它们的类型是什么。
+
+还有最后一种跳过这些检查的方式，这可能会让你感到惊讶，它就是将这个对象赋值给一个另一个变量：
+因为`squareOptions`不会经过额外属性检查，所以编译器不会报错。
 
 ```ts
 let squareOptions = { colour: "red", width: 100 };
 let mySquare = createSquare(squareOptions);
 ```
-
-因为`squareOptions`不会经过额外属性检查，所以编译器不会报错。
 
 要留意，在像上面一样的简单代码里，你可能不应该去绕开这些检查。
 对于包含方法和内部状态的复杂对象字面量来讲，你可能需要使用这些技巧，但是大部额外属性检查错误是真正的bug。
@@ -218,10 +230,11 @@ mySearch = function(src, sub) {
 }
 ```
 
-# 数组类型
+# 可索引的类型
 
-与使用接口描述函数类型差不多，我们也可以描述数组类型。
-数组类型具有一个`index`类型表示索引的类型，还有一个相应的返回值类型表示通过索引得到的元素的类型。
+与使用接口描述函数类型差不多，我们也可以描述那些能够“通过索引得到”的类型，比如`a[10]`或`ageMap["daniel"]`。
+可索引类型具有一个*索引签名*，它描述了对象索引的类型，还有相应的索引返回值类型。
+让我们看一个例子：
 
 ```ts
 interface StringArray {
@@ -230,13 +243,35 @@ interface StringArray {
 
 let myArray: StringArray;
 myArray = ["Bob", "Fred"];
+
+let myStr: string = myArray[0];
 ```
 
-支持两种索引类型：string和number。
-数组可以同时使用这两种索引类型，但是有一个限制，数字索引返回值的类型必须是字符串索引返回值的类型的子类型。
+上面例子里，我们定义了`StringArray`接口，它具有索引签名。
+这个索引签名表示了当用`number`去索引`StringArray`时会得到`string`类型的返回值。
 
-索引签名能够很好的描述数组和`dictionary`模式，它们也要求所有属性要与返回值类型相匹配。
-因为字符串索引表明`obj.property`和`obj["property"]`两种形式都可以。
+共有支持两种索引签名：字符串和数字。
+可以同时使用两种类型的索引，但是数字索引的返回值必须是字符串索引返回值类型的子类型。
+这是因为当使用`number`来索引时，JavaScript会将它转换成`string`然后再去索引对象。
+也就是说用`100`（一个`number`）去索引等同于使用`"100"`（一个`string`）去索引，因此两者需要保持一致。
+
+```ts
+class Animal {
+    name: string;
+}
+class Dog extends Animal {
+    breed: string;
+}
+
+// Error: indexing with a 'string' will sometimes get you a Dog!
+interface NotOkay {
+    [x: number]: Animal;
+    [x: string]: Dog;
+}
+```
+
+字符串索引签名能够很好的描述`dictionary`模式，并且它们也会确保所有属性与其返回值类型相匹配。
+因为字符串索引声明了`obj.property`和`obj["property"]`两种形式都可以。
 下面的例子里，`name`的类型与字符串索引类型不匹配，所以类型检查器给出一个错误提示：
 
 ```ts
