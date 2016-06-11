@@ -1,12 +1,12 @@
 
-这篇快速上手指南会教你怎样使用[gulp](http://gulpjs.com)来构建TypeScript，还有如何在gulp管道里添加[Browserify](http://browserify.org)，[uglify](http://lisperator.net/uglifyjs/)或[Watchify](https://github.com/substack/watchify)。
+这篇快速上手指南将教你如何使用[Gulp](http://gulpjs.com)构建TypeScript，和如何在Gulp管道里添加[Browserify](http://browserify.org)，[uglify](http://lisperator.net/uglifyjs/)或[Watchify](https://github.com/substack/watchify)。
 
 这里假设你已经在使用[Node.js](https://nodejs.org/)和[npm](https://www.npmjs.com/)了。
 
 # 创建简单工程
 
-让我们先创建一个新目录。
-命名为`proj`，你可以使用任何你喜欢的名字。
+我们首先创建一个新目录。
+命名为`proj`，也可以使用任何你喜欢的名字。
 
 ```shell
 mkdir proj
@@ -21,9 +21,9 @@ proj/
     +- dist/
 ```
 
-TypeScript文件放在`src`文件夹下，经过TypeScript编译器编译后生成的目标文件在`dist`目录下。
+TypeScript文件放在`src`文件夹下，经过TypeScript编译器编译生成的目标文件放在`dist`目录下。
 
-下面我们来创建这些文件夹：
+下面让我们来创建这些文件夹：
 
 ```shell
 mkdir src
@@ -32,7 +32,7 @@ mkdir dist
 
 ## 初始化工程
 
-现在我们把这个文件夹转换成npm包：
+现在让我们把这个文件夹转换成npm包：
 
 ```shell
 npm init
@@ -46,15 +46,15 @@ npm init
 ## 安装依赖项
 
 现在我们可以使用`npm install`命令来安装包。
-首先全局安装TypeScript和gulp。
+首先全局安装TypeScript和Gulp。
 （如果你正在使用Unix系统，你可能需要使用`sudo`命令来启动`npm install`命令行。）
 
 ```shell
 npm install -g typescript gulp-cli
 ```
 
-之后安装`gulp`和`gulp-typescript`到开发依赖项。
-[Gulp-typescript](https://www.npmjs.com/package/gulp-typescript)是TypeScript的一个gulp插件。
+然后安装`gulp`和`gulp-typescript`到开发依赖项。
+[Gulp-typescript](https://www.npmjs.com/package/gulp-typescript)是TypeScript的一个Gulp插件。
 
 ```shell
 npm install --save-dev gulp gulp-typescript
@@ -63,7 +63,7 @@ npm install --save-dev gulp gulp-typescript
 ## 写一个简单的例子
 
 让我们写一个Hello World程序。
-在`src`下，创建`main.ts`文件：
+在`src`目录下创建`main.ts`文件：
 
 ```ts
 function hello(compiler: string) {
@@ -72,7 +72,7 @@ function hello(compiler: string) {
 hello("TypeScript");
 ```
 
-在工程根目录`proj`下新建一个`tsconfig.json`文件：
+在工程的根目录`proj`下新建一个`tsconfig.json`文件：
 
 ```json
 {
@@ -109,12 +109,12 @@ gulp
 node dist/main.js
 ```
 
-程序应该能够打印“Hello from TypeScript!”。
+程序应该能够打印出“Hello from TypeScript!”。
 
 # 向代码里添加模块
 
-在使用Browserify前，让我们先构建一下代码再添加一些混入的模块。
-这个结构将是你在真实应用中会用到的。
+在使用Browserify前，让我们先构建一下代码然后再添加一些混入的模块。
+这个结构将是你在真实应用程序中会用到的。
 
 新建一个`src/greet.ts`文件：
 
@@ -147,26 +147,26 @@ console.log(sayHello("TypeScript"));
 }
 ```
 
-确保执行`gulp`后模块是能工作的，在Node下进行测试：
+确保执行`gulp`后模块是能工作的，在Node.js下进行测试：
 
 ```shell
 gulp
 node dist/main.js
 ```
 
-注意，即使我们使用了ES2015的模块语法，TypeScript会生成Node.js使用的CommonJS模块。
-我们在这个教程里会一直使用CommonJS，但是你可以通过修改`module`选项来改变这个行为。
+注意，即使我们使用了ES2015的模块语法，TypeScript还是会生成Node.js使用的CommonJS模块。
+我们在这个教程里会一直使用CommonJS模块，但是你可以通过修改`module`选项来改变这个行为。
 
 # Browserify
 
 现在，让我们把这个工程由Node.js环境移到浏览器环境里。
 因此，我们将把所有模块捆绑成一个JavaScript文件。
-所幸，这正是Browserify做的事情。
-更有利的是，它允许使用Node.js的CommonJS模块，这正是TypeScript默认生成类型。
-也就是说TypeScript和Node.js的设置不需要改变就可以移值到浏览器里。
+所幸，这正是Browserify要做的事情。
+更方便的是，它支持Node.js的CommonJS模块，这也正是TypeScript默认生成的类型。
+也就是说TypeScript和Node.js的设置不需要改变就可以移植到浏览器里。
 
 首先，安装Browserify，[tsify](https://www.npmjs.com/package/tsify)和vinyl-source-stream。
-tsify是一个Browserify插件，就像gulp-typescript，能够访问TypeScript编译器。
+tsify是Browserify的一个插件，就像gulp-typescript一样，它能够访问TypeScript编译器。
 vinyl-source-stream会将Browserify的输出文件适配成gulp能够解析的格式，它叫做[vinyl](https://github.com/gulpjs/vinyl)。
 
 ```shell
@@ -238,35 +238,35 @@ gulp.task("default", ["copy-html"], function () {
 
 这里增加了`copy-html`任务并且把它加作`default`的依赖项。
 这样，当`default`执行时，`copy-html`会被首先执行。
-我们还修改了`default`，让它使用`tsify`插件调用Browserify，而不是`gulp-typescript`。
+我们还修改了`default`任务，让它使用`tsify`插件调用Browserify，而不是`gulp-typescript`。
 方便的是，两者传递相同的参数对象到TypeScript编译器。
 
 调用`bundle`后，我们使用`source`（vinyl-source-stream的别名）把输出文件命名为`bundle.js`。
 
-测试页面，运行`gulp`，然后在浏览器里打开`dist/index.html`。
+测试此页面，运行`gulp`，然后在浏览器里打开`dist/index.html`。
 你应该能在页面上看到“Hello from TypeScript”。
 
 注意，我们为Broswerify指定了`debug: true`。
 这会让`tsify`在输出文件里生成`source maps`。
-`source maps`允许我们在浏览器中直接调试TypeScript源码，而不是在合并后的JavaScript文件上。
+`source maps`允许我们在浏览器中直接调试TypeScript源码，而不是在合并后的JavaScript文件上调试。
 你要打开调试器并在`main.ts`里打一个断点，看看`source maps`是否能工作。
 当你刷新页面时，代码会停在断点处，从而你就能够调试`greet.ts`。
 
 # Watchify，Babel和Uglify
 
-现在代码已经用Browserify和tsify捆绑在一起了，我们可以使用browserify插件为构建添加一些特性。
+现在代码已经用Browserify和tsify捆绑在一起了，我们可以使用Browserify插件为构建添加一些特性。
 
-* Watchify启动gulp并保持运行状态，当你保存文件时自动编译。
-  保证你进入到编辑-保存-刷新浏览器的循环中。
+* Watchify启动Gulp并保持运行状态，当你保存文件时自动编译。
+  帮你进入到编辑-保存-刷新浏览器的循环中。
 
 * Babel是个十分灵活的编译器，将ES2015及以上版本的代码转换成ES5和ES3。
   你可以添加大量自定义的TypeScript目前不支持的转换器。
 
-* Uglify帮你压缩代码，它们将花更少的时间去下载。
+* Uglify帮你压缩代码，将花费更少的时间去下载它们。
 
 ## Watchify
 
-我们启动Watchify，让它在后台帮我编译：
+我们启动Watchify，让它在后台帮我们编译：
 
 ```shell
 npm install --save-dev watchify gulp-util
@@ -320,7 +320,7 @@ watchedBrowserify.on("log", gutil.log);
 然后给函数起个名字，因为Watchify和Gulp都要调用它。
 (3)是可选的，但是对于调试来讲很有用。
 
-现在当你执行gulp，它会启动并保持运行状态。
+现在当你执行`gulp`，它会启动并保持运行状态。
 试着改变`main.ts`文件里`showHello`的代码并保存。
 你会看到这样的输出：
 
@@ -383,9 +383,9 @@ gulp.task("default", ["copy-html"], function () {
 });
 ```
 
-注意`uglify`只是调用自己&mdash;`buffer`和`sourcemaps`调用用于确保sourcemaps可以工作。
+注意`uglify`只是调用了自己&mdash;`buffer`和`sourcemaps`的调用是用于确保sourcemaps可以工作。
 这些调用让我们可以使用单独的sourcemap文件，而不是之前的内嵌的sourcemaps。
-你现在可以执行gulp来检查`bundle.js`是否被压缩了：
+你现在可以执行`gulp`来检查`bundle.js`是否被压缩了：
 
 ```shell
 gulp
@@ -439,7 +439,7 @@ gulp.task('default', ['copyHtml'], function () {
 ```
 
 我们需要设置TypeScript目标为ES2015。
-Babel稍后会从TypeScript生成的ES2015代码中生成ES5.
+Babel稍后会从TypeScript生成的ES2015代码中生成ES5。
 修改`tsconfig.json`:
 
 ```json
@@ -454,4 +454,4 @@ Babel稍后会从TypeScript生成的ES2015代码中生成ES5.
 }
 ```
 
-对于这样一段简单的代码来说，Babel的ES5输出应该和TypeScript的输出很像。
+对于这样一段简单的代码来说，Babel的ES5输出应该和TypeScript的输出相似。
