@@ -42,10 +42,10 @@ npm install -g typescript typings
 我们将会使用它来获取Knockout的声明文件。
 
 ```shell
-typings install --ambient --save knockout
+typings install --global --save dt~knockout
 ```
 
-`--ambient`标记会告诉Typings从[DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)去获取声明文件，这是由社区维护的`.d.ts`文件仓库。
+`--global`标记会告诉Typings从[DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)去获取声明文件，这是由社区维护的`.d.ts`文件仓库。
 这个命令会在当前目录下创建一个`typings.json`文件和一个`typings`文件夹。
 
 # 获取运行时依赖
@@ -87,14 +87,14 @@ mkdir externals
         "target": "es5"
     },
     "files": [
-        "./typings/main.d.ts",
+        "./typings/index.d.ts",
         "./src/require-config.ts",
         "./src/hello.ts"
     ]
 }
 ```
 
-这里引用了`typings/main.d.ts`，它是Typings帮我们创建的。
+这里引用了`typings/index.d.ts`，它是Typings帮我们创建的。
 这个文件会自动地包含所有安装的依赖。
 
 你可能会对`typings`目录下的`browser.d.ts`文件感到好奇，尤其因为我们将在浏览器里运行代码。

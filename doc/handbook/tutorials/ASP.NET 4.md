@@ -148,9 +148,10 @@ function sayHello() {
 ## 更新 tsconfig.json
 
 现在安装好了 Angular 2 及其依赖项， 我们还需要启用 TypeScript 中实验性的装饰器支持并且引入 es6-shim 的类型文件。
-将来的版本中，装饰器和 ES6 选项将成为默认选项，我们就可以不做此设置了。添加
-`"experimentalDecorators": true, "emitDecoratorMetadata": true` 选项到 `"compilerOptions"` 选项段， 添加 `"./typings/main.d.ts"` 到 `"files"` 选项段。
-最后，我们还将要创建新的代码文件 `"./src/model.ts"`、`"./src/main.ts"` ，也将它们添加到 `"files"` 中，现在 tsconfig 看起来像这样：
+将来的版本中，装饰器和 ES6 选项将成为默认选项，我们就可以不做此设置了。
+添加`"experimentalDecorators": true, "emitDecoratorMetadata": true`选项到`"compilerOptions"`，再添加`"./typings/index.d.ts"`到`"files"`。
+最后，我们要新建`"./src/model.ts"`文件，并且得把它加到`"files"`里。
+现在`tsconfig.json`应该是这样：
 
 ```json
 {
@@ -167,7 +168,7 @@ function sayHello() {
     "./src/app.ts",
     "./src/model.ts",
     "./src/main.ts",
-    "./typings/main.d.ts"
+    "./typings/index.d.ts"
   ]
 }
 ```
@@ -190,8 +191,8 @@ function sayHello() {
 </Target>
 ```
 
-现在，右击 project 选择重新加载项目。
-此时应当能在 Solution Explorer 中看到 node_modules。
+现在，在工程上右击选择重新加载项目。
+此时应当能在解决方案资源管理器（Solution Explorer）中看到`node_modules`。
 
 ## 用 TypeScript 写一个简单的 Angular 应用
 
