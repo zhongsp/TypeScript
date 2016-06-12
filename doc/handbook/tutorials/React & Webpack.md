@@ -45,7 +45,7 @@ npm init
 
 你会看到一些提示。
 你可以使用默认项除了开始脚本。
-使用`./lib/bundle.js`做为开始脚本。
+使用`./dist/bundle.js`做为开始脚本。
 当然，你也可以随时到生成的`package.json`文件里修改。
 
 # 安装依赖
@@ -83,11 +83,11 @@ source-map-loader使用TypeScript输出的sourcemap文件来告诉webpack何时�
 最后，我们使用`typings`工具来获取React的声明文件：
 
 ```shell
-typings install  --global --save dt~react
-typings install  --global --save dt~react-dom
+typings install --global --save "dt~react"
+typings install --global --save "dt~react-dom"
 ```
 
-`--global dt~`标记告诉typings从[DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)获取声明文件，这是由社区维护的`.d.ts`文件仓库。
+`--global`标记，还有`dt~`前缀，告诉Typings从[DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)获取声明文件，它是一个由社区维护的`.d.ts`文件仓库。
 这个命令会创建一个名为`typings.json`的文件和一个`typings`目录在当前目录下。
 
 # 写一些代码
