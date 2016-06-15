@@ -6,6 +6,7 @@
   * [Gulp](./doc/handbook/tutorials/Gulp.md)
   * [Knockout.js](./doc/handbook/tutorials/Knockout.md)
   * [React与webpack](./doc/handbook/tutorials/React & Webpack.md)
+  * [Angular 2](./doc/handbook/tutorials/Angular 2.md)
 * [新增功能](./doc/release-notes/README.md)
   * [TypeScript 1.8](./doc/release-notes/TypeScript 1.8.md)
   * [TypeScript 1.7](./doc/release-notes/TypeScript 1.7.md)
