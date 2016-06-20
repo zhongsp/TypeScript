@@ -261,7 +261,7 @@ addLater(3, 4, x => console.log('x = ' + x));
 
 ```ts
 // Note: 'void' return type is preferred here
-function addLater(x: number, y: number, (sum: number) => void): void;
+function addLater(x: number, y: number, callback: (sum: number) => void): void;
 ```
 
 如果你想看其它模式的实现方式，请在[这里](https://github.com/Microsoft/TypeScript-Handbook/issues)留言！
