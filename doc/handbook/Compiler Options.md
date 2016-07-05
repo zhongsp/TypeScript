@@ -14,7 +14,7 @@
 `--experimentalDecorators`<sup>[1]</sup>| `boolean` | `false`                  | 实验性启用ES7装饰器支持。
 `--forceConsistentCasingInFileNames`    | `boolean` | `false`                  | 不允许不一致包装引用相同的文件。
 `--help`<br/>`-h`                       |           |                          | 打印帮助信息。
-`--init`                                |           |                         | 初始化TypeScript项目并创建一个`tsconfig.json`文件。
+`--init`                                |           |                          | 初始化TypeScript项目并创建一个`tsconfig.json`文件。
 `--inlineSourceMap`                     | `boolean` | `false`                  | 生成单个sourcemaps文件，而不是将每sourcemaps生成不同的文件。
 `--inlineSources`                       | `boolean` | `false`                  | 将代码与sourcemaps生成到一个文件中，要求同时设置了`--inlineSourceMap`或`--sourceMap`属性。
 `--isolatedModules`                     | `boolean` | `false`                  | 无条件地给没有解析的文件生成imports。
@@ -22,8 +22,8 @@
 `--listFiles`                           | `boolean` | `false`                  | 编译过程中打印文件名。
 `--locale`                              | `string`  | *(platform specific)*    | 显示错误信息时使用的语言，比如：en-us。
 `--mapRoot`                             | `string`  | `null`                   | 为调试器指定指定sourcemap文件的路径，而不是使用生成时的路径。当`.map`文件是在运行时指定的，并不同于`js`文件的地址时使用这个标记。指定的路径会嵌入到`sourceMap`里告诉调试器到哪里去找它们。
-`--module`<br/>`-m`                     | `string`  | `(target === "ES6" ? "ES6" : "commonjs")` | 指定生成哪个模块系统代码：'commonjs'，'amd'，'system'，或 'umd'或'es2015'。只有'amd'和'system'能和`--outFile`一起使用。当目标是ES5或以下的时候不能使用'es2015'。
-`--moduleResolution`                    | `string`  | `(module === 'amd' | 'system' | 'ES6'  ?  'classic' : 'node')`              | 决定如何处理模块。或者是'node'对于Node.js/io.js，或者是'classic'（默认）。查看[模块解析](./Module Resolution.md)了解详情。
+`--module`<br/>`-m`                     | `string`  | `(target === "ES6" ? "ES6" : "commonjs")`                                 | 指定生成哪个模块系统代码：'commonjs'，'amd'，'system'，或 'umd'或'es2015'。只有'amd'和'system'能和`--outFile`一起使用。当目标是ES5或以下的时候不能使用'es2015'。
+`--moduleResolution`                    | `string`  | `(module === 'amd' | 'system' | 'ES6' ? 'classic' : 'node')`              | 决定如何处理模块。或者是'node'对于Node.js/io.js，或者是'classic'（默认）。查看[模块解析](./Module Resolution.md)了解详情。
 `--newLine`                             | `string`  | *(platform specific)*    | 当生成文件时指定行结束符：'CRLF'（dos）或 'LF' （unix）。
 `--noEmit`                              | `boolean` | `false`                  | 不生成输出文件。
 `--noEmitHelpers`                       | `boolean` | `false`                  | 不在输出文件中生成用户自定义的帮助函数代码，如`__extends`。
@@ -48,7 +48,7 @@
 `--sourceRoot`                          | `string`  | `null`                   | 指定TypeScript源文件的路径，以便调试器定位。当TypeScript文件的位置是在运行时指定时使用此标记。路径信息会被加到`sourceMap`里。
 `--strictNullChecks`                    | `boolean` | `false`                  | 在严格的`null`检查模式下，`null`和`undefined`值不包含在任何类型里，只允许用它们自己和`any`来赋值（有个例外，`undefined`可以赋值到`void`）。
 `--stripInternal`<sup>[1]</sup>         | `boolean` | `false`                  | 不对具有`/** @internal */` JSDoc注解的代码生成代码。
-`--suppressExcessPropertyErrors`<sup>[1]</sup> | `boolean` | `false`                  | 阻止对对象字面量的额外属性检查。
+`--suppressExcessPropertyErrors`<sup>[1]</sup> | `boolean` | `false`           | 阻止对对象字面量的额外属性检查。
 `--suppressImplicitAnyIndexErrors`      | `boolean` | `false`                  | 阻止`--noImplicitAny`对缺少索引签名的索引对象报错。查看[issue #1232](https://github.com/Microsoft/TypeScript/issues/1232#issuecomment-64510362)了解详情。
 `--target`<br/>`-t`                     | `string`  | `"ES5"`                  | 指定ECMAScript目标版本'ES3' (默认)，'ES5'，或'ES6'<sup>[1]</sup>
 `--traceResolution`                     | `boolean` | `false`                  | 生成模块解析日志信息
