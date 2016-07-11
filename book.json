@@ -1,6 +1,9 @@
 {
     "gitbook": "2.x.x",
+    "language" : "zh-hans",
+    "author": "Patrick Zhong",
     "title": "TypeScript Handbook",
+    "description": "Translation of official TypeScript Handbook",
     "structure": {
         "readme": "preface.md"
     }
