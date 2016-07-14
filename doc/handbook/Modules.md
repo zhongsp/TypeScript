@@ -460,10 +460,10 @@ if (needZipValidation) {
 
 # 使用其它的JavaScript库
 
-为了描述不是用TypeScript编写的类库的类型，我们需要声明类库导出的API。
+要想描述非TypeScript编写的类库的类型，我们需要声明类库所暴露出的API。
 
-我们叫它声明因为它不是外部程序的具体实现。
-通常会在`.d.ts`里写这些定义。
+我们叫它声明因为它不是“外部程序”的具体实现。
+它们通常是在`.d.ts`文件里定义的。
 如果你熟悉C/C++，你可以把它们当做`.h`文件。
 让我们看一些例子。
 
@@ -500,6 +500,79 @@ declare module "path" {
 /// <reference path="node.d.ts"/>
 import * as URL from "url";
 let myUrl = URL.parse("http://www.typescriptlang.org");
+```
+
+### 外部模块简写
+
+假如你不想在使用一个新模块之前花时间去编写声明，你可以采用声明的简写形式以便能够快速使用它。
+
+##### declarations.d.ts
+
+```ts
+declare module "hot-new-module";
+```
+
+简写模块里所有导出的类型将是`any`。
+
+```ts
+import x, {y} from "hot-new-module";
+x(y);
+```
+
+### 模块声明通配符
+
+某些模块加载器如[SystemJS](https://github.com/systemjs/systemjs/blob/master/docs/overview.md#plugin-syntax)
+和[AMD](https://github.com/amdjs/amdjs-api/blob/master/LoaderPlugins.md)支持导入非JavaScript内容。
+它们通常会使用一个前缀或后缀来表示特殊的加载语法。
+模块声明通配符可以用来表示这些情况。
+
+```ts
+declare module "*!text" {
+    const content: string;
+    export default content;
+}
+// Some do it the other way around.
+declare module "json!*" {
+    const value: any;
+    export default value;
+}
+```
+
+现在你可以就导入匹配`"*!text"`或`"json!*"`的内容了。
+
+```ts
+import fileContent from "./xyz.txt!text";
+import data from "json!http://example.com/data.json";
+console.log(data, fileContent);
+```
+
+### UMD模块
+
+有些模块被设计成兼容多个模块加载器，或者不使用模块加载器（全局变量）。
+它们以[UMD](https://github.com/umdjs/umd)或[Isomorphic](http://isomorphic.net)模块为代表。
+这些库可以通过导入的形式或全局变量的形式访问。
+例如：
+
+##### math-lib.d.ts
+
+```ts
+export const isPrime(x: number): boolean;
+export as namespace mathLib;
+```
+
+之后，这个库可以在某个模块里通过导入来使用：
+
+```ts
+import { isPrime } from "math-lib";
+isPrime(2);
+mathLib.isPrime(2); // ERROR: can't use the global definition from inside a module
+```
+
+它同样可以通过全局变量的形式使用，但只能在某个脚本里。
+（脚本是指一个不带有导入或导出的文件。）
+
+```ts
+mathLib.isPrime(2);
 ```
 
 # 创建模块结构指导
