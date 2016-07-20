@@ -417,6 +417,8 @@ kitty.numLives--;
 ```
 
 除非你使用特殊的方法去避免，实际上`const`变量的内部状态是可修改的。
+幸运的是，TypeScript允许你将对象的成员设置成只读的。
+[接口](./Interfaces.md)一章有详细说明。
 
 # `let` vs. `const`
 
@@ -431,6 +433,8 @@ kitty.numLives--;
 这个手册大部分地方都使用了`let`。
 
 跟据你的自己判断，如果合适的话，与团队成员商议一下。
+Fortunately, TypeScript allows you to specify that members of an object are `readonly`.
+The [chapter on Interfaces](./Interfaces.md) has the details.
 
 # 解构
 
