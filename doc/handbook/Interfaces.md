@@ -98,6 +98,49 @@ function createSquare(config: SquareConfig): { color: string; area: number } {
 let mySquare = createSquare({color: "black"});
 ```
 
+# 只读属性
+
+一些对象属性只能在对象刚刚创建的时候修改其值。
+你可以在属性名前用`readonly`来指定只读属性:
+
+```ts
+interface Point {
+    readonly x: number;
+    readonly y: number;
+}
+```
+
+你可以通过赋值一个对象字面量来构造一个`Point`。
+赋值后，`x`和`y`再也不能被改变了。
+
+```ts
+let p1: Point = { x: 10, y: 20 };
+p1.x = 5; // error!
+```
+
+TypeScript具有`ReadonlyArray<T>`类型，它与`Array<T>`相似，只是把怕有可变方法去掉了，因此可以确保数组创建后再也不能被修改：
+
+```ts
+let a: number[] = [1, 2, 3, 4];
+let ro: ReadonlyArray<number> = a;
+ro[0] = 12; // error!
+ro.push(5); // error!
+ro.length = 100; // error!
+a = ro; // error!
+```
+
+上面代码的最后一行，可以看到就算把整个`ReadonlyArray`赋值到一个普通数组也是不可以的。
+但是你可以用类型断言重写：
+
+```ts
+a = ro as number[];
+```
+
+## `readonly` vs `const`
+
+最简单判断该用`readonly`还是`const`的方法是看要把它做为变量使用还是做为一个属性。
+做为变量使用的话用`const`，若做为属性则使用`readonly`。
+
 # 额外的属性检查
 
 我们在第一个例子里使用了接口，TypeScript让我们传入`{ size: number; label: string; }`到仅期望得到`{ label: string; }`的函数里。
@@ -281,6 +324,18 @@ interface NumberDictionary {
   name: string       // 错误，`name`的类型不是索引类型的子类型
 }
 ```
+
+最后，你可以将索引签名设置为只读，这样就防止了给索引赋值：
+
+```ts
+interface ReadonlyStringArray {
+    readonly [index: number]: string;
+}
+let myArray: ReadonlyStringArray = ["Alice", "Bob"];
+myArray[2] = "Mallory"; // error!
+```
+
+你不能设置`myArray[2]`，因为索引签名是只读的。
 
 # 类类型
 
