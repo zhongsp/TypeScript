@@ -215,16 +215,19 @@ function buildName(firstName: string, ...restOfName: string[]) {
 let buildNameFun: (fname: string, ...rest: string[]) => string = buildName;
 ```
 
-# Lambda表达式和使用`this`
+# `this`
 
-JavaScript里`this`的工作机制对JavaScript程序员来说已经是老生常谈了。
-的确，学会如何使用它绝对是JavaScript编程中的一件大事。
+学习使用JavaScript里`this`就好比一场成年礼。
 由于TypeScript是JavaScript的超集，TypeScript程序员也需要弄清`this`工作机制并且当有bug的时候能够找出错误所在。
-`this`的工作机制可以单独写一本书了，并确已有人这么做了。在这里，我们只介绍一些基础知识。
+幸运的是，TypeScript能通知你错误地使用了`this`的地方。
+如果你想了解JavaScript里的`this`是如何工作的，那么首先阅读Yehuda Katz写的[Understanding JavaScript Function Invocation and "this"](http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/)。
+Yehuda的文章详细的阐述了`this`的内部工作原理，因此我们这里只做简单介绍。
+
+## `this`和箭头函数
 
 JavaScript里，`this`的值在函数被调用的时候才会指定。
 这是个既强大又灵活的特点，但是你需要花点时间弄清楚函数调用的上下文是什么。
-众所周知这不是一件很简单的事，特别是函数当做回调函数使用的时候。
+但众所周知，这不是一件很简单的事，尤其是在返回一个函数或将函数当做参数传递的时候。
 
 下面看一个例子：
 
@@ -248,12 +251,17 @@ let pickedCard = cardPicker();
 alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 ```
 
-如果我们运行这个程序，会发现它并没有弹出对话框而是报错了。
+可以看到`createCardPicker`是个函数，并且它又返回了一个函数。
+如果我们尝试运行这个程序，会发现它并没有弹出对话框而是报错了。
 因为`createCardPicker`返回的函数里的`this`被设置成了`window`而不是`deck`对象。
-当你调用`cardPicker()`时会发生这种情况。这里没有对`this`进行动态绑定因此为window。（注意在严格模式下，会是undefined而不是window）。
+因为我们只是独立的调用了`cardPicker()`。
+顶级的非方法式调用会将`this`视为`window`。
+（注意：在严格模式下，`this`为`undefined`而不是`window`）。
 
 为了解决这个问题，我们可以在函数被返回时就绑好正确的`this`。
 这样的话，无论之后怎么使用它，都会引用绑定的‘deck’对象。
+我们需要改变函数表达式来使用ECMAScript 6箭头语法。
+箭头函数能保存函数创建时的`this`值，而不是调用时的值：
 
 我们把函数表达式变为使用lambda表达式（ () => {} ）。
 这样就会在函数创建的时候就指定了‘this’值，而不是在函数调用的时候。
@@ -263,7 +271,7 @@ let deck = {
     suits: ["hearts", "spades", "clubs", "diamonds"],
     cards: Array(52),
     createCardPicker: function() {
-        // Notice: the line below is now a lambda, allowing us to capture `this` earlier
+        // NOTE: the line below is now an arrow function, allowing us to capture 'this' right here
         return () => {
             let pickedCard = Math.floor(Math.random() * 52);
             let pickedSuit = Math.floor(pickedCard / 13);
@@ -279,7 +287,116 @@ let pickedCard = cardPicker();
 alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 ```
 
-为了解更多关于`this`的信息，请阅读Yahuda Katz的[Understanding JavaScript Function Invocation and "this"](http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/)。
+更好事情是，TypeScript会警告你犯了一个错误，如果你给编译器设置了`--noImplicitThis`标记。
+它会指出`this.suits[pickedSuit]`里的`this`的类型为`any`。
+
+## `this`参数
+
+不幸的是，`this.suits[pickedSuit]`的类型依旧为`any`。
+这是因为`this`来自对象字面量里的函数表达式。
+修改的方法是，提供一个显示的`this`参数。
+`this`参数是个假的参数，它出现在参数列表的最前面：
+
+```ts
+function f(this: void) {
+    // make sure `this` is unusable in this standalone function
+}
+```
+
+让我们往例子里添加一些接口，`Card` 和 `Deck`，让类型重用能够变得清晰简单些：
+
+```ts
+interface Card {
+    suit: string;
+    card: number;
+}
+interface Deck {
+    suits: string[];
+    cards: number[];
+    createCardPicker(this: Deck): () => Card;
+}
+let deck: Deck = {
+    suits: ["hearts", "spades", "clubs", "diamonds"],
+    cards: Array(52),
+    // NOTE: The function now explicitly specifies that its callee must be of type Deck
+    createCardPicker: function(this: Deck) {
+        return () => {
+            let pickedCard = Math.floor(Math.random() * 52);
+            let pickedSuit = Math.floor(pickedCard / 13);
+
+            return {suit: this.suits[pickedSuit], card: pickedCard % 13};
+        }
+    }
+}
+
+let cardPicker = deck.createCardPicker();
+let pickedCard = cardPicker();
+
+alert("card: " + pickedCard.card + " of " + pickedCard.suit);
+```
+
+现在TypeScript知道`createCardPicker`期望在某个`Deck`对象上调用。
+也就是说`this`是`Deck`类型的，而非`any`，因此`--noImplicitThis`不会报错了。
+
+### `this`参数在回调函数里
+
+你可以也看到过在回调函数里的`this`报错，当你将一个函数传递到某个库函数里稍后会被调用时。
+因为当回调被调用的时候，它们会被当成一个普通函数调用，`this`将为`undefined`。
+稍做改动，你就可以通过`this`参数来避免错误。
+首先，库函数的作者要指定`this`的类型：
+
+```ts
+interface UIElement {
+    addClickListener(onclick: (this: void, e: Event) => void): void;
+}
+```
+
+`this: void` means that `addClickListener` expects `onclick` to be a function that does not require a `this` type.
+Second, annotate your calling code with `this`:
+
+```ts
+class Handler {
+    info: string;
+    onClickBad(this: Handler, e: Event) {
+        // oops, used this here. using this callback would crash at runtime
+        this.info = e.message;
+    };
+}
+let h = new Handler();
+uiElement.addClickListener(h.onClickBad); // error!
+```
+
+指定了`this`类型后，你显示声明`onClickBad`必须在`Handler`的实例上调用。
+然后TypeScript会检测到`addClickListener`要求函数带有`this: void`。
+改变`this`类型来修复这个错误：
+
+```ts
+class Handler {
+    info: string;
+    onClickGood(this: void, e: Event) {
+        // can't use this here because it's of type void!
+        console.log('clicked!');
+    }
+}
+let h = new Handler();
+uiElement.addClickListener(h.onClickGood);
+```
+
+因为`onClickGood`指定了`this`类型为`void`，因此传递`addClickListener`是合法的。
+当然了，这也意味着不能使用`this.info`.
+如果你两者都想要，你不得不使用箭头函数了：
+
+```ts
+class Handler {
+    info: string;
+    onClickGood = (e: Event) => { this.info = e.message }
+}
+```
+
+这是可行的因为箭头函数不会捕获`this`，所以你总是可以把它们传给期望`this: void`的函数。
+缺点是每个`Handler`对象都会创建一个箭头函数。
+另一方面，方法只会被创建一次，添加到`Handler`的原型链上。
+它们在不同`Handler`对象间是共享的。
 
 # 重载
 
