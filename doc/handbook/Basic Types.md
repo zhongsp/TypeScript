@@ -190,6 +190,27 @@ function warnUser(): void {
 let unusable: void = undefined;
 ```
 
+# Null 和 Undefined
+
+TypeScript里，`undefined`和`null`两者各自有自己的类型分别叫做`undefined`和`null`。
+和`void`相似，它们的本身的类型用处不是很大：
+
+```ts
+// Not much else we can assign to these variables!
+let u: undefined = undefined;
+let n: null = null;
+```
+
+默认情况下`null`和`undefined`是所有类型的子类型。
+就是说你可以把`null`和`undefined`赋值给`number`类型的变量。
+
+然而，当你指定了`--strictNullChecks`标记，`null`和`undefined`只能赋值给`void`和它们各自。
+这能避免*很多*常见的问题。
+也许在某处你想传入一个`string`或`null`或`undefined`，你可以使用联合类型`string | null | undefined`。
+现次说明，稍后我们会介绍联合类型。
+
+> 注意：我们鼓励尽可能地使用`--strictNullChecks`，但在本手册里我们假设这个标记是关闭的。
+
 # 类型断言
 
 有时候你会遇到这样的情况，你会比TypeScript更了解某个值的详细信息。
