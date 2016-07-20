@@ -140,7 +140,7 @@ var myComponent = MyFactoryFunction();
 默认的`JSX.ElementClass`为`{}`，但是它可以被扩展用来限制JSX的类型以符合相应的接口。
 
 ```ts
-declare namespace JSX JSX {
+declare namespace JSX {
   interface ElementClass {
     render: any;
   }
