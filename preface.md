@@ -78,6 +78,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 
 ## 主要修改 (Latest 10 updates)
 
+* 2016-07-20 新增章节：[readonly属性](./doc/handbook/Interfaces.html)
 * 2016-07-20 新增章节：[基本类型 - Null and Undefined](./doc/handbook/Basic Types.html)
 * 2016-06-15 新增章节：快速上手：[Angular 2](./doc/handbook/tutorials/Angular 2.html)
 * 2016-06-11 新增章节：快速上手：[Gulp](./doc/handbook/tutorials/Gulp.html)
@@ -87,7 +88,6 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * 2016-04-10 新增章节：[三斜线指令](./doc/handbook/Triple-Slash Directives.html)
 * 2016-04-10 新增章节：快速上手：[Knockout.js](./doc/handbook/tutorials/Knockout.html)
 * 2016-04-10 新增章节：快速上手：[新增功能](./doc/release-notes/TypeScript 1.4.html)
-* 2016-04-02 新增章节：[模块解析](./doc/handbook/Module Resolution.html)
 
 
 ## 相关链接
