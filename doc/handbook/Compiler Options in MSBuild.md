@@ -36,6 +36,8 @@
 `--noEmitOnError`                            | TypeScriptNoEmitOnError                    | 布尔值
 `--noEmitHelpers`                            | TypeScriptNoEmitHelpers                    | 布尔值
 `--noImplicitAny`                            | TypeScriptNoImplicitAny                    | 布尔值
+`--noUnusedLocals`                           | TypeScriptNoUnusedLocals                   | 布尔值
+`--noUnusedParameters`                       | TypeScriptNoUnusedParameters               | 布尔值
 `--noLib`                                    | TypeScriptNoLib                            | 布尔值
 `--noResolve`                                | TypeScriptNoResolve                        | 布尔值
 `--out`                                      | TypeScriptOutFile                          | 文件路径
