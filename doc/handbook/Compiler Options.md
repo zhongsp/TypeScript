@@ -8,7 +8,9 @@
 `--allowUnusedLabels`                   | `boolean` | `false`                  | 不报告未使用的标签错误。
 `--charset`                             | `string`  | `"utf8"`                 | 输入文件的字符集。
 `--declaration`<br/>`-d`                | `boolean` | `false`                  | 生成相应的'.d.ts'文件。
+`--declarationDir`                      | `string`  | `null`                   | 生成声明文件的输出路径。
 `--diagnostics`                         | `boolean` | `false`                  | 显示诊断信息。
+`--disableSizeLimit`                    | `boolean` | `false`                  | 禁用JavaScript工程体积大小的限制
 `--emitBOM`                             | `boolean` | `false`                  | 在输出文件的开头加入BOM头（UTF-8 Byte Order Mark）。
 `--emitDecoratorMetadata`<sup>[1]</sup> | `boolean` | `false`                  | 给源码里的装饰器声明加上设计类型元数据。查看[issue #2577](https://github.com/Microsoft/TypeScript/issues/2577)了解更多信息。
 `--experimentalDecorators`<sup>[1]</sup>| `boolean` | `false`                  | 实验性启用ES7装饰器支持。
@@ -34,6 +36,8 @@
 `--noImplicitUseStrict`                 | `boolean` | `false`                  | 模块输出中不包含'use strict'指令。
 `--noLib`                               | `boolean` | `false`                  | 不包含默认的库文件（lib.d.ts）。
 `--noResolve`                           | `boolean` | `false`                  | 不把`/// <reference``>`或模块导入的文件加到编译文件列表。
+`--noUnusedLocals`                      | `boolean` | `false`                  | 若有未使用的局部变量则抛错。
+`--noUnusedParameters`                  | `boolean` | `false`                  | 若有未使用的参数则抛错。
 ~~`--out`~~                             | `string`  | `null`                   | 弃用。使用 `--outFile` 代替。
 `--outDir`                              | `string`  | `null`                   | 重定向输出目录。
 `--outFile`                             | `string`  | `null`                   | 将输出文件合并为一个文件。合并的顺序是根据传入编译器的文件顺序和`///<reference``>`和`import`的文件顺序决定的。查看输出文件顺序文件了解详情。
