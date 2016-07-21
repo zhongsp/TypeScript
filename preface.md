@@ -78,6 +78,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 
 ## 主要修改 (Latest 10 updates)
 
+* 2016-07-21 新增章节：[tsconfig.json文件里的include和exclude匹配](./doc/handbook/tsconfig.json.html)
 * 2016-07-20 新增章节：[this参数](./doc/handbook/Functions.html)
 * 2016-07-20 新增章节：[readonly属性](./doc/handbook/Interfaces.html)
 * 2016-07-20 新增章节：[基本类型 - Null and Undefined](./doc/handbook/Basic Types.html)
@@ -87,7 +88,6 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * 2016-04-18 新增章节：[新增功能](./doc/release-notes/README.html)
 * 2016-04-10 新增章节：快速上手：[ASP.NET Core](./doc/handbook/tutorials/ASP.NET Core.html)
 * 2016-04-10 新增章节：[三斜线指令](./doc/handbook/Triple-Slash Directives.html)
-* 2016-04-10 新增章节：快速上手：[Knockout.js](./doc/handbook/tutorials/Knockout.html)
 
 
 ## 相关链接

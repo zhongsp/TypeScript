@@ -45,42 +45,56 @@
 }
 ```
 
-* 使用`"exclude"`属性
+* 使用`"include"`和`"exclude"`属性
 
-```json
-{
-    "compilerOptions": {
-        "module": "commonjs",
-        "noImplicitAny": true,
-        "removeComments": true,
-        "preserveConstEnums": true,
-        "outFile": "../../built/local/tsc.js",
-        "sourceMap": true
-    },
-    "exclude": [
-        "node_modules",
-        "wwwroot"
-    ]
-}
-```
+  ```json
+  {
+      "compilerOptions": {
+          "module": "commonjs",
+          "noImplicitAny": true,
+          "removeComments": true,
+          "preserveConstEnums": true,
+          "outFile": "../../built/local/tsc.js",
+          "sourceMap": true
+      },
+      "include": [
+          "src/**/*"
+      ],
+      "exclude": [
+          "node_modules",
+          "**/*.spec.ts"
+      ]
+  }
+  ```
 
 ## 细节
 
 `"compilerOptions"`可以被忽略，这时编译器会使用默认值。在这里查看完整的[编译器选项](./Compiler Options.md)列表。
 
-如果`tsconfig.json`没有提供`"files"`属性，编译器会默认包含当前目录及子目录下的所有TypeScript文件（`*.ts` 或 `*.tsx`）。
-如果提供了`"files"`属性值，只有指定的文件会被编译。
+`"files"`指定一个包含相对或绝对文件路径的列表。
+`"include"`和`"exclude"`属性指定一个文件glob匹配模式列表。
+支持的glob通配符有：
 
-如果指定了`"exclude"`选项，编译器会包含当前目录及子目录下的所有TypeScript文件（`*.ts` 或 `*.tsx`），不包括这些指定要排除的文件。
+* `*` 匹配0或多个字符（不包括目录分隔符）
+* `?` 匹配一个任意字符（不包括目录分隔符）
+* `**/` 递归匹配任意子目录
 
-`"files"`选项不能与`"exclude"`选项同时使用。如果同时指定了两个选项的话，只有`"files"`会生效。
+如果一个glob模式里的某部分只包含`*`或`.*`，那么仅有支持的文件扩展名类型被包含在内（比如默认`.ts`，`.tsx`，和`.d.ts`， 如果`allowJs`设置能`true`还包含`.js`和`.jsx`）。
 
-所有被`"files"`属性里的文件所引用的文件同样会被包含进来。
-就好比，`A.ts`引用了`B.ts`，因此`B.ts`不能被排除，除非引用它的`A.ts`在`"exclude"`列表中。
+如果`"files"`和`"include"`都没有被指定，编译器默认包含当前目录和子目录下所有的TypeScript文件（`.ts`, `.d.ts` 和 `.tsx`），排除在`"exclude"`里指定的文件。JS文件（`.js`和`.jsx`）也被包含进来如果`allowJs`被设置成`true`。
+如果指定了`"files"`或`"include"`，编译器会将它们结合一并包含进来。
+使用`"outDir"`指定的目录下的文件永远会被编译器排除，除非你明确地使用`"files"`将其包含进来（这时就算用`exclude`指定也没用）。
 
-`tsconfig.json`可以是个空文件，那么编译器则使用默认编译选项，编译当前目录及其子目录下的所有文件。
+使用`"include"`引入的文件可以使用`"exclude"`属性过滤。
+然而，通过`"files"`属性明确指定的文件却总是会被包含在内，不管`"exclude"`如何设置。
+如果没有特殊指定，`"exclude"`默认情况下会排除`node_modules`，`bower_components`，和`jspm_packages`目录。
 
-命令行上提供的编译选项会覆盖`tsconfig.json`文件中的对应选项。
+任何被`"files"或`"include"`指定的文件所引用的文件也会被包含进来。
+`A.ts`引用了`B.ts`，因此`B.ts`不能被排除，除非引用它的`A.ts`在`"exclude"`列表中。
+
+`tsconfig.json`文件可以是个空文件，那么所有默认的文件（如上面所述）都会以默认配置选项编译。
+
+在命令行上指定的编译选项会覆盖在`tsconfig.json`文件里的相应选项。
 
 ## `compileOnSave`
 
