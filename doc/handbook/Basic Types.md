@@ -207,7 +207,7 @@ let n: null = null;
 然而，当你指定了`--strictNullChecks`标记，`null`和`undefined`只能赋值给`void`和它们各自。
 这能避免*很多*常见的问题。
 也许在某处你想传入一个`string`或`null`或`undefined`，你可以使用联合类型`string | null | undefined`。
-现次说明，稍后我们会介绍联合类型。
+再次说明，稍后我们会介绍联合类型。
 
 > 注意：我们鼓励尽可能地使用`--strictNullChecks`，但在本手册里我们假设这个标记是关闭的。
 
@@ -239,7 +239,7 @@ let strLength: number = (someValue as string).length;
 ```
 
 两种形式是等价的。
-至于使用哪个大多数情况下是凭个人喜好；然而，当你在TypeScript里使用JSX时，只有`as`语法断言是被允许地。
+至于使用哪个大多数情况下是凭个人喜好；然而，当你在TypeScript里使用JSX时，只有`as`语法断言是被允许的。
 
 # 关于`let`
 
