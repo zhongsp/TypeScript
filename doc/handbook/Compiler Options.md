@@ -9,7 +9,7 @@
 `--baseUrl`                             | `string`  |                          | 解析非相对模块名的基准目录。查看[模块解析文档](./Module Resolution.md#base-url)了解详情。
 `--charset`                             | `string`  | `"utf8"`                 | 输入文件的字符集。
 `--declaration`<br/>`-d`                | `boolean` | `false`                  | 生成相应的'.d.ts'文件。
-`--declarationDir`                      | `string`  | `null`                   | 生成声明文件的输出路径。
+`--declarationDir`                      | `string`  |                          | 生成声明文件的输出路径。
 `--diagnostics`                         | `boolean` | `false`                  | 显示诊断信息。
 `--disableSizeLimit`                    | `boolean` | `false`                  | 禁用JavaScript工程体积大小的限制
 `--emitBOM`                             | `boolean` | `false`                  | 在输出文件的开头加入BOM头（UTF-8 Byte Order Mark）。
@@ -26,7 +26,7 @@
 `--listEmittedFiles`                    | `boolean` | `false`                  | 打印出编译后生成文件的名字。
 `--listFiles`                           | `boolean` | `false`                  | 编译过程中打印文件名。
 `--locale`                              | `string`  | *(platform specific)*    | 显示错误信息时使用的语言，比如：en-us。
-`--mapRoot`                             | `string`  | `null`                   | 为调试器指定指定sourcemap文件的路径，而不是使用生成时的路径。当`.map`文件是在运行时指定的，并不同于`js`文件的地址时使用这个标记。指定的路径会嵌入到`sourceMap`里告诉调试器到哪里去找它们。
+`--mapRoot`                             | `string`  |                          | 为调试器指定指定sourcemap文件的路径，而不是使用生成时的路径。当`.map`文件是在运行时指定的，并不同于`js`文件的地址时使用这个标记。指定的路径会嵌入到`sourceMap`里告诉调试器到哪里去找它们。
 `--module`<br/>`-m`                     | `string`  | `target === 'ES6' ? 'ES6' : 'commonjs'`                                  | 指定生成哪个模块系统代码：'commonjs'，'amd'，'system'，或 'umd'或'es2015'。只有'amd'和'system'能和`--outFile`一起使用。当目标是ES5或以下的时候不能使用'es2015'。
 `--moduleResolution`                    | `string`  | `module === 'amd' | 'system' | 'ES6' ? 'classic' : 'node'`              | 决定如何处理模块。或者是'node'对于Node.js/io.js，或者是'classic'（默认）。查看[模块解析](./Module Resolution.md)了解详情。
 `--newLine`                             | `string`  | *(platform specific)*    | 当生成文件时指定行结束符：'CRLF'（dos）或 'LF' （unix）。
@@ -42,13 +42,13 @@
 `--noResolve`                           | `boolean` | `false`                  | 不把`/// <reference``>`或模块导入的文件加到编译文件列表。
 `--noUnusedLocals`                      | `boolean` | `false`                  | 若有未使用的局部变量则抛错。
 `--noUnusedParameters`                  | `boolean` | `false`                  | 若有未使用的参数则抛错。
-~~`--out`~~                             | `string`  | `null`                   | 弃用。使用 `--outFile` 代替。
-`--outDir`                              | `string`  | `null`                   | 重定向输出目录。
-`--outFile`                             | `string`  | `null`                   | 将输出文件合并为一个文件。合并的顺序是根据传入编译器的文件顺序和`///<reference``>`和`import`的文件顺序决定的。查看输出文件顺序文件了解详情。
+~~`--out`~~                             | `string`  |                          | 弃用。使用 `--outFile` 代替。
+`--outDir`                              | `string`  |                          | 重定向输出目录。
+`--outFile`                             | `string`  |                          | 将输出文件合并为一个文件。合并的顺序是根据传入编译器的文件顺序和`///<reference``>`和`import`的文件顺序决定的。查看输出文件顺序文件了解详情。
 `paths`<sup>[2]</sup>                   | `Object`  |                          | 模块名到基于`baseUrl`的路径映射的列表。查看[模块解析文档](./Module Resolution.md#path-mapping)了解详情。
 `--preserveConstEnums`                  | `boolean` | `false`                  | 保留`const`和`enum`声明。查看[const enums documentation](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md#94-constant-enum-declarations)了解详情。
 `--pretty`<sup>[1]</sup>                | `boolean` | `false`                  | 给错误和消息设置样式，使用颜色和上下文。
-`--project`<br/>`-p`                    | `string`  | `null`                   | 编译指定目录下的项目。这个目录应该包含一个`tsconfig.json`文件来管理编译。查看[tsconfig.json](./tsconfig.json.md)文档了解更多信息。
+`--project`<br/>`-p`                    | `string`  |                          | 编译指定目录下的项目。这个目录应该包含一个`tsconfig.json`文件来管理编译。查看[tsconfig.json](./tsconfig.json.md)文档了解更多信息。
 `--reactNamespace`                      | `string`  | `"React"`                | 当目标为生成'react' JSX时，指定`createElement`和`__spread`的调用对象
 `--removeComments`                      | `boolean` | `false`                  | 删除所有注释，除了以`/!*`开头的版权信息。
 `--rootDir`                             | `string`  | *(common root directory is computed from the list of input files)*   | 仅用来控制输出的目录结构`--outDir`。
@@ -56,7 +56,7 @@
 `--skipLibCheck`                        | `boolean` | `false`                  | 不检查默认库文件（`lib.d.ts`）的正确性。
 `--skipDefaultLibCheck`                 | `boolean` | `false`                  | 不检查用户定义的库文件（`*.d.ts`）的正确性。
 `--sourceMap`                           | `boolean` | `false`                  | 生成相应的'.map'文件。
-`--sourceRoot`                          | `string`  | `null`                   | 指定TypeScript源文件的路径，以便调试器定位。当TypeScript文件的位置是在运行时指定时使用此标记。路径信息会被加到`sourceMap`里。
+`--sourceRoot`                          | `string`  |                          | 指定TypeScript源文件的路径，以便调试器定位。当TypeScript文件的位置是在运行时指定时使用此标记。路径信息会被加到`sourceMap`里。
 `--strictNullChecks`                    | `boolean` | `false`                  | 在严格的`null`检查模式下，`null`和`undefined`值不包含在任何类型里，只允许用它们自己和`any`来赋值（有个例外，`undefined`可以赋值到`void`）。
 `--stripInternal`<sup>[1]</sup>         | `boolean` | `false`                  | 不对具有`/** @internal */` JSDoc注解的代码生成代码。
 `--suppressExcessPropertyErrors`<sup>[1]</sup> | `boolean` | `false`           | 阻止对对象字面量的额外属性检查。
