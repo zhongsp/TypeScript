@@ -3,7 +3,7 @@
 选项                                     | 类型      | 默认值                    | 描述
 ----------------------------------------|-----------|--------------------------|----------------------------------------------------------------------
 `--allowJs`                             | `boolean` |  `true`                  | 允许编译javascript文件。
-`--allowSyntheticDefaultImports`        | `boolean` | `(module === "system")`  | 允许从没有设置默认导出的模块中默认导入。这并不影响代码的显示，仅为了类型检查。
+`--allowSyntheticDefaultImports`        | `boolean` | `module === "system"`  | 允许从没有设置默认导出的模块中默认导入。这并不影响代码的显示，仅为了类型检查。
 `--allowUnreachableCode`                | `boolean` | `false`                  | 不报告执行不到的代码错误。
 `--allowUnusedLabels`                   | `boolean` | `false`                  | 不报告未使用的标签错误。
 `--baseUrl`                             | `string`  |                          | 解析非相对模块名的基准目录。查看[模块解析文档](./Module Resolution.md#base-url)了解详情。
@@ -27,8 +27,8 @@
 `--listFiles`                           | `boolean` | `false`                  | 编译过程中打印文件名。
 `--locale`                              | `string`  | *(platform specific)*    | 显示错误信息时使用的语言，比如：en-us。
 `--mapRoot`                             | `string`  | `null`                   | 为调试器指定指定sourcemap文件的路径，而不是使用生成时的路径。当`.map`文件是在运行时指定的，并不同于`js`文件的地址时使用这个标记。指定的路径会嵌入到`sourceMap`里告诉调试器到哪里去找它们。
-`--module`<br/>`-m`                     | `string`  | `(target === "ES6" ? "ES6" : "commonjs")`                                 | 指定生成哪个模块系统代码：'commonjs'，'amd'，'system'，或 'umd'或'es2015'。只有'amd'和'system'能和`--outFile`一起使用。当目标是ES5或以下的时候不能使用'es2015'。
-`--moduleResolution`                    | `string`  | `(module === 'amd' | 'system' | 'ES6' ? 'classic' : 'node')`              | 决定如何处理模块。或者是'node'对于Node.js/io.js，或者是'classic'（默认）。查看[模块解析](./Module Resolution.md)了解详情。
+`--module`<br/>`-m`                     | `string`  | `target === 'ES6' ? 'ES6' : 'commonjs'`                                  | 指定生成哪个模块系统代码：'commonjs'，'amd'，'system'，或 'umd'或'es2015'。只有'amd'和'system'能和`--outFile`一起使用。当目标是ES5或以下的时候不能使用'es2015'。
+`--moduleResolution`                    | `string`  | `module === 'amd' | 'system' | 'ES6' ? 'classic' : 'node'`              | 决定如何处理模块。或者是'node'对于Node.js/io.js，或者是'classic'（默认）。查看[模块解析](./Module Resolution.md)了解详情。
 `--newLine`                             | `string`  | *(platform specific)*    | 当生成文件时指定行结束符：'CRLF'（dos）或 'LF' （unix）。
 `--noEmit`                              | `boolean` | `false`                  | 不生成输出文件。
 `--noEmitHelpers`                       | `boolean` | `false`                  | 不在输出文件中生成用户自定义的帮助函数代码，如`__extends`。
