@@ -59,6 +59,13 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [Decorators](./doc/handbook/Decorators.html)
   * [混入](./doc/handbook/Mixins.html)
   * [三斜线指令](./doc/handbook/Triple-Slash Directives.html)
+* [如何书写声明文件](./doc/handbook/declaration files/Introduction.html)
+  * [库的结构](./doc/handbook/declaration files/Library Structures.html)
+  * [该做什么与不该做什么](./doc/handbook/declaration files/Do's and Don'ts.html)
+  * [由例子入手](./doc/handbook/declaration files/By Example.html)
+  * [深入探究](./doc/handbook/declaration files/Deep Dive.html)
+  * [发布到npm](./doc/handbook/declaration files/Publishing.html)
+  * [查找安装与使用](./doc/handbook/declaration files/Consumption.html)
 * [工程配置](./doc/handbook/README.html)
   * [tsconfig.json](./doc/handbook/tsconfig.json.html)
   * [NPM包的类型](./doc/handbook/Typings for NPM Packages.html)
@@ -78,6 +85,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 
 ## 主要修改 (Latest 10 updates)
 
+* 2016-08-19 新增章节：[如何书写声明文件](./doc/handbook/declaration files/Introduction.html)
 * 2016-07-21 新增章节：[noUnusedLocals和noUnusedParameter编译选项](./doc/handbook/Compiler Options in MSBuild.html)
 * 2016-07-21 新增章节：[tsconfig.json文件里的include和exclude匹配](./doc/handbook/tsconfig.json.html)
 * 2016-07-20 新增章节：[this参数](./doc/handbook/Functions.html)
@@ -87,7 +95,6 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * 2016-06-11 新增章节：快速上手：[Gulp](./doc/handbook/tutorials/Gulp.html)
 * 2016-04-23 新增章节：[使用TypeScript的每日构建版本](./doc/handbook/Nightly Builds.html)
 * 2016-04-18 新增章节：[新增功能](./doc/release-notes/README.html)
-* 2016-04-10 新增章节：快速上手：[ASP.NET Core](./doc/handbook/tutorials/ASP.NET Core.html)
 
 
 ## 相关链接
