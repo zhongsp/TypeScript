@@ -271,7 +271,7 @@ console.log(y.reverseAndSort());
 
 使用[`global-modifying-module.d.ts`](https://github.com/zhongsp/TypeScript/tree/master/doc/handbook/declaration%20files/templates/global-modifying-module.d.ts)模版。
 
-# 使用依赖
+# <a name="consuming-dependencies"></a>使用依赖
 
 可能会有以下几种依赖。
 
