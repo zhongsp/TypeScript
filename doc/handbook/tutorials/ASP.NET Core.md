@@ -256,7 +256,7 @@ typings install --global dt~es6-shim
       "./app.ts",
       "./model.ts",
       "./main.ts",
-      "../typings/main.d.ts"
+      "../typings/index.d.ts"
   ],
   "compileOnSave": true
 }
