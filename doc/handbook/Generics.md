@@ -55,7 +55,7 @@ function identity<T>(arg: T): T {
 let output = identity<string>("myString");  // type of output will be 'string'
 ```
 
-这里我们明确的指定了`T`是字符串类型，并做为一个参数传给函数，使用了`<>`括起来而不是`()`。
+这里我们明确的指定了`T`是`string`类型，并做为一个参数传给函数，使用了`<>`括起来而不是`()`。
 
 第二种方法更普遍。利用了*类型推论*，编译器会根据传入的参数自动地帮助我们确定T的类型：
 
