@@ -1,3 +1,4 @@
+```ts
 // Type definitions for [~THE LIBRARY NAME~] [~OPTIONAL VERSION NUMBER~]
 // Project: [~THE PROJECT NAME~]
 // Definitions by: [~YOUR NAME~] <[~A URL FOR YOU~]>
@@ -9,17 +10,18 @@
  *~ the built-in number type.
  */
 interface Number {
-	toBinaryString(opts?: MyLibrary.BinaryFormatOptions): string;
-	toBinaryString(callback: MyLibrary.BinaryFormatCallback, opts?: MyLibrary.BinaryFormatOptions): string;
+    toBinaryString(opts?: MyLibrary.BinaryFormatOptions): string;
+    toBinaryString(callback: MyLibrary.BinaryFormatCallback, opts?: MyLibrary.BinaryFormatOptions): string;
 }
 
 /*~ If you need to declare several types, place them inside a namespace
  *~ to avoid adding too many things to the global namespace.
  */
 declare namespace MyLibrary {
-	type BinaryFormatCallback = (n: number) => string;
-	interface BinaryFormatOptions {
-		prefix?: string;
-		padding: number;
-	}
+    type BinaryFormatCallback = (n: number) => string;
+    interface BinaryFormatOptions {
+        prefix?: string;
+        padding: number;
+    }
 }
+```

@@ -4,7 +4,7 @@
 在JavaScript里提供了很多库的使用方法，这就需要你书写声明文件去匹配它们。
 这篇指南涵盖了如何识别常见库的模式，与怎么样书写符合相应模式的声明文件。
 
-针对每种主要的库的组织模式，在[`templates`](https://github.com/zhongsp/TypeScript/tree/master/doc/handbook/declaration%20files/templates)目录下都有对应的文件。
+针对每种主要的库的组织模式，在[模版](./Templates.md)一节都有对应的文件。
 你可以利用它们帮助你快速上手。
 
 # 识别库的类型
@@ -76,7 +76,7 @@ window.createGreeting = function(s) {
 
 ### 全局库模版
 
-模版文件[`global.d.ts`](https://github.com/zhongsp/TypeScript/tree/master/doc/handbook/declaration%20files/templates/global.d.ts)定义了`myLib`库作为例子。
+模版文件[`global.d.ts`](./templates/global.d.ts)定义了`myLib`库作为例子。
 一定要阅读["防止命名冲突"补充说明](#preventing-name-conflicts)。
 
 ## 模块化库
@@ -176,9 +176,9 @@ UMD库的文档里经常会包含通过`require`“在Node.js里使用”例子�
 ### 模版
 
 针对模块有三种可用的模块，
-  [`module.d.ts`](https://github.com/zhongsp/TypeScript/tree/master/doc/handbook/declaration%20files/templates/module.d.ts), [`module-class.d.ts`](https://github.com/zhongsp/TypeScript/tree/master/doc/handbook/declaration%20files/templates/module-class.d.ts) and [`module-function.d.ts`](https://github.com/zhongsp/TypeScript/tree/master/doc/handbook/declaration%20files/templates/module-function.d.ts).
+  [`module.d.ts`](./templates/module.d.ts), [`module-class.d.ts`](./templates/module-class.d.ts) and [`module-function.d.ts`](./templates/module-function.d.ts).
 
-使用[`module-function.d.ts`](https://github.com/zhongsp/TypeScript/tree/master/doc/handbook/declaration%20files/templates/module-function.d.ts)，如果模块能够作为函数*调用*。
+使用[`module-function.d.ts`](./templates/module-function.d.ts)，如果模块能够作为函数*调用*。
 
 ```ts
 var x = require("foo");
@@ -188,7 +188,7 @@ var y = x(42);
 
 一定要阅读[补充说明： “ES6模块调用签名的影响”](#the-impact-of-es6-on-module-call-signatures)
 
-使用[`module-class.d.ts`](https://github.com/zhongsp/TypeScript/tree/master/doc/handbook/declaration%20files/templates/module-class.d.ts)如果模块能够使用`new`来*构造*：
+使用[`module-class.d.ts`](./templates/module-class.d.ts)如果模块能够使用`new`来*构造*：
 
 ```ts
 var x = require("bar");
@@ -198,7 +198,7 @@ var y = new x("hello");
 
 相同的[补充说明](#the-impact-of-es6-on-module-plugins)作用于这些模块。
 
-如果模块不能被调用或构造，使用[`module.d.ts`](https://github.com/zhongsp/TypeScript/tree/master/doc/handbook/declaration%20files/templates/module.d.ts)文件。
+如果模块不能被调用或构造，使用[`module.d.ts`](./templates/module.d.ts)文件。
 
 ## *模块插件*或*UMD插件*
 
@@ -209,7 +209,7 @@ var y = new x("hello");
 
 ### 模版
 
-使用[`module-plugin.d.ts`](https://github.com/zhongsp/TypeScript/tree/master/doc/handbook/declaration%20files/templates/module-plugin.d.ts)模版。
+使用[`module-plugin.d.ts`](./templates/module-plugin.d.ts)模版。
 
 ## *全局插件*
 
@@ -236,7 +236,7 @@ console.log(y.reverseAndSort());
 
 ### 模版
 
-使用[`global-plugin.d.ts`](https://github.com/zhongsp/TypeScript/tree/master/doc/handbook/declaration%20files/templates/global-plugin.d.ts)模版。
+使用[`global-plugin.d.ts`](./templates/global-plugin.d.ts)模版。
 
 ## *全局修改的模块*
 

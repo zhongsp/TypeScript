@@ -34,9 +34,9 @@
   [深入探究](./Deep Dive.md)小节解释了很多高级书写声明文件的高级概念，
   以及展示了如何利用这些概念来创建整洁和直观的声明文件。
 
-## `/templates`
+## 模版
 
-在[`templates`](https://github.com/Microsoft/TypeScript-Handbook/tree/master/pages/declaration%20files/templates)目录里，你能找到一些声明文件，它们可以帮助你快速开始
+在[模版](./Templates.md)一节里，你能找到一些声明文件，它们可以帮助你快速开始
   当你在书写一个新声明文件的时候。
 参考[库的结构](./Library Structures.md)这篇文档来找到应该使用哪个模版文件。
 

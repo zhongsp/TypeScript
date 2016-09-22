@@ -1,3 +1,4 @@
+```ts
 // Type definitions for [~THE LIBRARY NAME~] [~OPTIONAL VERSION NUMBER~]
 // Project: [~THE PROJECT NAME~]
 // Definitions by: [~YOUR NAME~] <[~A URL FOR YOU~]>
@@ -21,9 +22,9 @@ export function myOtherMethod(a: number): number;
 
 /*~ You can declare types that are available via importing the module */
 export interface someType {
-	name: string;
-	length: number;
-	extras?: string[];
+    name: string;
+    length: number;
+    extras?: string[];
 }
 
 /*~ You can declare properties of the module using const, let, or var */
@@ -33,13 +34,13 @@ export const myField: number;
  *~ of the module, declare them inside a 'namespace'.
  */
 export namespace subProp {
-	/*~ For example, given this definition, someone could write:
-	 *~   import { subProp } from 'yourModule';
-	 *~   subProp.foo();
+    /*~ For example, given this definition, someone could write:
+     *~   import { subProp } from 'yourModule';
+     *~   subProp.foo();
      *~ or
      *~   import * as yourMod from 'yourModule';
      *~   yourMod.subProp.foo();
      */
-	export function foo(): void;
+    export function foo(): void;
 }
-
+```
