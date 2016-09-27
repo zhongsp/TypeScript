@@ -49,14 +49,14 @@ npm init
 （如果你正在使用Unix系统，你可能需要使用`sudo`命令来启动`npm install`命令行。）
 
 ```shell
-npm install -g typescript gulp-cli
+npm install -g gulp-cli
 ```
 
-然后安装`gulp`和`gulp-typescript`到开发依赖项。
+然后安装`typescript`，`gulp`和`gulp-typescript`到开发依赖项。
 [Gulp-typescript](https://www.npmjs.com/package/gulp-typescript)是TypeScript的一个Gulp插件。
 
 ```shell
-npm install --save-dev gulp gulp-typescript
+npm install --save-dev typescript gulp gulp-typescript
 ```
 
 ## 写一个简单的例子
@@ -96,7 +96,7 @@ var tsProject = ts.createProject("tsconfig.json");
 
 gulp.task("default", function () {
     return tsProject.src()
-        .pipe(ts(tsProject))
+        .pipe(tsProject())
         .js.pipe(gulp.dest("dist"));
 });
 ```
