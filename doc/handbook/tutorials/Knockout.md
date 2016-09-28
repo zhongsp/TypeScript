@@ -16,8 +16,8 @@ cd proj
 
 ```text
 proj/
-   +- src/
-   +- built/
+   ├─ src/
+   └─ built/
 ```
 
 TypeScript源码放在`src`目录下，结过TypeScript编译器编译后，生成的文件放在`built`目录里。
@@ -29,24 +29,31 @@ mkdir src
 mkdir built
 ```
 
+# 初始化工程
+
+现在将这个文件夹转换为npm包。
+
+```shell
+npm init
+```
+
+你会看到一系列提示。
+除了入口点外其它设置都可以使用默认值。
+你可以随时到生成的`package.json`文件里修改这些设置。
+
 # 安装构建依赖
 
-首先确保TypeScript和Typings已经全局安装。
+首先确保TypeScript已经全局安装。
 
 ```shell
-npm install -g typescript typings
+npm install -g typescript
 ```
 
-你肯定已经很了解TypeScript了，但你有可能还不太了解Typings.
-[Typings](https://www.npmjs.com/package/typings)是一个包管理器用来获取声明文件。
-我们将会使用它来获取Knockout的声明文件。
+我们还要获取Knockout的声明文件，它描述了这个库的结构供TypeScript使用。
 
 ```shell
-typings install --global --save dt~knockout
+npm install --save @types/knockout
 ```
-
-`--global`标记会告诉Typings从[DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)去获取声明文件，这是由社区维护的`.d.ts`文件仓库。
-这个命令会在当前目录下创建一个`typings.json`文件和一个`typings`文件夹。
 
 # 获取运行时依赖
 
@@ -87,7 +94,6 @@ mkdir externals
         "target": "es5"
     },
     "files": [
-        "./typings/index.d.ts",
         "./src/require-config.ts",
         "./src/hello.ts"
     ]

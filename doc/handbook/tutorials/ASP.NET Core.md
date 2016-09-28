@@ -209,7 +209,8 @@ gulp.task('default', function () {
 
 ![Demo paused on breakpoint](../../assets/images/tutorials/aspnet/paused-demo.png)
 
-这就是你需要知道的在ASP.NET中使用TypeScript的基本知识了。接下来，我们引入Angular，写一个简单的Angular程序示例。
+这就是你需要知道的在ASP.NET中使用TypeScript的基本知识了。
+接下来，我们引入Angular，写一个简单的Angular程序示例。
 
 # 添加 Angular 2
 
@@ -224,41 +225,36 @@ gulp.task('default', function () {
   },
 ```
 
-## 安装 typings
-
-Angular 2 包含 es6-shim 以提供 Promise 支持，但 TypeScript 还需要它的类型文件。
-打开一个 command prompt，切换到应用程序源文件目录中：
-
-```shell
-cd C:\Users\<you>\Documents\Visual Studio 2015\Projects\<app>\src\<app>
-npm install -g typings
-typings install --global dt~es6-shim
-```
-
 ## 更新 tsconfig.json
 
-现在安装好了 Angular 2 及其依赖项，我们还需要启用 TypeScript 中实验性的装饰器支持并且引入 es6-shim 的类型文件。
-将来的版本中，装饰器和 ES6 选项将成为默认选项，我们就可以不做此设置了。添加
-`"experimentalDecorators": true, "emitDecoratorMetadata": true` 选项到 `"compilerOptions"` 选项段，添加 `"./typings/index.d.ts"` 到 `"files"` 选项段。
-最后，我们还将要创建新的代码文件 `"./src/model.ts"`、`"./src/main.ts"` ，也将它们添加到 `"files"` 中，现在 tsconfig 看起来像这样：
+现在安装好了Angular 2及其依赖项，我们需要启用TypeScript中实验性的装饰器支持。
+我们还需要添加ES2015的声明，因为Angular使用core-js来支持像`Promise`的功能。
+在未来，装饰器会成为默认设置，那时也就不再需要这些设置了。
+
+添加`"experimentalDecorators": true, "emitDecoratorMetadata": true`到`"compilerOptions"`部分。
+然后，再添加`"lib": ["es2015", "es5", "dom"]`到`"compilerOptions"`，以引入ES2015的声明。
+最后，我们需要添加`"./model.ts"`到`"files"`里，我们接下来会创建它。
+现在`tsconfig.json`看起来如下：
 
 ```json
 {
-  "compilerOptions": {
-      "noImplicitAny": true,
-      "noEmitOnError": true,
-      "sourceMap": true,
-      "experimentalDecorators": true,
-      "emitDecoratorMetadata": true,
-      "target": "es5"
-  },
-  "files": [
-      "./app.ts",
-      "./model.ts",
-      "./main.ts",
-      "../typings/index.d.ts"
-  ],
-  "compileOnSave": true
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "noEmitOnError": true,
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "target": "es5",
+        "lib": [
+            "es2015", "es5", "dom"
+        ]
+    },
+    "files": [
+        "./app.ts",
+        "./model.ts",
+        "./main.ts",
+    ],
+    "compileOnSave": true
 }
 ```
 

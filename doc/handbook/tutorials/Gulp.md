@@ -16,8 +16,8 @@ cd proj
 
 ```text
 proj/
-    +- src/
-    +- dist/
+   ├─ src/
+   └─ dist/
 ```
 
 TypeScript文件放在`src`文件夹下，经过TypeScript编译器编译生成的目标文件放在`dist`目录下。
