@@ -29,10 +29,10 @@ projectRoot
 
 如果你在`src`目录外还有`tests`文件夹，那么在`src`里可以有一个`tsconfig.json`文件，在`tests`里还可以有一个。
 
-# Writing a Configuration File
+# 书写配置文件
 
-TypeScript uses a file called `tsconfig.json` for managing your project's options, such as which files you want to include, and what sorts of checking you want to perform.
-Let's create a bare-bones one for our project:
+TypeScript使用`tsconfig.json`文件管理工程配置，例如你想包含哪些文件和进行哪些检查。
+让我们先创建一个简单的工程配置文件：
 
 ```json
 {
@@ -47,16 +47,16 @@ Let's create a bare-bones one for our project:
 }
 ```
 
-Here we're specifying a few things to TypeScript:
+这里我们为TypeScript设置了一些东西:
 
-1. Read in any files it understands in the `src` directory (with `include`).
-2. Accept JavaScript files as inputs (with `allowJs`).
-3. Emit all of the output files in `built` (with `outDir`).
-4. Translate newer JavaScript constructs down to an older version like ECMAScript 5 (using `target`).
+1. 读取所有可识别的`src`目录下的文件（通过`include`）。
+2. 接受JavaScript做为输入（通过`allowJs`）。
+3. 生成的所有文件放在`built`目录下（通过`outDir`）。
+4. 将JavaScript代码降级到低版本比如ECMAScript 5（通过`target`）。
 
-At this point, if you try running `tsc` at the root of your project, you should see output files in the `built` directory.
-The layout of files in `built` should look identical to the layout of `src`.
-You should now have TypeScript working with your project.
+现在，如果你在工程根目录下运行`tsc`，就可以在`built`目录下看到生成的文件。
+`built`下的文件应该与`src`下的文件相同。
+现在你的工程里的TypeScript已经可以工作了。
 
 ## Early Benefits
 
