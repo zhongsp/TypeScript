@@ -11,9 +11,9 @@
 * [带属性的对象](#objects-with-properties)
 * [函数重载](#overloaded-functions)
 * [可重用类型（接口）](#reusable-types-interfaces)
-* [Reusable Types (Type Aliases)](#reusable-types-type-aliases)
-* [Organizing Types](#organizing-types)
-* [Classes](#classes)
+* [可重用类型（类型别名）](#reusable-types-type-aliases)
+* [组织类型](#organizing-types)
+* [类](#classes)
 
 # 例子
 
@@ -141,7 +141,7 @@ interface GreetingSettings {
 declare function greet(setting: GreetingSettings): void;
 ```
 
-## 可重用类型（类型别名）
+## <a name="reusable-types-type-aliases"></a>可重用类型（类型别名）
 
 *文档*
 
@@ -170,7 +170,7 @@ type GreetingLike = string | (() => string) | Greeting;
 declare function greet(g: GreetingLike): void;
 ```
 
-## 组织类型
+## <a name="organizing-types"></a>组织类型
 
 *文档*
 
@@ -218,7 +218,7 @@ declare namespace GreetingLib.Options {
 }
 ```
 
-## 类
+## <a name="classes"></a>类
 
 *文档*
 
