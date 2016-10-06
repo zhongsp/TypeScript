@@ -60,6 +60,7 @@ npm install -g typescript@next
 2. 在PowerShell命令行窗口里执行：
 
   VS 2015：
+
   ```posh
   VSDevMode.ps1 14 -tsScript <path to your folder>/node_modules/typescript/lib
   ```

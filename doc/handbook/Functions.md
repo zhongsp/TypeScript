@@ -294,7 +294,7 @@ alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 
 不幸的是，`this.suits[pickedSuit]`的类型依旧为`any`。
 这是因为`this`来自对象字面量里的函数表达式。
-修改的方法是，提供一个显示的`this`参数。
+修改的方法是，提供一个显式的`this`参数。
 `this`参数是个假的参数，它出现在参数列表的最前面：
 
 ```ts
@@ -366,7 +366,7 @@ let h = new Handler();
 uiElement.addClickListener(h.onClickBad); // error!
 ```
 
-指定了`this`类型后，你显示声明`onClickBad`必须在`Handler`的实例上调用。
+指定了`this`类型后，你显式声明`onClickBad`必须在`Handler`的实例上调用。
 然后TypeScript会检测到`addClickListener`要求函数带有`this: void`。
 改变`this`类型来修复这个错误：
 

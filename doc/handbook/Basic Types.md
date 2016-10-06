@@ -153,7 +153,7 @@ notSure = false; // okay, definitely a boolean
 
 在对现有代码进行改写的时候，`any`类型是十分有用的，它允许你在编译时可选择地包含或移除类型检查。
 你可能认为`Object`有相似的作用，就像它在其它语言中那样。
-但是`Object`类型的变量只是允许你给它赋任意值 -- 但是却不能够在它上面调用任意的方法，即便它真的有这些方法：
+但是`Object`类型的变量只是允许你给它赋任意值 - 但是却不能够在它上面调用任意的方法，即便它真的有这些方法：
 
 ```ts
 let notSure: any = 4;
@@ -210,6 +210,35 @@ let n: null = null;
 再次说明，稍后我们会介绍联合类型。
 
 > 注意：我们鼓励尽可能地使用`--strictNullChecks`，但在本手册里我们假设这个标记是关闭的。
+
+# Never
+
+`never`类型表示的是那些永不存在的值的类型。
+例如，`never`类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型；
+变量也可能是`never`类型，当它们被永不为真的类型保护所约束时。
+
+`never`类型是任何类型的子类型，也可以赋值给任何类型；然而，*没有*类型是`never`的子类型或可以赋值给`never`类型（除了`never`本身之外）。
+即使`any`也不可以赋值给`never`。
+
+下面是一些返回`never`类型的函数：
+
+```ts
+// 返回never的函数必须存在无法达到的终点
+function error(message: string): never {
+    throw new Error(message);
+}
+
+// 推断的返回值类型为never
+function fail() {
+    return error("Something failed");
+}
+
+// 返回never的函数必须存在无法达到的终点
+function infiniteLoop(): never {
+    while (true) {
+    }
+}
+```
 
 # 类型断言
 

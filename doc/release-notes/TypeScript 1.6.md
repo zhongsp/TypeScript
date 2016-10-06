@@ -32,7 +32,7 @@ class MyComponent extends React.Component<Props, {}> {
 }
 
 <MyComponent name="bar" />; // 没问题
-<MyComponent name={0} />; // 错误, `name` 不是一个数字
+<MyComponent name={0} />; // 错误, `name` 不是一个字符串
 ```
 
 ### 使用其他 JSX 框架
@@ -278,7 +278,7 @@ var y: { foo: number, bar?: number };
 y = { foo: 1, baz: 2 };  // 错误, 多余或者拼错的属性 `baz`
 ```
 
-一个类型可以通过包含一个索引签名来现实指明未出现在类型中的属性是被允许的.
+一个类型可以通过包含一个索引签名来显示指明未出现在类型中的属性是被允许的.
 
 ```ts
 var x: { foo: number, [x: string]: any };
@@ -322,7 +322,7 @@ TypeScript 1.6 增加了编译到 ES6 时对 `async` 函数试验性的支持. �
 ```ts
 var p: Promise<number> = /* ... */;
 async function fn(): Promise<number> {
-  var i = await p; // 暂停执行知道 'p' 得到结果. 'i' 的类型为 "number"
+  var i = await p; // 暂停执行直到 'p' 得到结果. 'i' 的类型为 "number"
   return 1 + i;
 }
 

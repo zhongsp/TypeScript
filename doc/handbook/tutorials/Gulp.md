@@ -16,8 +16,8 @@ cd proj
 
 ```text
 proj/
-    +- src/
-    +- dist/
+   ├─ src/
+   └─ dist/
 ```
 
 TypeScript文件放在`src`文件夹下，经过TypeScript编译器编译生成的目标文件放在`dist`目录下。
@@ -49,14 +49,14 @@ npm init
 （如果你正在使用Unix系统，你可能需要使用`sudo`命令来启动`npm install`命令行。）
 
 ```shell
-npm install -g typescript gulp-cli
+npm install -g gulp-cli
 ```
 
-然后安装`gulp`和`gulp-typescript`到开发依赖项。
+然后安装`typescript`，`gulp`和`gulp-typescript`到开发依赖项。
 [Gulp-typescript](https://www.npmjs.com/package/gulp-typescript)是TypeScript的一个Gulp插件。
 
 ```shell
-npm install --save-dev gulp gulp-typescript
+npm install --save-dev typescript gulp gulp-typescript
 ```
 
 ## 写一个简单的例子
@@ -96,7 +96,7 @@ var tsProject = ts.createProject("tsconfig.json");
 
 gulp.task("default", function () {
     return tsProject.src()
-        .pipe(ts(tsProject))
+        .pipe(tsProject())
         .js.pipe(gulp.dest("dist"));
 });
 ```
@@ -393,11 +393,12 @@ cat dist/bundle.js
 
 ## Babel
 
-首先安装Babelify。
+首先安装Babelify和ES2015的Babel预置程序。
 和Uglify一样，Babelify也会混淆代码，因此我们也需要vinyl-buffer和gulp-sourcemaps。
+默认情况下Babelify只会处理扩展名为`.js`，`.es`，`.es6`和`.jsx`的文件，因此我们需要添加`.ts`扩展名到Babelify选项。
 
 ```shell
-npm install --save-dev babelify vinyl-buffer gulp-sourcemaps
+npm install --save-dev babelify babel-preset-es2015 vinyl-buffer gulp-sourcemaps
 ```
 
 修改gulpfile文件如下：
@@ -427,7 +428,10 @@ gulp.task('default', ['copyHtml'], function () {
         packageCache: {}
     })
     .plugin(tsify)
-    .transform("babelify")
+    .transform('babelify', {
+        presets: ['es2015'],
+        extensions: ['.ts']
+    })
     .bundle()
     .pipe(source('bundle.js'))
     .pipe(buffer())

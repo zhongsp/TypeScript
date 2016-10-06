@@ -433,11 +433,11 @@ if (needZipValidation) {
 ```ts
 declare function require(moduleNames: string[], onLoad: (...args: any[]) => void): void;
 
-import { ZipCodeValidator as Zip } from "./ZipCodeValidator";
+import  * as Zip from "./ZipCodeValidator";
 
 if (needZipValidation) {
     require(["./ZipCodeValidator"], (ZipCodeValidator: typeof Zip) => {
-        let validator = new ZipCodeValidator();
+        let validator = new ZipCodeValidator.ZipCodeValidator();
         if (validator.isAcceptable("...")) { /* ... */ }
     });
 }
@@ -446,13 +446,13 @@ if (needZipValidation) {
 ##### 示例：System.js里的动态模块加载
 
 ```ts
-declare let System: any;
+declare const System: any;
 
 import { ZipCodeValidator as Zip } from "./ZipCodeValidator";
 
 if (needZipValidation) {
     System.import("./ZipCodeValidator").then((ZipCodeValidator: typeof Zip) => {
-        let x = new ZipCodeValidator();
+        var x = new ZipCodeValidator();
         if (x.isAcceptable("...")) { /* ... */ }
     });
 }

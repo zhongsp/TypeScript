@@ -16,10 +16,10 @@ cd proj
 
 ```text
 proj/
-   +- src/
-   |    +- components/
+   ├─ src/
+   |    └─ components/
    |
-   +- dist/
+   └─ dist/
 ```
 
 TypeScript文件会放在`src`文件夹里，通过TypeScript编译器编译，然后经webpack处理，最后生成一个`bundle.js`文件放在`dist`目录下。
@@ -45,25 +45,28 @@ npm init
 
 你会看到一些提示。
 你可以使用默认项除了开始脚本。
-使用`./dist/bundle.js`做为开始脚本。
 当然，你也可以随时到生成的`package.json`文件里修改。
 
 # 安装依赖
 
-首先确保TypeScript，typings和webpack已经全局安装了。
+首先确保TypeScript和Webpack已经全局安装了。
 
 ```shell
-npm install -g typescript typings webpack
+npm install -g typescript webpack
 ```
 
 Webpack这个工具可以将你的所有代码和可选择地将依赖捆绑成一个单独的`.js`文件。
-[Typings](https://www.npmjs.com/package/typings)是一个包管理器，它是用来获取定义文件的。
 
-现在我们添加React和React-DOM依赖到`package.json`文件里：
+现在我们添加React和React-DOM以及它们的声明文件到`package.json`文件里做为依赖：
 
 ```shell
-npm install --save react react-dom
+npm install --save react react-dom @types/react @types/react-dom
 ```
+
+使用`@types/`前缀表示我们额外要获取React和React-DOM的声明文件。
+通常当你导入像`"react"`这样的路径，它会查看`react`包；
+然而，并不是所有的包都包含了声明文件，所以TypeScript还会查看`@types/react`包。
+你会发现我们以后将不必在意这些。
 
 接下来，我们要添加开发时依赖[ts-loader](https://www.npmjs.com/package/ts-loader)和[source-map-loader](https://www.npmjs.com/package/source-map-loader)。
 
@@ -80,15 +83,31 @@ source-map-loader使用TypeScript输出的sourcemap文件来告诉webpack何时�
 链接TypeScript，允许ts-loader使用全局安装的TypeScript，而不需要单独的本地拷贝。
 如果你想要一个本地的拷贝，执行`npm install typescript`。
 
-最后，我们使用`typings`工具来获取React的声明文件：
+# 添加TypeScript配置文件
 
-```shell
-typings install --global --save "dt~react"
-typings install --global --save "dt~react-dom"
+我们想将TypeScript文件整合到一起 - 这包括我们写的源码和必要的声明文件。
+
+我们需要创建一个`tsconfig.json`文件，它包含了输入文件列表以及编译选项。
+在工程根目录下新建文件`tsconfig.json`文件，添加以下内容：
+
+```json
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "es5",
+        "jsx": "react"
+    },
+    "files": [
+        "./src/components/Hello.tsx",
+        "./src/index.tsx"
+    ]
+}
 ```
 
-`--global`标记，还有`dt~`前缀，告诉Typings从[DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)获取声明文件，它是一个由社区维护的`.d.ts`文件仓库。
-这个命令会创建一个名为`typings.json`的文件和一个`typings`目录在当前目录下。
+你可以在[这里](../tsconfig.json.md)了解更多关于`tsconfig.json`文件的说明。
 
 # 写一些代码
 
@@ -97,14 +116,14 @@ typings install --global --save "dt~react-dom"
 
 ```ts
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 
-export class HelloComponent extends React.Component<any, any> {
+export interface HelloProps { compiler: string; framework: string; }
+
+export class Hello extends React.Component<HelloProps, {}> {
     render() {
         return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
     }
 }
-
 ```
 
 注意一点这个例子已经很像类了，我们不再需要使用类。
@@ -116,10 +135,10 @@ export class HelloComponent extends React.Component<any, any> {
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import { HelloComponent } from "./components/Hello";
+import { Hello } from "./components/Hello";
 
 ReactDOM.render(
-    <HelloComponent compiler="TypeScript" framework="React" />,
+    <Hello compiler="TypeScript" framework="React" />,
     document.getElementById("example")
 );
 ```
@@ -127,7 +146,6 @@ ReactDOM.render(
 我们仅仅将`Hello`组件导入`index.tsx`。
 注意，不同于`"react"`或`"react-dom"`，我们使用`index.tsx`的*相对路径* - 这很重要。
 如果不这样做，TypeScript只会尝试在`node_modules`文件夹里查找。
-其它使用React的方法也应该可以。
 
 我们还需要一个页面来显示`Hello`组件。
 在根目录`proj`创建一个名为`index.html`的文件，如下：
@@ -157,22 +175,9 @@ React和React-DOM的npm包里包含了独立的`.js`文件，你可以在页面�
 可以随意地将它们拷贝到其它目录下，或者从CDN上引用。
 Facebook在CND上提供了一系列可用的React版本，你可以在这里查看[更多内容](http://facebook.github.io/react/downloads.html#development-vs.-production-builds)。
 
-# 添加TypeScript配置文件
+# 创建一个webpack配置文件
 
-现在，可以把所有TypeScript文件放在一起 - 包括我们编写的代码和必要的typings文件。
-
-现在需要创建`tsconfig.json`文件，它包含输入文件的列表和编译选项。
-在根目录下执行下在命令：
-
-```shell
-tsc --init ./typings/main.d.ts ./src/index.tsx --jsx react --outDir ./dist --sourceMap --noImplicitAny
-```
-
-你可以在[这里](../tsconfig.json.md)学习到更多关于`tsconfig.json`。
-
-# 创建webpack配置文件
-
-新建一个`webpack.config.js`文件在工程根目录下。
+在工程根目录下创建一个`webpack.config.js`文件。
 
 ```js
 module.exports = {
@@ -199,7 +204,7 @@ module.exports = {
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
             { test: /\.js$/, loader: "source-map-loader" }
         ]
-    }，
+    },
 
     // When importing a module whose path matches one of the following, just
     // assume a corresponding global variable exists and use that instead.
@@ -214,6 +219,7 @@ module.exports = {
 
 大家可能对`externals`字段有所疑惑。
 我们想要避免把所有的React都放到一个文件里，因为会增加编译时间并且浏览器还能够缓存没有发生改变的库文件。
+
 理想情况下，我们只需要在浏览器里引入React模块，但是大部分浏览器还没有支持模块。
 因此大部分代码库会把自己包裹在一个单独的全局变量内，比如：`jQuery`或`_`。
 这叫做“命名空间”模式，webpack也允许我们继续使用通过这种方式写的代码库。
