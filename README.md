@@ -2,7 +2,9 @@
 
 [![Build Status](https://travis-ci.org/zhongsp/TypeScript.svg?branch=master)](https://travis-ci.org/zhongsp/TypeScript)
 
-TypeScript is a superset of JavaScript that compiles to clean JavaScript output.  http://www.typescriptlang.org
+[TypeScript 2.0 正式发布!](https://blogs.msdn.microsoft.com/typescript/2016/09/22/announcing-typescript-2-0/?utm_source=javascriptweekly&utm_medium=email)
+
+TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript.  http://www.typescriptlang.org
 
 请阅读 :book: [TypeScript Handbook 中文版 - Published with GitBook](http://zhongsp.gitbooks.io/typescript-handbook/content/)
 
