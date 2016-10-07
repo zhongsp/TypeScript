@@ -30,6 +30,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [Knockout.js](./doc/handbook/tutorials/Knockout.html)
   * [React与webpack](./doc/handbook/tutorials/React & Webpack.html)
   * [Angular 2](./doc/handbook/tutorials/Angular 2.html)
+  * [从JavaScript迁移到TypeScript](./doc/handbook/tutorials/Migrating from JavaScript.html)
 * [新增功能](./doc/release-notes/README.html)
   * [TypeScript 1.8](./doc/release-notes/TypeScript 1.8.html)
   * [TypeScript 1.7](./doc/release-notes/TypeScript 1.7.html)
@@ -87,6 +88,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 
 ## 主要修改 (Latest 10 updates)
 
+* 2016-10-07 新增章节：[从JavaScript迁移到TypeScript](./doc/handbook/tutorials/Migrating from JavaScript.html)
 * 2016-09-26 新增章节：[基础类型 - Never](./doc/handbook/Basic Types.html)
 * 2016-08-19 新增章节：[如何书写声明文件](./doc/handbook/declaration files/Introduction.html)
 * 2016-07-21 新增章节：[noUnusedLocals和noUnusedParameter编译选项](./doc/handbook/Compiler Options in MSBuild.html)
@@ -96,7 +98,6 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * 2016-07-20 新增章节：[基本类型 - Null and Undefined](./doc/handbook/Basic Types.html)
 * 2016-06-15 新增章节：快速上手：[Angular 2](./doc/handbook/tutorials/Angular 2.html)
 * 2016-06-11 新增章节：快速上手：[Gulp](./doc/handbook/tutorials/Gulp.html)
-* 2016-04-23 新增章节：[使用TypeScript的每日构建版本](./doc/handbook/Nightly Builds.html)
 
 
 ## 相关链接
