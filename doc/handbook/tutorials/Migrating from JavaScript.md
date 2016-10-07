@@ -58,39 +58,39 @@ TypeScript使用`tsconfig.json`文件管理工程配置，例如你想包含哪�
 `built`下的文件应该与`src`下的文件相同。
 现在你的工程里的TypeScript已经可以工作了。
 
-## Early Benefits
+## 早期收益
 
-Even at this point you can get some great benefits from TypeScript understanding your project.
-If you open up an editor like [VS Code](https://code.visualstudio.com) or [Visual Studio](https://visualstudio.com), you'll see that you can often get some tooling support like completion.
-You can also catch certain bugs with options like:
+现在你已经可以获得一些TypeScript带来的使得以理解你的工程。
+如果你打开像[VS Code](https://code.visualstudio.com)或[Visual Studio](https://visualstudio.com)的编译器，你就能够使用一些像自动补全的工具。
+你还可以配置如下的选项来查找BUG：
 
-* `noImplicitReturns` which prevents you from forgetting to return at the end of a function.
-* `noFallthroughCasesInSwitch` which is helpful if you never want to forget a `break` statement between `case`s in a `switch` block.
+* `noImplicitReturns` 会防止你忘记在函数末尾返回值。
+* `noFallthroughCasesInSwitch` 会防止在`switch`代码块里的两个`case`之间忘记添加`break`语句。
 
-TypeScript will also warn about unreachable code and labels, which you can disable with `allowUnreachableCode` and `allowUnusedLabels` respectively.
+TypeScript还能够报告执行不到的代码和标签，你可以通过`allowUnreachableCode`和`allowUnusedLabels`选项来禁用。
 
-# Integrating with Build Tools
+# 与构建工具进行集成
 
-You might have some more build steps in your pipeline.
-Perhaps you concatenate something to each of your files.
-Each build tool is different, but we'll do our best to cover the gist of things.
+在你的创建管道中可能会有多个步骤。
+比如给每个文件添加一些内容。
+每种工具的使用方法都是不同的，我们会尽可能的包涵主流的工具。
 
 ## Gulp
 
-If you're using Gulp in some fashion, we have a tutorial on [using Gulp](./Gulp.md) with TypeScript, and integrating with common build tools like Browserify, Babelify, and Uglify.
-You can read more there.
+如果你在使用时髦的Gulp，你们已经有一篇[使用Gulp](./Gulp.md)与常见构建工具Browserify，Babelify和Uglify进行集成的教程。
+请阅读这篇教程。
 
 ## Webpack
 
-Webpack integration is pretty simple.
-You can use `ts-loader`, a TypeScript loader, combined with `source-map-loader` for easier debugging.
-Simply run
+Webpack集成非常简单。
+你可以使用`ts-loader`，TypeScript的加载器，结合`source-map-loader`方便调试。
+运行：
 
 ```shell
 npm install ts-loader source-map-loader
 ```
 
-and merge in options from the following into your `webpack.config.js` file:
+并将下面的选项合并到你的`webpack.config.js`文件里：
 
 ```js
 module.exports = {
@@ -123,62 +123,62 @@ module.exports = {
 };
 ```
 
-It's important to note that `ts-loader` will need to run before any other loader that deals with `.js` files.
-You can see an example of using Webpack in our [tutorial on React and Webpack](./React & Webpack.md).
+要注意的是`ts-loader`必须在其它处理`.js`文件的加载器之前运行。
+你可以在[React和Webpack教程](./React & Webpack.md)里找到使用Webpack的例子。
 
-# Moving to TypeScript Files
+# 转换到TypeScript文件
 
-At this point, you're probably ready to start using TypeScript files.
-The first step is to rename one of your `.js` files to `.ts`.
-If your file uses JSX, you'll need to rename it to `.tsx`.
+到目前为止，你已经做好了使用TypeScript文件的准备。
+第一步，将`.js`文件重命名为`.ts`文件。
+如果你使用了JSX，则重命名为`.tsx`文件。
 
-Finished with that step?
-Great!
-You've successfully migrated a file from JavaScript to TypeScript!
+第一步达成？
+太棒了!
+你已经成功地将一个文件从JavaScript转换成了TypeScript!
 
-Of course, that might not feel right.
-If you open that file in an editor with TypeScript support (or if you run `tsc --pretty`), you might see red squiggles on certain lines.
-You should think of these the same way you'd think of red squiggles in an editor like Microsoft Word.
-TypeScript will still translate your code, just like Word will still let you print your documents.
+当然了，你可能感觉不对劲儿。
+如果你在支持TypeScript的编辑器（或运行`tsc --pretty`）里打开了那个文件，你可能会看到有些行上有红色的波浪线。
+你可以把它们当做在Microsoft Word里看到的红色波浪线一样。
+TypeScript仍然会编译你的代码，就好比Word还是允许你打印你的文档一样。
 
-If that sounds too lax for you, you can tighten that behavior up.
-If, for instance, you *don't* want TypeScript to compile to JavaScript in the face of errors, you can use the `noEmitOnError` option.
-In that sense, TypeScript has a dial on its strictness, and you can turn that knob up as high as you want.
+如果对你来说这种行为太随便了，你可以另它严格处理。
+如果，你*不想*在发生错误的时候TypeScript还会编译成JavaScript，你可以使用`noEmitOnError`选项。
+从某种意义上来讲，TypeScript具有一个调整它的严格性的刻度盘，你可以将指针拔动到你想要的高度。
 
-If you plan on using the stricter settings that are available, it's best to turn them on now (see [Getting Stricter Checks](#getting-stricter-checks) below).
-For instance, if you never want TypeScript to silently infer `any` for a type without you explicitly saying so, you can use `noImplicitAny` before you start modifying your files.
-While it might feel somewhat overwhelming, the long-term gains become apparent much more quickly.
+如果你计划使用可用的高度严格的设置，最好现在就启用它们（查看[启用严格检查](#getting-stricter-checks)）。
+比如，如果你不想让TypeScript将没有明确指定的类型默默地推断为`any`类型，可以在修改文件之前启用`noImplicitAny`。
+你可能会觉得这有些过度严格，但是长期收益很快就能显现出来。
 
-## Weeding out Errors
+## 去除错误
 
-Like we mentioned, it's not unexpected to get error messages after conversion.
-The important thing is to actually go one by one through these and decide how to deal with the errors.
-Often these will be legitimate bugs, but sometimes you'll have to explain what you're trying to do a little better to TypeScript.
+我们提到过，如果不出所料的话在转换后会看到错误信息。
+重要的是我们要逐一的查看它们并决定如何处理。
+通常这些都是真正的BUG，但有时你不得不要对TypeScript说明你要做的是什么。
 
-### Importing from Modules
+### 由模块导入
 
-You might start out getting a bunch of errors like `Cannot find name 'require'.`, and `Cannot find name 'define'.`.
-In these cases, it's likely that you're using modules.
-While you can just convince TypeScript that these exist by writing out
+首先你可能会看到一些类似`Cannot find name 'require'.`和`Cannot find name 'define'.`的错误。
+遇到这种情况说明你在使用模块。
+你仅需要告诉TypeScript它们是存在的：
 
 ```ts
 // For Node/CommonJS
 declare function require(path: string): any;
 ```
 
-or
+或
 
 ```ts
 // For RequireJS/AMD
 declare function define(...args: any[]): any;
 ```
 
-it's better to get rid of those calls and use TypeScript syntax for imports.
+最好是避免使用这些调用而改用TypeScript的导入语法。
 
-First, you'll need to enable some module system by setting TypeScript's `module` flag.
-Valid options are `commonjs`, `amd`, `system`, and `umd`.
+首先，你要使用TypeScript的`module`标记来启用一些模块系统。
+合法的选项有`commonjs`，`amd`，`system`，and `umd`。
 
-If you had the following Node/CommonJS code:
+如果代码里存在下面的Node/CommonJS代码：
 
 ```js
 var foo = require("foo");
@@ -186,7 +186,7 @@ var foo = require("foo");
 foo.doStuff();
 ```
 
-or the following RequireJS/AMD code:
+或者下面的RequireJS/AMD代码：
 
 ```js
 define(["foo"], function(foo) {
@@ -194,7 +194,7 @@ define(["foo"], function(foo) {
 })
 ```
 
-then you would write the following TypeScript code:
+那么可以写做下面的TypeScript代码：
 
 ```ts
 import foo = require("foo");
@@ -202,26 +202,26 @@ import foo = require("foo");
 foo.doStuff();
 ```
 
-### Getting Declaration Files
+### 获取声明文件
 
-If you started converting over to TypeScript imports, you'll probably run into errors like `Cannot find module 'foo'.`.
-The issue here is that you likely don't have *declaration files* to describe your library.
-Luckily this is pretty easy.
-If TypeScript complains about a package like `lodash`, you can just write
+如果你开始做转换到TypeScript导入，你可能会遇到`Cannot find module 'foo'.`这样的错误。
+问题出在没有*声明文件*来描述你的代码库。
+幸运的是这非常简单。
+如果TypeScript报怨像是没有`lodash`包，那你只需这样做
 
 ```shell
 npm install -s @types/lodash
 ```
 
-If you're using a module option other than `commonjs`, you'll need to set your `moduleResolution` option to `node`.
+如果你没有使用`commonjs`模块模块选项，那么就需要将`moduleResolution`选项设置为`node`。
 
-After that, you'll be able to import lodash with no issues, and get accurate completions.
+之后，你应该就可以导入`lodash`了，并且会获得精确的自动补全功能。
 
-### Exporting from Modules
+### 由模块导出
 
-Typically, exporting from a module involves adding properties to a value like `exports` or `module.exports`.
-TypeScript allows you to use top-level export statements.
-For instance, if you exported a function like so:
+通常来讲，由模块导出涉及添加属性到`exports`或`module.exports`。
+TypeScript允许你使用顶级的导出语句。
+比如，你要导出下面的函数：
 
 ```js
 module.exports.feedPets = function(pets) {
@@ -229,7 +229,7 @@ module.exports.feedPets = function(pets) {
 }
 ```
 
-you could write that out as the following:
+那么你可以这样写：
 
 ```ts
 export function feedPets(pets) {
@@ -237,15 +237,15 @@ export function feedPets(pets) {
 }
 ```
 
-Sometimes you'll entirely overwrite the exports object.
-This is a common pattern people use to make their modules immediately callable like in this snippet:
+有时你会完全重写导出对象。
+这是一个常见模式，这会将模块变为可立即调用的模块：
 
 ```js
 var express = require("express");
 var app = express();
 ```
 
-You might have previously written that like so:
+之前你可以是这样写的：
 
 ```js
 function foo() {
@@ -254,7 +254,7 @@ function foo() {
 module.exports = foo;
 ```
 
-In TypeScript, you can model this with the `export =` construct.
+在TypeScript里，你可以使用`export =`来代替。
 
 ```ts
 function foo() {
@@ -263,10 +263,10 @@ function foo() {
 export = foo;
 ```
 
-### Too many/too few arguments
+### 过多或过少的参数
 
-You'll sometimes find yourself calling a function with too many/few arguments.
-Typically, this is a bug, but in some cases, you might have declared a function that uses the `arguments` object instead of writing out any parameters:
+有时你会发现你在调用一个具有过多或过少参数的函数。
+通常，这是一个BUG，但在某些情况下，你可以声明一个使用`arguments`对象的函数而不需要写出所有参数:
 
 ```js
 function myCoolFunction() {
@@ -282,7 +282,7 @@ myCoolFunction(function(x) { console.log(x) }, [1, 2, 3, 4]);
 myCoolFunction(function(x) { console.log(x) }, 1, 2, 3, 4]);
 ```
 
-In this case, we need to use TypeScript to tell any of our callers about the ways `myCoolFunction` can be called using function overloads.
+这种情况下，我们需要利用TypeScript的函数重载来告诉调用者`myCoolFunction`函数的调用方式。
 
 ```ts
 function myCoolFunction(f: (x: number) => void, nums: number[]): void;
@@ -297,13 +297,13 @@ function myCoolFunction() {
 }
 ```
 
-We added two overload signatures to `myCoolFunction`.
-The first checks states that `myCoolFunction` takes a function (which takes a `number`), and then a list of `number`s.
-The second one says that it will take a function as well, and then uses a rest parameter (`...nums`) to state that any number of arguments after that need to be `number`s.
+我们为`myCoolFunction`函数添加了两个重载签名。
+第一个检查`myCoolFunction`函数是否接收一个函数（它又接收一个`number`参数）和一个`number`数组。
+第二个同样是接收了一个函数，并且使用剩余参数（`...nums`）来表示之后的其它所有参数必须是`number`类型。
 
-### Sequentially Added Properties
+### 连续添加属性
 
-Some people find it more aesthetically pleasing to create an object and add properties immediately after like so:
+有些人可能会因为代码美观性而喜欢先创建一个对象然后立即添加属性：
 
 ```js
 var options = {};
@@ -311,8 +311,8 @@ options.color = "red";
 options.volume = 11;
 ```
 
-TypeScript will say that you can't assign to `color` and `volume` because it first figured out the type of `options` as `{}` which doesn't have any properties.
-If you instead moved the declarations into the object literal themselves, you'd get no errors:
+TypeScript会提示你不能给`color`和`volumn`赋值，因为先前指定`options`的类型为`{}`并不带有任何属性。
+如果你将声明变成对象字面量的形式将不会产生错误：
 
 ```ts
 let options = {
@@ -321,7 +321,7 @@ let options = {
 };
 ```
 
-You could also define the type of `options` and add a type assertion on the object literal.
+你还可以定义`options`的类型并且添加类型断言到对象字面量上。
 
 ```ts
 interface Options { color: string; volume: number }
@@ -331,44 +331,45 @@ options.color = "red";
 options.volume = 11;
 ```
 
-Alternatively, you can just say `options` has the type `any` which is the easiest thing to do, but which will benefit you the least.
+或者，你可以将`options`指定成`any`类型，这是最简单的，但也是获益最少的。
 
-### `any`, `Object`, and `{}`
+### `any`，`Object`，和`{}`
 
-You might be tempted to use `Object` or `{}` to say that a value can have any property on it because `Object` is, for most purposes, the most general type.
-However **`any` is actually the type you want to use** in those situations, since it's the most *flexible* type.
+你可能会试图使用`Object`或`{}`来表示一个值可以具有任意属性，因为`Object`是最通用的类型。
+然而在这种情况下**`any`是真正想要使用的类型**，因为它是最*灵活*的类型。
 
-For instance, if you have something that's typed as `Object` you won't be able to call methods like `toLowerCase()` on it.
-Being more general usually means you can do less with a type, but `any` is special in that it is the most general type while still allowing you to do anything with it.
-That means you can call it, construct it, access properties on it, etc.
-Keep in mind though, whenever you use `any`, you lose out on most of the error checking and editor support that TypeScript gives you.
+比如，有一个`Object`类型的东西，你将不能够在其上调用`toLowerCase()`。
 
-If a decision ever comes down to `Object` and `{}`, you should prefer `{}`.
-While they are mostly the same, technically `{}` is a more general type than `Object` in certain esoteric cases.
+越普通意味着更少的利用类型，但是`any`比较特殊，它是最普通的类型但是允许你在上面做任何事情。
+也就是说你可以在上面调用，构造它，访问它的属性等等。
+记住，当你使用`any`时，你会失去大多数TypeScript提供的错误检查和编译器支持。
 
-## Getting Stricter Checks
+如果你还是决定使用`Object`和`{}`，你应该选择`{}`。
+虽说它们基本一样，但是从技术角度上来讲`{}`在一些深奥的情况里比`Object`更普通。
 
-TypeScript comes with certain checks to give you more safety and analysis of your program.
-Once you've converted your codebase to TypeScript, you can start enabling these checks for greater safety.
+## <a name="getting-stricter-checks"></a>启用严格检查
 
-### No Implicit `any`
+TypeScript提供了一些检查来保证安全以及帮助分析你的程序。
+当你将代码转换为了TypeScript后，你可以启用这些检查来帮助你获得高度安全性。
 
-There are certain cases where TypeScript can't figure out what certain types should be.
-To be as lenient as possible, it will decide to use the type `any` in its place.
-While this is great for migration, using `any` means that you're not getting any type safety, and you won't get the same tooling support you'd get elsewhere.
-You can tell TypeScript to flag these locations down and give an error with the `noImplicitAny` option.
+### 没有隐式的`any`
 
-### Strict `null` & `undefined` Checks
+在某些情况下TypeScript没法确定某些值的类型。
+那么TypeScript会使用`any`类型代替。
+这对代码转换来讲是不错，但是使用`any`意味着失去了类型安全保障，并且你得不到工具的支持。
+你可以使用`noImplicitAny`选项，让TypeScript标记出发生这种情况的地方，并组出一个错误。
 
-By default, TypeScript assumes that `null` and `undefined` are in the domain of every type.
-That means anything declared with the type `number` could be `null` or `undefined`.
-Since `null` and `undefined` are such a frequent source of bugs in JavaScript and TypeScript, TypeScript has the `strictNullChecks` option to spare you the stress of worrying about these issues.
+### 严格的`null`与`undefined`检查
 
-When `strictNullChecks` is enabled, `null` and `undefined` get their own types called `null` and `undefined` respectively.
-Whenever anything is *possibly* `null`, you can use a union type with the original type.
-So for instance, if something could be a `number` or `null`, you'd write the type out as `number | null`.
+默认地，TypeScript把`null`和`undefined`当做属于任何类型。
+这就是说，声明为`number`类型的值可以为`null`和`undefined`。
+因为在JavaScript和TypeScript里，`null`和`undefined`经常会导致BUG的产生，所以TypeScript包含了`strictNullChecks`选项来帮助我们减少对这种情况的担忧。
 
-If you ever have a value that TypeScript thinks is possibly `null`/`undefined`, but you know better, you can use the postfix `!` operator to tell it otherwise.
+当启用了`strictNullChecks`，`null`和`undefined`获得了它们自己各自的类型`null`和`undefined`。
+当任何值*可能*为`null`，你可以使用联合类型。
+比如，某值可能为`number`或`null`，你可以声明它的类型为`number | null`。
+
+假设有一个值TypeScript认为可以为`null`或`undefined`，但是你更清楚它的类型，你可以使用`!`后缀。
 
 ```ts
 declare var foo: string[] | null;
@@ -378,12 +379,12 @@ foo.length;  // error - 'foo' is possibly 'null'
 foo!.length; // okay - 'foo!' just has type 'string[]'
 ```
 
-As a heads up, when using `strictNullChecks`, your dependencies may need to be updated to use `strictNullChecks` as well.
+要当心，当你使用`strictNullChecks`，你的依赖也需要相应地启用`strictNullChecks`。
 
-### No Implicit `any` for `this`
+### `this`没有隐式的`any`
 
-When you use the `this` keyword outside of classes, it has the type `any` by default.
-For instance, imagine a `Point` class, and imagine a function that we wish to add as a method:
+当你在类的外部使用`this`关键字时，它会默认获得`any`类型。
+比如，假设有一个`Point`类，并且我们要添加一个函数做为它的方法：
 
 ```ts
 class Point {
@@ -405,10 +406,10 @@ Point.prototype.distanceFromOrigin = function(point: Point) {
 }
 ```
 
-This has the same problems we mentioned above - we could easily have misspelled `getDistance` and not gotten an error.
-For this reason, TypeScript has the `noImplicitThis` option.
-When that option is set, TypeScript will issue an error when `this` is used without an explicit (or inferred) type.
-The fix is to use a `this`-parameter to give an explicit type in the interface or in the function itself:
+这就产生了我们上面提到的错误 - 如果我们错误地拼写了`getDistance`并不会得到一个错误。
+正因此，TypeScript有`noImplicitThis`选项。
+当设置了它，TypeScript会产生一个错误当没有明确指定类型（或通过类型推断）的`this`被使用时。
+解决的方法是在接口或函数上使用指定了类型的`this`参数：
 
 ```ts
 Point.prototype.distanceFromOrigin = function(this: Point, point: Point) {
