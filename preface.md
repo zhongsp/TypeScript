@@ -84,6 +84,8 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [结合ASP.NET v5使用TypeScript](./doc/wiki/Using-TypeScript-With-ASP.NET-5.html)
   * [架构概述](./doc/wiki/Architectural-Overview.html)
   * [发展路线图](./doc/wiki/Roadmap.html)
+* Breaking Changes
+  * [TypeScript 2.0](./doc/breaking-changes/TypeScript 2.0.html)
 
 
 ## 主要修改 (Latest 10 updates)

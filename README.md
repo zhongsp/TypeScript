@@ -74,6 +74,8 @@ TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript. 
   * [结合ASP.NET v5使用TypeScript](./doc/wiki/Using-TypeScript-With-ASP.NET-5.md)
   * [架构概述](./doc/wiki/Architectural-Overview.md)
   * [发展路线图](./doc/wiki/Roadmap.md)
+* Breaking Changes
+  * [TypeScript 2.0](./doc/breaking-changes/TypeScript 2.0.md)
 
 
 **TypeScript Handbook**
