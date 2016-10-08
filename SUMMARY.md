@@ -7,6 +7,7 @@
   * [Knockout.js](./doc/handbook/tutorials/Knockout.md)
   * [React与webpack](./doc/handbook/tutorials/React & Webpack.md)
   * [Angular 2](./doc/handbook/tutorials/Angular 2.md)
+  * [从JavaScript迁移到TypeScript](./doc/handbook/tutorials/Migrating from JavaScript.md)
 * [新增功能](./doc/release-notes/README.md)
   * [TypeScript 1.8](./doc/release-notes/TypeScript 1.8.md)
   * [TypeScript 1.7](./doc/release-notes/TypeScript 1.7.md)
@@ -60,3 +61,5 @@
   * [结合ASP.NET v5使用TypeScript](./doc/wiki/Using-TypeScript-With-ASP.NET-5.md)
   * [架构概述](./doc/wiki/Architectural-Overview.md)
   * [发展路线图](./doc/wiki/Roadmap.md)
+* Breaking Changes
+  * [TypeScript 2.0](./doc/breaking-changes/TypeScript 2.0.md)
