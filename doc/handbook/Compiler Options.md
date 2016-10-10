@@ -27,6 +27,7 @@
 `--listFiles`                           | `boolean` | `false`                  | 编译过程中打印文件名。
 `--locale`                              | `string`  | *(platform specific)*    | 显示错误信息时使用的语言，比如：en-us。
 `--mapRoot`                             | `string`  |                          | 为调试器指定指定sourcemap文件的路径，而不是使用生成时的路径。当`.map`文件是在运行时指定的，并不同于`js`文件的地址时使用这个标记。指定的路径会嵌入到`sourceMap`里告诉调试器到哪里去找它们。
+`--maxNodeModuleJsDepth`                | `number`  | `0`                      | node_modules依赖的最大搜索深度并加载JavaScript文件。仅适用于`--allowJs`。
 `--module`<br/>`-m`                     | `string`  | `target === 'ES6' ? 'ES6' : 'commonjs'`                                  | 指定生成哪个模块系统代码：'commonjs'，'amd'，'system'，或 'umd'或'es2015'。只有'amd'和'system'能和`--outFile`一起使用。当目标是ES5或以下的时候不能使用'es2015'。
 `--moduleResolution`                    | `string`  | `module === 'amd' | 'system' | 'ES6' ? 'classic' : 'node'`              | 决定如何处理模块。或者是'node'对于Node.js/io.js，或者是'classic'（默认）。查看[模块解析](./Module Resolution.md)了解详情。
 `--newLine`                             | `string`  | *(platform specific)*    | 当生成文件时指定行结束符：'CRLF'（dos）或 'LF' （unix）。
@@ -53,8 +54,8 @@
 `--removeComments`                      | `boolean` | `false`                  | 删除所有注释，除了以`/!*`开头的版权信息。
 `--rootDir`                             | `string`  | *(common root directory is computed from the list of input files)*   | 仅用来控制输出的目录结构`--outDir`。
 `rootDirs`<sup>[2]</sup>                | `string[]`|                          | <i>根（root）</i>文件夹列表，联给了代表运行时表示工程结构的内容。查看[模块解析文档](./Module Resolution.md#virtual-directories-with-rootdirs)了解详情。
-`--skipLibCheck`                        | `boolean` | `false`                  | 不检查默认库文件（`lib.d.ts`）的正确性。
-`--skipDefaultLibCheck`                 | `boolean` | `false`                  | 不检查用户定义的库文件（`*.d.ts`）的正确性。
+`--skipDefaultLibCheck`                 | `boolean` | `false`                  | 忽略[库的默认声明文件](./Triple-Slash Directives.md#-reference-no-default-libtrue)的类型检查。
+`--skipLibCheck`                        | `boolean` | `false`                  | 忽略所有的声明文件（`*.d.ts`）的类型检查。
 `--sourceMap`                           | `boolean` | `false`                  | 生成相应的'.map'文件。
 `--sourceRoot`                          | `string`  |                          | 指定TypeScript源文件的路径，以便调试器定位。当TypeScript文件的位置是在运行时指定时使用此标记。路径信息会被加到`sourceMap`里。
 `--strictNullChecks`                    | `boolean` | `false`                  | 在严格的`null`检查模式下，`null`和`undefined`值不包含在任何类型里，只允许用它们自己和`any`来赋值（有个例外，`undefined`可以赋值到`void`）。
