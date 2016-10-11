@@ -64,8 +64,8 @@
 `--suppressImplicitAnyIndexErrors`      | `boolean` | `false`                  | 阻止`--noImplicitAny`对缺少索引签名的索引对象报错。查看[issue #1232](https://github.com/Microsoft/TypeScript/issues/1232#issuecomment-64510362)了解详情。
 `--target`<br/>`-t`                     | `string`  | `"ES5"`                  | 指定ECMAScript目标版本'ES3' (默认)，'ES5'，或'ES6'<sup>[1]</sup>
 `--traceResolution`                     | `boolean` | `false`                  | 生成模块解析日志信息
-`--types`                               | `string[]`|                          | 要包含的类型声明文件名列表。
-`--typeRoots`                           | `string[]`|                          | 要包含的类型声明文件路径列表。
+`--types`                               | `string[]`|                          | 要包含的类型声明文件名列表。查看[@types，--typeRoots和--types](./tsconfig.json.md#types-typeroots-and-types)章节了解详细信息。
+`--typeRoots`                           | `string[]`|                          | 要包含的类型声明文件路径列表。查看[@types，--typeRoots和--types](./tsconfig.json.md#types-typeroots-and-types)章节了解详细信息。
 `--version`<br/>`-v`                    |           |                          | 打印编译器版本号。
 `--watch`<br/>`-w`                      |           |                          | 在监视模式下运行编译器。会监视输出文件，在它们改变时重新编译。
 
