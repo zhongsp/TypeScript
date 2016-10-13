@@ -70,3 +70,8 @@ npm install -g typescript@next
   ```posh
   VSDevMode.ps1 12 -tsScript <path to your folder>/node_modules/typescript/lib
   ```
+
+### IntelliJ IDEA (Mac)
+
+前往`Preferences` > `Languages & Frameworks` > `TypeScript`：
+ > TypeScript Version: 如果通过NPM安装：`/usr/local/lib/node_modules/typescript/lib`
