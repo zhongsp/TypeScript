@@ -63,3 +63,4 @@
   * [发展路线图](./doc/wiki/Roadmap.md)
 * Breaking Changes
   * [TypeScript 2.0](./doc/breaking-changes/TypeScript 2.0.md)
+  * [TypeScript 1.8](./doc/breaking-changes/TypeScript 1.8.md)
