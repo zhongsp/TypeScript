@@ -349,7 +349,7 @@ type Yikes = Array<Yikes>; // error
 
 其一，接口创建了一个新的名字，可以在其它任何地方使用。
 类型别名并不创建新名字&mdash;比如，错误信息就不会使用别名。
-在下面的示例代码里，在编译器中将鼠标悬停在`interfaced`上，显示它返回的是`Interface`，但悬停在`aliased`上，显示的却是对象字面量类型。
+在下面的示例代码里，在编译器中将鼠标悬停在`interfaced`上，显示它返回的是`Interface`，但悬停在`aliased`上时，显示的却是对象字面量类型。
 
 ```ts
 type Alias = { num: number }
