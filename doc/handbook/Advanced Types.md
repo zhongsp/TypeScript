@@ -1,5 +1,47 @@
+# 交叉类型（Intersection Types）
+
+交叉类型是将多个类型合并为一个类型。
+这让我们可以把现有的多种类型叠加到一起成为一种类型，它包含了所需的所有类型的特性。
+例如，`Person & Serializable & Loggable`，同时是`Person`*和*`Serializable`*和*`Loggable`。
+就是说这个类型的对象同时拥有了这三种类型的成员。
+
+我们大多是在混入（mixins）或其它不适合典型面向对象模型的地方看到交叉类型的使用。
+（这JavaScript发生这种发问的场合很多！）
+下面是一个如何创建混入的简单例子：
+
+```ts
+function extend<T, U>(first: T, second: U): T & U {
+    let result = <T & U>{};
+    for (let id in first) {
+        (<any>result)[id] = (<any>first)[id];
+    }
+    for (let id in second) {
+        if (!result.hasOwnProperty(id)) {
+            (<any>result)[id] = (<any>second)[id];
+        }
+    }
+    return result;
+}
+
+class Person {
+    constructor(public name: string) { }
+}
+interface Loggable {
+    log(): void;
+}
+class ConsoleLogger implements Loggable {
+    log() {
+        // ...
+    }
+}
+var jim = extend(new Person("Jim"), new ConsoleLogger());
+var n = jim.name;
+jim.log();
+```
+
 # 联合类型
 
+联合类型与交叉类型很有关联，但是使用上却完全不同。
 偶尔你会遇到这种情况，一个代码库希望传入`number`或`string`类型的参数。
 例如下面的函数：
 
@@ -32,11 +74,10 @@ let indentedString = padLeft("Hello world", true); // 编译阶段通过，运�
 在传统的面向对象语言里，我们可能会将这两种类型抽象成有层级的类型。
 这么做显然是非常清晰的，但同时也存在了过度设计。
 `padLeft`原始版本的好处之一是允许我们传入原始类型。
-这做的话使用起来既方便又不过于繁锁。
+这做的话使用起来既简单又方便。
 如果我们就是想使用已经存在的函数的话，这种新的方式就不适用了。
 
 代替`any`， 我们可以使用*联合类型*做为`padding`的参数：
-
 
 ```ts
 /**
@@ -150,7 +191,7 @@ else {
 
 ## `typeof`类型保护
 
-我们还没有真正的讨论过如何使用联合类型来实现`padLeft`。
+现在我们回过头来看看怎么使用联合类型书写`padLeft`代码。
 我们可以像下面这样利用类型断言来写：
 
 ```ts
@@ -190,7 +231,7 @@ function padLeft(value: string, padding: string | number) {
 ```
 
 这些*`typeof`类型保护*只有2个形式能被识别：`typeof v === "typename"`和`typeof v !== "typename"`，`"typename"`必须是`"number"`，`"string"`，`"boolean"`或`"symbol"`。
-但是TypeScript并不会阻止你与其它字符串比较，或者将它们位置对换，且语言不会把它们识别为类型保护。
+但是TypeScript并不会阻止你与其它字符串比较，语言不会把那些表达式识别为类型保护。
 
 ## `instanceof`类型保护
 
@@ -238,45 +279,9 @@ if (padder instanceof StringPadder) {
 `instanceof`的右侧要求为一个构造函数，TypeScript将细化为：
 
 1. 这个函数的`prototype`属性，如果它的类型不为`any`的话
-2. 类型中构造签名所返回的类型的联合，顺序保持一至。
+2. 类型中构造签名所返回的类型的联合
 
-# 交叉类型
-
-交叉类型与联合类型密切相关，但是用法却完全不同。
-一个交叉类型，例如`Person & Serializable & Loggable`，同时是`Person`*和*`Serializable`*和*`Loggable`。
-就是说这个类型的对象同时拥有这三种类型的成员。
-实际应用中，你大多会在混入中见到交叉类型。
-下面是一个混入的例子：
-
-```ts
-function extend<T, U>(first: T, second: U): T & U {
-    let result = <T & U>{};
-    for (let id in first) {
-        (<any>result)[id] = (<any>first)[id];
-    }
-    for (let id in second) {
-        if (!result.hasOwnProperty(id)) {
-            (<any>result)[id] = (<any>second)[id];
-        }
-    }
-    return result;
-}
-
-class Person {
-    constructor(public name: string) { }
-}
-interface Loggable {
-    log(): void;
-}
-class ConsoleLogger implements Loggable {
-    log() {
-        // ...
-    }
-}
-var jim = extend(new Person("Jim"), new ConsoleLogger());
-var n = jim.name;
-jim.log();
-```
+以此顺序。
 
 # 类型别名
 
@@ -319,14 +324,43 @@ type Tree<T> = {
 然而，类型别名不能够出现在声名语句的右侧：
 
 ```ts
-type Yikes = Array<Yikes>; // 错误
+type LinkedList<T> = T & { next: LinkedList<T> };
+
+interface Person {
+    name: string;
+}
+
+var people: LinkedList<Person>;
+var s = people.name;
+var s = people.next.name;
+var s = people.next.next.name;
+var s = people.next.next.next.name;
+```
+
+然而，类型别名不能出现在声明右侧的任何地方。
+
+```ts
+type Yikes = Array<Yikes>; // error
 ```
 
 ## 接口 vs. 类型别名
 
 像我们提到的，类型别名可以像接口一样；然而，仍有一些细微差别。
 
-一个重要区别是类型别名不能被`extends`和`implements`也不能去`extends`和`implements`其它类型。
+其一，接口创建了一个新的名字，可以在其它任何地方使用。
+类型别名并不创建新名字&mdash;比如，错误信息就不会使用别名。
+在下面的示例代码里，在编译器中将鼠标悬停在`interfaced`上，显示它返回的是`Interface`，但悬停在`aliased`上，显示的却是对象字面量类型。
+
+```ts
+type Alias = { num: number }
+interface Interface {
+    num: number;
+}
+declare function aliased(arg: Alias): Alias;
+declare function interfaced(arg: Interface): Interface;
+```
+
+另一个重要区别是类型别名不能被`extends`和`implements`（自己也不能`extends`和`implements`其它类型）。
 因为[软件中的对象应该对于扩展是开放的，但是对于修改是封闭的](https://en.wikipedia.org/wiki/Open/closed_principle)，你应该尽量去使用接口代替类型别名。
 
 另一方面，如果你无法通过接口来描述一个类型并且需要使用联合类型或元组类型，这时通常会使用类型别名。
@@ -375,6 +409,110 @@ function createElement(tagName: string): Element {
     // ... code goes here ...
 }
 ```
+
+# 可辨识联合（Discriminated Unions）
+
+你可以合并字符串字面量类型，联合类型，类型保护和类型别名来创建一个叫做*可辨识联合*的高级模式，它也称做*标签联合*或*代数数据类型*。
+可辨识联合在函数式编程很有用处。
+一些语言会自动地为你辨识联合；而TypeScript则基于已有的JavaScript模式。
+它具有4个要素：
+
+1. 具有普通的字符串字面量属性&mdash;*可辨识的特征*。
+2. 一个类型别名包含了那些类型的联合&mdash;*联合*。
+3. 此属性上的类型保护。
+
+```ts
+interface Square {
+    kind: "square";
+    size: number;
+}
+interface Rectangle {
+    kind: "rectangle";
+    width: number;
+    height: number;
+}
+interface Circle {
+    kind: "circle";
+    radius: number;
+}
+```
+
+首先我们声明了将要联合的接口。
+每个接口都有`kind`属性但有不同的字符器字面量类型。
+`kind`属性称做*可辨识的特征*或*标签*。
+其它的属性则特定于各个接口。
+注意，目前各个接口间是没有联系的。
+下面我们把它们联合到一起：
+
+```ts
+type Shape = Square | Rectangle | Circle;
+```
+
+现在我们使用可辨识联合:
+
+```ts
+function area(s: Shape) {
+    switch (s.kind) {
+        case "square": return s.size * s.size;
+        case "rectangle": return s.height * s.width;
+        case "circle": return Math.PI * s.radius ** 2;
+    }
+}
+```
+
+## 完整性检查
+
+当没有涵盖所有可辨识联合的变化时，我们想让编译器可以通知我们。
+比如，如果我们添加了`Triangle`到`Shape`，我们同时还需要更新`area`:
+
+```ts
+type Shape = Square | Rectangle | Circle | Triangle;
+function area(s: Shape) {
+    switch (s.kind) {
+        case "square": return s.size * s.size;
+        case "rectangle": return s.height * s.width;
+        case "circle": return Math.PI * s.radius ** 2;
+    }
+    // should error here - we didn't handle case "triangle"
+}
+```
+
+有两种方式可以实现。
+首先是启用`--strictNullChecks`并且指定一个返回值类型：
+
+```ts
+function area(s: Shape): number { // error: returns number | undefined
+    switch (s.kind) {
+        case "square": return s.size * s.size;
+        case "rectangle": return s.height * s.width;
+        case "circle": return Math.PI * s.radius ** 2;
+    }
+}
+```
+
+因为`switch`没有包涵所有情况，所以TypeScript认为这个函数有时候会返回`undefined`。
+如果你明确地指定了返回值类型为`number`，那么你会看到一个错误，因为实际上返回值的类型为`number | undefined`。
+然而，这种方法存在些微妙之处且`--strictNullChecks`对旧代码支持不好。
+
+第二种方法使用`never`类型，编译器用它来进行完整性检查：
+
+```ts
+function assertNever(x: never): never {
+    throw new Error("Unexpected object: " + x);
+}
+function area(s: Shape) {
+    switch (s.kind) {
+        case "square": return s.size * s.size;
+        case "rectangle": return s.height * s.width;
+        case "circle": return Math.PI * s.radius ** 2;
+        default: return assertNever(s); // error here if there are missing cases
+    }
+}
+```
+
+这里，`assertNever`检查`s`是否为`never`类型&mdash;即为除去所有可能情况后剩下的类型。
+如果你忘记了某个case，那么`s`将具有一个赶写的类型，因此你会得到一个错误。
+这种方式需要你定义一个额外的函数。
 
 # 多态的`this`类型
 
