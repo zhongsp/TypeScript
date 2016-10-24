@@ -2,12 +2,12 @@
 
 交叉类型是将多个类型合并为一个类型。
 这让我们可以把现有的多种类型叠加到一起成为一种类型，它包含了所需的所有类型的特性。
-例如，`Person & Serializable & Loggable`，同时是`Person`*和*`Serializable`*和*`Loggable`。
+例如，`Person & Serializable & Loggable`同时是`Person`*和*`Serializable`*和*`Loggable`。
 就是说这个类型的对象同时拥有了这三种类型的成员。
 
 我们大多是在混入（mixins）或其它不适合典型面向对象模型的地方看到交叉类型的使用。
-（这JavaScript发生这种发问的场合很多！）
-下面是一个如何创建混入的简单例子：
+（在JavaScript里发生这种情况的场合很多！）
+下面是如何创建混入的一个简单例子：
 
 ```ts
 function extend<T, U>(first: T, second: U): T & U {
@@ -74,7 +74,7 @@ let indentedString = padLeft("Hello world", true); // 编译阶段通过，运�
 在传统的面向对象语言里，我们可能会将这两种类型抽象成有层级的类型。
 这么做显然是非常清晰的，但同时也存在了过度设计。
 `padLeft`原始版本的好处之一是允许我们传入原始类型。
-这做的话使用起来既简单又方便。
+这样做的话使用起来既简单又方便。
 如果我们就是想使用已经存在的函数的话，这种新的方式就不适用了。
 
 代替`any`， 我们可以使用*联合类型*做为`padding`的参数：
@@ -118,7 +118,7 @@ pet.swim();    // errors
 ```
 
 这里的联合类型可能有点复杂，但是你很容易就习惯了。
-如果一个值类型是`A | B`，我们只能*确定*它具有成员同时存在于`A`*和*`B`里。
+如果一个值的类型是`A | B`，我们能够*确定*的是它包含了`A`*和*`B`中共有的成员。
 这个例子里，`Bird`具有一个`fly`成员。
 我们不能确定一个`Bird | Fish`类型的变量是否有`fly`方法。
 如果变量在运行时是`Fish`类型，那么调用`pet.fly()`就出错了。
@@ -230,14 +230,14 @@ function padLeft(value: string, padding: string | number) {
 }
 ```
 
-这些*`typeof`类型保护*只有2个形式能被识别：`typeof v === "typename"`和`typeof v !== "typename"`，`"typename"`必须是`"number"`，`"string"`，`"boolean"`或`"symbol"`。
+这些*`typeof`类型保护*只有两种形式能被识别：`typeof v === "typename"`和`typeof v !== "typename"`，`"typename"`必须是`"number"`，`"string"`，`"boolean"`或`"symbol"`。
 但是TypeScript并不会阻止你与其它字符串比较，语言不会把那些表达式识别为类型保护。
 
 ## `instanceof`类型保护
 
 如果你已经阅读了`typeof`类型保护并且对JavaScript里的`instanceof`操作符熟悉的话，你可能已经猜到了这节要讲的内容。
 
-*`instanceof`类型保护*是通过其构造函数来细化其类型。
+*`instanceof`类型保护*是通过构造函数来细化类型的一种方式。
 比如，我们借鉴一下之前字符串填充的例子：
 
 ```ts
@@ -276,10 +276,10 @@ if (padder instanceof StringPadder) {
 }
 ```
 
-`instanceof`的右侧要求为一个构造函数，TypeScript将细化为：
+`instanceof`的右侧要求是一个构造函数，TypeScript将细化为：
 
-1. 这个函数的`prototype`属性，如果它的类型不为`any`的话
-2. 类型中构造签名所返回的类型的联合
+1. 此构造函数的`prototype`属性的类型，如果它的类型不为`any`的话
+2. 构造签名所返回的类型的联合
 
 以此顺序。
 
