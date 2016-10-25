@@ -15,7 +15,10 @@
   "keywords": [
     "TypeScript"
   ],
-  "author": "Patrick Zhong",
+  "author": {
+    "name": "Patrick Zhong",
+    "email": "patrick.zhongsp@gmail.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/zhongsp/TypeScript/issues"
