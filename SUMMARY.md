@@ -64,3 +64,6 @@
 * [Breaking Changes](./doc/breaking-changes/breaking-changes.md)
   * [TypeScript 2.0](./doc/breaking-changes/TypeScript 2.0.md)
   * [TypeScript 1.8](./doc/breaking-changes/TypeScript 1.8.md)
+  * [TypeScript 1.7](./doc/breaking-changes/TypeScript 1.7.md)
+  * [TypeScript 1.6](./doc/breaking-changes/TypeScript 1.6.md)
+  * [TypeScript 1.5](./doc/breaking-changes/TypeScript 1.5.md)
