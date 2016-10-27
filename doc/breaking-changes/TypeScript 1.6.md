@@ -147,7 +147,7 @@ export default Foo;
 
 #### 模块体以严格模式解析
 
-按照[ES6规范](http://www.ecma-international.org/ecma-262/6.0/#sec-strict-mode-code)，模块体现在以严格模式进行解析。行为将相当于在模块顶端定义了`"use strict"`；它包括限制了把`arguments`和`eval`做为变量名或参数名的使用，把未来保留字做为变量或参数使用，八进制数字字面量的使用等。
+按照[ES6规范](http://www.ecma-international.org/ecma-262/6.0/#sec-strict-mode-code)，模块体现在以严格模式进行解析。行为将相当于在模块作用域顶端定义了`"use strict"`；它包括限制了把`arguments`和`eval`做为变量名或参数名的使用，把未来保留字做为变量或参数使用，八进制数字字面量的使用等。
 
 #### 标准库里DOM API的改动
 
