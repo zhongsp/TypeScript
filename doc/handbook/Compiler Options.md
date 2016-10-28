@@ -22,7 +22,7 @@
 `--init`                                |           |                          | 初始化TypeScript项目并创建一个`tsconfig.json`文件。
 `--isolatedModules`                     | `boolean` | `false`                  | 无条件地给没有解析的文件生成imports。
 `--jsx`                                 | `string`  | `"Preserve"`             | 在'.tsx'文件里支持JSX：'React' 或 'Preserve'。查看[JSX](./JSX.md)。
-`--lib`                                 | `string[]`|                          | 编译过程中需要引入的库文件的列表。</br>可能的值为：  <br/>► `es5` <br/>► `es6` <br/>► `es2015` <br/>► `es7` <br/>► `es2016` <br/>► `es2017` `dom` `webworker` `scripthost` <br/>► `es2015.core` <br/>► `es2015.collection` <br/>► `es2015.generator` <br/>► `es2015.iterable` <br/>► `es2015.promise` <br/>► `es2015.proxy` <br/>► `es2015.reflect` <br/>► `es2015.symbol` <br/>► `es2015.symbol.wellknown` <br/>► `es2016.array.include` <br/>► `es2017.object` <br/>► `es2017.sharedmemory`
+`--lib`                                 | `string[]`|                          | 编译过程中需要引入的库文件的列表。<br/>可能的值为：  <br/>► `es5` <br/>► `es6` <br/>► `es2015` <br/>► `es7` <br/>► `es2016` <br/>► `es2017` `dom` `webworker` `scripthost` <br/>► `es2015.core` <br/>► `es2015.collection` <br/>► `es2015.generator` <br/>► `es2015.iterable` <br/>► `es2015.promise` <br/>► `es2015.proxy` <br/>► `es2015.reflect` <br/>► `es2015.symbol` <br/>► `es2015.symbol.wellknown` <br/>► `es2016.array.include` <br/>► `es2017.object` <br/>► `es2017.sharedmemory`
 `--listEmittedFiles`                    | `boolean` | `false`                  | 打印出编译后生成文件的名字。
 `--listFiles`                           | `boolean` | `false`                  | 编译过程中打印文件名。
 `--locale`                              | `string`  | *(platform specific)*    | 显示错误信息时使用的语言，比如：en-us。
