@@ -80,6 +80,7 @@ TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript. 
   * [TypeScript 1.7](./doc/breaking-changes/TypeScript 1.7.md)
   * [TypeScript 1.6](./doc/breaking-changes/TypeScript 1.6.md)
   * [TypeScript 1.5](./doc/breaking-changes/TypeScript 1.5.md)
+  * [TypeScript 1.4](./doc/breaking-changes/TypeScript 1.4.md)
 
 
 **TypeScript Handbook**

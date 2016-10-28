@@ -5,3 +5,4 @@
 * [TypeScript 1.7](./TypeScript 1.7.md)
 * [TypeScript 1.6](./TypeScript 1.6.md)
 * [TypeScript 1.5](./TypeScript 1.5.md)
+* [TypeScript 1.4](./TypeScript 1.4.md)
