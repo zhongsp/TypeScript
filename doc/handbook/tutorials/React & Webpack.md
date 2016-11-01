@@ -183,7 +183,8 @@ Facebook在CND上提供了一系列可用的React版本，你可以在这里查�
 module.exports = {
     entry: "./src/index.tsx",
     output: {
-        filename: "./dist/bundle.js",
+        filename: "bundle.js",
+        path: __dirname + "/dist"
     },
 
     // Enable sourcemaps for debugging webpack's output.

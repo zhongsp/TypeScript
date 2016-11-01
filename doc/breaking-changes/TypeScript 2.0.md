@@ -2,9 +2,9 @@
 
 完整的破坏性改动列表请到这里查看:[breaking change issues](https://github.com/Microsoft/TypeScript/issues?q=is%3Aissue+milestone%3A%22TypeScript+2.0%22+label%3A%22Breaking+Change%22+is%3Aclosed).
 
-## 对函数或类表达式的捕获变量不进行类型缩小(narrowing)
+## 对函数或类表达式的捕获变量不进行类型细化(narrowing)
 
-类型缩小不会在函数，类和lambda表达式里进行。
+类型细化不会在函数，类和lambda表达式上进行。
  
 **例子**
 
@@ -41,7 +41,7 @@ if (typeof x === "string") {
 }
 ```
 
-## 泛型参数会进行类型缩小
+## 泛型参数会进行类型细化
 
 **例子**
 

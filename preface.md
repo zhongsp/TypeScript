@@ -84,12 +84,18 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [结合ASP.NET v5使用TypeScript](./doc/wiki/Using-TypeScript-With-ASP.NET-5.html)
   * [架构概述](./doc/wiki/Architectural-Overview.html)
   * [发展路线图](./doc/wiki/Roadmap.html)
-* Breaking Changes
+* [Breaking Changes](./doc/breaking-changes/breaking-changes.html)
   * [TypeScript 2.0](./doc/breaking-changes/TypeScript 2.0.html)
+  * [TypeScript 1.8](./doc/breaking-changes/TypeScript 1.8.html)
+  * [TypeScript 1.7](./doc/breaking-changes/TypeScript 1.7.html)
+  * [TypeScript 1.6](./doc/breaking-changes/TypeScript 1.6.html)
+  * [TypeScript 1.5](./doc/breaking-changes/TypeScript 1.5.html)
+  * [TypeScript 1.4](./doc/breaking-changes/TypeScript 1.4.html)
 
 
 ## 主要修改 (Latest 10 updates)
 
+* 2016-10-23 新增章节：[高级类型 - 可辨识联合（Discriminated Unions）](./doc/handbook/Advanced Types.html)
 * 2016-10-07 新增章节：[从JavaScript迁移到TypeScript](./doc/handbook/tutorials/Migrating from JavaScript.html)
 * 2016-09-26 新增章节：[基础类型 - Never](./doc/handbook/Basic Types.html)
 * 2016-08-19 新增章节：[如何书写声明文件](./doc/handbook/declaration files/Introduction.html)
@@ -99,7 +105,6 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * 2016-07-20 新增章节：[readonly属性](./doc/handbook/Interfaces.html)
 * 2016-07-20 新增章节：[基本类型 - Null and Undefined](./doc/handbook/Basic Types.html)
 * 2016-06-15 新增章节：快速上手：[Angular 2](./doc/handbook/tutorials/Angular 2.html)
-* 2016-06-11 新增章节：快速上手：[Gulp](./doc/handbook/tutorials/Gulp.html)
 
 
 ## 相关链接

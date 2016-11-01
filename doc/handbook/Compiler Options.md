@@ -22,11 +22,12 @@
 `--init`                                |           |                          | 初始化TypeScript项目并创建一个`tsconfig.json`文件。
 `--isolatedModules`                     | `boolean` | `false`                  | 无条件地给没有解析的文件生成imports。
 `--jsx`                                 | `string`  | `"Preserve"`             | 在'.tsx'文件里支持JSX：'React' 或 'Preserve'。查看[JSX](./JSX.md)。
-`--lib`                                 | `string[]`|                          | 编译过程中需要引入的库文件的列表。</br>可能的值为：  <br/>► `es5` <br/>► `es6` <br/>► `es2015` <br/>► `es7` <br/>► `es2016` <br/>► `es2017` `dom` `webworker` `scripthost` <br/>► `es2015.core` <br/>► `es2015.collection` <br/>► `es2015.generator` <br/>► `es2015.iterable` <br/>► `es2015.promise` <br/>► `es2015.proxy` <br/>► `es2015.reflect` <br/>► `es2015.symbol` <br/>► `es2015.symbol.wellknown` <br/>► `es2016.array.include` <br/>► `es2017.object` <br/>► `es2017.sharedmemory`
+`--lib`                                 | `string[]`|                          | 编译过程中需要引入的库文件的列表。<br/>可能的值为：  <br/>► `es5` <br/>► `es6` <br/>► `es2015` <br/>► `es7` <br/>► `es2016` <br/>► `es2017` `dom` `webworker` `scripthost` <br/>► `es2015.core` <br/>► `es2015.collection` <br/>► `es2015.generator` <br/>► `es2015.iterable` <br/>► `es2015.promise` <br/>► `es2015.proxy` <br/>► `es2015.reflect` <br/>► `es2015.symbol` <br/>► `es2015.symbol.wellknown` <br/>► `es2016.array.include` <br/>► `es2017.object` <br/>► `es2017.sharedmemory`
 `--listEmittedFiles`                    | `boolean` | `false`                  | 打印出编译后生成文件的名字。
 `--listFiles`                           | `boolean` | `false`                  | 编译过程中打印文件名。
 `--locale`                              | `string`  | *(platform specific)*    | 显示错误信息时使用的语言，比如：en-us。
 `--mapRoot`                             | `string`  |                          | 为调试器指定指定sourcemap文件的路径，而不是使用生成时的路径。当`.map`文件是在运行时指定的，并不同于`js`文件的地址时使用这个标记。指定的路径会嵌入到`sourceMap`里告诉调试器到哪里去找它们。
+`--maxNodeModuleJsDepth`                | `number`  | `0`                      | node_modules依赖的最大搜索深度并加载JavaScript文件。仅适用于`--allowJs`。
 `--module`<br/>`-m`                     | `string`  | `target === 'ES6' ? 'ES6' : 'commonjs'`                                  | 指定生成哪个模块系统代码：'commonjs'，'amd'，'system'，或 'umd'或'es2015'。只有'amd'和'system'能和`--outFile`一起使用。当目标是ES5或以下的时候不能使用'es2015'。
 `--moduleResolution`                    | `string`  | `module === 'amd' | 'system' | 'ES6' ? 'classic' : 'node'`              | 决定如何处理模块。或者是'node'对于Node.js/io.js，或者是'classic'（默认）。查看[模块解析](./Module Resolution.md)了解详情。
 `--newLine`                             | `string`  | *(platform specific)*    | 当生成文件时指定行结束符：'CRLF'（dos）或 'LF' （unix）。
@@ -53,8 +54,8 @@
 `--removeComments`                      | `boolean` | `false`                  | 删除所有注释，除了以`/!*`开头的版权信息。
 `--rootDir`                             | `string`  | *(common root directory is computed from the list of input files)*   | 仅用来控制输出的目录结构`--outDir`。
 `rootDirs`<sup>[2]</sup>                | `string[]`|                          | <i>根（root）</i>文件夹列表，联给了代表运行时表示工程结构的内容。查看[模块解析文档](./Module Resolution.md#virtual-directories-with-rootdirs)了解详情。
-`--skipLibCheck`                        | `boolean` | `false`                  | 不检查默认库文件（`lib.d.ts`）的正确性。
-`--skipDefaultLibCheck`                 | `boolean` | `false`                  | 不检查用户定义的库文件（`*.d.ts`）的正确性。
+`--skipDefaultLibCheck`                 | `boolean` | `false`                  | 忽略[库的默认声明文件](./Triple-Slash Directives.md#-reference-no-default-libtrue)的类型检查。
+`--skipLibCheck`                        | `boolean` | `false`                  | 忽略所有的声明文件（`*.d.ts`）的类型检查。
 `--sourceMap`                           | `boolean` | `false`                  | 生成相应的'.map'文件。
 `--sourceRoot`                          | `string`  |                          | 指定TypeScript源文件的路径，以便调试器定位。当TypeScript文件的位置是在运行时指定时使用此标记。路径信息会被加到`sourceMap`里。
 `--strictNullChecks`                    | `boolean` | `false`                  | 在严格的`null`检查模式下，`null`和`undefined`值不包含在任何类型里，只允许用它们自己和`any`来赋值（有个例外，`undefined`可以赋值到`void`）。
@@ -63,8 +64,8 @@
 `--suppressImplicitAnyIndexErrors`      | `boolean` | `false`                  | 阻止`--noImplicitAny`对缺少索引签名的索引对象报错。查看[issue #1232](https://github.com/Microsoft/TypeScript/issues/1232#issuecomment-64510362)了解详情。
 `--target`<br/>`-t`                     | `string`  | `"ES5"`                  | 指定ECMAScript目标版本'ES3' (默认)，'ES5'，或'ES6'<sup>[1]</sup>
 `--traceResolution`                     | `boolean` | `false`                  | 生成模块解析日志信息
-`--types`                               | `string[]`|                          | 要包含的类型声明文件名列表。
-`--typeRoots`                           | `string[]`|                          | 要包含的类型声明文件路径列表。
+`--types`                               | `string[]`|                          | 要包含的类型声明文件名列表。查看[@types，--typeRoots和--types](./tsconfig.json.md#types-typeroots-and-types)章节了解详细信息。
+`--typeRoots`                           | `string[]`|                          | 要包含的类型声明文件路径列表。查看[@types，--typeRoots和--types](./tsconfig.json.md#types-typeroots-and-types)章节了解详细信息。
 `--version`<br/>`-v`                    |           |                          | 打印编译器版本号。
 `--watch`<br/>`-w`                      |           |                          | 在监视模式下运行编译器。会监视输出文件，在它们改变时重新编译。
 
