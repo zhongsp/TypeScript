@@ -20,7 +20,7 @@
 ```json
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "system",
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
@@ -50,7 +50,7 @@
   ```json
   {
       "compilerOptions": {
-          "module": "commonjs",
+          "module": "system",
           "noImplicitAny": true,
           "removeComments": true,
           "preserveConstEnums": true,
@@ -95,6 +95,44 @@
 `tsconfig.json`文件可以是个空文件，那么所有默认的文件（如上面所述）都会以默认配置选项编译。
 
 在命令行上指定的编译选项会覆盖在`tsconfig.json`文件里的相应选项。
+
+## `@types`，`typeRoots`和`types`
+
+默认所有*可见的*"`@types`"包会在编译过程中被包含进来。
+`node_modules/@types`文件夹下以及它们子文件夹下的所有包都是*可见的*；
+也就是说，`./node_modules/@types/`，`../node_modules/@types/`和`../../node_modules/@types/`等等。
+
+如果指定了`typesRoots`，*只有*`typesRoots`下面的包才会被包含进来。
+比如：
+
+```json
+{
+   "compilerOptions": {
+       "typeRoots" : ["./typings"]
+   }
+}
+```
+
+这个配置文件会包含*所有*`./typings`下面的包，而不包含`./node_modules/@types`里面的包。
+
+如果指定了`types`，只有被列出来的包才会被包含进来。
+比如：
+
+```json
+{
+   "compilerOptions": {
+        "types" : ["node", "lodash", "express"]
+   }
+}
+```
+
+这个`tsconfig.json`文件将*仅会*包含  `./node_modules/@types/node`，`./node_modules/@types/lodash`和`./node_modules/@types/express`。/@types/。
+`node_modules/@types/*`里面的其它包不会被引入进来。
+
+指定`"types": []`来禁用自动引入`@types`包。
+
+注意，自动引入只在你使用了全局的声明（相反于模块）时是重要的。
+如果你使用`import "foo"`语句，TypeScript仍然会查找`node_modules`和`node_modules/@types`文件夹来获取`foo`包。
 
 ## `compileOnSave`
 
