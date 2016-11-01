@@ -143,10 +143,10 @@ var x = fn(myElem); // x: string, :)
 
 ```ts
 /* 错误 */
-interface Moment {
-    diff(b: MomentComparable): number;
-    diff(b: MomentComparable, unitOfTime: string): number;
-    diff(b: MomentComparable, unitOfTime: string, round: boolean): number;
+interface Example {
+    diff(one: string): number;
+    diff(one: string, two: string): number;
+    diff(one: string, two: string, three: boolean): number;
 }
 ```
 
@@ -154,8 +154,8 @@ interface Moment {
 
 ```ts
 /* OK */
-interface Moment {
-    diff(b: MomentComparable, unitOfTime?: string, round?: boolean): number;
+interface Example {
+    diff(one: string, two?: string, three?: boolean): number;
 }
 ```
 
@@ -169,7 +169,7 @@ TypeScript解析签名兼容性时会查看是否某个目标签名能够使用�
 
 ```ts
 function fn(x: (a: string, b: number, c: number) => void) { }
-var x: Moment;
+var x: Example;
 // When written with overloads, OK -- used first overload
 // When written with optionals, correctly an error
 fn(x.diff);
@@ -180,10 +180,10 @@ fn(x.diff);
 这段代码在严格null模式下可以工作：
 
 ```ts
-var x: Moment;
+var x: Example;
 // When written with overloads, incorrectly an error because of passing 'undefined' to 'string'
 // When written with optionals, correctly OK
-x.diff(something, someOtherThing ? undefined : "hour");
+x.diff("something", true ? undefined : "hour");
 ```
 
 ## 使用联合类型

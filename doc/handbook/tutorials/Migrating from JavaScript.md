@@ -1,17 +1,17 @@
 TypeScript不是存在于真空中。
-它是由JavaScript生态系统和大量现存的JavaScript而来。
-将JavaScript代码转换成TypeScript虽有些乏味但不是难事。
-在这篇教程里，让我们看看如何开始。
-我们假设在开始写TypeScript之前你已经理解了足够的本手册的内容。
+它从JavaScript生态系统和大量现存的JavaScript而来。
+将JavaScript代码转换成TypeScript虽乏味却不是难事。
+接下来这篇教程将教你怎么做。
+在开始转换TypeScript之前，我们假设你已经理解了足够多本手册里的内容。
 
 # 设置目录
 
-如果你在写纯JavaScript，可能你是直接运行JavaScript的
-  `.js`文件在`src`，`lib`或`dist`目录里，按照预想正常运行。
+如果你在写纯JavaScript，你大概是想直接运行这些JavaScript文件，
+这些文件存在于`src`，`lib`或`dist`目录里，它们可以按照预想运行。
 
-若如此，那么你写的纯JavaScript文件将做为TypeScript的输入，且你将运行TypeScript的输出。
+若如此，那么你写的纯JavaScript文件将做为TypeScript的输入，你将要运行的是TypeScript的输出。
 在从JS到TS的转换过程中，我们会分离输入文件以防TypeScript覆盖它们。
-如果输出文件需要在特定目录下，那么它将做为输出目录。
+你也可以指定输出目录。
 
 你可能还需要对JavaScript做一些中间处理，比如合并或经过Babel再次编译。
 在这种情况下，你应该已经有了如下的目录结构。
@@ -60,30 +60,30 @@ TypeScript使用`tsconfig.json`文件管理工程配置，例如你想包含哪�
 
 ## 早期收益
 
-现在你已经可以获得一些TypeScript带来的使得以理解你的工程。
-如果你打开像[VS Code](https://code.visualstudio.com)或[Visual Studio](https://visualstudio.com)的编译器，你就能够使用一些像自动补全的工具。
-你还可以配置如下的选项来查找BUG：
+现在你已经可以看到TypeScript带来的好处，它能帮助我们理解当前工程。
+如果你打开像[VS Code](https://code.visualstudio.com)或[Visual Studio](https://visualstudio.com)这样的编译器，你就能使用像自动补全这样的工具。
+你还可以配置如下的选项来帮助查找BUG：
 
 * `noImplicitReturns` 会防止你忘记在函数末尾返回值。
 * `noFallthroughCasesInSwitch` 会防止在`switch`代码块里的两个`case`之间忘记添加`break`语句。
 
-TypeScript还能够报告执行不到的代码和标签，你可以通过`allowUnreachableCode`和`allowUnusedLabels`选项来禁用。
+TypeScript还能发现那些执行不到的代码和标签，你可以通过设置`allowUnreachableCode`和`allowUnusedLabels`选项来禁用。
 
 # 与构建工具进行集成
 
-在你的创建管道中可能会有多个步骤。
-比如给每个文件添加一些内容。
+在你的构建管道中可能包含多个步骤。
+比如为每个文件添加一些内容。
 每种工具的使用方法都是不同的，我们会尽可能的包涵主流的工具。
 
 ## Gulp
 
-如果你在使用时髦的Gulp，你们已经有一篇[使用Gulp](./Gulp.md)与常见构建工具Browserify，Babelify和Uglify进行集成的教程。
+如果你在使用时髦的Gulp，我们已经有一篇关于[使用Gulp](./Gulp.md)结合TypeScript并与常见构建工具Browserify，Babelify和Uglify进行集成的教程。
 请阅读这篇教程。
 
 ## Webpack
 
 Webpack集成非常简单。
-你可以使用`ts-loader`，TypeScript的加载器，结合`source-map-loader`方便调试。
+你可以使用`ts-loader`，它是一个TypeScript的加载器，结合`source-map-loader`方便调试。
 运行：
 
 ```shell
@@ -136,14 +136,14 @@ module.exports = {
 太棒了!
 你已经成功地将一个文件从JavaScript转换成了TypeScript!
 
-当然了，你可能感觉不对劲儿。
+当然了，你可能感觉哪里不对劲儿。
 如果你在支持TypeScript的编辑器（或运行`tsc --pretty`）里打开了那个文件，你可能会看到有些行上有红色的波浪线。
 你可以把它们当做在Microsoft Word里看到的红色波浪线一样。
-TypeScript仍然会编译你的代码，就好比Word还是允许你打印你的文档一样。
+但是TypeScript仍然会编译你的代码，就好比Word还是允许你打印你的文档一样。
 
-如果对你来说这种行为太随便了，你可以另它严格处理。
-如果，你*不想*在发生错误的时候TypeScript还会编译成JavaScript，你可以使用`noEmitOnError`选项。
-从某种意义上来讲，TypeScript具有一个调整它的严格性的刻度盘，你可以将指针拔动到你想要的高度。
+如果对你来说这种行为太随便了，你可以让它变得严格些。
+如果，你*不想*在发生错误的时候，TypeScript还会被编译成JavaScript，你可以使用`noEmitOnError`选项。
+从某种意义上来讲，TypeScript具有一个调整它的严格性的刻度盘，你可以将指针拔动到你想要的位置。
 
 如果你计划使用可用的高度严格的设置，最好现在就启用它们（查看[启用严格检查](#getting-stricter-checks)）。
 比如，如果你不想让TypeScript将没有明确指定的类型默默地推断为`any`类型，可以在修改文件之前启用`noImplicitAny`。
@@ -151,9 +151,9 @@ TypeScript仍然会编译你的代码，就好比Word还是允许你打印你的
 
 ## 去除错误
 
-我们提到过，如果不出所料的话在转换后会看到错误信息。
+我们提到过，若不出所料，在转换后将会看到错误信息。
 重要的是我们要逐一的查看它们并决定如何处理。
-通常这些都是真正的BUG，但有时你不得不要对TypeScript说明你要做的是什么。
+通常这些都是真正的BUG，但有时必须要告诉TypeScript你要做的是什么。
 
 ### 由模块导入
 
@@ -176,7 +176,7 @@ declare function define(...args: any[]): any;
 最好是避免使用这些调用而改用TypeScript的导入语法。
 
 首先，你要使用TypeScript的`module`标记来启用一些模块系统。
-合法的选项有`commonjs`，`amd`，`system`，and `umd`。
+可用的选项有`commonjs`，`amd`，`system`，and `umd`。
 
 如果代码里存在下面的Node/CommonJS代码：
 
@@ -357,7 +357,7 @@ TypeScript提供了一些检查来保证安全以及帮助分析你的程序。
 在某些情况下TypeScript没法确定某些值的类型。
 那么TypeScript会使用`any`类型代替。
 这对代码转换来讲是不错，但是使用`any`意味着失去了类型安全保障，并且你得不到工具的支持。
-你可以使用`noImplicitAny`选项，让TypeScript标记出发生这种情况的地方，并组出一个错误。
+你可以使用`noImplicitAny`选项，让TypeScript标记出发生这种情况的地方，并给出一个错误。
 
 ### 严格的`null`与`undefined`检查
 
