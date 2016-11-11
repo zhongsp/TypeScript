@@ -171,7 +171,7 @@ alert(a); // 错误: 变量 a 在当前作用域未定义
 
 TypeScript 1.5 增加了 ES6 `for...of` 循环编译到 ES3/ES5 时对数组的支持, 以及编译到 ES6 时对满足 `Iterator` 接口的全面支持.
 
-### 例子:
+### 例子
 
 TypeScript 编译器会转译 `for...of` 数组到具有语义的 ES3/ES5 JavaScript (如果被设置为编译到这些版本).
 
@@ -193,14 +193,14 @@ for (var _i = 0, _a = expr; _i < _a.length; _i++) {
 
 一个装饰器是:
 
-- 一个表达式
-- 并且值为一个函数
-- 接受 `target`, `name`, 以及属性描述对象作为参数
-- 可选返回一个会被应用到目标对象的属性描述对象
+* 一个表达式
+* 并且值为一个函数
+* 接受 `target`, `name`, 以及属性描述对象作为参数
+* 可选返回一个会被应用到目标对象的属性描述对象
 
 > 了解更多, 请参见 [装饰器](https://github.com/Microsoft/TypeScript/issues/2249) 提案.
 
-### 例子:
+### 例子
 
 装饰器 `readonly` 和 `enumerable(false)` 会在属性 `method` 添加到类 `C` 上之前被应用. 这使得装饰器可以修改其实现, 具体到这个例子, 设置了 `descriptor` 为 `writable: false` 以及 `enumerable: false`.
 
@@ -262,7 +262,6 @@ function makeNode(name: string, initialNeighbor: Node): Node {
 
 > tsc --module system
 
-
 ## Unicode 字符串码位转义
 
 ES6 中允许用户使用单个转义表示一个 Unicode 码位.
@@ -321,10 +320,11 @@ define(["require", "exports", "legacy/moduleA"], function (require, exports, mod
 
 通过添加 `tsconfig.json` 到一个目录指明这是一个 TypeScript 项目的根目录. `tsconfig.json` 文件指定了根文件以及编译项目需要的编译器选项. 一个项目可以由以下方式编译:
 
-- 调用 tsc 并不指定输入文件, 此时编译器会从当前目录开始往上级目录寻找 `tsconfig.json` 文件.
-- 调用 tsc 并不指定输入文件, 使用 `-project` (或者 `-p`) 命令行选项指定包含了 `tsconfig.json` 文件的目录.
+* 调用 tsc 并不指定输入文件, 此时编译器会从当前目录开始往上级目录寻找 `tsconfig.json` 文件.
+* 调用 tsc 并不指定输入文件, 使用 `-project` (或者 `-p`) 命令行选项指定包含了 `tsconfig.json` 文件的目录.
 
-### 例子:
+### 例子
+
 ```json
 {
     "compilerOptions": {

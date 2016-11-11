@@ -8,13 +8,15 @@
 从TypeScript 1.5开始，在箭头函数里使用`arguments`会被标记成错误以确保你的代码转成ES6时没语义上的错误。
 
 **例子：**
+
 ```ts
 function f() {
-    return () => arguments; // Error: The 'arguments' object cannot be referenced in an arrow function. 
+    return () => arguments; // Error: The 'arguments' object cannot be referenced in an arrow function.
 }
 ```
 
 **推荐：**
+
 ```ts
 // 1. 使用带名字的剩余参数
 function f() {
@@ -32,6 +34,7 @@ function f() {
 对于正常的枚举，在1.5之前，编译器*仅会*内联常量成员，且成员仅在使用字面量初始化时才被当做是常量。这在判断检举值是使用字面量初始化还是表达式时会行为不一致。从TypeScript 1.5开始，所有非const枚举成员都不会被内联。
 
 **例子：**
+
 ```ts
 var x = E.a;  // previously inlined as "var x = 1; /*E.a*/"
 
@@ -51,8 +54,8 @@ enum E {
 在下面的例子里，`m`具有上下文的类型，它在之前的版本里是没有的。
 
 ```ts
-var x: SomeType = (n) => ((m) => q); 
-var y: SomeType = t ? (m => m.length) : undefined; 
+var x: SomeType = (n) => ((m) => q);
+var y: SomeType = t ? (m => m.length) : undefined;
 
 class C extends CBase<string> {
     constructor() {
@@ -74,40 +77,42 @@ TypeScript 1.5改进了`lib.d.ts`库里的DOM类型。这是自TypeScript 1.0以
 你可以使用旧的`lib.d.ts`配合新版本的编译器。你需要在你的工程里引入之前版本的一个拷贝。这里是[本次改动之前的lib.d.ts文件(TypeScript 1.5-alpha)](https://github.com/Microsoft/TypeScript/blob/v1.5.0-alpha/bin/lib.d.ts)。
 
 **变动列表：**
-- 属性``selection``从``Document``类型上移除
-- 属性``clipboardData``从``Window``类型上移除
-- 删除接口``MSEventAttachmentTarget``
-- 属性``onresize``，``disabled``，``uniqueID``，``removeNode``，``fireEvent``，``currentStyle``，``runtimeStyle``从``HTMLElement``类型上移除
-- 属性``url``从``Event``类型上移除
-- 属性``execScript``，``navigate``，``item``从``Window``类型上移除
-- 属性``documentMode``，``parentWindow``，``createEventObject``从``Document``类型上移除
-- 属性``parentWindow``从``HTMLDocument``类型上移除
-- 属性``setCapture``被完全移除
-- 属性``releaseCapture``被完全移除
-- 属性``setAttribute``，``styleFloat``，``pixelLeft``从``CSSStyleDeclaration``类型上移除
-- 属性``selectorText``从``CSSRule``类型上移除
-- ``CSSStyleSheet.rules``现在是``CSSRuleList``类型，而非``MSCSSRuleList``
-- ``documentElement``现在是``Element``类型，而非``HTMLElement``
-- ``Event``具有一个新的必需属性``returnValue``
-- ``Node``具有一个新的必需属性``baseURI``
-- ``Element``具有一个新的必需属性``classList``
-- ``Location``具有一个新的必需属性``origin``
-- 属性``MSPOINTER_TYPE_MOUSE``，``MSPOINTER_TYPE_TOUCH``从``MSPointerEvent``类型上移除
-- ``CSSStyleRule``具有一个新的必需属性``readonly``
-- 属性``execUnsafeLocalFunction``从``MSApp``类型上移除
-- 全局方法``toStaticHTML``被移除
-- ``HTMLCanvasElement.getContext``现在返回``CanvasRenderingContext2D | WebGLRenderingContex``
-- 移除扩展类型``Dataview``，``Weakmap``，``Map``，``Set``
-- ``XMLHttpRequest.send``具有两个重载``send(data?: Document): void;``和``send(data?: String): void;``
-- ``window.orientation``现在是``string``类型，而非``number``
-- 特定于IE的`attachEvent`和`detachEvent`从`Window`上移除
+
+* 属性``selection``从``Document``类型上移除
+* 属性``clipboardData``从``Window``类型上移除
+* 删除接口``MSEventAttachmentTarget``
+* 属性``onresize``，``disabled``，``uniqueID``，``removeNode``，``fireEvent``，``currentStyle``，``runtimeStyle``从``HTMLElement``类型上移除
+* 属性``url``从``Event``类型上移除
+* 属性``execScript``，``navigate``，``item``从``Window``类型上移除
+* 属性``documentMode``，``parentWindow``，``createEventObject``从``Document``类型上移除
+* 属性``parentWindow``从``HTMLDocument``类型上移除
+* 属性``setCapture``被完全移除
+* 属性``releaseCapture``被完全移除
+* 属性``setAttribute``，``styleFloat``，``pixelLeft``从``CSSStyleDeclaration``类型上移除
+* 属性``selectorText``从``CSSRule``类型上移除
+* ``CSSStyleSheet.rules``现在是``CSSRuleList``类型，而非``MSCSSRuleList``
+* ``documentElement``现在是``Element``类型，而非``HTMLElement``
+* ``Event``具有一个新的必需属性``returnValue``
+* ``Node``具有一个新的必需属性``baseURI``
+* ``Element``具有一个新的必需属性``classList``
+* ``Location``具有一个新的必需属性``origin``
+* 属性``MSPOINTER_TYPE_MOUSE``，``MSPOINTER_TYPE_TOUCH``从``MSPointerEvent``类型上移除
+* ``CSSStyleRule``具有一个新的必需属性``readonly``
+* 属性``execUnsafeLocalFunction``从``MSApp``类型上移除
+* 全局方法``toStaticHTML``被移除
+* ``HTMLCanvasElement.getContext``现在返回``CanvasRenderingContext2D | WebGLRenderingContex``
+* 移除扩展类型``Dataview``，``Weakmap``，``Map``，``Set``
+* ``XMLHttpRequest.send``具有两个重载``send(data?: Document): void;``和``send(data?: String): void;``
+* ``window.orientation``现在是``string``类型，而非``number``
+* 特定于IE的`attachEvent`和`detachEvent`从`Window`上移除
 
 **以下是被新加的DOM类型所部分或全部取代的代码库的代表：**
-- ``DefinitelyTyped/auth0/auth0.d.ts``
-- ``DefinitelyTyped/gamepad/gamepad.d.ts``
-- ``DefinitelyTyped/interactjs/interact.d.ts``
-- ``DefinitelyTyped/webaudioapi/waa.d.ts``
-- ``DefinitelyTyped/webcrypto/WebCrypto.d.ts``
+
+* ``DefinitelyTyped/auth0/auth0.d.ts``
+* ``DefinitelyTyped/gamepad/gamepad.d.ts``
+* ``DefinitelyTyped/interactjs/interact.d.ts``
+* ``DefinitelyTyped/webaudioapi/waa.d.ts``
+* ``DefinitelyTyped/webcrypto/WebCrypto.d.ts``
 
 更多信息，查看[完整改动](https://github.com/Microsoft/TypeScript/pull/2739)。
 

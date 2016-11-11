@@ -114,9 +114,10 @@ declare function getWidget(s: string): Widget[];
 
 > 当指定一个欢迎词时，你必须传入一个`GreetingSettings`对象。
 > 这个对象具有以下几个属性：
-> - greeting：必需的字符串
-> - duration: 可靠的时长（毫秒表示）
-> - color: 可选字符串，比如‘#ff00ff’
+>
+> 1- greeting：必需的字符串
+> 2- duration: 可靠的时长（毫秒表示）
+> 3- color: 可选字符串，比如‘#ff00ff’
 
 *代码*
 

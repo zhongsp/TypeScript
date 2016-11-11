@@ -5,7 +5,7 @@
 ## 对函数或类表达式的捕获变量不进行类型细化(narrowing)
 
 类型细化不会在函数，类和lambda表达式上进行。
- 
+
 **例子**
 
 ```ts
@@ -28,6 +28,7 @@ if (typeof x === "string") {
 }
 x = 5;
 ```
+
 当`x.charAt()`被调用的时候把`x`的类型当作`string`是错误的，事实上它确实不是`string`类型。
 
 **推荐**
@@ -62,7 +63,7 @@ function g<T>(obj: T) {
 **例子**
 
 ```ts
-class C { 
+class C {
   get x() { return 0; }
 }
 

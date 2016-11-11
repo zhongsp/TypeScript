@@ -20,7 +20,6 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 如果你对TypeScript的爱愈发浓烈，可以与楼主一起边翻译边学习，*[PRs Welcome!!!](https://github.com/zhongsp/TypeScript/pulls)*
 在[相关链接](#相关链接)的末尾可以找到本手册的[Github地址](https://github.com/zhongsp/TypeScript)。
 
-
 ## 目录
 
 * [快速上手](./doc/handbook/tutorials/README.html)
@@ -93,7 +92,6 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [TypeScript 1.5](./doc/breaking-changes/TypeScript 1.5.html)
   * [TypeScript 1.4](./doc/breaking-changes/TypeScript 1.4.html)
 
-
 ## 主要修改 (Latest 10 updates)
 
 * 2016-10-23 新增章节：[高级类型 - 可辨识联合（Discriminated Unions）](./doc/handbook/Advanced Types.html)
@@ -106,7 +104,6 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * 2016-07-20 新增章节：[readonly属性](./doc/handbook/Interfaces.html)
 * 2016-07-20 新增章节：[基本类型 - Null and Undefined](./doc/handbook/Basic Types.html)
 * 2016-06-15 新增章节：快速上手：[Angular 2](./doc/handbook/tutorials/Angular 2.html)
-
 
 ## 相关链接
 

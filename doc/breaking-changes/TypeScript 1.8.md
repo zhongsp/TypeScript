@@ -24,7 +24,7 @@ export { Promise }; // Error
 
 ```ts
 const localPromise = Promise;
-export { localPromise as Promise }; 
+export { localPromise as Promise };
 ```
 
 #### 默认启用代码可达性（Reachability）检查
@@ -37,7 +37,7 @@ TypeScript 1.8里，我们添加了一些[可达性检查](https://github.com/Mi
           return 1;
           return 2; // error here
       }
-      
+
       function test2(x) {
           if (x) {
               return 1;
@@ -51,9 +51,9 @@ TypeScript 1.8里，我们添加了一些[可达性检查](https://github.com/Mi
 2. 检查标签是否被使用（默认启用，可以通过`allowUnusedLabels`编译器选项禁用）
    ```ts
    l: // error will be reported - label `l` is unused
-   while (true) { 
+   while (true) {
    }
-   
+
    (x) => { x:x } // error will be reported - label `x` is unused
    ```
 3. 检查是否函数里所有带有返回值类型注解的代码路径都返回了值（默认启用，可以通过`noImplicitReturns`编译器选项禁用）
@@ -69,14 +69,14 @@ TypeScript 1.8里，我们添加了一些[可达性检查](https://github.com/Mi
    ```ts
    switch(x) {
       // OK
-      case 1: 
-      case 2: 
-          return 1; 
+      case 1:
+      case 2:
+          return 1;
    }
    switch(x) {
       case 1:
           if (y) return 1;
-      case 2: 
+      case 2:
           return 2;
    }
    ```
@@ -99,9 +99,11 @@ TypeScript 1.8里，我们添加了一些[可达性检查](https://github.com/Mi
 * **WeakMap.clear**被移除。查看[#6500](https://github.com/Microsoft/TypeScript/issues/6500)。
 
 #### 在super-call之前不允许使用`this`
+
 ES6不允许在构造函数声明里访问`this`。
 
 比如：
+
 ```typescript
 class B {
     constructor(that?: any) {}
