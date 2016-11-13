@@ -81,6 +81,7 @@ x[0] = false; // Error, boolean is not string or number
 ```
 
 ## `let` 声明
+
 在JavaScript里，`var`声明会被“提升”到所在作用域的顶端。这可能会引发一些让人不解的bugs：
 
 ```ts
@@ -99,6 +100,7 @@ if(foo) {
     console.log(x); // Error, x is not declared in this block
 }
 ```
+
 `let`只在设置目标为ECMAScript 6 （`--target ES6`）时生效。
 
 ## `const` 声明
@@ -189,7 +191,9 @@ type Callback = () => void;
 const enum Suit { Clubs, Diamonds, Hearts, Spades }
 var d = Suit.Diamonds;
 ```
+
 Compiles to exactly:
+
 ```js
 var d = 1;
 ```

@@ -221,7 +221,6 @@ let sq = new polygons.Square(); // Same as "new Shapes.Polygons.Square()"
 这与使用`var`相似，但它还适用于类型和导入的具有命名空间含义的符号。
 重要的是，对于值来讲，`import`会生成与原始符号不同的引用，所以改变别名的`var`值并不会影响原始变量的值。
 
-
 # 使用其它的JavaScript库
 
 为了描述不是用TypeScript编写的类库的类型，我们需要声明类库导出的API。

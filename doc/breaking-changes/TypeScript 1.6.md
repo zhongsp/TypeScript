@@ -33,13 +33,14 @@ x = { foo: 1, baz: 2 };  // OK, `baz` matched by index signature
 
 ```ts
 let animalList: (Dog | Cat | Turkey)[] = [    // use union type instead of Animal
-    {name: "Milo", meow: true }, 
+    {name: "Milo", meow: true },
     {name: "Pepper", bark: true},
-    {name: "koko", gobble: true} 
+    {name: "koko", gobble: true}
 ];
 ```
 
 **还有可以明确地转换到目标类型以避免此错误：**
+
 ```ts
 interface Foo {
     foo: number;
@@ -61,6 +62,7 @@ TypeScript 1.6在编译CommonJS时，`"one"`不再等同于"./one"。取而代�
 **例子：**
 
 `./one.ts`
+
 ```TypeScript
 export function f() {
     return 10;
@@ -68,15 +70,17 @@ export function f() {
 ```
 
 `./two.ts`
+
 ```TypeScript
 import { f as g } from "one";
-``` 
+```
 
 **推荐：**
 
 **修改所有计划之外的非相对的导入。**
 
 `./one.ts`
+
 ```TypeScript
 export function f() {
     return 10;
@@ -84,9 +88,10 @@ export function f() {
 ```
 
 `./two.ts`
+
 ```TypeScript
 import { f as g } from "./one";
-``` 
+```
 
 **将`--moduleResolution`编译器选项设置为`classic`。**
 

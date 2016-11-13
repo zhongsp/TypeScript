@@ -43,8 +43,8 @@ JSX 元素的名称和属性是根据 `JSX` 命名空间来检验的. 请查看 
 
 TypeScript 支持两种 `JSX` 模式: `preserve` (保留) 和 `react`.
 
-- `preserve` 模式将会在输出中保留 JSX 表达式, 使之后的转换步骤可以处理. *并且输出的文件扩展名为 `.jsx`.*
-- `react` 模式将会生成 `React.createElement`, 不再需要再通过 JSX 转换即可运行, 输出的文件扩展名为 `.js`.
+* `preserve` 模式将会在输出中保留 JSX 表达式, 使之后的转换步骤可以处理. *并且输出的文件扩展名为 `.jsx`.*
+* `react` 模式将会生成 `React.createElement`, 不再需要再通过 JSX 转换即可运行, 输出的文件扩展名为 `.js`.
 
 查看 [JSX](https://github.com/Microsoft/TypeScript/wiki/JSX) 页面了解更多 JSX 在 TypeScript 中的使用.
 
@@ -358,8 +358,8 @@ npm install -g typescript@next
 
 从 1.6 开始, TypeScript 编译器对于 "commonjs" 的模块解析会使用一套不同的规则. 这些[规则](https://github.com/Microsoft/TypeScript/issues/2338) 尝试模仿 Node 查找模块的过程. 这就意味着 node 模块可以包含它的类型信息, 并且 TypeScript 编译器可以找到这些信息. 不过用户可以通过使用 `--moduleResolution` 命令行选项覆盖模块解析规则. 支持的值有:
 
-- 'classic' - TypeScript 1.6 以前的编译器使用的模块解析规则
-- 'node' - 与 node 相似的模块解析
+* 'classic' - TypeScript 1.6 以前的编译器使用的模块解析规则
+* 'node' - 与 node 相似的模块解析
 
 ## 合并外围类和接口的声明
 

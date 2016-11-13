@@ -71,7 +71,6 @@
 `--allowJs`                                  | *VS不支持*                                 |
 *VS特有选项*                                 | TypeScriptAdditionalFlags                  | *任意编译选项*
 
-
 ## 我使用的Visual Studio版本里支持哪些选项?
 
 查找 `C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets` 文件。

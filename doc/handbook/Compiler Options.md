@@ -2,8 +2,8 @@
 
 选项                                     | 类型      | 默认值                    | 描述
 ----------------------------------------|-----------|--------------------------|----------------------------------------------------------------------
-`--allowJs`                             | `boolean` |  `true`                  | 允许编译javascript文件。
-`--allowSyntheticDefaultImports`        | `boolean` | `module === "system"`  | 允许从没有设置默认导出的模块中默认导入。这并不影响代码的显示，仅为了类型检查。
+`--allowJs`                             | `boolean` |  `false`                 | 允许编译javascript文件。
+`--allowSyntheticDefaultImports`        | `boolean` | `module === "system"`    | 允许从没有设置默认导出的模块中默认导入。这并不影响代码的显示，仅为了类型检查。
 `--allowUnreachableCode`                | `boolean` | `false`                  | 不报告执行不到的代码错误。
 `--allowUnusedLabels`                   | `boolean` | `false`                  | 不报告未使用的标签错误。
 `--baseUrl`                             | `string`  |                          | 解析非相对模块名的基准目录。查看[模块解析文档](./Module Resolution.md#base-url)了解详情。
