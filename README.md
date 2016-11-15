@@ -6,12 +6,14 @@
 
 ![TypeScript Statistics](https://msdnshared.blob.core.windows.net/media/2016/09/ts-2-0-npm-downloads.png)
 
-TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript.  http://www.typescriptlang.org
+TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript. <http://www.typescriptlang.org>
 
 请阅读 :book: [TypeScript Handbook 中文版 - Published with GitBook](http://zhongsp.gitbooks.io/typescript-handbook/content/)
 
-
 ## 目录
+
+* List item
+  * Nested list item indented by 2 spaces
 
 * [快速上手](./doc/handbook/tutorials/README.md)
   * [ASP.NET Core](./doc/handbook/tutorials/ASP.NET Core.md)
@@ -84,15 +86,13 @@ TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript. 
   * [TypeScript 1.5](./doc/breaking-changes/TypeScript 1.5.md)
   * [TypeScript 1.4](./doc/breaking-changes/TypeScript 1.4.md)
 
-
 **TypeScript Handbook**
 
 * Read [TypeScript Handbook (Recommended, BUT not up to date officially)](http://www.typescriptlang.org/Handbook)
-* Read [TypeScript手册中文版 - Published with GitBook（持续更新中，最新版）](http://zhongsp.gitbooks.io/typescript-handbook/content/):book: 
+* Read [TypeScript手册中文版 - Published with GitBook（持续更新中，最新版）](http://zhongsp.gitbooks.io/typescript-handbook/content/):book:
 
 **TypeScript Language Specification**
 
-* Read [TypeScript Language Specification (Recommended)](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)
-* Read [TypeScript 语言规范 (译完第一章)](./doc/TypeScript Language Specification.md)
+* Read [TypeScript Language Specification](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)
 
 I'd love for you to contribute to the translation:)

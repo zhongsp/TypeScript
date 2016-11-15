@@ -143,9 +143,9 @@ let example = <Greeter name='TypeScript 1.8' />;
 
 具体的:
 
-- 你不再需要显式的声明 `ref` 和 `key` 或者 `extend React.Props`
-- `ref` 和 `key` 属性会在所有组件上拥有正确的类型.
-- `ref` 属性在无状态函数组件上会被正确地禁用.
+* 你不再需要显式的声明 `ref` 和 `key` 或者 `extend React.Props`
+* `ref` 和 `key` 属性会在所有组件上拥有正确的类型.
+* `ref` 属性在无状态函数组件上会被正确地禁用.
 
 ## 在模块中扩充全局或者模块作用域
 
@@ -384,8 +384,8 @@ list.forEach(function (f) { return console.log(f()); });
 
 从 TypeScript 1.8 开始:
 
-- 在 `for..in` 语句中的变量隐含类型为 `string`.
-- 当一个有数字索引签名对应类型 `T` (比如一个数组) 的对象被一个 `for..in` 索引*有*数字索引签名并且*没有*字符串索引签名 (比如还是数组) 的对象的变量索引, 产生的值的类型为 `T`.
+* 在 `for..in` 语句中的变量隐含类型为 `string`.
+* 当一个有数字索引签名对应类型 `T` (比如一个数组) 的对象被一个 `for..in` 索引*有*数字索引签名并且*没有*字符串索引签名 (比如还是数组) 的对象的变量索引, 产生的值的类型为 `T`.
 
 ### 例子
 
@@ -481,12 +481,12 @@ else if (fso.isNetworked()) {
 
 稳定版本可以在这里下载:
 
-- [Microsoft.TypeScript.Compiler](https://www.nuget.org/packages/Microsoft.TypeScript.Compiler/)
-- [Microsoft.TypeScript.MSBuild](https://www.nuget.org/packages/Microsoft.TypeScript.MSBuild/)
+* [Microsoft.TypeScript.Compiler](https://www.nuget.org/packages/Microsoft.TypeScript.Compiler/)
+* [Microsoft.TypeScript.MSBuild](https://www.nuget.org/packages/Microsoft.TypeScript.MSBuild/)
 
-与此同时, 和[每日 npm 包](http://blogs.msdn.com/b/typescript/archive/2015/07/27/introducing-typescript-nightlies.aspx)对应的每日 NuGet 包可以在 https://myget.org 下载:
+与此同时, 和[每日npm包](https://blogs.msdn.com/b/typescript/archive/2015/07/27/introducing-typescript-nightlies.aspx)对应的每日 NuGet 包可以在<https://myget.org>下载:
 
-- [TypeScript-Preview](https://www.myget.org/gallery/typescript-preview)
+* [TypeScript-Preview](https://www.myget.org/gallery/typescript-preview)
 
 ## `tsc` 错误信息更美观
 
@@ -564,6 +564,6 @@ TypeScript 1.8 允许在任何种类的项目中使用 `tsconfig.json` 文件.
 
 ### 一些限制
 
-- 如果你添加了一个 `tsconfig.json` 文件, 不在其上下文中的 TypeScript 文件不会被编译.
-- Apache Cordova 应用依然有单个 `tsconfig.json` 文件的限制, 而这个文件必须在根目录或者 `scripts` 文件夹.
-- 多数项目类型中都没有 `tsconfig.json` 的模板.
+* 如果你添加了一个 `tsconfig.json` 文件, 不在其上下文中的 TypeScript 文件不会被编译.
+* Apache Cordova 应用依然有单个 `tsconfig.json` 文件的限制, 而这个文件必须在根目录或者 `scripts` 文件夹.
+* 多数项目类型中都没有 `tsconfig.json` 的模板.

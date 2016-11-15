@@ -45,8 +45,8 @@
 ## 模块解析策略
 
 共有两种可用的模块解析策略：[Node](#node)和[Classic](#classic)。
-你可以使用`--moduleResolution`标记为指定使用哪个。
-默认值为[Node](#node)。
+你可以使用`--moduleResolution`标记指定使用哪种模块解析策略。
+若未指定，那么在使用了`--module AMD | System | ES2015`时的默认值为[Classic](#classic)，其它情况时则为[Node](#node)。
 
 ### Classic
 

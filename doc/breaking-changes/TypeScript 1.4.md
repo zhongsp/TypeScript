@@ -14,13 +14,14 @@ var b: { x: number; z?: number };
 
 // 之前 { x: number; z?: number; }[]
 // 现在 { x: number; y?: number; }[]
-var bs = [b, a]; 
+var bs = [b, a];
 ```
 
 这会在多种情况下发生。具有一组共享的必需属性和一组其它互斥的（可选或其它）属性，空类型，兼容的签名类型（包括泛型和非泛型签名，当类型参数上应用了```any```时）。
 
 **推荐**
 使用类型注解指定你要使用的类型。
+
 ```ts
 var bs: { x: number; y?: number; z?: number }[] = [b, a];
 ```
@@ -33,6 +34,7 @@ var bs: { x: number; y?: number; z?: number }[] = [b, a];
 declare function foo<T>(x: T, y:T): T;
 var r = foo(1, ""); // r used to be {}, now this is an error
 ```
+
 添加约束：
 
 ```ts

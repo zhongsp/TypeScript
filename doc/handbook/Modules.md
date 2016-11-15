@@ -252,7 +252,6 @@ strings.forEach(s => {
 });
 ```
 
-
 # 生成模块代码
 
 根据编译时指定的模块目标参数，编译器会生成相应的供Node.js ([CommonJS](http://wiki.commonjs.org/wiki/CommonJS))，Require.js ([AMD](https://github.com/amdjs/amdjs-api/wiki/AMD))，isomorphic ([UMD](https://github.com/umdjs/umd)), [SystemJS](https://github.com/systemjs/systemjs)或[ECMAScript 2015 native modules](http://www.ecma-international.org/ecma-262/6.0/#sec-modules) (ES6)模块加载系统使用的代码。
@@ -336,7 +335,6 @@ tsc --module commonjs Test.ts
 
 编译完成后，每个模块会生成一个单独的`.js`文件。
 好比使用了reference标签，编译器会根据`import`语句编译相应的文件。
-
 
 ##### Validation.ts
 
@@ -791,7 +789,6 @@ export { test } from "./Calculator";
 
 新的`ProgrammerCalculator`模块导出的API与原先的`Calculator`模块很相似，但却没有改变原模块里的对象。
 下面是测试ProgrammerCalculator类的代码：
-
 
 #### TestProgrammerCalculator.ts
 
