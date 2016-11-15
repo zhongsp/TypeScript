@@ -221,7 +221,7 @@ TypeScript 2.1支持使用`extends`来继承配置，其中：
 `tsconfig.nostrictnull.json`:
 ```json
 {
-  "extends": "./tsconfig"
+  "extends": "./tsconfig",
   "compilerOptions": {
     "strictNullChecks": false
   }
