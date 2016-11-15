@@ -2,6 +2,8 @@
 
 章节分离自[TypeScript 新增特性一览](../wiki/What's-new-in-TypeScript.md)。
 
+* [TypeScript 2.1](./TypeScript 2.1.md)
+* [TypeScript 2.0](./TypeScript 2.0.md)
 * [TypeScript 1.8](./TypeScript 1.8.md)
 * [TypeScript 1.7](./TypeScript 1.7.md)
 * [TypeScript 1.6](./TypeScript 1.6.md)
