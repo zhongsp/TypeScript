@@ -527,10 +527,11 @@ TypeScript编译器支持`tsconfig`文件中使用`"paths"`属性映射的声明
 
 ```json
 {
-  "compilerOptions": {
-    "baseUrl": "./node_modules",
-    "paths": {
-      "jquery": ["jquery/dist/jquery.slim.min"]
+    "compilerOptions": {
+        "baseUrl": "./node_modules",
+        "paths": {
+        "jquery": ["jquery/dist/jquery.slim.min"]
+        }
     }
 }
 ```
