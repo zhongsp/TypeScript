@@ -263,9 +263,6 @@ alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 我们需要改变函数表达式来使用ECMAScript 6箭头语法。
 箭头函数能保存函数创建时的`this`值，而不是调用时的值：
 
-我们把函数表达式变为使用lambda表达式（ () => {} ）。
-这样就会在函数创建的时候就指定了‘this’值，而不是在函数调用的时候。
-
 ```ts
 let deck = {
     suits: ["hearts", "spades", "clubs", "diamonds"],

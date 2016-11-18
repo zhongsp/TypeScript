@@ -504,7 +504,8 @@ c.interval = 5.0;
 接口同样会继承到类的private和protected成员。
 这意味着当你创建了一个接口继承了一个拥有私有或受保护的成员的类时，这个接口类型只能被这个类或其子类所实现（implement）。
 
-这是很有用的，当你有一个很深层次的继承，但是只想你的代码只是针对拥有特定属性的子类起作用的时候。子类除了继承自基类外与基类没有任何联系。
+当你有一个庞大的继承结构时这很有用，但要指出的是你的代码只在子类拥有特定属性时起作用。
+这个子类除了继承至基类外与基类没有任何关系。
 例：
 
 ```ts
@@ -519,12 +520,15 @@ interface SelectableControl extends Control {
 class Button extends Control {
     select() { }
 }
+
 class TextBox extends Control {
     select() { }
 }
+
 class Image {
     select() { }
 }
+
 class Location {
     select() { }
 }
