@@ -12,9 +12,6 @@ TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript. 
 
 ## 目录
 
-* List item
-  * Nested list item indented by 2 spaces
-
 * [快速上手](./doc/handbook/tutorials/README.md)
   * [ASP.NET Core](./doc/handbook/tutorials/ASP.NET Core.md)
   * [ASP.NET 4](./doc/handbook/tutorials/ASP.NET 4.md)
