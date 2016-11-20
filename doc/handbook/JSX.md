@@ -25,8 +25,7 @@ TypeScript具有两种JSX模式：`preserve`和`react`。
 
 你可以通过在命令行里使用`--jsx`标记或[tsconfig.json](./tsconfig.json.md)里的选项来指定模式。
 
-> *注意：`React`标识符是写死的硬代码，所以你必须保证React（大写的R）是可用的。*
-> *Note: The identifier `React` is hard-coded, so you must make React available with an uppercase R.*
+> *注意：`React`标识符是写死的硬编码，所以你必须保证React（大写的R）是可用的。*
 
 # `as`操作符
 
