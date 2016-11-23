@@ -478,7 +478,7 @@ function f([first, second]: [number, number]) {
 f(input);
 ```
 
-你可以使用`...name`语法创建一个剩余变量列表：
+你可以在数组里使用`...`语法创建剩余变量：
 
 ```ts
 let [first, ...rest] = [1, 2, 3, 4];
@@ -509,7 +509,7 @@ let o = {
     b: 12,
     c: "bar"
 }
-let {a, b} = o;
+let { a, b } = o;
 ```
 
 这通过 `o.a` and `o.b` 创建了 `a` 和 `b` 。
@@ -518,17 +518,25 @@ let {a, b} = o;
 就像数组解构，你可以用没有声明的赋值：
 
 ```ts
-({a, b} = {a: "baz", b: 101});
+({ a, b } = { a: "baz", b: 101 });
 ```
 
 注意，我们需要用括号将它括起来，因为Javascript通常会将以 `{` 起始的语句解析为一个块。
+
+你可以在对象里使用`...`语法创建剩余变量：
+
+```ts
+let { a, ...passthrough } = o;
+let total = passthrough.b + passthrough.c.length;
+
+```
 
 ### 属性重命名
 
 你也可以给属性以不同的名字：
 
 ```ts
-let {a: newName1, b: newName2} = o;
+let { a: newName1, b: newName2 } = o;
 ```
 
 这里的语法开始变得混乱。
@@ -552,8 +560,8 @@ let {a, b}: {a: string, b: number} = o;
 默认值可以让你在属性为 undefined 时使用缺省值：
 
 ```ts
-function keepWholeObject(wholeObject: {a: string, b?: number}) {
-    let {a, b = 1001} = wholeObject;
+function keepWholeObject(wholeObject: { a: string, b?: number }) {
+    let { a, b = 1001 } = wholeObject;
 }
 ```
 
@@ -565,8 +573,8 @@ function keepWholeObject(wholeObject: {a: string, b?: number}) {
 看以下简单的情况：
 
 ```ts
-type C = {a: string, b?: number}
-function f({a, b}: C): void {
+type C = { a: string, b?: number }
+function f({ a, b }: C): void {
     // ...
 }
 ```
@@ -575,26 +583,81 @@ function f({a, b}: C): void {
 首先，你需要知道在设置默认值之前设置其类型。
 
 ```ts
-function f({a, b} = {a: "", b: 0}): void {
+function f({ a, b } = { a: "", b: 0 }): void {
     // ...
 }
-f(); // ok, default to {a: "", b: 0}
+f(); // ok, default to { a: "", b: 0 }
 ```
 
 其次，你需要知道在解构属性上给予一个默认或可选的属性用来替换主初始化列表。
 要知道 `C` 的定义有一个 `b` 可选属性：
 
 ```ts
-function f({a, b = 0} = {a: ""}): void {
+function f({ a, b = 0 } = { a: "" }): void {
     // ...
 }
-f({a: "yes"}) // ok, default b = 0
+f({ a: "yes" }) // ok, default b = 0
 f() // ok, default to {a: ""}, which then defaults b = 0
 f({}) // error, 'a' is required if you supply an argument
 ```
 
 要小心使用解构。
-从前面的例子可以看出，就算是最简单的解构也会有很多问题。
+从前面的例子可以看出，就算是最简单的解构表达式也是难以理解的。
 尤其当存在深层嵌套解构的时候，就算这时没有堆叠在一起的重命名，默认值和类型注解，也是令人难以理解的。
 解构表达式要尽量保持小而简单。
 你自己也可以直接使用解构将会生成的赋值表达式。
+
+## 展开
+
+展开操作符正与解构相反。
+它允许你将一个数组展开为另一个数组，或将一个对象展开为另一个对象。
+例如：
+
+```ts
+let first = [1, 2];
+let second = [3, 4];
+let bothPlus = [0, ...first, ...second, 5];
+```
+
+这会令`bothPlus`的值为`[0, 1, 2, 3, 4, 5]`。
+展开操作创建了`first`和`second`的一份浅拷贝。
+它们不会被展开操作所改变。
+
+你还可以展开对象：
+
+```ts
+let defaults = { food: "spicy", price: "$$", ambiance: "noisy" };
+let search = { ...defaults, food: "rich" };
+```
+
+`search`的值为`{ food: "rich", price: "$$", ambiance: "noisy" }`。
+对象的展开比数组的展开要复杂的多。
+像数组展开一样，它是从左至右进行处理，但结果仍为对象。
+这就意味着出现在展开对象后面的属性会覆盖前面的属性。
+因此，如果我们修改上面的例子，在结尾处进行展开的话：
+
+```ts
+let defaults = { food: "spicy", price: "$$", ambiance: "noisy" };
+let search = { food: "rich", ...defaults };
+```
+
+那么，`defaults`里的`food`属性会重写`food: "rich"`，在这里这并不是我们想要的结果。
+
+对象展开还有其它一些意想不到的限制。
+首先，它只包含自身的可枚举的属性。
+首先，当你展开一个对象实例时，你会丢失其方法：
+
+```ts
+class C {
+  p = 12;
+  m() {
+  }
+}
+let c = new C();
+let clone = { ...c };
+clone.p; // ok
+clone.m(); // error!
+```
+
+其次，TypeScript编译器不允许展开泛型函数上的类型参数。
+这个特性会在TypeScript的未来版本中考虑实现。
