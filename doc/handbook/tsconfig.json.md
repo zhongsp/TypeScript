@@ -87,7 +87,7 @@
 
 使用`"include"`引入的文件可以使用`"exclude"`属性过滤。
 然而，通过`"files"`属性明确指定的文件却总是会被包含在内，不管`"exclude"`如何设置。
-如果没有特殊指定，`"exclude"`默认情况下会排除`node_modules`，`bower_components`，和`jspm_packages`目录。
+如果没有特殊指定，`"exclude"`默认情况下会排除`node_modules`，`bower_components`，`jspm_packages`和`<outDir>`目录。
 
 任何被`"files"或`"include"`指定的文件所引用的文件也会被包含进来。
 `A.ts`引用了`B.ts`，因此`B.ts`不能被排除，除非引用它的`A.ts`在`"exclude"`列表中。
@@ -133,6 +133,56 @@
 
 注意，自动引入只在你使用了全局的声明（相反于模块）时是重要的。
 如果你使用`import "foo"`语句，TypeScript仍然会查找`node_modules`和`node_modules/@types`文件夹来获取`foo`包。
+
+## 使用`extends`继承配置
+
+`tsconfig.json`文件可以利用`extends`属性从另一个配置文件里继承配置。
+
+`extends`是`tsconfig.json`文件里的顶级属性（与`compilerOptions`，`files`，`include`，和`exclude`一样）。
+`extends`的值是一个字符串，包含指向另一个要继承文件的路径。
+
+在原文件里的配置先被加载，然后被来至继承文件里的配置重写。
+如果发现循环引用，则会报错。
+
+来至所继承配置文件的`files`，`include`和`exclude`*覆盖*源配置文件的属性。
+
+配置文件里的相对路径在解析时相对于它所在的文件。
+
+比如：
+
+`configs/base.json`：
+
+```json
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "strictNullChecks": true
+  }
+}
+```
+
+`tsconfig.json`：
+
+```json
+{
+  "extends": "./configs/base",
+  "files": [
+    "main.ts",
+    "supplemental.ts"
+  ]
+}
+```
+
+`tsconfig.nostrictnull.json`：
+
+```json
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "strictNullChecks": false
+  }
+}
+```
 
 ## `compileOnSave`
 
