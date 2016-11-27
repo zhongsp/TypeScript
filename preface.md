@@ -95,6 +95,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 
 ## 主要修改 (Latest 10 updates)
 
+* 2016-11-27 新增章节：[使用`/// <reference types="..." />`](./doc/handbook/Triple-Slash Directives.html)
 * 2016-11-23 新增章节：[变量声明 - 展开操作符](./doc/handbook/Variable Declarations.html)
 * 2016-10-23 新增章节：[高级类型 - 可辨识联合（Discriminated Unions）](./doc/handbook/Advanced Types.html)
 * 2016-10-07 新增章节：[从JavaScript迁移到TypeScript](./doc/handbook/tutorials/Migrating from JavaScript.html)
@@ -104,7 +105,6 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * 2016-07-21 新增章节：[tsconfig.json文件里的include和exclude匹配](./doc/handbook/tsconfig.json.html)
 * 2016-07-20 新增章节：[this参数](./doc/handbook/Functions.html)
 * 2016-07-20 新增章节：[readonly属性](./doc/handbook/Interfaces.html)
-* 2016-07-20 新增章节：[基本类型 - Null and Undefined](./doc/handbook/Basic Types.html)
 
 ## 相关链接
 
