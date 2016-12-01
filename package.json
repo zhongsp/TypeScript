@@ -25,9 +25,7 @@
   },
   "homepage": "https://github.com/zhongsp/TypeScript",
   "devDependencies": {
-    "gulp": "^3.8.11",
-    "gulp-typescript": "^2.6.0",
-    "glob": "^5.0.15",
-    "markdownlint": "0.0.8"
+    "glob": "^7.1.1",
+    "markdownlint": "^0.3.1"
   }
 }

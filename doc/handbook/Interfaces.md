@@ -86,8 +86,8 @@ interface SquareConfig {
 function createSquare(config: SquareConfig): { color: string; area: number } {
   let newSquare = {color: "white", area: 100};
   if (config.color) {
-    // Error: Property 'collor' does not exist on type 'SquareConfig'
-    newSquare.color = config.collor;  // Type-checker can catch the mistyped name here
+    // Error: Property 'color' does not exist on type 'SquareConfig'
+    newSquare.color = config.color;  // Type-checker can catch the mistyped name here
   }
   if (config.width) {
     newSquare.area = config.width * config.width;
@@ -206,7 +206,7 @@ let mySquare = createSquare(squareOptions);
 
 要留意，在像上面一样的简单代码里，你可能不应该去绕开这些检查。
 对于包含方法和内部状态的复杂对象字面量来讲，你可能需要使用这些技巧，但是大部额外属性检查错误是真正的bug。
-就是说你遇到了额外类型检查出的错误，比如选择包，你应该去审查一下你的类型声明。
+就是说你遇到了额外类型检查出的错误，比如“option bags”，你应该去审查一下你的类型声明。
 在这里，如果支持传入`color`或`colour`属性到`createSquare`，你应该修改`SquareConfig`定义来体现出这一点。
 
 # 函数类型
@@ -504,7 +504,8 @@ c.interval = 5.0;
 接口同样会继承到类的private和protected成员。
 这意味着当你创建了一个接口继承了一个拥有私有或受保护的成员的类时，这个接口类型只能被这个类或其子类所实现（implement）。
 
-这是很有用的，当你有一个很深层次的继承，但是只想你的代码只是针对拥有特定属性的子类起作用的时候。子类除了继承自基类外与基类没有任何联系。
+当你有一个庞大的继承结构时这很有用，但要指出的是你的代码只在子类拥有特定属性时起作用。
+这个子类除了继承至基类外与基类没有任何关系。
 例：
 
 ```ts
@@ -519,12 +520,15 @@ interface SelectableControl extends Control {
 class Button extends Control {
     select() { }
 }
+
 class TextBox extends Control {
     select() { }
 }
+
 class Image {
     select() { }
 }
+
 class Location {
     select() { }
 }

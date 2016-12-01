@@ -16,10 +16,9 @@ cd proj
 
 ```text
 proj/
-   ├─ src/
-   |    └─ components/
-   |
-   └─ dist/
+├─ dist/
+└─ src/
+   └─ components/
 ```
 
 TypeScript文件会放在`src`文件夹里，通过TypeScript编译器编译，然后经webpack处理，最后生成一个`bundle.js`文件放在`dist`目录下。
@@ -32,8 +31,9 @@ mkdir src
 cd src
 mkdir components
 cd ..
-mkdir dist
 ```
+
+Webpack会帮助我们生成`dist`目录。
 
 # 初始化工程
 
@@ -49,10 +49,10 @@ npm init
 
 # 安装依赖
 
-首先确保TypeScript和Webpack已经全局安装了。
+首先确保已经全局安装了Webpack。
 
 ```shell
-npm install -g typescript webpack
+npm install -g webpack
 ```
 
 Webpack这个工具可以将你的所有代码和可选择地将依赖捆绑成一个单独的`.js`文件。
@@ -68,20 +68,19 @@ npm install --save react react-dom @types/react @types/react-dom
 然而，并不是所有的包都包含了声明文件，所以TypeScript还会查看`@types/react`包。
 你会发现我们以后将不必在意这些。
 
-接下来，我们要添加开发时依赖[ts-loader](https://www.npmjs.com/package/ts-loader)和[source-map-loader](https://www.npmjs.com/package/source-map-loader)。
+接下来，我们要添加开发时依赖[awesome-typescript-loader](https://www.npmjs.com/package/awesome-typescript-loader)和[source-map-loader](https://www.npmjs.com/package/source-map-loader)。
 
 ```shell
-npm install --save-dev ts-loader source-map-loader
-npm link typescript
+npm install --save-dev typescript awesome-typescript-loader source-map-loader
 ```
 
 这些依赖会让TypeScript和webpack在一起良好地工作。
-ts-loader可以让webpack使用TypeScript的标准配置文件`tsconfig.json`编译TypeScript代码。
+awesome-typescript-loader可以让Webpack使用TypeScript的标准配置文件`tsconfig.json`编译TypeScript代码。
 source-map-loader使用TypeScript输出的sourcemap文件来告诉webpack何时生成*自己的*sourcemaps。
 这就允许你在调试最终生成的文件时就好像在调试TypeScript源码一样。
 
-链接TypeScript，允许ts-loader使用全局安装的TypeScript，而不需要单独的本地拷贝。
-如果你想要一个本地的拷贝，执行`npm install typescript`。
+注意我们安装TypeScript为一个开发依赖。
+我们还可以使用`npm link typescript`来链接TypeScript到一个全局拷贝，但这不是常见用法。
 
 # 添加TypeScript配置文件
 
@@ -100,16 +99,15 @@ source-map-loader使用TypeScript输出的sourcemap文件来告诉webpack何时�
         "target": "es5",
         "jsx": "react"
     },
-    "files": [
-        "./src/components/Hello.tsx",
-        "./src/index.tsx"
+    "include": [
+        "./**/*"
     ]
 }
 ```
 
 你可以在[这里](../tsconfig.json.md)了解更多关于`tsconfig.json`文件的说明。
 
-# 写一些代码
+# 写些代码
 
 下面使用React写一段TypeScript代码。
 首先，在`src/components`目录下创建一个名为`Hello.tsx`的文件，代码如下：
@@ -119,15 +117,25 @@ import * as React from "react";
 
 export interface HelloProps { compiler: string; framework: string; }
 
-export class Hello extends React.Component<HelloProps, {}> {
+const Hello = (props: HelloProps) => <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
+
+```
+
+注意这个例子使用了[无状态的功能组件](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions))，我们可以让它更像一点*类*。
+
+```ts
+import * as React from "react";
+
+export interface HelloProps { compiler: string; framework: string; }
+
+// 'HelloProps' describes the shape of props.
+// State is never set so we use the 'undefined' type.
+export class Hello extends React.Component<HelloProps, undefined> {
     render() {
         return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
     }
 }
 ```
-
-注意一点这个例子已经很像类了，我们不再需要使用类。
-使用React的其它方式（比如[无状态的功能组件](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions)）。
 
 接下来，在`src`下创建`index.tsx`文件，源码如下：
 
@@ -197,8 +205,8 @@ module.exports = {
 
     module: {
         loaders: [
-            // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
-            { test: /\.tsx?$/, loader: "ts-loader" }
+            // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
+            { test: /\.tsx?$/, loader: "awesome-typescript-loader" }
         ],
 
         preLoaders: [

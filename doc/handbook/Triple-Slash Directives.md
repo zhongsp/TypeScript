@@ -37,6 +37,25 @@
 
 如果指定了`--noResolve`编译选项，三斜线引用会被忽略；它们不会增加新文件，也不会改变给定文件的顺序。
 
+## `/// <reference types="..." />`
+
+与`/// <reference path="..." />`指令相似，这个指令是用来声明*依赖*的；
+一个`/// <reference path="..." />`指令声明了对`@types`包的一个依赖。
+
+在声明文件里包含`/// <reference types="node" />`，表明这个文件使用了`@types/node/index.d.ts`里面声明的名字；
+并且，这个包要在编译阶段与声明文件一起被包含进来。
+
+解析`@types`包的名字的过程与解析`import`语句里模块名的过程类似。
+所以可以简单的把三斜线类型引用指令想像成针对包的`import`声明。
+
+仅当在你需要写一个`d.ts`文件时才使用这个指令。
+
+对于那些在编译阶段生成的声明文件，编译器会自动地添加`/// <reference types="..." />`；
+*当且仅当*结果文件中使用了引用的`@types`包里的声明时才会在生成的声明文件里添加`/// <reference types="..." />`语句。
+
+若要在`.ts`文件里声明一个对`@types`包的依赖，使用`--types`命令行选项或在`tsconfig.json`里指定。
+查看[在`tsconfig.json`里使用`@types`，`typeRoots`和`types`](./tsconfig.json.md#types-typeroots-and-types)了解详情。
+
 ## `/// <reference no-default-lib="true"/>`
 
 这个指令把一个文件标记成*默认库*。
