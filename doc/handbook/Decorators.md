@@ -175,7 +175,7 @@ function sealed(constructor: Function) {
 2. 成员的名字。
 3. 成员的*属性描述符*。
 
-> 注意&emsp; 如果代码输出目标版本小于`ES5`，*Property Descriptor*将会是`undefined`。
+> 注意&emsp; 如果代码输出目标版本小于`ES5`，*属性描述符*将会是`undefined`。
 
 如果方法装饰器返回一个值，它会被用作方法的*属性描述符*。
 
