@@ -208,6 +208,8 @@ var Derived = (function (_super) {
 }(Base));
 ```
 
+> 这在继承内置类如`Error`，`Array`，`Map`等的行为上有了破坏性的改变。请阅读[extending built-ins breaking change documnetation](https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work)。
+
 ## 配置继承
 
 通常一个项目有多个输出版本，比如`ES5`和`ES2015`，调试和生产或`Commonjs`和`System`。只有几个配置选项在这两个版本之间改变，并且维护多个`tsconfig.json`文件是麻烦的。
