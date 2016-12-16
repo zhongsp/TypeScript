@@ -389,7 +389,7 @@ foo!.length; // okay - 'foo!' just has type 'string[]'
 ```ts
 class Point {
     constuctor(public x, public y) {}
-    getDistance(point: Point) {
+    getDistance(p: Point) {
         let dx = p.x - this.x;
         let dy = p.y - this.y;
         return Math.sqrt(dx ** 2 + dy ** 2);
