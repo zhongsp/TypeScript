@@ -1,3 +1,276 @@
+## `keyof`和查找类型
+
+在JavaScript中属性名称作为参数的API是相当普遍的，但是到目前为止还没有表达在那些API中出现的类型关系。
+
+输入索引类型查询或`keyof`，索引类型查询`keyof T`产生的类型是`T`的属性名称。`keyof T`的类型被认为是`string`的子类型。
+
+#### 示例
+
+```ts
+interface Person {
+    name: string;
+    age: number;
+    location: string;
+}
+
+type K1 = keyof Person; // "name" | "age" | "location"
+type K2 = keyof Person[];  // "length" | "push" | "pop" | "concat" | ...
+type K3 = keyof { [x: string]: Person };  // string
+```
+
+与之相对应的是*索引访问类型*，也称为*查找类型*。在语法上，它们看起来像元素访问，但是写成类型：
+
+#### 示例
+
+```ts
+type P1 = Person["name"];  // string
+type P2 = Person["name" | "age"];  // string | number
+type P3 = string["charAt"];  // (pos: number) => string
+type P4 = string[]["push"];  // (...items: string[]) => number
+type P5 = string[][0];  // string
+```
+
+你可以将这种模式和类型系统的其它部分一起使用，以获取类型安全的查找。
+
+```ts
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+    return obj[key];  // 推断类型是T[K]
+}
+
+function setProperty<T, K extends keyof T>(obj: T, key: K, value: T[K]) {
+    obj[key] = value;
+}
+
+let x = { foo: 10, bar: "hello!" };
+
+let foo = getProperty(x, "foo"); // number
+let bar = getProperty(x, "bar"); // string
+
+let oops = getProperty(x, "wargarbl"); // 错误！"wargarbl"不存在"foo" | "bar"中
+
+setProperty(x, "foo", "string"); // 错误！, 类型是number而非string
+```
+
+## 映射类型
+
+一个常见的任务是使用现有类型并使其每个属性完全可选。假设我们有一个`Person`：
+
+```ts
+interface Person {
+    name: string;
+    age: number;
+    location: string;
+}
+```
+
+`Person`的可选属性类型将是这样：
+
+```ts
+interface PartialPerson {
+    name?: string;
+    age?: number;
+    location?: string;
+}
+```
+
+使用映射类型，`PartialPerson`可以写成是`Person`类型的广义变换：
+
+```ts
+type Partial<T> = {
+    [P in keyof T]?: T[P];
+};
+
+type PartialPerson = Partial<Person>;
+```
+
+映射类型是通过使用字面量类型的集合而生成的，并为新对象类型计算一组属性。它们就像[Python中的列表推导式](https://docs.python.org/2/tutorial/datastructures.html#nested-list-comprehensions)，但不是在列表中产生新的元素，而是在类型中产生新的属性。
+
+除`Partial`外，映射类型可以表示许多有用的类型转换：
+
+```ts
+// 保持类型相同，但每个属性是只读的。
+type Readonly<T> = {
+    readonly [P in keyof T]: T[P];
+};
+
+// 相同的属性名称，但使值是一个Promise，而不是一个具体的值
+type Deferred<T> = {
+    [P in keyof T]: Promise<T[P]>;
+};
+
+// 为T的属性添加代理
+type Proxify<T> = {
+    [P in keyof T]: { get(): T[P]; set(v: T[P]): void }
+};
+```
+
+## `Partial`,`Readonly`,`Record`和`Pick`
+
+`Partial`和`Readonly`，如前所述，是非常有用的结构。你可以使用它们来描述像一些常见的JS程序：
+
+```ts
+function assign<T>(obj: T, props: Partial<T>): void;
+function freeze<T>(obj: T): Readonly<T>;
+```
+
+因此，它们现在默认包含在标准库中。
+
+我们还包括两个其他实用程序类型：`Record`和`Pick`。
+
+```ts
+// 从T中选取一组属性K
+declare function pick<T, K extends keyof T>(obj: T, ...keys: K[]): Pick<T, K>;
+
+const nameAndAgeOnly = pick(person, "name", "age");  // { name: string, age: number }
+```
+
+```ts
+// 对于类型T的每个属性K，将其转换为U
+function mapObject<K extends string | number, T, U>(obj: Record<K, T>, f: (x: T) => U): Record<K, U>
+
+const names = { foo: "hello", bar: "world", baz: "bye" };
+const lengths = mapObject(names, s => s.length);  // { foo: number, bar: number, baz: number }
+```
+
+## 对象扩展运算符和rest运算符
+
+TypeScript 2.1带来了[ES2017扩展运算符和rest运算符](https://github.com/sebmarkbage/ecmascript-rest-spread)的支持。
+
+类似于数组扩展，展开对象可以方便得到浅拷贝：
+
+```ts
+let copy = { ...original };
+```
+
+同样，您可以合并几个不同的对象。在以下示例中，合并将具有来自`foo`，`bar`和`baz`的属性。
+
+```ts
+let merged = { ...foo, ...bar, ...baz };
+```
+
+还可以重写现有属性并添加新属性.：
+
+```ts
+let obj = { x: 1, y: "string" };
+var newObj = {...obj, z: 3, y: 4}; // { x: number, y: number, z: number }
+```
+
+指定展开操作的顺序确定哪些属性在最终的结果对象中。相同的属性，后面的属性会“覆盖”前面的属性。
+
+与对象扩展运算符相对的是对象rest运算符，因为它可以提取解构元素中剩余的元素：
+
+```ts
+let obj = { x: 1, y: 1, z: 1 };
+let { z, ...obj1 } = obj;
+obj1; // {x: number, y: number};
+```
+
+## 低版本异步函数
+
+该特性在TypeScript 2.1之前就已经支持了，但是只能编译为ES6或者ES2015。TypeScript 2.1使其该特性可以在ES3和ES5运行时上使用，这意味着无论您使用什么环境，都可以使用它。
+>注：首先，我们需要确保我们的运行时提供全局的ECMAScript兼容性`Promise`。这可能需要获取`Promise`的[polyfill](https://github.com/stefanpenner/es6-promise)，或者依赖运行时的版本。我们还需要通过设置`lib`编译参数，比如`"dom","es2015"`或`"dom","es2015.promise","es5"`来确保TypeScript知道`Promise`可用。
+
+#### 示例
+
+##### tsconfig.json
+
+```json
+{
+    "compilerOptions": {
+        "lib": ["dom", "es2015.promise", "es5"]
+    }
+}
+```
+
+##### dramaticWelcome.ts
+
+```typescript
+function delay(milliseconds: number) {
+    return new Promise<void>(resolve => {
+        setTimeout(resolve, milliseconds);
+    });
+}
+
+async function dramaticWelcome() {
+    console.log("Hello");
+
+    for (let i = 0; i < 3; i++) {
+        await delay(500);
+        console.log(".");
+    }
+
+    console.log("World!");
+}
+
+dramaticWelcome();
+```
+
+编译和运行输出应该会在ES3/ES5引擎上产生正确的行为。
+
+## 支持外部辅助库（`tslib`）
+
+TypeScript注入了一些辅助函数，如继承`_extends`、JSX中的展开运算符`__assign`和异步函数`__awaiter`。
+
+以前有两个选择：
+
+1. 在*每一个*需要辅助库的文件都注入辅助库或者
+1. 使用`--noEmitHelpers`编译参数完全不使用辅助库。
+
+这两项还有待改进。将帮助文件捆绑在每个文件中对于试图保持其包尺寸小的客户而言是一个痛点。不使用辅助库，那么客户就必须自己维护辅助库。
+
+TypeScript 2.1 允许这些辅助库作为单独的模块一次性添加到项目中，并且编译器根据需求导入它们。
+
+首先，安装`tslib`：
+
+```shell
+npm install tslib
+```
+
+然后，使用`--importHelpers`编译你的文件：
+
+```shell
+tsc --module commonjs --importHelpers a.ts
+```
+
+因此下面的输入，生成的`.js`文件将包含`tslib`的导入和使用`__assign`辅助函数替代内联操作。
+
+```ts
+export const o = { a: 1, name: "o" };
+export const copy = { ...o };
+```
+
+```js
+"use strict";
+var tslib_1 = require("tslib");
+exports.o = { a: 1, name: "o" };
+exports.copy = tslib_1.__assign({}, exports.o);
+```
+
+## 无类型导入
+
+TypeScript历来对于如何导入模块过于严格。这是为了避免输入错误，并防止用户错误地使用模块。
+
+但是，很多时候你可能只想导入的现有模块，但是这些模块可能没有`.d.ts`文件。以前这是错误的。从TypeScript 2.1开始，这更容易了。
+
+使用TypeScript 2.1，您可以导入JavaScript模块，而不需要类型声明。如果类型声明（如`declare module "foo" { ... }`或`node_modules/@types/foo`）存在，则仍然优先。
+
+对于没有声明文件的模块的导入，在使用了`--noImplicitAny`编译参数后仍将被标记为错误。
+
+```ts
+// Succeeds if `node_modules/asdf/index.js` exists
+import { x } from "asdf";
+```
+
+## 支持`--target ES2016`,`--target ES2017`和`--target ESNext`
+
+TypeScript 2.1支持三个新的编译版本值`--target ES2016`,`--target ES2017`和`--target ESNext`。
+
+使用target`--target ES2016`将指示编译器不要编译ES2016特有的特性，比如`**`操作符。
+
+同样，`--target ES2017`将指示编译器不要编译ES2017特有的特性像`async/await`。
+
+`--target ESNext`则对应最新的[ES提议特性](https://github.com/tc39/proposals)支持.
+
 ## 改进`any`类型推断
 
 以前，如果TypeScript无法确定变量的类型，它将选择`any`类型。
@@ -10,6 +283,8 @@ let z: any; // 显式 'any'.
 ```
 
 使用TypeScript 2.1，TypeScript不是仅仅选择`any`类型，而是基于你后面的赋值来推断类型。
+
+仅当设置了`--noImplicitAny`编译参数时，才会启用此选项。
 
 #### 示例
 
@@ -73,66 +348,6 @@ function f3() {
         x;    // 错误：变量'x'隐式具有'any【】'类型。
     }
 }
-```
-
-## 低版本异步函数
-
-该特性在TypeScript 2.1之前就已经支持了，但是只能编译为ES6或者ES2015。TypeScript 2.1使其该特性可以在ES3和ES5运行时上使用，这意味着无论您使用什么环境，都可以使用它。
->注：首先，我们需要确保我们的运行时提供全局的ECMAScript兼容性`Promise`。这可能需要获取`Promise`的[polyfill](https://github.com/stefanpenner/es6-promise)，或者依赖运行时的版本。我们还需要通过设置`lib`编译参数，比如`"dom","es2015"`或`"dom","es2015.promise","es5"`来确保TypeScript知道`Promise`可用。
-
-#### 示例
-
-##### tsconfig.json
-
-```json
-{
-    "compilerOptions": {
-        "lib": ["dom", "es2015.promise", "es5"]
-    }
-}
-```
-
-##### dramaticWelcome.ts
-
-```typescript
-function delay(milliseconds: number) {
-    return new Promise<void>(resolve => {
-        setTimeout(resolve, milliseconds);
-    });
-}
-
-async function dramaticWelcome() {
-    console.log("Hello");
-
-    for (let i = 0; i < 3; i++) {
-        await delay(500);
-        console.log(".");
-    }
-
-    console.log("World!");
-}
-
-dramaticWelcome();
-```
-
-编译和运行输出应该会在ES3/ES5引擎上产生正确的行为。
-
-## 支持外部辅助库（`tslib`）
-
-TypeScript注入了一些辅助函数，如继承`_extends`、JSX中的展开运算符`__assign`和异步函数`__awaiter`。以前有两个选择，1.在*每一个*需要辅助库的文件都注入辅助库或者2.使用`--noEmitHelpers`编译参数完全不使用辅助库。
-
-TypeScript 2.1 允许这些辅助库作为单独的模块一次性添加到项目中，并且编译器根据需求导入它们。
-
-首先，安装`tslib`：
-
-```shell
-npm install tslib
-```
-
-然后，使用`--importHelpers`编译你的文件：
-
-```shell
-tsc --module commonjs --importHelpers a.ts
 ```
 
 ## 更好的字面量类型推断
@@ -284,7 +499,3 @@ TypeScript 2.1支持使用`extends`来继承配置，其中：
 使用`--alwaysStrict`调用编译器原因：1.在严格模式下解析的所有代码。2.在每一个生成文件上输出`"use strict";`指令;
 
 模块会自动使用严格模式解析。对于非模块代码，建议使用该编译参数。
-
-## 支持`--target ES2016`和`--target ES2017`
-
-TypeScript 2.1支持两个新的target值`--target ES2016`和`--target ES2017`。使用target`--target ES2016`将指示编译器不要编译ES2016特有的特性，比如`**`操作符。同样，`--target ES2017`将指示编译器不要编译ES2017特有的特性像`async/await`。
