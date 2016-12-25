@@ -101,6 +101,9 @@ source-map-loader使用TypeScript输出的sourcemap文件来告诉webpack何时�
     },
     "include": [
         "./**/*"
+    ],
+    "exclude": [
+        "node_modules"
     ]
 }
 ```
@@ -117,7 +120,7 @@ import * as React from "react";
 
 export interface HelloProps { compiler: string; framework: string; }
 
-const Hello = (props: HelloProps) => <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
+export const Hello = (props: HelloProps) => <h1>Hello from {props.compiler} and {props.framework}!</h1>;
 
 ```
 

@@ -102,7 +102,7 @@
 `node_modules/@types`文件夹下以及它们子文件夹下的所有包都是*可见的*；
 也就是说，`./node_modules/@types/`，`../node_modules/@types/`和`../../node_modules/@types/`等等。
 
-如果指定了`typesRoots`，*只有*`typesRoots`下面的包才会被包含进来。
+如果指定了`typeRoots`，*只有*`typeRoots`下面的包才会被包含进来。
 比如：
 
 ```json

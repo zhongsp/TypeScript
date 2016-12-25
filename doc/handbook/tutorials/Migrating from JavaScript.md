@@ -279,7 +279,7 @@ function myCoolFunction() {
 }
 
 myCoolFunction(function(x) { console.log(x) }, [1, 2, 3, 4]);
-myCoolFunction(function(x) { console.log(x) }, 1, 2, 3, 4]);
+myCoolFunction(function(x) { console.log(x) }, 1, 2, 3, 4);
 ```
 
 这种情况下，我们需要利用TypeScript的函数重载来告诉调用者`myCoolFunction`函数的调用方式。
@@ -389,7 +389,7 @@ foo!.length; // okay - 'foo!' just has type 'string[]'
 ```ts
 class Point {
     constuctor(public x, public y) {}
-    getDistance(point: Point) {
+    getDistance(p: Point) {
         let dx = p.x - this.x;
         let dy = p.y - this.y;
         return Math.sqrt(dx ** 2 + dy ** 2);
