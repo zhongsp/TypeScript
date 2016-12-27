@@ -101,9 +101,6 @@ source-map-loader使用TypeScript输出的sourcemap文件来告诉webpack何时�
     },
     "include": [
         "./src/**/*"
-    ],
-    "exclude": [
-        "node_modules"
     ]
 }
 ```
