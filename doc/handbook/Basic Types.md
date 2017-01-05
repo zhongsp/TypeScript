@@ -15,7 +15,7 @@ let isDone: boolean = false;
 
 和JavaScript一样，TypeScript里的所有数字都是浮点数。
 这些浮点数的类型是`number`。
-除了支持十进制和十六进制字面量，Typescript还支持ECMAScript 2015中引入的二进制和八进制字面量。
+除了支持十进制和十六进制字面量，TypeScript还支持ECMAScript 2015中引入的二进制和八进制字面量。
 
 ```ts
 let decLiteral: number = 6;

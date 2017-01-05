@@ -64,7 +64,7 @@ import * as m from "SomeModule";
 ```
 
 这里的引用标签指定了外来模块的位置。
-这就是一些Typescript例子中引用`node.d.ts`的方法。
+这就是一些TypeScript例子中引用`node.d.ts`的方法。
 
 ## 不必要的命名空间
 
