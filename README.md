@@ -4,7 +4,9 @@
 
 [TypeScript 2.1 正式发布!](https://blogs.msdn.microsoft.com/typescript/2016/12/07/announcing-typescript-2-1/)
 
-![TypeScript Statistics](https://msdnshared.blob.core.windows.net/media/2016/09/ts-2-0-npm-downloads.png)
+![TypeScript Statistics](./misc/ts-2-1-release.jpg)
+
+![TypeScript Statistics](./misc/ts-2-0-npm-downloads.png)
 
 TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript. <http://www.typescriptlang.org>
 
