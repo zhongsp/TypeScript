@@ -98,7 +98,7 @@ validators["Letters only"] = new Validation.LettersOnlyValidator();
 
 // Show whether each string passed each validator
 for (let s of strings) {
-    for (var name in validators) {
+    for (let name in validators) {
         console.log(`"${ s }" - ${ validators[name].isAcceptable(s) ? "matches" : "does not match" } ${ name }`);
     }
 }
