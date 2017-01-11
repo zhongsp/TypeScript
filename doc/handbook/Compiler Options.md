@@ -65,7 +65,7 @@
 `--stripInternal`<sup>[1]</sup>         | `boolean` | `false`                  | 不对具有`/** @internal */` JSDoc注解的代码生成代码。
 `--suppressExcessPropertyErrors`<sup>[1]</sup> | `boolean` | `false`           | 阻止对对象字面量的额外属性检查。
 `--suppressImplicitAnyIndexErrors`      | `boolean` | `false`                  | 阻止`--noImplicitAny`对缺少索引签名的索引对象报错。查看[issue #1232](https://github.com/Microsoft/TypeScript/issues/1232#issuecomment-64510362)了解详情。
-`--target`<br/>`-t`                     | `string`  | `"ES5"`                  | 指定ECMAScript目标版本`"ES3"`（默认），`"ES5"`，`"ES6"`/`"ES2015"`，`"ES2016"`，`"ES2017"`或`"ESNext"`。<br/><br/> 注意：`"ESNext"`最新的生成目标列表为[ES proposed features](https://github.com/tc39/proposals)
+`--target`<br/>`-t`                     | `string`  | `"ES3"`                  | 指定ECMAScript目标版本`"ES3"`（默认），`"ES5"`，`"ES6"`/`"ES2015"`，`"ES2016"`，`"ES2017"`或`"ESNext"`。<br/><br/> 注意：`"ESNext"`最新的生成目标列表为[ES proposed features](https://github.com/tc39/proposals)
 `--traceResolution`                     | `boolean` | `false`                  | 生成模块解析日志信息
 `--types`                               | `string[]`|                          | 要包含的类型声明文件名列表。查看[@types，--typeRoots和--types](./tsconfig.json.md#types-typeroots-and-types)章节了解详细信息。
 `--typeRoots`                           | `string[]`|                          | 要包含的类型声明文件路径列表。查看[@types，--typeRoots和--types](./tsconfig.json.md#types-typeroots-and-types)章节了解详细信息。
