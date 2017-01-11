@@ -433,8 +433,6 @@ kitty.numLives--;
 这个手册大部分地方都使用了`let`。
 
 跟据你的自己判断，如果合适的话，与团队成员商议一下。
-Fortunately, TypeScript allows you to specify that members of an object are `readonly`.
-The [chapter on Interfaces](./Interfaces.md) has the details.
 
 # 解构
 
