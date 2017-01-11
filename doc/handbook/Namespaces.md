@@ -6,11 +6,8 @@
 # 介绍
 
 这篇文章描述了如何在TypeScript里使用命名空间（之前叫做“内部模块”）来组织你的代码。
-
 就像我们在术语说明里提到的那样，“内部模块”现在叫做“命名空间”。
-
 另外，任何使用`module`关键字来声明一个内部模块的地方都应该使用`namespace`关键字来替换。
-
 这就避免了让新的使用者被相似的名称所迷惑。
 
 # 第一步
@@ -42,16 +39,19 @@ class ZipCodeValidator implements StringValidator {
 
 // Some samples to try
 let strings = ["Hello", "98052", "101"];
+
 // Validators to use
 let validators: { [s: string]: StringValidator; } = {};
 validators["ZIP code"] = new ZipCodeValidator();
 validators["Letters only"] = new LettersOnlyValidator();
+
 // Show whether each string passed each validator
-strings.forEach(s => {
+for (let s of strings) {
     for (let name in validators) {
-        console.log(""" + s + "" " + (validators[name].isAcceptable(s) ? " matches " : " does not match ") + name);
+        let isMatch = validators[name].isAcceptable(s);
+        console.log(`'${ s }' ${ isMatch ? "matches" : "does not match" } '${ name }'.`);
     }
-});
+}
 ```
 
 # 命名空间
@@ -90,16 +90,18 @@ namespace Validation {
 
 // Some samples to try
 let strings = ["Hello", "98052", "101"];
+
 // Validators to use
 let validators: { [s: string]: Validation.StringValidator; } = {};
 validators["ZIP code"] = new Validation.ZipCodeValidator();
 validators["Letters only"] = new Validation.LettersOnlyValidator();
+
 // Show whether each string passed each validator
-strings.forEach(s => {
+for (let s of strings) {
     for (let name in validators) {
         console.log(`"${ s }" - ${ validators[name].isAcceptable(s) ? "matches" : "does not match" } ${ name }`);
     }
-});
+}
 ```
 
 # 分离到多文件
@@ -160,16 +162,18 @@ namespace Validation {
 
 // Some samples to try
 let strings = ["Hello", "98052", "101"];
+
 // Validators to use
 let validators: { [s: string]: Validation.StringValidator; } = {};
 validators["ZIP code"] = new Validation.ZipCodeValidator();
 validators["Letters only"] = new Validation.LettersOnlyValidator();
+
 // Show whether each string passed each validator
-strings.forEach(s => {
+for (let s of strings) {
     for (let name in validators) {
         console.log(""" + s + "" " + (validators[name].isAcceptable(s) ? " matches " : " does not match ") + name);
     }
-});
+}
 ```
 
 当涉及到多文件时，我们必须确保所有编译后的代码都被加载了。
@@ -192,7 +196,7 @@ tsc --outFile sample.js Validation.ts LettersOnlyValidator.ts ZipCodeValidator.t
 
 ##### MyTestPage.html (excerpt)
 
-```ts
+```html
     <script src="Validation.js" type="text/javascript" />
     <script src="LettersOnlyValidator.js" type="text/javascript" />
     <script src="ZipCodeValidator.js" type="text/javascript" />
@@ -259,5 +263,5 @@ declare namespace D3 {
     }
 }
 
-declare let d3: D3.Base;
+declare var d3: D3.Base;
 ```

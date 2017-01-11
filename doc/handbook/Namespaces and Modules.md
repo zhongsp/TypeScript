@@ -64,7 +64,7 @@ import * as m from "SomeModule";
 ```
 
 这里的引用标签指定了外来模块的位置。
-这就是一些Typescript例子中引用`node.d.ts`的方法。
+这就是一些TypeScript例子中引用`node.d.ts`的方法。
 
 ## 不必要的命名空间
 
@@ -115,4 +115,4 @@ let t = new shapes.Triangle();
 
 就像每个JS文件对应一个模块一样，TypeScript里模块文件与生成的JS文件也是一一对应的。
 这会产生一种影响，根据你指定的目标模块系统的不同，你可能无法连接多个模块源文件。
-例如当目标模块系统为`commonjs`或`umd`时，无法使用`outFile`选项，但是在TypeScript 1.8以上的版本[能够](https://www.typescriptlang.org/docs/release-notes/typescript-1.8.html#concatenate-amd-and-system-modules-with---outfile)使用`outFile`当目标为`amd`或`system`。
+例如当目标模块系统为`commonjs`或`umd`时，无法使用`outFile`选项，但是在TypeScript 1.8以上的版本[能够](./release notes/TypeScript 1.8.md#concatenate-amd-and-system-modules-with---outfile)使用`outFile`当目标为`amd`或`system`。

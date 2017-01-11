@@ -83,11 +83,11 @@ TypeScript还能发现那些执行不到的代码和标签，你可以通过设�
 ## Webpack
 
 Webpack集成非常简单。
-你可以使用`ts-loader`，它是一个TypeScript的加载器，结合`source-map-loader`方便调试。
+你可以使用`awesome-typescript-loader`，它是一个TypeScript的加载器，结合`source-map-loader`方便调试。
 运行：
 
 ```shell
-npm install ts-loader source-map-loader
+npm install awesome-typescript-loader source-map-loader
 ```
 
 并将下面的选项合并到你的`webpack.config.js`文件里：
@@ -109,8 +109,8 @@ module.exports = {
 
     module: {
         loaders: [
-            // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
-            { test: /\.tsx?$/, loader: "ts-loader" }
+            // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
+            { test: /\.tsx?$/, loader: "awesome-typescript-loader" }
         ],
 
         preLoaders: [
@@ -123,7 +123,11 @@ module.exports = {
 };
 ```
 
-要注意的是`ts-loader`必须在其它处理`.js`文件的加载器之前运行。
+要注意的是，`awesome-typescript-loader`必须在其它处理`.js`文件的加载器之前运行。
+
+这与另一个TypeScript的Webpack加载器[ts-loader](https://github.com/TypeStrong/ts-loader)是一样的。
+你可以到[这里](https://github.com/s-panferov/awesome-typescript-loader#differences-between-ts-loader)了解两者之间的差别。
+
 你可以在[React和Webpack教程](./React & Webpack.md)里找到使用Webpack的例子。
 
 # 转换到TypeScript文件
