@@ -157,8 +157,8 @@ else {
 
 ## 用户自定义的类型保护
 
-可以注意到我们不得不多次使用类型断言。
-假如一旦我们检查过类型，就能够在之后的每个分支里清楚的知道`pet`的类型的话就好了。
+这里可以注意到我们不得不多次使用类型断言。
+假若我们一旦检查过类型，就能在之后的每个分支里清楚地知道`pet`的类型的话就好了。
 
 TypeScript里的*类型保护*机制让它成为了现实。
 类型保护就是一些表达式，它们会在运行时检查以确保在某个作用域里的类型。
@@ -171,7 +171,7 @@ function isFish(pet: Fish | Bird): pet is Fish {
 ```
 
 在这个例子里，`pet is Fish`就是类型谓词。
-一个谓词为`parameterName is Type`这种形式，`parameterName`必须是来自于当前函数签名里的一个参数名。
+谓词为`parameterName is Type`这种形式，`parameterName`必须是来自于当前函数签名里的一个参数名。
 
 每当使用一些变量调用`isFish`时，TypeScript会将变量缩减为那个具体的类型，只要这个类型与变量的原始类型是兼容的。
 
@@ -673,8 +673,8 @@ let v = new ScientificCalculator(2)
 
 # 索引类型（Index types）
 
-使用索引类型，就可以让编译器检查使用了动态属性名代码。
-例如，常见的JavaScript模式是从对象中选取属性的子集。
+使用索引类型，编译器就能够检查使用了动态属性名的代码。
+例如，一个常见的JavaScript模式是从对象中选取属性的子集。
 
 ```js
 function pluck(o, names) {
@@ -682,7 +682,7 @@ function pluck(o, names) {
 }
 ```
 
-下面是如何在TypeScript里使用此函数，使用**索引类型查询**和**索引访问**操作符：
+下面是如何在TypeScript里使用此函数，通过**索引类型查询**和**索引访问**操作符：
 
 ```ts
 function pluck<T, K extends keyof T>(o: T, names: K[]): T[K][] {
@@ -698,7 +698,7 @@ let strings: string[] = pluck(person, ['name']); // ok, string[]
 ```
 
 编译器会检查`name`是否为`Person`的属性，且它清楚`strings`为`string[]`类型，因为`name`为`string`类型。
-为了让它工作，这个例子引入了几个类型操作符。
+为了让它能够工作，这个例子还引入了几个类型操作符。
 首先是`keyof T`，**索引类型查询操作符**。
 对于任何类型`T`，`keyof T`的结果为`T`上已知的公共属性名的联合。
 例如：
@@ -707,21 +707,21 @@ let strings: string[] = pluck(person, ['name']); // ok, string[]
 let personProps: keyof Person; // 'name' | 'age'
 ```
 
-`keyof Person`是完全可以与`'name' | 'age'`互相替换。
-不同的是如果你添加其它的属性到`Person`，假设是`address: string`，那么`keyof Person`会自动变成`'name' | 'age' | 'address'`。
-你可以在像在`pluck`这样的普通上下文里使用`keyof`，你在使用之前并不清楚可能出现的属性名。
-就是说编译器会检查你是否传入了正确的属性名给`pluck`：
+`keyof Person`是完全可以与`'name' | 'age'`互相替换的。
+不同的是如果你添加了其它的属性到`Person`，例如`address: string`，那么`keyof Person`会自动变为`'name' | 'age' | 'address'`。
+你可以在像`pluck`函数这类上下文里使用`keyof`，因为在使用之前你并不清楚可能出现的属性名。
+但编译器会检查你是否传入了正确的属性名给`pluck`：
 
 ```ts
 pluck(person, ['age', 'unknown']); // error, 'unknown' is not in 'name' | 'age'
 ```
 
 第二个操作符是`T[K]`，**索引访问操作符**。
-这里，类型语法反映了表达式语法。
-这意味着`person['name']`具有类型`Person['name']` &mdash; 在我们的例子里则为`string`。
+在这里，类型语法反映了表达式语法。
+这意味着`person['name']`具有类型`Person['name']` &mdash; 在我们的例子里则为`string`类型。
 然而，就像索引类型查询一样，你可以在普通的上下文里使用`T[K]`，这正是它的强大所在。
-你只在确保类型变量`K extends keyof T`。
-下面是一个使用了函数的例子。
+你只要确保类型变量`K extends keyof T`就可以了。
+例如下面`getProperty`函数的例子：
 
 ```ts
 function getProperty<T, K extends keyof T>(o: T, name: K): T[K] {
