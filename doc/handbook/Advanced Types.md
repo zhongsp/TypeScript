@@ -125,10 +125,10 @@ pet.swim();    // errors
 
 # 类型保护与区分类型（Type Guards and Differentiating Types）
 
-联合类型非常适合这样的情形，可接收的值有不同的类型。
-当我们想明确地知道是否拿到`Fish`时会怎么做？
-JavaScript里常用来区分2个可能值的方法是检查它们是否存在。
-像之前提到的，我们只能访问联合类型的所有类型中共有的成员。
+联合类型适合于那些值可以为不同类型的情况。
+但当我们想确切地了解是否为`Fish`时怎么办？
+JavaScript里常用来区分2个可能值的方法是检查成员是否存在。
+如之前提及的，我们只能访问联合类型中共同拥有的成员。
 
 ```ts
 let pet = getSmallPet();
@@ -157,12 +157,12 @@ else {
 
 ## 用户自定义的类型保护
 
-可以注意到我们使用了多次类型断言。
-如果我们只要检查过一次类型，就能够在后面的每个分支里清楚`pet`的类型的话就好了。
+可以注意到我们不得不多次使用类型断言。
+假如一旦我们检查过类型，就能够在之后的每个分支里清楚的知道`pet`的类型的话就好了。
 
 TypeScript里的*类型保护*机制让它成为了现实。
 类型保护就是一些表达式，它们会在运行时检查以确保在某个作用域里的类型。
-要定义一个类型保护，我们只要简单地定义一个函数，它的返回值是一个*类型断言*：
+要定义一个类型保护，我们只要简单地定义一个函数，它的返回值是一个*类型谓词*：
 
 ```ts
 function isFish(pet: Fish | Bird): pet is Fish {
@@ -170,8 +170,8 @@ function isFish(pet: Fish | Bird): pet is Fish {
 }
 ```
 
-在这个例子里，`pet is Fish`就是类型断言。
-一个断言是`parameterName is Type`这种形式，`parameterName`必须是来自于当前函数签名里的一个参数名。
+在这个例子里，`pet is Fish`就是类型谓词。
+一个谓词为`parameterName is Type`这种形式，`parameterName`必须是来自于当前函数签名里的一个参数名。
 
 每当使用一些变量调用`isFish`时，TypeScript会将变量缩减为那个具体的类型，只要这个类型与变量的原始类型是兼容的。
 
@@ -305,7 +305,6 @@ sn = undefined; // error, 'undefined'不能赋值给'string | null'
 ```
 
 注意，按照JavaScript的语义，TypeScript会把`null`和`undefined`区别对待。
-
 `string | null`，`string | undefined`和`string | undefined | null`是不同的类型。
 
 ## 可选参数和可选属性
@@ -671,3 +670,226 @@ let v = new ScientificCalculator(2)
 如果没有`this`类型，`ScientificCalculator`就不能够在继承`BasicCalculator`的同时还保持接口的连贯性。
 `multiply`将会返回`BasicCalculator`，它并没有`sin`方法。
 然而，使用`this`类型，`multiply`会返回`this`，在这里就是`ScientificCalculator`。
+
+# 索引类型（Index types）
+
+使用索引类型，就可以让编译器检查使用了动态属性名代码。
+例如，常见的JavaScript模式是从对象中选取属性的子集。
+
+```js
+function pluck(o, names) {
+    return names.map(n => o[n]);
+}
+```
+
+下面是如何在TypeScript里使用此函数，使用**索引类型查询**和**索引访问**操作符：
+
+```ts
+function pluck<T, K extends keyof T>(o: T, names: K[]): T[K][] {
+  return names.map(n => o[n]);
+}
+
+interface Person {
+    name: string;
+    age: number;
+}
+let person: Person;
+let strings: string[] = pluck(person, ['name']); // ok, string[]
+```
+
+编译器会检查`name`是否为`Person`的属性，且它清楚`strings`为`string[]`类型，因为`name`为`string`类型。
+为了让它工作，这个例子引入了几个类型操作符。
+首先是`keyof T`，**索引类型查询操作符**。
+对于任何类型`T`，`keyof T`的结果为`T`上已知的公共属性名的联合。
+例如：
+
+```ts
+let personProps: keyof Person; // 'name' | 'age'
+```
+
+`keyof Person`是完全可以与`'name' | 'age'`互相替换。
+不同的是如果你添加其它的属性到`Person`，假设是`address: string`，那么`keyof Person`会自动变成`'name' | 'age' | 'address'`。
+你可以在像在`pluck`这样的普通上下文里使用`keyof`，你在使用之前并不清楚可能出现的属性名。
+就是说编译器会检查你是否传入了正确的属性名给`pluck`：
+
+```ts
+pluck(person, ['age', 'unknown']); // error, 'unknown' is not in 'name' | 'age'
+```
+
+第二个操作符是`T[K]`，**索引访问操作符**。
+这里，类型语法反映了表达式语法。
+这意味着`person['name']`具有类型`Person['name']` &mdash; 在我们的例子里则为`string`。
+然而，就像索引类型查询一样，你可以在普通的上下文里使用`T[K]`，这正是它的强大所在。
+你只在确保类型变量`K extends keyof T`。
+下面是一个使用了函数的例子。
+
+```ts
+function getProperty<T, K extends keyof T>(o: T, name: K): T[K] {
+    return o[name]; // o[name] is of type T[K]
+}
+```
+
+`getProperty`里的`o: T`和`name: K`，意味着`o[name]: T[K]`。
+当你返回`T[K]`的结果，编译器会实例化键的真实类型，因此`getProperty`的返回值类型会随着你需要的属性改变。
+
+```ts
+let name: string = getProperty(person, 'name');
+let age: number = getProperty(person, 'age');
+let unknown = getProperty(person, 'unknown'); // error, 'unknown' is not in 'name' | 'age'
+```
+
+## 索引类型和字符串索引签名
+
+`keyof`和`T[K]`与字符串索引签名进行交互。
+如果你有一个带有字符串索引签名的类型，那么`keyof T`会是`string`。
+并且`T[string]`为索引签名的类型：
+
+```ts
+interface Map<T> {
+    [key: string]: T;
+}
+let keys: keyof Map<number>; // string
+let value: Map<number>['foo']; // number
+```
+
+# 映射类型
+
+一个常见的任务是将一个已知的类型每个属性都变为可选的：
+
+```ts
+interface PersonPartial {
+    name?: string;
+    age?: number;
+}
+```
+
+或者我们想要一个只读版本：
+
+```ts
+interface PersonReadonly {
+    readonly name: string;
+    readonly age: number;
+}
+```
+
+这在JavaScript里经常出现，TypeScript提供了从旧类型中创建新类型的一种方式 &mdash; **映射类型**。
+在映射类型里，新类型以相同的形式去转换旧类型里每个属性。
+例如，你可以令每个属性成为`readonly`类型或可选的。
+下面是一些例子：
+
+```ts
+type Readonly<T> = {
+    readonly [P in keyof T]: T[P];
+}
+type Partial<T> = {
+    [P in keyof T]?: T[P];
+}
+```
+
+像下面这样使用：
+
+```ts
+type PersonPartial = Partial<Person>;
+type ReadonlyPerson = Readonly<Person>;
+```
+
+下面来看看最简单的映射类型和它的组成部分：
+
+```ts
+type Keys = 'option1' | 'option2';
+type Flags = { [K in Keys]: boolean };
+```
+
+它的语法与索引签名的语法类型，内部使用了`for .. in`。
+具有三个部分：
+
+1. 类型变量`K`，它会依次绑定到每个属性。
+2. 字符串字面量联合的`Keys`，它包含了要迭代的属性名的集合。
+3. 属性的结果类型。
+
+在个简单的例子里，`Keys`是硬编码的的属性名列表并且属性类型永远是`boolean`，因此这个映射类型等同于：
+
+```ts
+type Flags = {
+    option1: boolean;
+    option2: boolean;
+}
+```
+
+在真正的应用里，可能不同于上面的`Readonly`或`Partial`。
+它们会基于一些已存在的类型，且按照一定的方式转换字段。
+这就是`keyof`和索引访问类型要做的事情：
+
+```ts
+type NullablePerson = { [P in keyof Person]: Person[P] | null }
+type PartialPerson = { [P in keyof Person]?: Person[P] }
+```
+
+但它更有用的地方是可以有一些通用版本。
+
+```ts
+type Nullable<T> = { [P in keyof T]: T[P] | null }
+type Partial<T> = { [P in keyof T]?: T[P] }
+```
+
+在这些例子里，属性列表是`keyof T`且结果类型是`T[P]`的变体。
+这是使用通用映射类型的一个好模版。
+因为这类转换是[同态](https://en.wikipedia.org/wiki/Homomorphism)的，映射只作用于`T`的属性而没有其它的。
+编译器知道在添加任何新属性之前可以拷贝所有存在的属性修饰符。
+例如，假设`Person.name`是只读的，那么`Partial<Person>.name`也将是只读的且为可选的。
+
+下面是另一个例子，`T[P]`被包装在`Proxy<T>`类里：
+
+```ts
+type Proxy<T> = {
+    get(): T;
+    set(value: T): void;
+}
+type Proxify<T> = {
+    [P in keyof T]: Proxy<T[P]>;
+}
+function proxify<T>(o: T): Proxify<T> {
+   // ... wrap proxies ...
+}
+let proxyProps = proxify(props);
+```
+
+注意`Readonly<T>`和`Partial<T>`用处不小，因此它们与`Pick`和`Record`一周被包含进了TypeScript的标准库里：
+
+```ts
+type Pick<T, K extends keyof T> = {
+    [P in K]: T[P];
+}
+type Record<K extends string | number, T> = {
+    [P in K]: T;
+}
+```
+
+`Readonly`，`Partial`和`Pick`是同态的，但`Record`不是。
+因为`Record`并不需要输入类型来拷贝属性，所以它不属于同态：
+
+```ts
+type ThreeStringProps = Record<'prop1' | 'prop2' | 'prop3', string>
+```
+
+非同态类型本质上会创建新的属性，因此它们不会从它处拷贝属性修饰符。
+
+## 由映射类型进行推断
+
+现在你了解了如何包装一个类型的属性，那么接下来就是如果拆包。
+其实这也非常容易：
+
+```ts
+function unproxify<T>(t: Proxify<T>): T {
+    let result = {} as T;
+    for (const k in t) {
+        result[k] = t[k].get();
+    }
+    return result;
+}
+
+let originalProps = unproxify(proxyProps);
+```
+
+注意这个拆包推断只适用于同态的映射类型。
+如果映射类型不是同态的，那么需要给拆包函数一个明确的类型参数。
