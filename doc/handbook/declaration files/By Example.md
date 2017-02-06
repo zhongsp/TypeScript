@@ -166,7 +166,7 @@ greet(new MyGreeter());
 你可以使用类型别名来定义类型的短名：
 
 ```ts
-type GreetingLike = string | (() => string) | Greeting;
+type GreetingLike = string | (() => string) | MyGreeter;
 
 declare function greet(g: GreetingLike): void;
 ```

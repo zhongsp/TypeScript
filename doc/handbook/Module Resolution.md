@@ -142,7 +142,7 @@ TypeScript是模仿Node.js运行时的解析策略来在编译阶段定位模块
 回想一下Node.js先查找`moduleB.js`文件，然后是合适的`package.json`，再之后是`index.js`。
 
 类似地，非相对的导入会遵循Node.js的解析逻辑，首先查找文件，然后是合适的文件夹。
-因此`/src/moduleA.ts`文件里的`import { b } from "moduleB"`会以下面的查找顺序解析：
+因此`/root/src/moduleA.ts`文件里的`import { b } from "moduleB"`会以下面的查找顺序解析：
 
 1. `/root/src/node_modules/moduleB.ts`
 2. `/root/src/node_modules/moduleB.tsx`
