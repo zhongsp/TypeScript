@@ -1,3 +1,5 @@
+# TypeScript 2.0
+
 ## Null和undefined类型
 
 TypeScript现在有两个特殊的类型：Null和Undefined, 它们的值分别是`null`和`undefined`。
