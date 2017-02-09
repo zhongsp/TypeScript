@@ -693,7 +693,10 @@ interface Person {
     name: string;
     age: number;
 }
-let person: Person;
+let person: Person = {
+    name: 'Jarid',
+    age: 35
+};
 let strings: string[] = pluck(person, ['name']); // ok, string[]
 ```
 
