@@ -264,15 +264,15 @@ projectRoot
 * 导入'folder1/file2'
   1. 匹配'*'模式且通配符捕获到整个名字。
   2. 尝试列表里的第一个替换：'*' -> `folder1/file2`。
-  3. 替换结果为相对名 - 与*baseUrl*合并 -> `projectRoot/folder1/file2.ts`。
+  3. 替换结果为非相对名 - 与*baseUrl*合并 -> `projectRoot/folder1/file2.ts`。
   4. 文件存在。完成。
 * 导入'folder2/file3'
   1. 匹配'*'模式且通配符捕获到整个名字。
   2. 尝试列表里的第一个替换：'*' -> `folder2/file3`。
-  3. 替换结果为相对名 - 与*baseUrl*合并 -> `projectRoot/folder2/file3.ts`。
+  3. 替换结果为非相对名 - 与*baseUrl*合并 -> `projectRoot/folder2/file3.ts`。
   4. 文件不存在，跳到第二个替换。
   5. 第二个替换：'generated/*' -> `generated/folder2/file3`。
-  6. 替换结果为相对名 - 与*baseUrl*合并 -> `projectRoot/generated/folder2/file3.ts`。
+  6. 替换结果为非相对名 - 与*baseUrl*合并 -> `projectRoot/generated/folder2/file3.ts`。
   7. 文件存在。完成。
 
 ### 利用`rootDirs`指定虚拟目录
