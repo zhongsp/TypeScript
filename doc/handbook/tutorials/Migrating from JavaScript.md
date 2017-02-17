@@ -214,7 +214,7 @@ foo.doStuff();
 如果TypeScript报怨像是没有`lodash`包，那你只需这样做
 
 ```shell
-npm install -s @types/lodash
+npm install -S @types/lodash
 ```
 
 如果你没有使用`commonjs`模块模块选项，那么就需要将`moduleResolution`选项设置为`node`。
