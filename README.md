@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/zhongsp/TypeScript.svg?branch=master)](https://travis-ci.org/zhongsp/TypeScript)
 
-[TypeScript 2.2 RC 发布！](https://blogs.msdn.microsoft.com/typescript/2017/02/02/announcing-typescript-2-2-rc/)
+[TypeScript 2.2 发布！](https://blogs.msdn.microsoft.com/typescript/2017/02/22/announcing-typescript-2-2/)
 
 <img src="./misc/ts-2-1-release.jpg" alt="TypeScript Statistics" width="480" height="auto">
 
