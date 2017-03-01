@@ -199,13 +199,13 @@ TypeScript编译器有一些额外的标记用来*通知*编译器在源码编�
 
 注意相对模块的导入不会被设置的`baseUrl`所影响，因为它们总是相对于导入它们的文件。
 
-阅读更多关于`baseUrl`的信息[RequireJS](http://requirejs.org/docs/api.html#config-baseUrl)和[SystemJS](https://github.com/systemjs/systemjs/blob/master/docs/overview.md#baseurl)。
+阅读更多关于`baseUrl`的信息[RequireJS](http://requirejs.org/docs/api.html#config-baseUrl)和[SystemJS](https://github.com/systemjs/systemjs/blob/master/docs/config-api.md#baseurl)。
 
 ### 路径映射
 
 有时模块不是直接放在*baseUrl*下面。
 比如，充分`"jquery"`模块地导入，在运行时可能被解释为`"node_modules\jquery\dist\jquery.slim.min.js"`。
-加载器使用映射配置来将模块名映射到运行时的文件，查看[RequireJs documentation](http://requirejs.org/docs/api.html#config-paths)和[SystemJS documentation](https://github.com/systemjs/systemjs/blob/master/docs/overview.md#map-config)。
+加载器使用映射配置来将模块名映射到运行时的文件，查看[RequireJs documentation](http://requirejs.org/docs/api.html#config-paths)和[SystemJS documentation](https://github.com/systemjs/systemjs/blob/master/docs/config-api.md#paths)。
 
 TypeScript编译器通过使用`tsconfig.json`文件里的`"paths"`来支持这样的声明映射。
 下面是一个如何指定`jquery`的`"paths"`的例子。
