@@ -17,9 +17,7 @@ function reverse(s: String): String;
 function reverse(s: string): string;
 ```
 
-如果你就要使用`Object`类型，考虑使用`any`代替。
-目前在TypeScript里无法指定一个对象“不是一个原始值”。
-<!--(Revisit if/when #1809 is implemented)-->
+使用非原始的`object`类型来代替`Object` （[TypeScript 2.2新增](../../release-notes/TypeScript 2.2.md#object-type)）
 
 ## 泛型
 
