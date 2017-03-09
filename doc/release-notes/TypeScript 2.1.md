@@ -425,7 +425,7 @@ var Derived = (function (_super) {
 }(Base));
 ```
 
-> 这在继承内置类如`Error`，`Array`，`Map`等的行为上有了破坏性的改变。请阅读[extending built-ins breaking change documnetation](https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work)。
+> 这在继承内置类如`Error`，`Array`，`Map`等的行为上有了破坏性的改变。请阅读[extending built-ins breaking change documentation](https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work)。
 
 ## 配置继承
 
