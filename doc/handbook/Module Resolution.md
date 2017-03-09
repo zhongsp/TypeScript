@@ -33,7 +33,7 @@
 下面是一些例子：
 
 * `import * as $ from "jQuery";`
-* `import { Component } from "angular2/core";`
+* `import { Component } from "@angular/core";`
 
 相对导入解析时是相对于导入它的文件来的，并且*不能*解析为一个外部模块声明。
 你应该为你自己写的模块使用相对导入，这样能确保它们在运行时的相对位置。
