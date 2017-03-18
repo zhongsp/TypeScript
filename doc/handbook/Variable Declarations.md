@@ -227,7 +227,7 @@ console.log(e);
 ```
 
 拥有块级作用域的变量的另一个特点是，它们不能在被声明之前读或写。
-虽然这些变量始终“存在”于它们的作用域里，但在直到声明它的代码之前的区域都属于*时间死区*。
+虽然这些变量始终“存在”于它们的作用域里，但在直到声明它的代码之前的区域都属于*暂时性死区*。
 它只是用来说明我们不能在`let`语句之前访问它们，幸运的是TypeScript可以告诉我们这些信息。
 
 ```ts
@@ -252,7 +252,7 @@ foo();
 let a;
 ```
 
-关于*时间死区*的更多信息，查看这里[Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone_and_errors_with_let).
+关于*暂时性死区*的更多信息，查看这里[Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone_and_errors_with_let).
 
 ## 重定义及屏蔽
 
