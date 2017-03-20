@@ -163,6 +163,28 @@ function sealed(constructor: Function) {
 
 当`@sealed`被执行的时候，它将密封此类的构造函数和原型。(注：参见[Object.seal](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/seal))
 
+下面是一个重载构造函数的例子。
+
+```ts
+function classDecorator<T extends {new(...args:any[]):{}}>(constructor:T) {
+    return class extends constructor {
+        newProperty = "new property";
+        hello = "override";
+    }
+}
+
+@classDecorator
+class Greeter {
+    property = "property";
+    hello: string;
+    constructor(m: string) {
+        this.hello = m;
+    }
+}
+
+console.log(new Greeter("world"));
+```
+
 ## <a name="method-decorators"></a>方法装饰器
 
 *方法装饰器*声明在一个方法的声明之前（紧靠着方法声明）。

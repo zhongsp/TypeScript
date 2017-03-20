@@ -693,12 +693,15 @@ interface Person {
     name: string;
     age: number;
 }
-let person: Person;
+let person: Person = {
+    name: 'Jarid',
+    age: 35
+};
 let strings: string[] = pluck(person, ['name']); // ok, string[]
 ```
 
-编译器会检查`name`是否为`Person`的属性，且它清楚`strings`为`string[]`类型，因为`name`为`string`类型。
-为了让它能够工作，这个例子还引入了几个类型操作符。
+编译器会检查`name`是否真的是`Person`的一个属性。
+本例还引入了几个新的类型操作符。
 首先是`keyof T`，**索引类型查询操作符**。
 对于任何类型`T`，`keyof T`的结果为`T`上已知的公共属性名的联合。
 例如：

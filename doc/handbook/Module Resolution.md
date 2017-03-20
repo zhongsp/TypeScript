@@ -33,7 +33,7 @@
 下面是一些例子：
 
 * `import * as $ from "jQuery";`
-* `import { Component } from "angular2/core";`
+* `import { Component } from "@angular/core";`
 
 相对导入解析时是相对于导入它的文件来的，并且*不能*解析为一个外部模块声明。
 你应该为你自己写的模块使用相对导入，这样能确保它们在运行时的相对位置。
@@ -199,13 +199,13 @@ TypeScript编译器有一些额外的标记用来*通知*编译器在源码编�
 
 注意相对模块的导入不会被设置的`baseUrl`所影响，因为它们总是相对于导入它们的文件。
 
-阅读更多关于`baseUrl`的信息[RequireJS](http://requirejs.org/docs/api.html#config-baseUrl)和[SystemJS](https://github.com/systemjs/systemjs/blob/master/docs/overview.md#baseurl)。
+阅读更多关于`baseUrl`的信息[RequireJS](http://requirejs.org/docs/api.html#config-baseUrl)和[SystemJS](https://github.com/systemjs/systemjs/blob/master/docs/config-api.md#baseurl)。
 
 ### 路径映射
 
 有时模块不是直接放在*baseUrl*下面。
 比如，充分`"jquery"`模块地导入，在运行时可能被解释为`"node_modules\jquery\dist\jquery.slim.min.js"`。
-加载器使用映射配置来将模块名映射到运行时的文件，查看[RequireJs documentation](http://requirejs.org/docs/api.html#config-paths)和[SystemJS documentation](https://github.com/systemjs/systemjs/blob/master/docs/overview.md#map-config)。
+加载器使用映射配置来将模块名映射到运行时的文件，查看[RequireJs documentation](http://requirejs.org/docs/api.html#config-paths)和[SystemJS documentation](https://github.com/systemjs/systemjs/blob/master/docs/config-api.md#paths)。
 
 TypeScript编译器通过使用`tsconfig.json`文件里的`"paths"`来支持这样的声明映射。
 下面是一个如何指定`jquery`的`"paths"`的例子。
@@ -264,15 +264,15 @@ projectRoot
 * 导入'folder1/file2'
   1. 匹配'*'模式且通配符捕获到整个名字。
   2. 尝试列表里的第一个替换：'*' -> `folder1/file2`。
-  3. 替换结果为相对名 - 与*baseUrl*合并 -> `projectRoot/folder1/file2.ts`。
+  3. 替换结果为非相对名 - 与*baseUrl*合并 -> `projectRoot/folder1/file2.ts`。
   4. 文件存在。完成。
 * 导入'folder2/file3'
   1. 匹配'*'模式且通配符捕获到整个名字。
   2. 尝试列表里的第一个替换：'*' -> `folder2/file3`。
-  3. 替换结果为相对名 - 与*baseUrl*合并 -> `projectRoot/folder2/file3.ts`。
+  3. 替换结果为非相对名 - 与*baseUrl*合并 -> `projectRoot/folder2/file3.ts`。
   4. 文件不存在，跳到第二个替换。
   5. 第二个替换：'generated/*' -> `generated/folder2/file3`。
-  6. 替换结果为相对名 - 与*baseUrl*合并 -> `projectRoot/generated/folder2/file3.ts`。
+  6. 替换结果为非相对名 - 与*baseUrl*合并 -> `projectRoot/generated/folder2/file3.ts`。
   7. 文件存在。完成。
 
 ### 利用`rootDirs`指定虚拟目录
