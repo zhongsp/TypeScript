@@ -492,7 +492,7 @@ declare module "path" {
 }
 ```
 
-现在我们可以`/// <reference>` `node.d.ts`并且使用`import url = require("url");`加载模块。
+现在我们可以`/// <reference>` `node.d.ts`并且使用`import url = require("url");`或`import * as URL from "url"`加载模块。
 
 ```ts
 /// <reference path="node.d.ts"/>
