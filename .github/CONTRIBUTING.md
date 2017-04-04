@@ -1,5 +1,7 @@
 # 贡献代码
 
+**Working on your first Pull Request?** You can learn how from this *free* series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
+
 如果您愿意的话，就可以参与到本项目里。
 这里接受大家贡献翻译，修改或其它任何形式。
 您可以审察已有的翻译，并提出保贵的修改意见或直接提交PR。
