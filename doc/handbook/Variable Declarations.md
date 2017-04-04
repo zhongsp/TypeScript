@@ -506,7 +506,7 @@ let o = {
     a: "foo",
     b: 12,
     c: "bar"
-}
+};
 let { a, b } = o;
 ```
 
@@ -594,9 +594,9 @@ f(); // ok, default to { a: "", b: 0 }
 function f({ a, b = 0 } = { a: "" }): void {
     // ...
 }
-f({ a: "yes" }) // ok, default b = 0
-f() // ok, default to {a: ""}, which then defaults b = 0
-f({}) // error, 'a' is required if you supply an argument
+f({ a: "yes" }); // ok, default b = 0
+f(); // ok, default to {a: ""}, which then defaults b = 0
+f({}); // error, 'a' is required if you supply an argument
 ```
 
 要小心使用解构。
