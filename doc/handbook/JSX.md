@@ -271,7 +271,7 @@ var a = <div>
 
 # React整合
 
-要想一起使用JSX和React，你应该使用[React类型定义](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/react)。
+要想一起使用JSX和React，你应该使用[React类型定义](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react)。
 这些类型声明定义了`JSX`合适命名空间来使用React。
 
 ```ts
