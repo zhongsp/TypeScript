@@ -77,6 +77,7 @@ TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript. 
   * [架构概述](./doc/wiki/Architectural-Overview.md)
   * [发展路线图](./doc/wiki/Roadmap.md)
 * [Breaking Changes](./doc/breaking-changes/breaking-changes.md)
+  * [TypeScript 2.1](./doc/breaking-changes/TypeScript%202.1.md)
   * [TypeScript 2.0](./doc/breaking-changes/TypeScript%202.0.md)
   * [TypeScript 1.8](./doc/breaking-changes/TypeScript%201.8.md)
   * [TypeScript 1.7](./doc/breaking-changes/TypeScript%201.7.md)
