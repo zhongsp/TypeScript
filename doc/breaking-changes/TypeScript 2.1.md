@@ -195,7 +195,7 @@ let a = 0;
 let y = (void a, 1); // no warning for `a`
 ```
 
-## 标准库中DOM API的变动
+## 标准库里的DOM API变动
 
 * **Node.firstChild**，**Node.lastChild**，**Node.nextSibling**，**Node.previousSibling**，**Node.parentElement**和**Node.parentNode**现在是`Node | null`而非`Node`。
 

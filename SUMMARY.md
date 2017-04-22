@@ -65,6 +65,7 @@
   * [架构概述](./doc/wiki/Architectural-Overview.md)
   * [发展路线图](./doc/wiki/Roadmap.md)
 * [Breaking Changes](./doc/breaking-changes/breaking-changes.md)
+  * [TypeScript 2.2](./doc/breaking-changes/TypeScript 2.2.md)
   * [TypeScript 2.1](./doc/breaking-changes/TypeScript 2.1.md)
   * [TypeScript 2.0](./doc/breaking-changes/TypeScript 2.0.md)
   * [TypeScript 1.8](./doc/breaking-changes/TypeScript 1.8.md)
