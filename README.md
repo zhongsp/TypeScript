@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/zhongsp/TypeScript.svg?branch=master)](https://travis-ci.org/zhongsp/TypeScript) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-[TypeScript 2.2 发布！](https://blogs.msdn.microsoft.com/typescript/2017/02/22/announcing-typescript-2-2/)
+[TypeScript 2.3 发布！](https://blogs.msdn.microsoft.com/typescript/2017/04/27/announcing-typescript-2-3/)
 
 <img src="./misc/ts-2-1-release.jpg" alt="TypeScript Statistics" width="45%" height="auto"> <img src="./misc/ts-2-0-npm-downloads.png" alt="TypeScript Statistics" width="45%" height="auto">
 
