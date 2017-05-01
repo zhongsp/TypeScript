@@ -6,6 +6,7 @@
   * [Gulp](./doc/handbook/tutorials/Gulp.md)
   * [Knockout.js](./doc/handbook/tutorials/Knockout.md)
   * [React与webpack](./doc/handbook/tutorials/React & Webpack.md)
+  * [React](./doc/handbook/tutorials/React.md)
   * [Angular 2](./doc/handbook/tutorials/Angular 2.md)
   * [从JavaScript迁移到TypeScript](./doc/handbook/tutorials/Migrating from JavaScript.md)
 * [新增功能](./doc/release-notes/README.md)

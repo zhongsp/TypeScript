@@ -18,6 +18,7 @@ TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript. 
   * [Gulp](./doc/handbook/tutorials/Gulp.md)
   * [Knockout.js](./doc/handbook/tutorials/Knockout.md)
   * [React与webpack](./doc/handbook/tutorials/React%20&%20Webpack.md)
+  * [React](./doc/handbook/tutorials/React.md)
   * [Angular 2](./doc/handbook/tutorials/Angular%202.md)
   * [从JavaScript迁移到TypeScript](./doc/handbook/tutorials/Migrating%20from%20JavaScript.md)
 * [新增功能](./doc/release-notes/README.md)
