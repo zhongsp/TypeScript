@@ -221,7 +221,7 @@ TypeScript模块支持`export =`语法以支持传统的CommonJS和AMD的工作�
 `export =`语法定义一个模块的导出对象。
 它可以是类，接口，命名空间，函数或枚举。
 
-若要导入一个使用了`export =`的模块时，必须使用TypeScript提供的特定语法`import let = require("module")`。
+若要导入一个使用了`export =`的模块时，必须使用TypeScript提供的特定语法`import module = require("module")`。
 
 ##### ZipCodeValidator.ts
 
