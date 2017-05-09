@@ -413,9 +413,9 @@ let analog = createClock(AnalogClock, 7, 32);
 
 因为`createClock`的第一个参数是`ClockConstructor`类型，在`createClock(AnalogClock, 7, 32)`里，会检查`AnalogClock`是否符合构造函数签名。
 
-# 扩展接口
+# 继承接口
 
-和类一样，接口也可以相互扩展。
+和类一样，接口也可以相互继承。
 这让我们能够从一个接口里复制成员到另一个接口里，可以更灵活地将接口分割到可重用的模块里。
 
 ```ts
