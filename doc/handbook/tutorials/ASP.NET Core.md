@@ -3,9 +3,9 @@
 ## 安装 ASP.NET Core 和 TypeScript
 
 首先，若有必要请[安装 ASP.NET Core](https://get.asp.net)。
-这个快速上手指南使用的是 Visual Studio ，若要使用 ASP.NET Core 你需要有 Visual Studio 2015。
+这个快速上手指南使用的是Visual Studio，因此你需要有Visual Studio 2015或[Visual Studio 2017](https://www.visualstudio.com/downloads/)以便使用ASP.NET Core。
 
-其次，如果你的 Visual Studio 中没有包含 TypeScript，你可以从这里安装[TypeScript for Visual Studio 2015](http://www.microsoft.com/en-us/download/details.aspx?id=48593)。
+其次，如果你的Visual Studio不带有最新版本的TypeScript，你可以从[这里](http://www.microsoft.com/en-us/download/details.aspx?id=48593)安装。
 
 ## 新建工程
 
