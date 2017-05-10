@@ -314,7 +314,7 @@ import {MyModel} from "./model"
     selector: `my-app`,
     template: `<div>Hello from {{getCompiler()}}</div>`
 })
-class MyApp {
+export class MyApp {
     model = new MyModel();
     getCompiler() {
         return this.model.compiler;
