@@ -67,7 +67,7 @@ window.createGreeting = function(s) {
 * 检查是否使用或如何使用模块加载器，比如`require`或`define`
 * CommonJS/Node.js风格的导入如`var fs = require("fs");`
 * `define(...)`调用
-* 文档里说明了如果`require`或导入这个库
+* 文档里说明了如何去`require`或导入这个库
 
 ### 全局库的例子
 
