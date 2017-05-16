@@ -13,7 +13,7 @@ TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript. 
 ## 目录
 
 * [快速上手](./doc/handbook/tutorials/README.md)
-  * [5分钟了解TypeScript](./doc/handbook/tutorials/TypeScript%20in%205%20minutes.html)
+  * [5分钟了解TypeScript](./doc/handbook/tutorials/TypeScript%20in%205%20minutes.md)
   * [ASP.NET Core](./doc/handbook/tutorials/ASP.NET%20Core.md)
   * [ASP.NET 4](./doc/handbook/tutorials/ASP.NET%204.md)
   * [Gulp](./doc/handbook/tutorials/Gulp.md)
