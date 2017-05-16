@@ -23,6 +23,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 ## 目录
 
 * [快速上手](./doc/handbook/tutorials/README.html)
+  * [5分钟了解TypeScript](./doc/handbook/tutorials/TypeScript in 5 minutes.html)
   * [ASP.NET Core](./doc/handbook/tutorials/ASP.NET Core.html)
   * [ASP.NET 4](./doc/handbook/tutorials/ASP.NET 4.html)
   * [Gulp](./doc/handbook/tutorials/Gulp.html)
@@ -100,6 +101,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 
 ## 主要修改 (Latest 5 updates)
 
+* 2017-05-16 新增章节：[教程-5分钟了解TypeScript](./doc/handbook/tutorials/TypeScript in 5 minutes.html)
 * 2017-05-01 新增章节：[教程-React](./doc/handbook/tutorials/React.html)
 * 2016-11-27 新增章节：[使用`/// <reference types="..." />`](./doc/handbook/Triple-Slash Directives.html)
 * 2016-11-23 新增章节：[变量声明 - 展开操作符](./doc/handbook/Variable Declarations.html)
