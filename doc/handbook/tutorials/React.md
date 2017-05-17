@@ -1,20 +1,20 @@
-这个快速上手指南将会教你如何将TypeScript和[React](http://facebook.github.io/react/)结合起来使用。
-到最后，你将得到：
+这篇快速上手指南会教你如何将TypeScript与[React](http://facebook.github.io/react/)结合起来使用。
+在最后，你将学到：
 
-* 一个使用了TypeScript和React的工程
+* 使用TypeScript和React创建工程
 * 使用[TSLint](https://github.com/palantir/tslint)进行代码检查
 * 使用[Jest](https://facebook.github.io/jest/)和[Enzyme](http://airbnb.io/enzyme/)进行测试，以及
 * 使用[Redux](https://github.com/reactjs/react-redux)管理状态
 
-我们将使用[create-react-app](https://github.com/facebookincubator/create-react-app)工具快速搭建工程环境。
+我们会使用[create-react-app](https://github.com/facebookincubator/create-react-app)工具快速搭建工程环境。
 
-我们这里假设你已经在使用[Node.js](https://nodejs.org/)和[npm](https://www.npmjs.com/)。
-还需要你对[React的基础知识](https://facebook.github.io/react/docs/hello-world.html)稍做了解。
+这里假设你已经在使用[Node.js](https://nodejs.org/)和[npm](https://www.npmjs.com/)。
+并且已经了解了[React的基础知识](https://facebook.github.io/react/docs/hello-world.html)。
 
 # 安装create-react-app
 
 我们之所以使用create-react-app是因为它能够为React工程设置一些有效的工具和权威的默认参数。
-它仅仅是一个用来搭建React工程的命令行工具。
+它仅仅是一个用来搭建React工程的命令行工具而已。
 
 ```shell
 npm install -g create-react-app
@@ -22,7 +22,7 @@ npm install -g create-react-app
 
 # 创建新工程
 
-让我们创建一个叫做`my-app`的新工程：
+让我们首先创建一个叫做`my-app`的新工程：
 
 ```shell
 create-react-app my-app --scripts-version=react-scripts-ts
@@ -30,7 +30,7 @@ create-react-app my-app --scripts-version=react-scripts-ts
 
 [react-scripts-ts](https://www.npmjs.com/package/react-scripts-ts)是一系列适配器，它利用标准的create-react-app工程管道并把TypeScript混入进来。
 
-到这里，工程结构应如下所示：
+此时的工程结构应如下所示：
 
 ```text
 my-app/
@@ -46,24 +46,24 @@ my-app/
 
 注意：
 
-* `tsconfig.json`包含了这们工程里TypeScript特定的选项。
-* `tslint.json`保存了将要使用的代码检查器的设置，[TSLint](https://github.com/palantir/tslint)。
+* `tsconfig.json`包含了工程里TypeScript特定的选项。
+* `tslint.json`保存了要使用的代码检查器的设置，[TSLint](https://github.com/palantir/tslint)。
 * `package.json`包含了依赖，还有一些命令的快捷方式，如测试命令，预览命令和发布应用的命令。
 * `public`包含了静态资源如HTML页面或图片。除了`index.html`文件外，其它的文件都可以删除。
-* `src`包含了TypeScript和CSS源码。`index.tsx`是强制的入口文件。
+* `src`包含了TypeScript和CSS源码。`index.tsx`是强制使用的入口文件。
 
 # 运行工程
 
-通过如下方式即可简单地运行工程。
+通过下面的方式即可轻松地运行这个工程。
 
 ```sh
 npm run start
 ```
 
-它会执行`package.json`里面指定的`start`命令，并且会启动一个服务器，当我们保存文件时会自动刷新页面。
-通常这个服务器的地址是`http://localhost:3000`，它应该会自动地打开页面。
+它会执行`package.json`里面指定的`start`命令，并且会启动一个服务器，当我们保存文件时还会自动刷新页面。
+通常这个服务器的地址是`http://localhost:3000`，页面应用会被自动地打开。
 
-它会循环监听方便我们快速地预览改动。
+它会保持监听以方便我们快速地预览改动。
 
 # 测试工程
 
@@ -74,15 +74,15 @@ npm run test
 ```
 
 这个命令会运行Jest，一个非常好用的测试工具，它会运行所有扩展名是`.test.ts`或`.spec.ts`的文件。
-如同`npm run start`命令，当检测到有改动的时候Jest会自动地运行。
-如果你喜欢的话，你还可以同时运行`npm run start`和`npm run test`，这样你就可以在预览的同时进行测试。
+好比是`npm run start`命令，当检测到有改动的时候Jest会自动地运行。
+如果喜欢的话，你还可以同时运行`npm run start`和`npm run test`，这样你就可以在预览的同时进行测试。
 
 # 生成生产环境的构建版本
 
-在使用`npm run start`运行工程的时候，我们并没有生成一个优化的版本。
-通常地，我们想给用户一个运行地尽可能快并在体积上尽可能小的代码。
+在使用`npm run start`运行工程的时候，我们并没有生成一个优化过的版本。
+通常我们想给用户一个运行的尽可能快并在体积上尽可能小的代码。
 像压缩这样的优化方法可以做到这一点，但是总是要耗费更多的时间。
-我们把这样的构建版本称做“生产环境”版本（与开发版本想对）。
+我们把这样的构建版本称做“生产环境”版本（与开发版本相对）。
 
 要执行生产环境的构建，可以运行如下命令：
 
@@ -98,9 +98,9 @@ npm run build
 # 创建一个组件
 
 下面我们将要创建一个`Hello`组件。
-这个组件接收任意一个我们想对之打呼呼的名字（我们把它叫做`name`），并且有一个可选数量的感叹号做为结尾（通过`enthusiasmLevel`）。
+这个组件接收任意一个我们想对之打招呼的名字（我们把它叫做`name`），并且有一个可选数量的感叹号做为结尾（通过`enthusiasmLevel`）。
 
-当我们这样写`<Hello name="Daniel" enthusiasmLevel={3} />`，这个组件会大概渲染成`<div>Hello Daniel!!!</div>`这样子。
+若我们这样写`<Hello name="Daniel" enthusiasmLevel={3} />`，这个组件大至会渲染成`<div>Hello Daniel!!!</div>`。
 如果没指定`enthusiasmLevel`，组件将默认显示一个感叹号。
 若`enthusiasmLevel`为`0`或负值将抛出一个错误。
 
@@ -139,15 +139,15 @@ function getExclamationMarks(numChars: number) {
 }
 ```
 
-注意我们定义了一个类型叫做`Props`，它指定了我们组件要用到的属性。
-`name`是必需的`string`类型，且`enthusiasmLevel`为可选的`number`类型（你可以通过名字后面加`?`为指定可选参数）。
+注意我们定义了一个类型`Props`，它指定了我们组件要用到的属性。
+`name`是必需的且为`string`类型，同时`enthusiasmLevel`是可选的且为`number`类型（你可以通过名字后面加`?`为指定可选参数）。
 
-我们创建了一个无状态的功能组件（SFC）`Hello`。
+我们创建了一个无状态的函数式组件（Stateless Functional Components，SFC）`Hello`。
 具体来讲，`Hello`是一个函数，接收一个`Props`对象并拆解它。
-如果`Props`对象里没有设置`enthusiasmLevel`，它默认为`1`。
+如果`Props`对象里没有设置`enthusiasmLevel`，默认值为`1`。
 
 使用函数是React中定义组件的[两种方式](https://facebook.github.io/react/docs/components-and-props.html#functional-and-class-components)之一。
-如果你喜欢的话，也*可以*通过类的方式实现：
+如果你喜欢的话，也*可以*通过类的方式定义：
 
 ```ts
 class Hello extends React.Component<Props, object> {
@@ -176,7 +176,7 @@ class Hello extends React.Component<Props, object> {
 
 现在我们已经写好了组件，让我们仔细看看`index.tsx`，把`<App />`替换成`<Hello ... />`。
 
-首先我们在文件顶端导入它：
+首先我们在文件头部导入它：
 
 ```ts
 import Hello from './components/Hello.tsx';
@@ -195,18 +195,18 @@ ReactDOM.render(
 
 这里还有一点要指出，就是最后一行`document.getElementById('root') as HTMLElement`。
 这个语法叫做*类型断言*，有时也叫做*转换*。
-当你比类型检查器更清楚一个表达式的类型的时候，你可以通过这种方式告诉TypeScript。
+当你比类型检查器更清楚一个表达式的类型的时候，你可以通过这种方式通知TypeScript。
 
 这里，我们之所以这么做是因为`getElementById`的返回值类型是`HTMLElement | null`。
-简单地说，`getElementById`返回`null`当无法找对对应`id`元素的时候。
-我们假设`getElementById`总是成功的，因此我们要使用`as`讲法告诉TypeScript这点。
+简单地说，`getElementById`返回`null`是当无法找对对应`id`元素的时候。
+我们假设`getElementById`总是成功的，因此我们要使用`as`语法告诉TypeScript这点。
 
 TypeScript还有一种感叹号（`!`）结尾的语法，它会从前面的表达式里移除`null`和`undefined`。
 所以我们也*可以*写成`document.getElementById('root')!`，但在这里我们想写的更清楚些。
 
 # :sunglasses:添加样式
 
-通过我们的设置为一个组件设置样式很容易。
+通过我们的设置为一个组件添加样式很容易。
 若要设置`Hello`组件的样式，我们可以创建这样一个CSS文件`src/components/Hello.css`。
 
 ```css
@@ -225,7 +225,7 @@ TypeScript还有一种感叹号（`!`）结尾的语法，它会从前面的表�
 }
 ```
 
-`create-react-app`利用的工具（Webpack和一些加载器）允许我们导入样式表文件。
+`create-react-app`包含的工具（Webpack和一些加载器）允许我们导入样式表文件。
 当我们构建应用的时候，所有导入的`.css`文件会被拼接成一个输出文件。
 因此在`src/components/Hello.tsx`，我们需要添加如下导入语句。
 
@@ -233,7 +233,7 @@ TypeScript还有一种感叹号（`!`）结尾的语法，它会从前面的表�
 import './Hello.css';
 ```
 
-# 使用Jest书写测试
+# 使用Jest编写测试
 
 我们对`Hello`组件有一些假设。
 让我们在此重申一下：
@@ -245,24 +245,24 @@ import './Hello.css';
 我们将针对这些需求为组件写一些注释。
 
 但首先，我们要安装Enzyme。
-[Enzyme](http://airbnb.io/enzyme/)是React生态系统里一个通用工具，它方便了对组件行为书写测试。
+[Enzyme](http://airbnb.io/enzyme/)是React生态系统里一个通用工具，它方便了针对组件的行为编写测试。
 默认地，我们的应用包含了一个叫做jsdom的库，它允许我们模拟DOM以及在非浏览器的环境下测试运行时的行为。
-Enzyme类似，但是是基于jsdom，并且方便我们查询组件。
+Enzyme与此类似，但是是基于jsdom的，并且方便我们查询组件。
 
-让我们把它安装为一项开发依赖。
+让我们把它安装为开发依赖项。
 
 ```sh
 npm install -D enzyme @types/enzyme react-addons-test-utils
 ```
 
 注意我们同时安装了`enzyme`和`@types/enzyme`。
-`enzyme`包指的是包含了实际运行地的JavaScript代码的包，`@types/enzyme`包是包含了声明文件（`.d.ts`文件）的包，因此TypeScript能够了解该如何使用Enzyme。
+`enzyme`包指的是包含了实际运行的JavaScript代码包，而`@types/enzyme`则包含了声明文件（`.d.ts`文件）的包，以便TypeScript能够了解该如何使用Enzyme。
 你可以在[这里](https://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html)了解更多关于`@types`包的信息。
 
-去们还需要安装`react-addons-test-utils`。
-它是`enzyme`需要安装的。
+我们还需要安装`react-addons-test-utils`。
+它是使用`enzyme`所需要安装的包。
 
-现在我们已经设置好了Enzyme，下面开始写测试！
+现在我们已经设置好了Enzyme，下面开始编写测试！
 先创建一个文件`src/components/Hello.test.tsx`，与先前的`Hello.tsx`文件放在一起。
 
 ```ts
@@ -302,41 +302,41 @@ it('throws when the enthusiasm level is negative', () => {
 
 这些测试都十分基础，但你可以从中得到启发。
 
-# 添加状态管理
+# 添加state管理
 
-到此为止，如果你使用React的目的是只获取一次数据并显示，那么你已经达成了。
-但是如果你想开发一个可以交互的应用，那么你需要添加状态管理。
+到此为止，如果你使用React的目的是只获取一次数据并显示，那么你已经完成了。
+但是如果你想开发一个可以交互的应用，那么你需要添加state管理。
 
-## 状态管理概述
+## state管理概述
 
-React本身就是一个适合于创建可组合型视图的库存。
+React本身就是一个适合于创建可组合型视图的库。
 但是，React并没有任何在应用间同步数据的功能。
 就React组件而言，数据是通过每个元素上指定的props向子元素传递。
 
-因为React本身并没有提供内置的状态管理功能，React社区先择了Redux和MobX库。
+因为React本身并没有提供内置的state管理功能，React社区选择了Redux和MobX库。
 
 [Redux](http://redux.js.org)依靠一个统一且不可变的数据存储来同步数据，并且更新那里的数据时会触发应用的更新渲染。
-状态的更新是以一种不可变的方式进行，它会发布一条明确的action消息，这个消息必须被reducer函数处理。
-由于使用了这样明确的方式，很容易弄清楚一个action是如何影响程序的状态的。
+state的更新是以一种不可变的方式进行，它会发布一条明确的action消息，这个消息必须被reducer函数处理。
+由于使用了这样明确的方式，很容易弄清楚一个action是如何影响程序的state。
 
-[MobX](https://mobx.js.org/)借助于函数式响应型模式，状态被包装在可观察对象里，并通过props传递。
-通过将状态标记为可观察的即可在所有观察者之间保持状态的同步性。
+[MobX](https://mobx.js.org/)借助于函数式响应型模式，state被包装在了可观察对象里，并通过props传递。
+通过将state标记为可观察的，即可在所有观察者之间保持state的同步性。
 另一个好处是，这个库已经使用TypeScript实现了。
 
 这两者各有优缺点。
-通常Redux使用得更广泛，因此在这篇教程里，我们主要看如何使用Redux；
-但是，你鼓励大家两者都去了解一下。
+但Redux使用得更广泛，因此在这篇教程里，我们主要看如何使用Redux；
+但是也鼓励大家两者都去了解一下。
 
 后面的小节学习曲线比较陡。
 因此强烈建议大家先去[熟悉一下Redux](http://redux.js.org/)。
 
 ## 设置actions
 
-只有当应用里的状态会改变的时候，我们才需要去添加Redux。
+只有当应用里的state会改变的时候，我们才需要去添加Redux。
 我们需要一个action的来源，它将触发改变。
-这可以是一个定时器或者UI上的一个按钮。
+它可以是一个定时器或者UI上的一个按钮。
 
-为此，我们将增加两个按钮来控制`Hello`组件的感叹程度。
+为此，我们将增加两个按钮来控制`Hello`组件的感叹级别。
 
 ## 安装Redux
 
@@ -350,7 +350,7 @@ npm install -S redux react-redux @types/react-redux
 
 ## 定义应用的状态
 
-我们需要定义Redux保存的状态的结构。
+我们需要定义Redux保存的state的结构。
 创建`src/types/index.tsx`文件，它保存了类型的定义，我们在整个程序里都可能用到。
 
 ```ts
@@ -362,12 +362,12 @@ export interface StoreState {
 }
 ```
 
-在这里我们想让`languageName`表示应用使用的编程语言（例如，TypeScript或者JavaScript），`enthusiasmLevel`是可变的。
-在写我们第一个容器的时候，我们就会明白为什么要令状态与属性稍有不同。
+这里我们想让`languageName`表示应用使用的编程语言（例如，TypeScript或者JavaScript），`enthusiasmLevel`是可变的。
+在写我们的第一个容器的时候，就会明白为什么要令state与props稍有不同。
 
 ## 添加actions
 
-下面我们创建这个应用将要响应的消息类型,`src/constants/index.tsx`。
+下面我们创建这个应用将要响应的消息类型，`src/constants/index.tsx`。
 
 ```ts
 // src/constants/index.tsx
@@ -419,7 +419,7 @@ export function decrementEnthusiasm(): DecrementEnthusiasm {
 ## 添加reducer
 
 现在我们可以开始写第一个reducer了！
-Reducers是函数，它们负责生成应用状态的拷贝使之产生变化，但它并没有*副作用*。
+Reducers是函数，它们负责生成应用state的拷贝使之产生变化，但它并没有*副作用*。
 它们是一种*[纯函数](https://en.wikipedia.org/wiki/Pure_function)*。
 
 我们的reducer将放在`src/reducers/index.tsx`文件里。
@@ -493,7 +493,7 @@ function Hello({ name, enthusiasmLevel = 1, onIncrement, onDecrement }: Props) {
 ```
 
 通常情况下，我们应该给`onIncrement`和`onDecrement`写一些测试，它们是在各自的按钮被点击时调用。
-试一试以便掌握书写测试的窍门。
+试一试以便掌握编写测试的窍门。
 
 现在我们的组件更新好了，可以把它放在一个容器里了。
 让我们来创建一个文件`src/containers/Hello.tsx`，在开始的地方使用下列导入语句。
@@ -635,11 +635,10 @@ create-react-app带有很多很棒的功能。
 它们的大多数都在我们工程生成的`README.md`里面有记录，所以可以简单阅读一下。
 
 如果你想学习更多关于Redux的知识，你可以前往[官方站点](http://redux.js.org/)查看文档。
-同样的，[MobX](https://mobx.js.org/)官方问点。
+同样的，[MobX](https://mobx.js.org/)官方站点。
 
-如果你想要某个时间点eject，你需要了解再多一些关于Webpack的知识。
+如果你想要在某个时间点eject，你需要了解再多关于Webpack的知识。
 你可以查看[React & Webpack教程](./React & Webpack.md)。
 
 有时候你需要路由功能。
 已经有一些解决方案了，但是对于Redux工程来讲[react-router](https://github.com/ReactTraining/react-router)是最流行的，并经常与[react-router-redux](https://github.com/reactjs/react-router-redux)联合使用。
-At some point you might need routing.
