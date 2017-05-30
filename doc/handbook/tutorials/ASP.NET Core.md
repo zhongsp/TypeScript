@@ -1,11 +1,8 @@
 # ASP.NET Core
 
-> 注意！Visual Studio 2017的更新和最新版本的ASP.NET即将发布！
-
 ## 安装 ASP.NET Core 和 TypeScript
 
-首先，若有必要请[安装 ASP.NET Core](https://get.asp.net)。
-这个快速上手指南使用的是Visual Studio，因此你需要有Visual Studio 2015以便使用ASP.NET Core。
+首先，若有需要请[安装 ASP.NET Core](https://get.asp.net)。此篇指南需要使用Visual Studio 2015或2017。
 
 其次，如果你的Visual Studio不带有最新版本的TypeScript，你可以从[这里](http://www.microsoft.com/en-us/download/details.aspx?id=48593)安装。
 
@@ -14,18 +11,19 @@
 1. 选择 **File**
 2. 选择 **New Project** （Ctrl + Shift + N）
 3. 选择 **Visual C#**
-4. 选择 **ASP.NET Web Application**
+4. 若使用VS2015，选择 **ASP.NET Web Application** > **ASP.NET 5 Empty**，并且取消勾选“Host in the cloud”，因为我们要在本地运行。
 
-   ![Create new ASP.NET project](../../assets/images/tutorials/aspnet/new-asp-project.png)
+   ![使用空白模版](../../assets/images/tutorials/aspnet/new-asp-project-empty.png)
 
-5. 选择 **ASP.NET 5 Empty** 工程模板
+5. 若使用VS2017，选择 **ASP.NET Core Web Application (.NET Core)** > **ASP.NET Core 1.1 Empty**。
 
-   取消复选 "Host in the cloud" 本指南将使用一个本地示例。
-   ![Use empty template](../../assets/images/tutorials/aspnet/new-asp-project-empty.png)
+   ![使用空白模版VS2017](../../assets/images/tutorials/aspnet/new-asp-project-empty-17.PNG)
 
 运行此应用以确保它能正常工作。
 
 ## 设置服务项
+
+### VS2015
 
 在 `project.json` 文件的 `"dependencies"` 字段里添加:
 
@@ -53,6 +51,24 @@ public void Configure(IApplicationBuilder app)
     app.UseStaticFiles();
 }
 ```
+
+### VS2017
+
+打开 **Dependencies** > **Manage NuGet Packages** > **Browse**。搜索并安装`Microsoft.AspNetCore.StaticFiles` 1.1.2：
+
+![安装Microsoft.AspNetCore.StaticFiles](../../assets/images/tutorials/aspnet/install-nuget-packages.png)
+
+如下替换掉`Startup.cs`里`Configure`的内容：
+
+```cs
+public void Configure(IApplicationBuilder app)
+{
+    app.UseDefaultFiles();
+    app.UseStaticFiles();
+}
+```
+
+你可能需要重启VS，这样`UseDefaultFiles`和`UseStaticFiles`下面的波浪线才会消失。
 
 # 添加 TypeScript
 
@@ -216,15 +232,33 @@ gulp.task('default', function () {
 
 # 添加 Angular 2
 
-## 使用 NPM 下载所需的包
+## 使用 NPM 下载依赖的包
 
-在 `package.json` 文件的 `"dependencies"` 添加 Angular 2 和 SystemJS：
+添加Angular 2和SystemJS到`package.json`的`dependencies`里。
+
+对于VS2015，新的`dependencies`列表如下：
 
 ```json
-  "dependencies": {
-    "angular2": "2.0.0-beta.11",
-    "systemjs": "0.19.24",
-  },
+"dependencies": {
+  "angular2": "2.0.0-beta.11",
+  "systemjs": "0.19.24",
+  "gulp": "3.9.0",
+  "del": "2.2.0"
+},
+```
+
+若使用VS2017，因为NPM3反对同行的依赖（peer dependencies），我们需要把Angular 2同行的依赖也直接列为依赖项：
+
+```json
+"dependencies": {
+  "angular2": "2.0.0-beta.11",
+  "reflect-metadata": "0.1.2",
+  "rxjs": "5.0.0-beta.2",
+  "zone.js": "^0.6.4",
+  "systemjs": "0.19.24",
+  "gulp": "3.9.0",
+  "del": "2.2.0"
+},
 ```
 
 ## 更新 tsconfig.json
@@ -240,23 +274,23 @@ gulp.task('default', function () {
 
 ```json
 {
-    "compilerOptions": {
-        "noImplicitAny": true,
-        "noEmitOnError": true,
-        "sourceMap": true,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "target": "es5",
-        "lib": [
-            "es2015", "es5", "dom"
-        ]
-    },
-    "files": [
-        "./app.ts",
-        "./model.ts",
-        "./main.ts",
-    ],
-    "compileOnSave": true
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "target": "es5",
+    "lib": [
+      "es2015", "es5", "dom"
+    ]
+  },
+  "files": [
+    "./app.ts",
+    "./model.ts",
+    "./main.ts",
+  ],
+  "compileOnSave": true
 }
 ```
 
@@ -290,7 +324,7 @@ var paths = {
 };
 
 gulp.task('lib', function () {
-    gulp.src(paths.libs).pipe(gulp.dest('wwwroot/scripts/lib'))
+    gulp.src(paths.libs).pipe(gulp.dest('wwwroot/scripts/lib'));
 });
 
 gulp.task('clean', function () {
@@ -298,7 +332,7 @@ gulp.task('clean', function () {
 });
 
 gulp.task('default', ['lib'], function () {
-    gulp.src(paths.scripts).pipe(gulp.dest('wwwroot/scripts'))
+    gulp.src(paths.scripts).pipe(gulp.dest('wwwroot/scripts'));
 });
 ```
 
@@ -307,6 +341,8 @@ gulp.task('default', ['lib'], function () {
 ## 用 TypeScript 写一个简单的 Angular 应用
 
 首先，将 `app.ts` 改成：
+
+
 
 ```ts
 import {Component} from "angular2/core"
@@ -324,7 +360,7 @@ export class MyApp {
 }
 ```
 
-接着在 `scripts` 中添加 TypeScript 文件 `model.ts`:
+接着在`scripts`中添加TypeScript文件`model.ts`:
 
 ```ts
 export class MyModel {
@@ -332,7 +368,7 @@ export class MyModel {
 }
 ```
 
-再在 `scripts` 中添加 `main.ts`：
+再在`scripts`中添加`main.ts`：
 
 ```ts
 import {bootstrap} from "angular2/platform/browser";
@@ -340,7 +376,7 @@ import {MyApp} from "./app";
 bootstrap(MyApp);
 ```
 
-最后，将 `index.html` 改成：
+最后，将`index.html`改成：
 
 ```html
 <!DOCTYPE html>
@@ -371,4 +407,4 @@ bootstrap(MyApp);
 ```
 
 这里加载了此应用。
-运行 ASP.NET 应用，你应该能看到一个 div 显示 "Loading..." 紧接着更新成显示 "Hello from TypeScript"。
+运行 ASP.NET 应用，你应该能看到一个div显示"Loading..."紧接着更新成显示"Hello from TypeScript"。
