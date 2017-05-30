@@ -342,8 +342,6 @@ gulp.task('default', ['lib'], function () {
 
 首先，将 `app.ts` 改成：
 
-
-
 ```ts
 import {Component} from "angular2/core"
 import {MyModel} from "./model"
