@@ -17,7 +17,7 @@ declare function myLib(a: number): number;
  *~ Be sure this actually makes sense! If it doesn't, just
  *~ delete this declaration and add types inside the namespace below.
  */
-interface myLib {
+declare interface myLib {
     name: string;
     length: number;
     extras?: string[];
