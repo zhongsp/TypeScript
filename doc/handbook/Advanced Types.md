@@ -857,7 +857,7 @@ function proxify<T>(o: T): Proxify<T> {
 let proxyProps = proxify(props);
 ```
 
-注意`Readonly<T>`和`Partial<T>`用处不小，因此它们与`Pick`和`Record`一周被包含进了TypeScript的标准库里：
+注意`Readonly<T>`和`Partial<T>`用处不小，因此它们与`Pick`和`Record`一同被包含进了TypeScript的标准库里：
 
 ```ts
 type Pick<T, K extends keyof T> = {
