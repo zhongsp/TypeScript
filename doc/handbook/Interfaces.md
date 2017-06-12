@@ -1,6 +1,6 @@
 # 介绍
 
-TypeScript的核心原则之一是对值所具有的*shape*进行类型检查。
+TypeScript的核心原则之一是对值所具有的*结构*进行类型检查。
 它有时被称做“鸭式辨型法”或“结构性子类型化”。
 在TypeScript里，接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约。
 
@@ -162,7 +162,7 @@ function createSquare(config: SquareConfig): { color: string; area: number } {
 let mySquare = createSquare({ colour: "red", width: 100 });
 ```
 
-注意传入`createSquare`的参数拼写为*`colour`*而不是`color`。
+注意传入`createSquare`的参数拼写为`colour`而不是`color`。
 在JavaScript里，这会默默地失败。
 
 你可能会争辩这个程序已经正确地类型化了，因为`width`属性是兼容的，不存在`color`属性，而且额外的`colour`属性是无意义的。
