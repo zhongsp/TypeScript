@@ -22,7 +22,7 @@
 `--inlineSourceMap`                     | `boolean` | `false`                  | 生成单个sourcemaps文件，而不是将每sourcemaps生成不同的文件。
 `--inlineSources`                       | `boolean` | `false`                  | 将代码与sourcemaps生成到一个文件中，要求同时设置了`--inlineSourceMap`或`--sourceMap`属性。
 `--init`                                |           |                          | 初始化TypeScript项目并创建一个`tsconfig.json`文件。
-`--isolatedModules`                     | `boolean` | `false`                  | 无条件地给没有解析的文件生成imports。
+`--isolatedModules`                     | `boolean` | `false`                  | 将每个文件作为单独的模块（与“ts.transpileModule”类似）。
 `--jsx`                                 | `string`  | `"Preserve"`             | 在`.tsx`文件里支持JSX：`"React"`或`"Preserve"`。查看[JSX](./JSX.md)。
 `--jsxFactory`                          | `string`  | `"React.createElement"`  | 指定生成目标为react JSX时，使用的JSX工厂函数，比如`React.createElement`或`h`。
 `--lib`                                 | `string[]`|                          | 编译过程中需要引入的库文件的列表。<br/>可能的值为：  <br/>► `ES5` <br/>► `ES6` <br/>► `ES2015` <br/>► `ES7` <br/>► `ES2016` <br/>► `ES2017` <br/>► `DOM` <br/>► `DOM.Iterable` <br/>► `WebWorker` <br/>► `ScriptHost` <br/>► `ES2015.Core` <br/>► `ES2015.Collection` <br/>► `ES2015.Generator` <br/>► `ES2015.Iterable` <br/>► `ES2015.Promise` <br/>► `ES2015.Proxy` <br/>► `ES2015.Reflect` <br/>► `ES2015.Symbol` <br/>► `ES2015.Symbol.WellKnown` <br/>► `ES2016.Array.Include` <br/>► `ES2017.object` <br/>► `ES2017.SharedMemory` <br/><br/> 注意：如果`--lib`没有指定一个默认注入的库。默认注入的库为：<br/> ► 针对于`--target ES5`：`DOM，ES5，ScriptHost`<br/>  ► 针对于`--target ES6`：`DOM，ES6，DOM.Iterable，ScriptHost`
@@ -31,7 +31,7 @@
 `--locale`                              | `string`  | *(platform specific)*    | 显示错误信息时使用的语言，比如：en-us。
 `--mapRoot`                             | `string`  |                          | 为调试器指定指定sourcemap文件的路径，而不是使用生成时的路径。当`.map`文件是在运行时指定的，并不同于`js`文件的地址时使用这个标记。指定的路径会嵌入到`sourceMap`里告诉调试器到哪里去找它们。
 `--maxNodeModuleJsDepth`                | `number`  | `0`                      | node_modules依赖的最大搜索深度并加载JavaScript文件。仅适用于`--allowJs`。
-`--module`<br/>`-m`                     | `string`  | `target === "ES6" ? "ES6" : "commonjs"`                                  | 指定生成哪个模块系统代码：`"None"`，`"CommonJS"`，`"AMD"`，`"System"`，`"UMD"`，`"ES6"`或`"ES2015"`。<br/>► 只有`"AMD"`和`"System"`能和`--outFile`一起使用。<br/>► 当目标是`"ES5"`或以下的时候不能使用`"ES6"`和`"ES2015"`。
+`--module`<br/>`-m`                     | `string`  | `target === "ES6" ? "ES6" : "commonjs"`                                  | 指定生成哪个模块系统代码：`"None"`，`"CommonJS"`，`"AMD"`，`"System"`，`"UMD"`，`"ES6"`或`"ES2015"`。<br/>► 只有`"AMD"`和`"System"`能和`--outFile`一起使用。<br/>►`"ES6"`和`"ES2015"`可使用在目标输出为`"ES5"`或更低的情况下。
 `--moduleResolution`                    | `string`  | `module === "AMD" | "System" | "ES6" ?  "Classic" : "Node"`              | 决定如何处理模块。或者是`"Node"`对于Node.js/io.js，或者是`"Classic"`（默认）。查看[模块解析](./Module Resolution.md)了解详情。
 `--newLine`                             | `string`  | *(platform specific)*    | 当生成文件时指定行结束符：`"crlf"`（windows）或`"lf"`（unix）。
 `--noEmit`                              | `boolean` | `false`                  | 不生成输出文件。

@@ -1,11 +1,13 @@
 # Summary
 
 * [快速上手](./doc/handbook/tutorials/README.md)
+  * [5分钟了解TypeScript](./doc/handbook/tutorials/TypeScript in 5 minutes.md)
   * [ASP.NET Core](./doc/handbook/tutorials/ASP.NET Core.md)
   * [ASP.NET 4](./doc/handbook/tutorials/ASP.NET 4.md)
   * [Gulp](./doc/handbook/tutorials/Gulp.md)
   * [Knockout.js](./doc/handbook/tutorials/Knockout.md)
   * [React与webpack](./doc/handbook/tutorials/React & Webpack.md)
+  * [React](./doc/handbook/tutorials/React.md)
   * [Angular 2](./doc/handbook/tutorials/Angular 2.md)
   * [从JavaScript迁移到TypeScript](./doc/handbook/tutorials/Migrating from JavaScript.md)
 * [新增功能](./doc/release-notes/README.md)
@@ -65,6 +67,9 @@
   * [架构概述](./doc/wiki/Architectural-Overview.md)
   * [发展路线图](./doc/wiki/Roadmap.md)
 * [Breaking Changes](./doc/breaking-changes/breaking-changes.md)
+  * [TypeScript 2.3](./doc/breaking-changes/TypeScript 2.3.md)
+  * [TypeScript 2.2](./doc/breaking-changes/TypeScript 2.2.md)
+  * [TypeScript 2.1](./doc/breaking-changes/TypeScript 2.1.md)
   * [TypeScript 2.0](./doc/breaking-changes/TypeScript 2.0.md)
   * [TypeScript 1.8](./doc/breaking-changes/TypeScript 1.8.md)
   * [TypeScript 1.7](./doc/breaking-changes/TypeScript 1.7.md)

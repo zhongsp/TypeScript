@@ -291,8 +291,8 @@ function g() {
 }
 ```
 
-并不是说块级作用域变量不能在函数作用域内声明。
-而是块级作用域变量需要在不用的块里声明。
+并不是说块级作用域变量不能用函数作用域变量来声明。
+而是块级作用域变量需要在明显不同的块里声明。
 
 ```ts
 function f(condition, x) {
@@ -506,7 +506,7 @@ let o = {
     a: "foo",
     b: 12,
     c: "bar"
-}
+};
 let { a, b } = o;
 ```
 
@@ -578,7 +578,7 @@ function f({ a, b }: C): void {
 ```
 
 但是，通常情况下更多的是指定默认值，解构默认值有些棘手。
-首先，你需要知道在设置默认值之前设置其类型。
+首先，你需要在默认值之前设置其格式。
 
 ```ts
 function f({ a, b } = { a: "", b: 0 }): void {
@@ -587,6 +587,8 @@ function f({ a, b } = { a: "", b: 0 }): void {
 f(); // ok, default to { a: "", b: 0 }
 ```
 
+> 上面的代码是一个类型推断的例子，将在本手册后文介绍。
+
 其次，你需要知道在解构属性上给予一个默认或可选的属性用来替换主初始化列表。
 要知道 `C` 的定义有一个 `b` 可选属性：
 
@@ -594,9 +596,9 @@ f(); // ok, default to { a: "", b: 0 }
 function f({ a, b = 0 } = { a: "" }): void {
     // ...
 }
-f({ a: "yes" }) // ok, default b = 0
-f() // ok, default to {a: ""}, which then defaults b = 0
-f({}) // error, 'a' is required if you supply an argument
+f({ a: "yes" }); // ok, default b = 0
+f(); // ok, default to {a: ""}, which then defaults b = 0
+f({}); // error, 'a' is required if you supply an argument
 ```
 
 要小心使用解构。

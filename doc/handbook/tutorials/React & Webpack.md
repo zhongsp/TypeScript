@@ -1,6 +1,8 @@
-这个快速上手指南将会教你如何将TypeScript和[React](http://facebook.github.io/react/)还有[webpack](http://webpack.github.io/)连结在一起使用。
+这篇指南将会教你如何将TypeScript和[React](http://facebook.github.io/react/)还有[webpack](http://webpack.github.io/)连结在一起使用。
 
-我们假设已经在使用[Node.js](https://nodejs.org/)和[npm](https://www.npmjs.com/)。
+如果你正在做一个全新的工程，可以先阅读这篇[React快速上手指南](./React.md)。
+
+否则，我们假设已经在使用[Node.js](https://nodejs.org/)和[npm](https://www.npmjs.com/)。
 
 # 初始化项目结构
 

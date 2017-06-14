@@ -23,11 +23,13 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 ## 目录
 
 * [快速上手](./doc/handbook/tutorials/README.html)
+  * [5分钟了解TypeScript](./doc/handbook/tutorials/TypeScript in 5 minutes.html)
   * [ASP.NET Core](./doc/handbook/tutorials/ASP.NET Core.html)
   * [ASP.NET 4](./doc/handbook/tutorials/ASP.NET 4.html)
   * [Gulp](./doc/handbook/tutorials/Gulp.html)
   * [Knockout.js](./doc/handbook/tutorials/Knockout.html)
   * [React与webpack](./doc/handbook/tutorials/React & Webpack.html)
+  * [React](./doc/handbook/tutorials/React.html)
   * [Angular 2](./doc/handbook/tutorials/Angular 2.html)
   * [从JavaScript迁移到TypeScript](./doc/handbook/tutorials/Migrating from JavaScript.html)
 * [新增功能](./doc/release-notes/README.html)
@@ -87,6 +89,9 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [架构概述](./doc/wiki/Architectural-Overview.html)
   * [发展路线图](./doc/wiki/Roadmap.html)
 * [Breaking Changes](./doc/breaking-changes/breaking-changes.html)
+  * [TypeScript 2.3](./doc/breaking-changes/TypeScript 2.3.html)
+  * [TypeScript 2.2](./doc/breaking-changes/TypeScript 2.2.html)
+  * [TypeScript 2.1](./doc/breaking-changes/TypeScript 2.1.html)
   * [TypeScript 2.0](./doc/breaking-changes/TypeScript 2.0.html)
   * [TypeScript 1.8](./doc/breaking-changes/TypeScript 1.8.html)
   * [TypeScript 1.7](./doc/breaking-changes/TypeScript 1.7.html)
@@ -94,18 +99,14 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [TypeScript 1.5](./doc/breaking-changes/TypeScript 1.5.html)
   * [TypeScript 1.4](./doc/breaking-changes/TypeScript 1.4.html)
 
-## 主要修改 (Latest 10 updates)
+## 主要修改 (Latest 5 updates)
 
+* 2017-05-16 新增章节：[教程-5分钟了解TypeScript](./doc/handbook/tutorials/TypeScript in 5 minutes.html)
+* 2017-05-01 新增章节：[教程-React](./doc/handbook/tutorials/React.html)
 * 2016-11-27 新增章节：[使用`/// <reference types="..." />`](./doc/handbook/Triple-Slash Directives.html)
 * 2016-11-23 新增章节：[变量声明 - 展开操作符](./doc/handbook/Variable Declarations.html)
 * 2016-10-23 新增章节：[高级类型 - 可辨识联合（Discriminated Unions）](./doc/handbook/Advanced Types.html)
 * 2016-10-07 新增章节：[从JavaScript迁移到TypeScript](./doc/handbook/tutorials/Migrating from JavaScript.html)
-* 2016-09-26 新增章节：[基础类型 - Never](./doc/handbook/Basic Types.html)
-* 2016-08-19 新增章节：[如何书写声明文件](./doc/handbook/declaration files/Introduction.html)
-* 2016-07-21 新增章节：[noUnusedLocals和noUnusedParameter编译选项](./doc/handbook/Compiler Options in MSBuild.html)
-* 2016-07-21 新增章节：[tsconfig.json文件里的include和exclude匹配](./doc/handbook/tsconfig.json.html)
-* 2016-07-20 新增章节：[this参数](./doc/handbook/Functions.html)
-* 2016-07-20 新增章节：[readonly属性](./doc/handbook/Interfaces.html)
 
 ## 相关链接
 

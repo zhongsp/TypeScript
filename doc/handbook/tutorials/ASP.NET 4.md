@@ -1,5 +1,7 @@
 # ASP.NET 4
 
+> 注意： 此教程已从官方删除
+
 ## 安装 TypeScript
 
 如果你使用的 Visual Studio 版本还不支持 TypeScript， 你可以安装 [Visual Studio 2015](http://www.microsoft.com/en-us/download/details.aspx?id=48593) 或者 [Visual Studio 2013](https://www.microsoft.com/en-us/download/details.aspx?id=48739)。

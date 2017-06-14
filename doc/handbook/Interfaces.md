@@ -1,6 +1,6 @@
 # 介绍
 
-TypeScript的核心原则之一是对值所具有的*shape*进行类型检查。
+TypeScript的核心原则之一是对值所具有的*结构*进行类型检查。
 它有时被称做“鸭式辨型法”或“结构性子类型化”。
 在TypeScript里，接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约。
 
@@ -162,7 +162,7 @@ function createSquare(config: SquareConfig): { color: string; area: number } {
 let mySquare = createSquare({ colour: "red", width: 100 });
 ```
 
-注意传入`createSquare`的参数拼写为*`colour`*而不是`color`。
+注意传入`createSquare`的参数拼写为`colour`而不是`color`。
 在JavaScript里，这会默默地失败。
 
 你可能会争辩这个程序已经正确地类型化了，因为`width`属性是兼容的，不存在`color`属性，而且额外的`colour`属性是无意义的。
@@ -413,9 +413,9 @@ let analog = createClock(AnalogClock, 7, 32);
 
 因为`createClock`的第一个参数是`ClockConstructor`类型，在`createClock(AnalogClock, 7, 32)`里，会检查`AnalogClock`是否符合构造函数签名。
 
-# 扩展接口
+# 继承接口
 
-和类一样，接口也可以相互扩展。
+和类一样，接口也可以相互继承。
 这让我们能够从一个接口里复制成员到另一个接口里，可以更灵活地将接口分割到可重用的模块里。
 
 ```ts

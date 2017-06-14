@@ -1,3 +1,5 @@
+> 注意： 此教程已从官方删除
+
 这个快速上手指南会告诉你如何结合使用TypeScript和[Knockout.js](http://knockoutjs.com/)。
 
 这里我们假设你已经会使用[Node.js](https://nodejs.org/)和[npm](https://www.npmjs.com/)

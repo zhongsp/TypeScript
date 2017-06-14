@@ -46,8 +46,7 @@ npm init
 ## 安装依赖项
 
 现在我们可以使用`npm install`命令来安装包。
-首先全局安装TypeScript和Gulp。
-（如果你正在使用Unix系统，你可能需要使用`sudo`命令来启动`npm install`命令行。）
+首先全局安装`gulp-cli`（如果你使用Unix系统，你可能需要在`npm install`命令上使用`sudo`）。
 
 ```shell
 npm install -g gulp-cli
