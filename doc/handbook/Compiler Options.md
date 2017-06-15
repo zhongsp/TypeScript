@@ -9,16 +9,17 @@
 `--alwaysStrict`                        | `boolean` | `false`                  | 以严格模式解析并为每个源文件生成`"use strict"`语句
 `--baseUrl`                             | `string`  |                          | 解析非相对模块名的基准目录。查看[模块解析文档](./Module Resolution.md#base-url)了解详情。
 `--charset`                             | `string`  | `"utf8"`                 | 输入文件的字符集。
-`--declaration`<br/>`-d`                | `boolean` | `false`                  | 生成相应的'.d.ts'文件。
+`--checkJs`                             | `boolean` | `false`                  | 在.js文件中报告错误。与`--allowJs`配合使用。
+`--declaration`<br/>`-d`                | `boolean` | `false`                  | 生成相应的`.d.ts`文件。
 `--declarationDir`                      | `string`  |                          | 生成声明文件的输出路径。
 `--diagnostics`                         | `boolean` | `false`                  | 显示诊断信息。
 `--disableSizeLimit`                    | `boolean` | `false`                  | 禁用JavaScript工程体积大小的限制
 `--emitBOM`                             | `boolean` | `false`                  | 在输出文件的开头加入BOM头（UTF-8 Byte Order Mark）。
 `--emitDecoratorMetadata`<sup>[1]</sup> | `boolean` | `false`                  | 给源码里的装饰器声明加上设计类型元数据。查看[issue #2577](https://github.com/Microsoft/TypeScript/issues/2577)了解更多信息。
 `--experimentalDecorators`<sup>[1]</sup>| `boolean` | `false`                  | 启用实验性的ES装饰器。
-`--forceConsistentCasingInFileNames`    | `boolean` | `false`                  | 不允许不一致包装引用相同的文件。
+`--forceConsistentCasingInFileNames`    | `boolean` | `false`                  | 禁止对同一个文件的不一致的引用。
 `--help`<br/>`-h`                       |           |                          | 打印帮助信息。
-`--importHelpers`                       | `string`  |                          | 从[`tslib`](https://www.npmjs.com/package/tslib)导入生成器工具函数（比如`__extends`，`__rest`等）
+`--importHelpers`                       | `string`  |                          | 从[`tslib`](https://www.npmjs.com/package/tslib)导入辅助工具函数（比如`__extends`，`__rest`等）
 `--inlineSourceMap`                     | `boolean` | `false`                  | 生成单个sourcemaps文件，而不是将每sourcemaps生成不同的文件。
 `--inlineSources`                       | `boolean` | `false`                  | 将代码与sourcemaps生成到一个文件中，要求同时设置了`--inlineSourceMap`或`--sourceMap`属性。
 `--init`                                |           |                          | 初始化TypeScript项目并创建一个`tsconfig.json`文件。
@@ -41,7 +42,7 @@
 `--noImplicitAny`                       | `boolean` | `false`                  | 在表达式和声明上有隐含的`any`类型时报错。
 `--noImplicitReturns`                   | `boolean` | `false`                  | 不是函数的所有返回路径都有返回值时报错。
 `--noImplicitThis`                      | `boolean` | `false`                  | 当`this`表达式的值为`any`类型的时候，生成一个错误。
-`--noImplicitUseStrict`                 | `boolean` | `false`                  | 模块输出中不包含'use strict'指令。
+`--noImplicitUseStrict`                 | `boolean` | `false`                  | 模块输出中不包含`"use strict"`指令。
 `--noLib`                               | `boolean` | `false`                  | 不包含默认的库文件（`lib.d.ts`）。
 `--noResolve`                           | `boolean` | `false`                  | 不把`/// <reference``>`或模块导入的文件加到编译文件列表。
 `--noUnusedLocals`                      | `boolean` | `false`                  | 若有未使用的局部变量则抛错。
@@ -61,6 +62,7 @@
 `--skipLibCheck`                        | `boolean` | `false`                  | 忽略所有的声明文件（`*.d.ts`）的类型检查。
 `--sourceMap`                           | `boolean` | `false`                  | 生成相应的`.map`文件。
 `--sourceRoot`                          | `string`  |                          | 指定TypeScript源文件的路径，以便调试器定位。当TypeScript文件的位置是在运行时指定时使用此标记。路径信息会被加到`sourceMap`里。
+`--strict`                              | `boolean` | `false`                  | 启用所有严格类型检查选项。<br/>启用`--strict`相当于启用 `--noImplicitAny`, `--noImplicitThis`, `--alwaysStrict`和`--strictNullChecks`。
 `--strictNullChecks`                    | `boolean` | `false`                  | 在严格的`null`检查模式下，`null`和`undefined`值不包含在任何类型里，只允许用它们自己和`any`来赋值（有个例外，`undefined`可以赋值到`void`）。
 `--stripInternal`<sup>[1]</sup>         | `boolean` | `false`                  | 不对具有`/** @internal */` JSDoc注解的代码生成代码。
 `--suppressExcessPropertyErrors`<sup>[1]</sup> | `boolean` | `false`           | 阻止对对象字面量的额外属性检查。
@@ -77,5 +79,5 @@
 
 ## 相关信息
 
-* 在[tsconfig.json](./tsconfig.json.md)文件里设置编译器选项。
+* 在[`tsconfig.json`](./tsconfig.json.md)文件里设置编译器选项。
 * 在[MSBuild工程](./Compiler Options in MSBuild.md)里设置编译器选项。
