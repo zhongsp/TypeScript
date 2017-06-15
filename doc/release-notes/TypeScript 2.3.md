@@ -65,7 +65,6 @@ interface AsyncIterator<T> {
 
 [异步迭代提案](https://github.com/tc39/proposal-async-iteration)引入了“异步生成器”，也就是可以用来生成部分计算结果的异步函数。异步生成器也可以通过`yield*`代理对可迭代对象或异步可迭代对象的调用：
 
-
 ```ts
 async function* g() {
   yield 1;
@@ -107,7 +106,6 @@ TypeScript 2.3 增加了对声明泛型参数默认类型的支持。
 ##### 示例
 
 考虑一个会创建新的`HTMLElement`的函数，调用时不加参数会生成一个`Div`，你也可以选择性地传入子元素的列表。之前你必须这么去定义：
-
 
 ```ts
 declare function create(): Container<HTMLDivElement, HTMLDivElement[]>;
@@ -165,7 +163,3 @@ TypeScript加入的新检查项为了避免不兼容现有项目通常都是默�
 `.js`文件仍然会被检查确保只有标准的 ECMAScript 特性，类型标注仅在`.ts`文件中被允许，在`.js`中会被标记为错误。JSDoc注释可以用来为你的JavaScript代码添加某些类型信息，更多关于支持的JSDoc结构的详情，请浏览[JSDoc支持文档](https://github.com/Microsoft/TypeScript/wiki/JSDoc-support-in-JavaScript)。
 
 有关详细信息，请浏览[类型检查JavaScript文件文档](https://github.com/Microsoft/TypeScript/wiki/Type-Checking-JavaScript-Files)。
-
-
-
-
