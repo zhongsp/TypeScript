@@ -1,4 +1,4 @@
-这篇指南将会教你如何将TypeScript和[React](http://facebook.github.io/react/)还有[webpack](http://webpack.github.io/)连结在一起使用。
+这篇指南将会教你如何将TypeScript和[React](http://facebook.github.io/react/)还有[webpack](http://webpack.github.io/)结合在一起使用。
 
 如果你正在做一个全新的工程，可以先阅读这篇[React快速上手指南](./React.md)。
 
