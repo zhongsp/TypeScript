@@ -23,6 +23,7 @@ TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript. 
   * [Angular 2](./doc/handbook/tutorials/Angular%202.md)
   * [从JavaScript迁移到TypeScript](./doc/handbook/tutorials/Migrating%20from%20JavaScript.md)
 * [新增功能](./doc/release-notes/README.md)
+  * [TypeScript 2.3](./doc/release-notes/TypeScript%202.3.md)
   * [TypeScript 2.2](./doc/release-notes/TypeScript%202.2.md)
   * [TypeScript 2.1](./doc/release-notes/TypeScript%202.1.md)
   * [TypeScript 2.0](./doc/release-notes/TypeScript%202.0.md)
