@@ -56,7 +56,7 @@ TypeScript能够根据返回语句自动推断出返回值类型，因此我们�
 现在我们已经为函数指定了类型，下面让我们写出函数的完整类型。
 
 ```ts
-let myAdd: (x:number, y:number)=>number =
+let myAdd: (x:number, y:number) => number =
     function(x: number, y: number): number { return x+y; };
 ```
 
