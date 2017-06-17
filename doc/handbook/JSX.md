@@ -66,7 +66,7 @@ TypeScript使用[与React相同的规范](http://facebook.github.io/react/docs/j
 
 固有元素使用特殊的接口`JSX.IntrinsicElements`来查找。
 默认地，如果这个接口没有指定，会全部通过，不对固有元素进行类型检查。
-然而，如果接口存在，那么固有元素的名字需要在`JSX.IntrinsicElements`接口的属性里查找。
+然而，如果这个接口存在，那么固有元素的名字需要在`JSX.IntrinsicElements`接口的属性里查找。
 例如：
 
 ```ts
