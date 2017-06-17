@@ -863,7 +863,7 @@ let proxyProps = proxify(props);
 type Pick<T, K extends keyof T> = {
     [P in K]: T[P];
 }
-type Record<K extends string | number, T> = {
+type Record<K extends string, T> = {
     [P in K]: T;
 }
 ```
