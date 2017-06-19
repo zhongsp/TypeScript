@@ -102,7 +102,7 @@ function loggingIdentity<T>(arg: T[]): T[] {
 }
 ```
 
-你可以这样理解`loggingIdentity`的类型：泛型函数`loggingIdentity`，接收类型参数`T`，和函数`arg`，它是个元素类型是`T`的数组，并返回元素类型是`T`的数组。
+你可以这样理解`loggingIdentity`的类型：泛型函数`loggingIdentity`，接收类型参数`T`和参数`arg`，它是个元素类型是`T`的数组，并返回元素类型是`T`的数组。
 如果我们传入数字数组，将返回一个数字数组，因为此时`T`的的类型为`number`。
 这可以让我们把泛型变量T当做类型的一部分使用，而不是整个类型，增加了灵活性。
 
