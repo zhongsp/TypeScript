@@ -273,11 +273,8 @@ loggingIdentity({length: 10, value: 3});
 并且我们想要确保这个属性存在于对象`obj`上，因此我们需要在这两个类型之间使用约束。
 
 ```ts
-function copyFields<T extends U, U>(target: T, source: U): T {
-    for (let id in source) {
-        target[id] = source[id];
-    }
-    return target;
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+    return obj[key];
 }
 
 let x = { a: 1, b: 2, c: 3, d: 4 };
@@ -319,11 +316,10 @@ class Lion extends Animal {
     keeper: ZooKeeper;
 }
 
-function findKeeper<A extends Animal, K> (a: {new(): A;
-    prototype: {keeper: K}}): K {
-
-    return a.prototype.keeper;
+function createInstance<A extends Animal>(c: new () => A): A {
+    return new c();
 }
 
-findKeeper(Lion).nametag;  // typechecks!
+createInstance(Lion).keeper.nametag;  // typechecks!
+createInstance(Bee).keeper.hasMask;   // typechecks!
 ```
