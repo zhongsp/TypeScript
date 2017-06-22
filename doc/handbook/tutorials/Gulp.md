@@ -97,7 +97,7 @@ var tsProject = ts.createProject("tsconfig.json");
 gulp.task("default", function () {
     return tsProject.src()
         .pipe(tsProject())
-        .ts.pipe(gulp.dest("dist"));
+        .js.pipe(gulp.dest("dist"));
 });
 ```
 

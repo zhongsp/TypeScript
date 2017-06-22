@@ -204,7 +204,7 @@ TypeScript编译器有一些额外的标记用来*通知*编译器在源码编�
 ### 路径映射
 
 有时模块不是直接放在*baseUrl*下面。
-比如，充分`"jquery"`模块地导入，在运行时可能被解释为`"node_modules\jquery\dist\jquery.slim.min.js"`。
+比如，充分`"jquery"`模块地导入，在运行时可能被解释为`"node_modules/jquery/dist/jquery.slim.min.js"`。
 加载器使用映射配置来将模块名映射到运行时的文件，查看[RequireJs documentation](http://requirejs.org/docs/api.html#config-paths)和[SystemJS documentation](https://github.com/systemjs/systemjs/blob/master/docs/config-api.md#paths)。
 
 TypeScript编译器通过使用`tsconfig.json`文件里的`"paths"`来支持这样的声明映射。
@@ -260,8 +260,8 @@ projectRoot
 
 它告诉编译器所有匹配`"*"`（所有的值）模式的模块导入会在以下两个位置查找：
 
- 1. `"*"`： 表示名字不发生改变，所以映射为`<moduleName>` => `<baseUrl>\<moduleName>`
- 2. `"generated\*"`表示模块名添加了“generated”前缀，所以映射为`<moduleName>` => `<baseUrl>\generated\<moduleName>`
+ 1. `"*"`： 表示名字不发生改变，所以映射为`<moduleName>` => `<baseUrl>/<moduleName>`
+ 2. `"generated/*"`表示模块名添加了“generated”前缀，所以映射为`<moduleName>` => `<baseUrl>/generated/<moduleName>`
 
 按照这个逻辑，编译器将会如下尝试解析这两个导入：
 

@@ -4,6 +4,8 @@
 
 [TypeScript 2.3 发布！](https://blogs.msdn.microsoft.com/typescript/2017/04/27/announcing-typescript-2-3/)
 
+:link: [一大波新的快速开始指南：React，Angular，Nodejs，ASP.NET Core，React Native，Vue，Glimmer，WeChat，Dojo2，Knockout等](./doc/quick-start/README.md)
+
 <img src="./misc/ts-2-1-release.jpg" alt="TypeScript Statistics" width="45%" height="auto"> <img src="./misc/ts-2-0-npm-downloads.png" alt="TypeScript Statistics" width="45%" height="auto">
 
 TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript. <http://www.typescriptlang.org>

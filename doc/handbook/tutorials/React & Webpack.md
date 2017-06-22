@@ -154,7 +154,7 @@ ReactDOM.render(
 ```
 
 我们仅仅将`Hello`组件导入`index.tsx`。
-注意，不同于`"react"`或`"react-dom"`，我们使用`index.tsx`的*相对路径* - 这很重要。
+注意，不同于`"react"`或`"react-dom"`，我们使用`Hello.tsx`的*相对路径* - 这很重要。
 如果不这样做，TypeScript只会尝试在`node_modules`文件夹里查找。
 
 我们还需要一个页面来显示`Hello`组件。
