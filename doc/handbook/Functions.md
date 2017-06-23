@@ -335,10 +335,10 @@ alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 现在TypeScript知道`createCardPicker`期望在某个`Deck`对象上调用。
 也就是说`this`是`Deck`类型的，而非`any`，因此`--noImplicitThis`不会报错了。
 
-### `this`参数在回调函数里
+### 回调函数里的`this`参数
 
-你可以也看到过在回调函数里的`this`报错，当你将一个函数传递到某个库函数里稍后会被调用时。
-因为当回调被调用的时候，它们会被当成一个普通函数调用，`this`将为`undefined`。
+当你将一个函数传递到某个库函数里在稍后被调用时，你可能也见到过回调函数里的`this`会报错。
+因为当回调函数被调用时，它会被当成一个普通函数调用，`this`将为`undefined`。
 稍做改动，你就可以通过`this`参数来避免错误。
 首先，库函数的作者要指定`this`的类型：
 
@@ -348,8 +348,8 @@ interface UIElement {
 }
 ```
 
-`this: void` means that `addClickListener` expects `onclick` to be a function that does not require a `this` type.
-Second, annotate your calling code with `this`:
+`this: void`意味着`addClickListener`期望`onclick`是一个函数且它不需要一个`this`类型。
+然后，为调用代码里的`this`添加类型注解：
 
 ```ts
 class Handler {
