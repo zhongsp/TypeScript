@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/zhongsp/TypeScript.svg?branch=master)](https://travis-ci.org/zhongsp/TypeScript) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-[TypeScript 2.3 发布！](https://blogs.msdn.microsoft.com/typescript/2017/04/27/announcing-typescript-2-3/)
+[TypeScript 2.4 发布！](https://blogs.msdn.microsoft.com/typescript/2017/06/27/announcing-typescript-2-4/)
 
 :link: [一大波新的快速开始指南：React，Angular，Nodejs，ASP.NET Core，React Native，Vue，Glimmer，WeChat，Dojo2，Knockout等](./doc/quick-start/README.md)
 
