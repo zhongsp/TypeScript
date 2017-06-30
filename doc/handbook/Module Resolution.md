@@ -321,7 +321,36 @@ projectRoot
 }
 ```
 
-第当编译器在`rootDirs`的子目录下找到一个相对模块导入，它会尝试从`rootDirs`里导入。
+每当编译器在某一`rootDirs`的子目录下发现了相对模块导入，它就会尝试从每一个`rootDirs`中导入。
+
+`rootDirs`的灵活性不仅仅局限于其指定了要在逻辑上合并的物理目录列表。它提供的数组可以包含任意数量的任何名字的目录，不论它们是否存在。这允许编译器以类型安全的方式处理复杂捆绑(bundles)和运行时的特性，比如条件引入和工程特定的加载器插件。
+
+设想这样一个国际化的场景，构建工具自动插入特定的路径记号来生成针对不同区域的捆绑，比如将`#{locale}`做为相对模块路径`./#{locale}/messages`的一部分。在这个假定的设置下，工具会枚举支持的区域，将抽像的路径映射成`./zh/messages`，`./de/messages`等。
+
+假设每个模块都会导出一个字符串的数组。比如`./zh/messages`可能包含：
+
+```ts
+export default [
+    "您好吗",
+    "很高兴认识你"
+];
+```
+
+利用`rootDirs`我们可以让编译器了解这个映射关系，从而也允许编译器能够安全地解析`./#{locale}/messages`，就算这个目录永远都不存在。比如，使用下面的`tsconfig.json`：
+
+```json
+{
+  "compilerOptions": {
+    "rootDirs": [
+      "src/zh",
+      "src/de",
+      "src/#{locale}"
+    ]
+  }
+}
+```
+
+编译器现在可以将`import messages from './#{locale}/messages'`解析为`import messages from './zh/messages'`用做工具支持的目的，并允许在开发时不必了解区域信息。
 
 ## 跟踪模块解析
 
