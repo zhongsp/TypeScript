@@ -6,9 +6,7 @@
 
 :link: [一大波新的快速开始指南：React，Angular，Nodejs，ASP.NET Core，React Native，Vue，Glimmer，WeChat，Dojo2，Knockout等](./doc/quick-start/README.md)
 
-<img src="./misc/ts-2-1-release.jpg" alt="TypeScript Statistics" width="45%" height="auto"> <img src="./misc/ts-2-0-npm-downloads.png" alt="TypeScript Statistics" width="45%" height="auto">
-
-TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript. <http://www.typescriptlang.org>
+<img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px"> TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript.
 
 请阅读 :book: [TypeScript Handbook 中文版 - Published with GitBook](http://zhongsp.gitbooks.io/typescript-handbook/content/)
 
