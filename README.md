@@ -2,15 +2,13 @@
 
 [![Build Status](https://travis-ci.org/zhongsp/TypeScript.svg?branch=master)](https://travis-ci.org/zhongsp/TypeScript) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-[TypeScript 2.3 发布！](https://blogs.msdn.microsoft.com/typescript/2017/04/27/announcing-typescript-2-3/)
+<img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 2.4 发布！](https://blogs.msdn.microsoft.com/typescript/2017/06/27/announcing-typescript-2-4/)
 
-:link: [一大波新的快速开始指南：React，Angular，Nodejs，ASP.NET Core，React Native，Vue，Glimmer，WeChat，Dojo2，Knockout等](./doc/quick-start/README.md)
-
-<img src="./misc/ts-2-1-release.jpg" alt="TypeScript Statistics" width="45%" height="auto"> <img src="./misc/ts-2-0-npm-downloads.png" alt="TypeScript Statistics" width="45%" height="auto">
-
-TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript. <http://www.typescriptlang.org>
+TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript.
 
 请阅读 :book: [TypeScript Handbook 中文版 - Published with GitBook](http://zhongsp.gitbooks.io/typescript-handbook/content/)
+
+:link: [一大波新的快速开始指南：React，Angular，Nodejs，ASP.NET Core，React Native，Vue，Glimmer，WeChat，Dojo2，Knockout等](./doc/quick-start/README.md)
 
 ## 目录
 
@@ -25,6 +23,7 @@ TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript. 
   * [Angular 2](./doc/handbook/tutorials/Angular%202.md)
   * [从JavaScript迁移到TypeScript](./doc/handbook/tutorials/Migrating%20from%20JavaScript.md)
 * [新增功能](./doc/release-notes/README.md)
+  * [TypeScript 2.4](./doc/release-notes/TypeScript%202.4.md)
   * [TypeScript 2.3](./doc/release-notes/TypeScript%202.3.md)
   * [TypeScript 2.2](./doc/release-notes/TypeScript%202.2.md)
   * [TypeScript 2.1](./doc/release-notes/TypeScript%202.1.md)
