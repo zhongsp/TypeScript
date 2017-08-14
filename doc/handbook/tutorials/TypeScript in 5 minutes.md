@@ -5,7 +5,7 @@
 有两种主要的方式来获取TypeScript工具：
 
 * 通过npm（Node.js包管理器）
-* 安装Visual Studior的TypeScript插件
+* 安装Visual Studio的TypeScript插件
 
 Visual Studio 2017和Visual Studio 2015 Update 3默认包含了TypeScript。
 如果你的Visual Studio还没有安装TypeScript，你可以[下载](/#download-links)它。
