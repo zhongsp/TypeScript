@@ -291,7 +291,7 @@ class Dog extends Animal {
     breed: string;
 }
 
-// Error: indexing with a 'string' will sometimes get you a Dog!
+// 错误：使用'string'索引，有时会得到Animal!
 interface NotOkay {
     [x: number]: Animal;
     [x: string]: Dog;
