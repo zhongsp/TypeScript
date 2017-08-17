@@ -81,4 +81,4 @@
 ## 相关信息
 
 * 在[`tsconfig.json`](./tsconfig.json.md)文件里设置编译器选项。
-* 在[MSBuild工程](./Compiler Options in MSBuild.md)里设置编译器选项。
+* 在[MSBuild工程](./Compiler%20Options%20in%20MSBuild.md)里设置编译器选项。
