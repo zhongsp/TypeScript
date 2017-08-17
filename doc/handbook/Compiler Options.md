@@ -45,6 +45,7 @@
 `--noImplicitUseStrict`                 | `boolean` | `false`                  | 模块输出中不包含`"use strict"`指令。
 `--noLib`                               | `boolean` | `false`                  | 不包含默认的库文件（`lib.d.ts`）。
 `--noResolve`                           | `boolean` | `false`                  | 不把`/// <reference``>`或模块导入的文件加到编译文件列表。
+`--noStrictGenericChecks`               | `boolean` | `false`                  | 禁用在函数类型里对泛型签名进行严格检查。
 `--noUnusedLocals`                      | `boolean` | `false`                  | 若有未使用的局部变量则抛错。
 `--noUnusedParameters`                  | `boolean` | `false`                  | 若有未使用的参数则抛错。
 ~~`--out`~~                             | `string`  |                          | 弃用。使用 `--outFile` 代替。
