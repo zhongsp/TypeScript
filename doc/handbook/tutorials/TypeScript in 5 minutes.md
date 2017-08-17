@@ -76,7 +76,7 @@ document.body.innerHTML = greeter(user);
 重新编译，你会看到产生了一个错误。
 
 ```shell
-greeter.ts(7,26): error TS2345: Argument of type 'number[]' is not assignable to parameter of type 'string'.
+error TS2345: Argument of type 'number[]' is not assignable to parameter of type 'string'.
 ```
 
 类似地，尝试删除`greeter`调用的所有参数。
