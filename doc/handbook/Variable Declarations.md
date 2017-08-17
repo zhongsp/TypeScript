@@ -644,8 +644,9 @@ let search = { food: "rich", ...defaults };
 那么，`defaults`里的`food`属性会重写`food: "rich"`，在这里这并不是我们想要的结果。
 
 对象展开还有其它一些意想不到的限制。
-首先，它只包含自身的可枚举的属性。
-首先，当你展开一个对象实例时，你会丢失其方法：
+首先，它仅包含对象
+[自身的可枚举属性](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Enumerability_and_ownership_of_properties)。
+大体上是说当你展开一个对象实例时，你会丢失其方法：
 
 ```ts
 class C {
