@@ -120,7 +120,7 @@ TypeScript支持JavaScript的新特性，比如支持基于类的面向对象编
 ```ts
 class Student {
     fullName: string;
-    constructor(public firstName, public middleInitial, public lastName) {
+    constructor(public firstName: string, public middleInitial: string, public lastName: string) {
         this.fullName = firstName + " " + middleInitial + " " + lastName;
     }
 }
