@@ -41,8 +41,7 @@ let zoo = [new Rhino(), new Elephant(), new Snake()];
 let zoo: Animal[] = [new Rhino(), new Elephant(), new Snake()];
 ```
 
-如果没有找到最佳通用类型的话，类型推论的结果是空对象类型，`{}`。
-因为这个类型没有任何成员，所以访问其成员的时候会报错。
+如果没有找到最佳通用类型的话，类型推断的结果为联合数组类型，`(Rhino | Elephant | Snake)[]`。
 
 # 上下文类型
 
@@ -51,7 +50,7 @@ TypeScript类型推论也可能按照相反的方向进行。
 
 ```ts
 window.onmousedown = function(mouseEvent) {
-    console.log(mouseEvent.buton);  //<- Error
+    console.log(mouseEvent.button);  //<- Error
 };
 ```
 
@@ -64,7 +63,7 @@ window.onmousedown = function(mouseEvent) {
 
 ```ts
 window.onmousedown = function(mouseEvent: any) {
-    console.log(mouseEvent.buton);  //<- Now, no error is given
+    console.log(mouseEvent.button);  //<- Now, no error is given
 };
 ```
 

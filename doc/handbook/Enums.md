@@ -53,7 +53,7 @@ enum Enum {
     A
 }
 let a = Enum.A;
-let nameOfA = Enum[Enum.A]; // "A"
+let nameOfA = Enum[a]; // "A"
 ```
 
 编译成：
@@ -64,7 +64,7 @@ var Enum;
     Enum[Enum["A"] = 0] = "A";
 })(Enum || (Enum = {}));
 var a = Enum.A;
-var nameOfA = Enum[Enum.A]; // "A"
+var nameOfA = Enum[a]; // "A"
 ```
 
 生成的代码中，枚举类型被编译成一个对象，它包含双向映射（`name` -> `value`）和（`value` -> `name`）。

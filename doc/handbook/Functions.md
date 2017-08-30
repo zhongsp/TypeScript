@@ -45,7 +45,7 @@ function add(x: number, y: number): number {
     return x + y;
 }
 
-let myAdd = function(x: number, y: number): number { return x+y; };
+let myAdd = function(x: number, y: number): number { return x + y; };
 ```
 
 我们可以给每个参数添加类型之后再为函数本身添加返回值类型。
@@ -57,7 +57,7 @@ TypeScript能够根据返回语句自动推断出返回值类型，因此我们�
 
 ```ts
 let myAdd: (x:number, y:number) => number =
-    function(x: number, y: number): number { return x+y; };
+    function(x: number, y: number): number { return x + y; };
 ```
 
 函数类型包含两部分：参数类型和返回值类型。
@@ -67,7 +67,7 @@ let myAdd: (x:number, y:number) => number =
 我们也可以这么写：
 
 ```ts
-let myAdd: (baseValue:number, increment:number) => number =
+let myAdd: (baseValue: number, increment: number) => number =
     function(x: number, y: number): number { return x + y; };
 ```
 
@@ -90,7 +90,7 @@ let myAdd: (baseValue:number, increment:number) => number =
 let myAdd = function(x: number, y: number): number { return x + y; };
 
 // The parameters `x` and `y` have the type number
-let myAdd: (baseValue:number, increment:number) => number =
+let myAdd: (baseValue: number, increment: number) => number =
     function(x, y) { return x + y; };
 ```
 

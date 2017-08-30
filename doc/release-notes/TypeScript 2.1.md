@@ -136,7 +136,7 @@ const lengths = mapObject(names, s => s.length);  // { foo: number, bar: number,
 
 ## 对象扩展运算符和rest运算符
 
-TypeScript 2.1带来了[ES2017扩展运算符和rest运算符](https://github.com/sebmarkbage/ecmascript-rest-spread)的支持。
+TypeScript 2.1带来了[ESnext扩展运算符和rest运算符](https://github.com/sebmarkbage/ecmascript-rest-spread)的支持。
 
 类似于数组扩展，展开对象可以方便得到浅拷贝：
 

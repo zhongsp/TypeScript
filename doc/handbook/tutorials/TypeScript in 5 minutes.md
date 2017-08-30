@@ -5,7 +5,7 @@
 有两种主要的方式来获取TypeScript工具：
 
 * 通过npm（Node.js包管理器）
-* 安装Visual Studior的TypeScript插件
+* 安装Visual Studio的TypeScript插件
 
 Visual Studio 2017和Visual Studio 2015 Update 3默认包含了TypeScript。
 如果你的Visual Studio还没有安装TypeScript，你可以[下载](/#download-links)它。
@@ -76,7 +76,7 @@ document.body.innerHTML = greeter(user);
 重新编译，你会看到产生了一个错误。
 
 ```shell
-greeter.ts(7,26): error TS2345: Argument of type 'number[]' is not assignable to parameter of type 'string'.
+error TS2345: Argument of type 'number[]' is not assignable to parameter of type 'string'.
 ```
 
 类似地，尝试删除`greeter`调用的所有参数。
@@ -120,7 +120,7 @@ TypeScript支持JavaScript的新特性，比如支持基于类的面向对象编
 ```ts
 class Student {
     fullName: string;
-    constructor(public firstName, public middleInitial, public lastName) {
+    constructor(public firstName: string, public middleInitial: string, public lastName: string) {
         this.fullName = firstName + " " + middleInitial + " " + lastName;
     }
 }

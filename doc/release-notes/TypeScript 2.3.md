@@ -95,7 +95,7 @@ async function f() {
 
 ##### 注意事项
 
-* 始终记住我们对于异步迭代器的支持是建立在运行时有`Symbol.asyncIterator`支持的基础上的。你可能需要`Symbol.asyncIterator`的三方实现，虽然对于简单的目的可以仅仅是：`(Symbol as any).asyncIterator = Symbol.asyncIterator || Symbol.from("Symbol.asyncIterator");`
+* 始终记住我们对于异步迭代器的支持是建立在运行时有`Symbol.asyncIterator`支持的基础上的。你可能需要`Symbol.asyncIterator`的三方实现，虽然对于简单的目的可以仅仅是：`(Symbol as any).asyncIterator = Symbol.asyncIterator || Symbol.for("Symbol.asyncIterator");`
 * 如果你没有声明`AsyncIterator`，还需要在`--lib`选项中加入`esnext`来获取`AsyncIterator`声明。
 * 最后, 如果你的编译目标是ES5或ES3，你还需要设置`--downlevelIterators`编译选项。
 

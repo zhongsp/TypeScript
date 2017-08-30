@@ -45,6 +45,7 @@
 `--noImplicitUseStrict`                 | `boolean` | `false`                  | 模块输出中不包含`"use strict"`指令。
 `--noLib`                               | `boolean` | `false`                  | 不包含默认的库文件（`lib.d.ts`）。
 `--noResolve`                           | `boolean` | `false`                  | 不把`/// <reference``>`或模块导入的文件加到编译文件列表。
+`--noStrictGenericChecks`               | `boolean` | `false`                  | 禁用在函数类型里对泛型签名进行严格检查。
 `--noUnusedLocals`                      | `boolean` | `false`                  | 若有未使用的局部变量则抛错。
 `--noUnusedParameters`                  | `boolean` | `false`                  | 若有未使用的参数则抛错。
 ~~`--out`~~                             | `string`  |                          | 弃用。使用 `--outFile` 代替。
@@ -52,6 +53,7 @@
 `--outFile`                             | `string`  |                          | 将输出文件合并为一个文件。合并的顺序是根据传入编译器的文件顺序和`///<reference``>`和`import`的文件顺序决定的。查看输出文件顺序文件了解详情。
 `paths`<sup>[2]</sup>                   | `Object`  |                          | 模块名到基于`baseUrl`的路径映射的列表。查看[模块解析文档](./Module Resolution.md#path-mapping)了解详情。
 `--preserveConstEnums`                  | `boolean` | `false`                  | 保留`const`和`enum`声明。查看[const enums documentation](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md#94-constant-enum-declarations)了解详情。
+`--preserveSymlinks`                    | `boolean` | `false`                  | 不把符号链接解析为其真实路径；将符号链接文件视为真正的文件。
 `--pretty`<sup>[1]</sup>                | `boolean` | `false`                  | 给错误和消息设置样式，使用颜色和上下文。
 `--project`<br/>`-p`                    | `string`  |                          | 编译指定目录下的项目。这个目录应该包含一个`tsconfig.json`文件来管理编译。查看[tsconfig.json](./tsconfig.json.md)文档了解更多信息。
 `--reactNamespace`                      | `string`  | `"React"`                | 当目标为生成`"react"` JSX时，指定`createElement`和`__spread`的调用对象
@@ -80,4 +82,4 @@
 ## 相关信息
 
 * 在[`tsconfig.json`](./tsconfig.json.md)文件里设置编译器选项。
-* 在[MSBuild工程](./Compiler Options in MSBuild.md)里设置编译器选项。
+* 在[MSBuild工程](./Compiler%20Options%20in%20MSBuild.md)里设置编译器选项。
