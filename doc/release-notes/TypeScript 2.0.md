@@ -495,7 +495,7 @@ TypeScript 2.0还增加了一个新的编译选项用来标记函数中所有没
 
 TypeScript 2.0提供了一系列额外的模块解析属性告诉编译器去哪里可以找到给定模块的声明。
 
-更多详情，请参阅[模块解析](http://www.tslang.cn/docs/handbook/module-resolution.html)文档。
+更多详情，请参阅[模块解析](./../handbook/Module%20Resolution.md)文档。
 
 ### Base URL
 
