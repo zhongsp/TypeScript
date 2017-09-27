@@ -63,6 +63,7 @@
 `--noImplicitReturns`                        | TypeScriptNoImplicitReturns                | 布尔值
 `--noImplicitThis`                           | TypeScriptNoImplicitThis                   | 布尔值
 `--noImplicitUseStrict`                      | TypeScriptNoImplicitUseStrict              | 布尔值
+`--noStrictGenericChecks`                    | TypeScriptNoStrictGenericChecks            | 布尔值
 `--noUnusedLocals`                           | TypeScriptNoUnusedLocals                   | 布尔值
 `--noUnusedParameters`                       | TypeScriptNoUnusedParameters               | 布尔值
 `--noLib`                                    | TypeScriptNoLib                            | 布尔值
@@ -72,6 +73,7 @@
 `--outFile`                                  | TypeScriptOutFile                          | 文件路径
 `--paths`                                    | *MSBuild不支持此选项*                        |
 `--preserveConstEnums`                       | TypeScriptPreserveConstEnums               | 布尔值
+`--preserveSymlinks`                         | TypeScriptPreserveSymlinks                 | 布尔值
 `--listEmittedFiles`                         | *MSBuild不支持此选项*                        |
 `--pretty`                                   | *MSBuild不支持此选项*                        |
 `--reactNamespace`                           | TypeScriptReactNamespace                   | 字符串
