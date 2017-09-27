@@ -123,7 +123,7 @@ export const Hello = (props: HelloProps) => <h1>Hello from {props.compiler} and 
 
 ```
 
-注意这个例子使用了[无状态的功能组件](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions))，我们可以让它更像一点*类*。
+注意这个例子使用了[无状态的功能组件](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions)，我们可以让它更像一点*类*。
 
 ```ts
 import * as React from "react";
