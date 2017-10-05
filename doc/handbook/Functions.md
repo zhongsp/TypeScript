@@ -217,7 +217,7 @@ let buildNameFun: (fname: string, ...rest: string[]) => string = buildName;
 
 # `this`
 
-学习使用JavaScript里`this`就好比一场成年礼。
+学习如何在JavaScript里正确使用`this`就好比一场成年礼。
 由于TypeScript是JavaScript的超集，TypeScript程序员也需要弄清`this`工作机制并且当有bug的时候能够找出错误所在。
 幸运的是，TypeScript能通知你错误地使用了`this`的地方。
 如果你想了解JavaScript里的`this`是如何工作的，那么首先阅读Yehuda Katz写的[Understanding JavaScript Function Invocation and "this"](http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/)。
