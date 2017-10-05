@@ -744,7 +744,7 @@ export function test(c: Calculator, input: string) {
 }
 ```
 
-这是使用导出的`test`函数来测试计算器。
+下面使用导出的`test`函数来测试计算器。
 
 #### TestCalculator.ts
 
