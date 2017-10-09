@@ -117,7 +117,7 @@ class Animal {
     constructor(theName: string) { this.name = theName; }
 }
 
-new Animal("Cat").name; // Error: 'name' is private;
+new Animal("Cat").name; // 错误: 'name' 是私有的.
 ```
 
 TypeScript使用的是结构性类型系统。
@@ -149,7 +149,7 @@ let rhino = new Rhino();
 let employee = new Employee("Bob");
 
 animal = rhino;
-animal = employee; // Error: Animal and Employee are not compatible
+animal = employee; // 错误: Animal 与 Employee 不兼容.
 ```
 
 这个例子中有`Animal`和`Rhino`两个类，`Rhino`是`Animal`类的子类。
@@ -184,7 +184,7 @@ class Employee extends Person {
 
 let howard = new Employee("Howard", "Sales");
 console.log(howard.getElevatorPitch());
-console.log(howard.name); // error
+console.log(howard.name); // 错误
 ```
 
 注意，我们不能在`Person`类外使用`name`，但是我们仍然可以通过`Employee`类的实例方法访问，因为`Employee`是由`Person`派生而来的。
@@ -198,7 +198,7 @@ class Person {
     protected constructor(theName: string) { this.name = theName; }
 }
 
-// Employee can extend Person
+// Employee 能够继承 Person
 class Employee extends Person {
     private department: string;
 
@@ -213,7 +213,7 @@ class Employee extends Person {
 }
 
 let howard = new Employee("Howard", "Sales");
-let john = new Person("John"); // Error: The 'Person' constructor is protected
+let john = new Person("John"); // 错误: 'Person' 的构造函数是被保护的.
 ```
 
 # readonly修饰符
@@ -230,7 +230,7 @@ class Octopus {
     }
 }
 let dad = new Octopus("Man with the 8 strong legs");
-dad.name = "Man with the 3-piece suit"; // error! name is readonly.
+dad.name = "Man with the 3-piece suit"; // 错误! name 是只读的.
 ```
 
 ## 参数属性
@@ -379,7 +379,7 @@ abstract class Department {
 class AccountingDepartment extends Department {
 
     constructor() {
-        super('Accounting and Auditing'); // constructors in derived classes must call super()
+        super('Accounting and Auditing'); // 在派生类的构造函数中必须调用 super()
     }
 
     printMeeting(): void {
@@ -391,12 +391,12 @@ class AccountingDepartment extends Department {
     }
 }
 
-let department: Department; // ok to create a reference to an abstract type
-department = new Department(); // error: cannot create an instance of an abstract class
-department = new AccountingDepartment(); // ok to create and assign a non-abstract subclass
+let department: Department; // 允许创建一个对抽象类型的引用
+department = new Department(); // 错误: 不能创建一个抽象类的实例
+department = new AccountingDepartment(); // 允许对一个抽象子类进行实例化和赋值
 department.printName();
 department.printMeeting();
-department.generateReports(); // error: method doesn't exist on declared abstract type
+department.generateReports(); // 错误: 方法在声明的抽象类中不存在
 ```
 
 # 高级技巧
