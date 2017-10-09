@@ -102,7 +102,57 @@ import MyComponent from "./myComponent";
 <SomeOtherComponent />; // 错误
 ```
 
-可以限制基于值的元素的类型。
+有两种方式可以定义基于值的元素：
+
+1. 无状态函数组件 (SFC)
+2. 类组件
+
+由于这两种基于值的元素在JSX表达式里无法区分，因此我们首先会尝试将表达式做为无状态函数组件进行解析。如果解析成功，那么我们就完成了表达式到其声明的解析操作。如果按照无状态函数组件解析失败，那么我们会继续尝试以类组件的形式进行解析。如果依旧失败，那么将输出一个错误。
+
+### 无状态函数组件
+
+正如其名，组件被定义成JavaScript函数，它的第一个参数是`props`对象。
+我们强制它的返回值可以赋值给`JSX.Element`。
+
+```ts
+interface FooProp {
+  name: string;
+  X: number;
+  Y: number;
+}
+
+declare function AnotherComponent(prop: {name: string});
+function ComponentFoo(prop: FooProp) {
+  return <AnotherComponent name=prop.name />;
+}
+
+const Button = (prop: {value: string}, context: { color: string }) => <button>
+```
+
+由于无状态函数组件是简单的JavaScript函数，所以我们还可以利用函数重载。
+
+```ts
+interface ClickableProps {
+  children: JSX.Element[] | JSX.Element
+}
+
+interface HomeProps extends ClickableProps {
+  home: JSX.Element;
+}
+
+interface SideProps extends ClickableProps {
+  side: JSX.Element | string;
+}
+
+function MainButton(prop: HomeProps): JSX.Element;
+function MainButton(prop: SideProps): JSX.Element {
+  ...
+}
+```
+
+### 类组件
+
+我们可以限制类组件的类型。
 然而，为了这么做我们需要引入两个新的术语：*元素类的类型*和*元素实例的类型*。
 
 现在有`<Expr />`，*元素类的类型*为`Expr`的类型。
@@ -238,9 +288,78 @@ var badProps = {};
 <foo {...badProps} />; // 错误
 ```
 
+## 子孙类型检查
+
+从TypeScript 2.3开始，我们引入了*children*类型检查。*children*是*元素属性(attribute)类型*的一个属性(property)。
+与使用`JSX.ElementAttributesProperty`来决定*props*名类似，我们可以利用`JSX.ElementChildrenAttribute`来决定*children*名。
+`JSX.ElementChildrenAttribute`应该被声明在单一的属性(property)里。
+
+```ts
+declare namespace JSX {
+  interface ElementChildrenAttribute {
+    children: {};  // specify children name to use
+  }
+}
+```
+
+如不特殊指定子孙的类型，我们将使用[React typings](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react)里的默认类型。
+
+```ts
+<div>
+  <h1>Hello</h1>
+</div>;
+
+<div>
+  <h1>Hello</h1>
+  World
+</div>;
+
+const CustomComp = (props) => <div>props.children</div>
+<CustomComp>
+  <div>Hello World</div>
+  {"This is just a JS expression..." + 1000}
+</CustomComp>
+```
+
+你也可以像其它属性一样指定*children*的类型。下面我们重写[React typings](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react)里的默认类型。
+
+```ts
+interface PropsType {
+  children: JSX.Element
+  name: string
+}
+
+class Component extends React.Component<PropsType, {}> {
+  render() {
+    return (
+      <h2>
+        this.props.children
+      </h2>
+    )
+  }
+}
+
+// OK
+<Component>
+  <h1>Hello World</h1>
+</Component>
+
+// Error: children is of type JSX.Element not array of JSX.Element
+<Component>
+  <h1>Hello World</h1>
+  <h2>Hello World</h2>
+</Component>
+
+// Error: children is of type JSX.Element not array of JSX.Element or string.
+<Component>
+  <h1>Hello</h1>
+  World
+</Component>
+```
+
 # JSX结果类型
 
-默认地JSX表达式结果的类型为`any。
+默认地JSX表达式结果的类型为`any`。
 你可以自定义这个类型，通过指定`JSX.Element`接口。
 然而，不能够从接口里检索元素，属性或JSX的子元素的类型信息。
 它是一个黑盒。
