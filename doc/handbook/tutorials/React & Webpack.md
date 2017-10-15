@@ -171,8 +171,8 @@ ReactDOM.render(
         <div id="example"></div>
 
         <!-- Dependencies -->
-        <script src="./node_modules/react/dist/react.js"></script>
-        <script src="./node_modules/react-dom/dist/react-dom.js"></script>
+        <script src="./node_modules/react/umd/react.development.js"></script>
+        <script src="./node_modules/react-dom/umd/react-dom.development.js"></script>
 
         <!-- Main -->
         <script src="./dist/bundle.js"></script>
