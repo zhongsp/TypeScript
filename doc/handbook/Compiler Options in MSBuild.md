@@ -84,6 +84,7 @@
 `--skipDefaultLibCheck`                      | TypeScriptSkipDefaultLibCheck              | 布尔值
 `--sourceMap`                                | TypeScriptSourceMap                        | 文件路径
 `--sourceRoot`                               | TypeScriptSourceRoot                       | 文件路径
+`--strictFunctionTypes`                      | TypeScriptStrictFunctionTypes              | 布尔值
 `--strictNullChecks`                         | TypeScriptStrictNullChecks                 | 布尔值
 `--stripInternal`                            | TypeScriptStripInternal                    | 布尔值
 `--suppressExcessPropertyErrors`             |  TypeScriptSuppressExcessPropertyErrors    | 布尔值
