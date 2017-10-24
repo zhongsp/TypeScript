@@ -25,7 +25,7 @@ function greeter(person) {
     return "Hello, " + person;
 }
 
-var user = "Jane User";
+let user = "Jane User";
 
 document.body.innerHTML = greeter(user);
 ```
@@ -52,7 +52,7 @@ function greeter(person: string) {
     return "Hello, " + person;
 }
 
-var user = "Jane User";
+let user = "Jane User";
 
 document.body.innerHTML = greeter(user);
 ```
@@ -68,7 +68,7 @@ function greeter(person: string) {
     return "Hello, " + person;
 }
 
-var user = [0, 1, 2];
+let user = [0, 1, 2];
 
 document.body.innerHTML = greeter(user);
 ```
@@ -102,7 +102,7 @@ function greeter(person: Person) {
     return "Hello, " + person.firstName + " " + person.lastName;
 }
 
-var user = { firstName: "Jane", lastName: "User" };
+let user = { firstName: "Jane", lastName: "User" };
 
 document.body.innerHTML = greeter(user);
 ```
@@ -134,7 +134,7 @@ function greeter(person : Person) {
     return "Hello, " + person.firstName + " " + person.lastName;
 }
 
-var user = new Student("Jane", "M.", "User");
+let user = new Student("Jane", "M.", "User");
 
 document.body.innerHTML = greeter(user);
 ```
