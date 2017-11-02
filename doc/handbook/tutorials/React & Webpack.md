@@ -234,7 +234,7 @@ module.exports = {
 这叫做“命名空间”模式，webpack也允许我们继续使用通过这种方式写的代码库。
 通过我们的设置`"react": "React"`，webpack会神奇地将所有对`"react"`的导入转换成从`React`全局变量中加载。
 
-你可以在[这里](http://webpack.github.io/docs/configuration.html)了解更多如何配置webpack。
+你可以在[这里](https://webpack.js.org/concepts)了解更多如何配置webpack。
 
 # 整合在一起
 
