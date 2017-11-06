@@ -1,6 +1,6 @@
 # TypeScript Handbook（中文版）
 
-[TypeScript 2.3 正式发布!](https://blogs.msdn.microsoft.com/typescript/2016/12/07/announcing-typescript-2-1/)
+[TypeScript 2.4 正式发布!](https://blogs.msdn.microsoft.com/typescript/2017/06/27/announcing-typescript-2-4/)
 
 > 从前打心眼儿里讨厌编译成JavaScript的这类语言，像Coffee，Dart等。
 > 但是在15年春节前后却爱上了TypeScript。
