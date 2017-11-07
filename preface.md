@@ -68,6 +68,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [Decorators](./doc/handbook/Decorators.html)
   * [混入](./doc/handbook/Mixins.html)
   * [三斜线指令](./doc/handbook/Triple-Slash Directives.html)
+  * [JavaScript文件里的类型检查](./doc/handbook/Type Checking JavaScript Files.html)
 * [如何书写声明文件](./doc/handbook/declaration files/Introduction.html)
   * [结构](./doc/handbook/declaration files/Library Structures.html)
   * [规范](./doc/handbook/declaration files/Do's and Don'ts.html)
@@ -103,12 +104,12 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 
 ## 主要修改 (Latest 5 updates)
 
+* 2017-11-07 新增章节：[JavaScript文件里的类型检查](./doc/handbook/Type Checking JavaScript Files.html)
 * 2017-05-16 新增章节：[教程-5分钟了解TypeScript](./doc/handbook/tutorials/TypeScript in 5 minutes.html)
 * 2017-05-01 新增章节：[教程-React](./doc/handbook/tutorials/React.html)
 * 2016-11-27 新增章节：[使用`/// <reference types="..." />`](./doc/handbook/Triple-Slash Directives.html)
 * 2016-11-23 新增章节：[变量声明 - 展开操作符](./doc/handbook/Variable Declarations.html)
 * 2016-10-23 新增章节：[高级类型 - 可辨识联合（Discriminated Unions）](./doc/handbook/Advanced Types.html)
-* 2016-10-07 新增章节：[从JavaScript迁移到TypeScript](./doc/handbook/tutorials/Migrating from JavaScript.html)
 
 ## 相关链接
 

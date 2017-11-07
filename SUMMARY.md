@@ -46,6 +46,7 @@
   * [Decorators](./doc/handbook/Decorators.md)
   * [混入](./doc/handbook/Mixins.md)
   * [三斜线指令](./doc/handbook/Triple-Slash Directives.md)
+  * [JavaScript文件里的类型检查](./doc/handbook/Type Checking JavaScript Files.md)
 * [如何书写声明文件](./doc/handbook/declaration files/Introduction.md)
   * [结构](./doc/handbook/declaration files/Library Structures.md)
   * [规范](./doc/handbook/declaration files/Do's and Don'ts.md)

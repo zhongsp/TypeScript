@@ -58,6 +58,7 @@ TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript.
   * [Decorators](./doc/handbook/Decorators.md)
   * [混入](./doc/handbook/Mixins.md)
   * [三斜线指令](./doc/handbook/Triple-Slash%20Directives.md)
+  * [JavaScript文件里的类型检查](./doc/handbook/Type%20Checking%20JavaScript%20Files.md)
 * [如何书写声明文件](./doc/handbook/declaration%20files/Introduction.md)
   * [结构](./doc/handbook/declaration%20files/Library%20Structures.md)
   * [规范](./doc/handbook/declaration%20files/Do's%20and%20Don'ts.md)
