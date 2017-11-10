@@ -135,7 +135,7 @@ let c: Color = Color.Green;
 enum Color {Red = 1, Green, Blue}
 let colorName: string = Color[2];
 
-alert(colorName);  // 显示'Green'因数它的值大于2
+alert(colorName);  // 显示'Green'因为上面代码里它的值是2
 ```
 
 # 任意值
