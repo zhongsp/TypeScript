@@ -59,7 +59,7 @@ const fs = require("fs");
 
 // export function readFile
 module.exports.readFile = function(f) {
-  return fs.readFileSync(f);  
+  return fs.readFileSync(f);
 }
 ```
 
@@ -82,7 +82,6 @@ obj.b = 2;  // Allowed
 var obj = { a: 1 };
 obj.b = 2;  // Error, type {a: number} does not have property b
 ```
-
 
 ## 函数参数是默认可选的
 
@@ -121,7 +120,6 @@ sayHello();
 ## 由`arguments`推断出的var-args参数声明
 
 如果一个函数的函数体内有对`arguments`的引用，那么这个函数会隐式地被认为具有一个var-arg参数（比如:`(...arg: any[]) => any`)）。使用JSDoc的var-arg语法来指定`arguments`的类型。
-
 
 ## 未指定的类型参数默认为`any`
 
