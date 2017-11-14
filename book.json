@@ -1,5 +1,5 @@
 {
-    "gitbook": "2.x.x",
+    "gitbook": ">3.0.0",
     "language" : "zh-hans",
     "author": "Patrick Zhong",
     "title": "TypeScript Handbook",
