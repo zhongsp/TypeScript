@@ -34,13 +34,40 @@ let greeter = new Greeter("world");
 # 继承
 
 在TypeScript里，我们可以使用常用的面向对象模式。
-当然，基于类的程序设计中最基本的模式是允许使用继承来扩展现有的类。
+基于类的程序设计中一种最基本的模式是允许使用继承来扩展现有的类。
 
 看下面的例子：
 
 ```ts
 class Animal {
-    name:string;
+    move(distanceInMeters: number = 0) {
+        console.log(`Animal moved ${distanceInMeters}m.`);
+    }
+}
+
+class Dog extends Animal {
+    bark() {
+        console.log('Woof! Woof!');
+    }
+}
+
+const dog = new Dog();
+dog.bark();
+dog.move(10);
+dog.bark();
+```
+
+这个例子展示了最基本的继承：类从基类中继承了属性和方法。
+这里，`Dog`是一个*派生类*，它派生自`Animal`*基类*，通过`extends`关键字。
+派生类通常被称作*子类*，基类通常被称作*超类*。
+
+因为`Dog`继承了`Animal`的功能，因此我们可以创建一个`Dog`的实例，它能够`bark()`和`move()`。
+
+下面我们来看个更加复杂的例子。
+
+```ts
+class Animal {
+    name: string;
     constructor(theName: string) { this.name = theName; }
     move(distanceInMeters: number = 0) {
         console.log(`${this.name} moved ${distanceInMeters}m.`);
@@ -70,14 +97,16 @@ sam.move();
 tom.move(34);
 ```
 
-这个例子展示了TypeScript中继承的一些特征，它们与其它语言类似。
-我们使用`extends`关键字来创建子类。你可以看到`Horse`和`Snake`类是基类`Animal`的子类，并且可以访问其属性和方法。
+这个例子展示了一些上面没有提到的特性。
+这一次，我们使用`extends`关键字创建了`Animal`的两个子类：`Horse`和`Snake`。
 
-包含构造函数的派生类必须调用`super()`，它会执行基类的构造方法。
+与前一个例子的不同点是，派生类包含了一个构造函数，它*必须*调用`super()`，它会执行基类的构造函数。
+而且，在构造函数里访问`this`的属性之前，我们*一定*要调用`super()`。
+这个是TypeScript强制执行的一条重要规则。
 
 这个例子演示了如何在子类里可以重写父类的方法。
 `Snake`类和`Horse`类都创建了`move`方法，它们重写了从`Animal`继承来的`move`方法，使得`move`方法根据不同的类而具有不同的功能。
-注意，即使`tom`被声明为`Animal`类型，但因为它的值是`Horse`，`tom.move(34)`会调用`Horse`里的重写方法：
+注意，即使`tom`被声明为`Animal`类型，但因为它的值是`Horse`，调用`tom.move(34)`时，它会调用`Horse`里重写的方法：
 
 ```text
 Slithering...
