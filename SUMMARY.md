@@ -11,6 +11,8 @@
   * [Angular 2](./doc/handbook/tutorials/Angular 2.md)
   * [从JavaScript迁移到TypeScript](./doc/handbook/tutorials/Migrating from JavaScript.md)
 * [新增功能](./doc/release-notes/README.md)
+  * [TypeScript 2.6](./doc/release-notes/TypeScript 2.6.md)
+  * [TypeScript 2.5](./doc/release-notes/TypeScript 2.5.md)
   * [TypeScript 2.4](./doc/release-notes/TypeScript 2.4.md)
   * [TypeScript 2.3](./doc/release-notes/TypeScript 2.3.md)
   * [TypeScript 2.2](./doc/release-notes/TypeScript 2.2.md)
