@@ -13,7 +13,7 @@ try {
 catch {
     // ^ 注意我们的 `catch` 语句并没有声明一个变量
     console.log("传入的 JSON 不合法\n\n" + input)
-} 
+}
 ```
 
 ## `checkJs`/`@ts-check` 模式中的类型断言/转换语法
