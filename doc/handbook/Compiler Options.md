@@ -26,7 +26,7 @@
 `--isolatedModules`                     | `boolean` | `false`                  | 将每个文件作为单独的模块（与“ts.transpileModule”类似）。
 `--jsx`                                 | `string`  | `"Preserve"`             | 在`.tsx`文件里支持JSX：`"React"`或`"Preserve"`。查看[JSX](./JSX.md)。
 `--jsxFactory`                          | `string`  | `"React.createElement"`  | 指定生成目标为react JSX时，使用的JSX工厂函数，比如`React.createElement`或`h`。
-`--lib`                                 | `string[]`|                          | 编译过程中需要引入的库文件的列表。<br/>可能的值为：  <br/>► `ES5` <br/>► `ES6` <br/>► `ES2015` <br/>► `ES7` <br/>► `ES2016` <br/>► `ES2017` <br/>► `DOM` <br/>► `DOM.Iterable` <br/>► `WebWorker` <br/>► `ScriptHost` <br/>► `ES2015.Core` <br/>► `ES2015.Collection` <br/>► `ES2015.Generator` <br/>► `ES2015.Iterable` <br/>► `ES2015.Promise` <br/>► `ES2015.Proxy` <br/>► `ES2015.Reflect` <br/>► `ES2015.Symbol` <br/>► `ES2015.Symbol.WellKnown` <br/>► `ES2016.Array.Include` <br/>► `ES2017.object` <br/>► `ES2017.SharedMemory` <br/><br/> 注意：如果`--lib`没有指定一个默认注入的库。默认注入的库为：<br/> ► 针对于`--target ES5`：`DOM，ES5，ScriptHost`<br/>  ► 针对于`--target ES6`：`DOM，ES6，DOM.Iterable，ScriptHost`
+`--lib`                                 | `string[]`|                          | 编译过程中需要引入的库文件的列表。<br/>可能的值为：  <br/>► `ES5` <br/>► `ES6` <br/>► `ES2015` <br/>► `ES7` <br/>► `ES2016` <br/>► `ES2017` <br/>► `DOM` <br/>► `DOM.Iterable` <br/>► `WebWorker` <br/>► `ScriptHost` <br/>► `ES2015.Core` <br/>► `ES2015.Collection` <br/>► `ES2015.Generator` <br/>► `ES2015.Iterable` <br/>► `ES2015.Promise` <br/>► `ES2015.Proxy` <br/>► `ES2015.Reflect` <br/>► `ES2015.Symbol` <br/>► `ES2015.Symbol.WellKnown` <br/>► `ES2016.Array.Include` <br/>► `ES2017.object` <br/>► `ES2017.SharedMemory`► `ES2017.TypedArrays` <br/>► `esnext.asynciterable` <br/><br/> 注意：如果`--lib`没有指定默认注入的库的列表。默认注入的库为：<br/> ► 针对于`--target ES5`：`DOM，ES5，ScriptHost`<br/>  ► 针对于`--target ES6`：`DOM，ES6，DOM.Iterable，ScriptHost`
 `--listEmittedFiles`                    | `boolean` | `false`                  | 打印出编译后生成文件的名字。
 `--listFiles`                           | `boolean` | `false`                  | 编译过程中打印文件名。
 `--locale`                              | `string`  | *(platform specific)*    | 显示错误信息时使用的语言，比如：en-us。
@@ -64,7 +64,8 @@
 `--skipLibCheck`                        | `boolean` | `false`                  | 忽略所有的声明文件（`*.d.ts`）的类型检查。
 `--sourceMap`                           | `boolean` | `false`                  | 生成相应的`.map`文件。
 `--sourceRoot`                          | `string`  |                          | 指定TypeScript源文件的路径，以便调试器定位。当TypeScript文件的位置是在运行时指定时使用此标记。路径信息会被加到`sourceMap`里。
-`--strict`                              | `boolean` | `false`                  | 启用所有严格类型检查选项。<br/>启用`--strict`相当于启用 `--noImplicitAny`, `--noImplicitThis`, `--alwaysStrict`和`--strictNullChecks`。
+`--strict`                              | `boolean` | `false`                  | 启用所有严格类型检查选项。<br/>启用`--strict`相当于启用 `--noImplicitAny`, `--noImplicitThis`, `--alwaysStrict`，`--strictNullChecks`和`--strictFunctionTypes`。
+`--strictFunctionTypes`                 | `boolean` | `false`                  | 禁用函数参数双向协变检查。
 `--strictNullChecks`                    | `boolean` | `false`                  | 在严格的`null`检查模式下，`null`和`undefined`值不包含在任何类型里，只允许用它们自己和`any`来赋值（有个例外，`undefined`可以赋值到`void`）。
 `--stripInternal`<sup>[1]</sup>         | `boolean` | `false`                  | 不对具有`/** @internal */` JSDoc注解的代码生成代码。
 `--suppressExcessPropertyErrors`<sup>[1]</sup> | `boolean` | `false`           | 阻止对对象字面量的额外属性检查。

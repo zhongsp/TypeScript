@@ -34,13 +34,40 @@ let greeter = new Greeter("world");
 # 继承
 
 在TypeScript里，我们可以使用常用的面向对象模式。
-当然，基于类的程序设计中最基本的模式是允许使用继承来扩展现有的类。
+基于类的程序设计中一种最基本的模式是允许使用继承来扩展现有的类。
 
 看下面的例子：
 
 ```ts
 class Animal {
-    name:string;
+    move(distanceInMeters: number = 0) {
+        console.log(`Animal moved ${distanceInMeters}m.`);
+    }
+}
+
+class Dog extends Animal {
+    bark() {
+        console.log('Woof! Woof!');
+    }
+}
+
+const dog = new Dog();
+dog.bark();
+dog.move(10);
+dog.bark();
+```
+
+这个例子展示了最基本的继承：类从基类中继承了属性和方法。
+这里，`Dog`是一个*派生类*，它派生自`Animal`*基类*，通过`extends`关键字。
+派生类通常被称作*子类*，基类通常被称作*超类*。
+
+因为`Dog`继承了`Animal`的功能，因此我们可以创建一个`Dog`的实例，它能够`bark()`和`move()`。
+
+下面我们来看个更加复杂的例子。
+
+```ts
+class Animal {
+    name: string;
     constructor(theName: string) { this.name = theName; }
     move(distanceInMeters: number = 0) {
         console.log(`${this.name} moved ${distanceInMeters}m.`);
@@ -70,14 +97,16 @@ sam.move();
 tom.move(34);
 ```
 
-这个例子展示了TypeScript中继承的一些特征，它们与其它语言类似。
-我们使用`extends`关键字来创建子类。你可以看到`Horse`和`Snake`类是基类`Animal`的子类，并且可以访问其属性和方法。
+这个例子展示了一些上面没有提到的特性。
+这一次，我们使用`extends`关键字创建了`Animal`的两个子类：`Horse`和`Snake`。
 
-包含构造函数的派生类必须调用`super()`，它会执行基类的构造方法。
+与前一个例子的不同点是，派生类包含了一个构造函数，它*必须*调用`super()`，它会执行基类的构造函数。
+而且，在构造函数里访问`this`的属性之前，我们*一定*要调用`super()`。
+这个是TypeScript强制执行的一条重要规则。
 
 这个例子演示了如何在子类里可以重写父类的方法。
 `Snake`类和`Horse`类都创建了`move`方法，它们重写了从`Animal`继承来的`move`方法，使得`move`方法根据不同的类而具有不同的功能。
-注意，即使`tom`被声明为`Animal`类型，但因为它的值是`Horse`，`tom.move(34)`会调用`Horse`里的重写方法：
+注意，即使`tom`被声明为`Animal`类型，但因为它的值是`Horse`，调用`tom.move(34)`时，它会调用`Horse`里重写的方法：
 
 ```text
 Slithering...
@@ -117,7 +146,7 @@ class Animal {
     constructor(theName: string) { this.name = theName; }
 }
 
-new Animal("Cat").name; // Error: 'name' is private;
+new Animal("Cat").name; // 错误: 'name' 是私有的.
 ```
 
 TypeScript使用的是结构性类型系统。
@@ -149,7 +178,7 @@ let rhino = new Rhino();
 let employee = new Employee("Bob");
 
 animal = rhino;
-animal = employee; // Error: Animal and Employee are not compatible
+animal = employee; // 错误: Animal 与 Employee 不兼容.
 ```
 
 这个例子中有`Animal`和`Rhino`两个类，`Rhino`是`Animal`类的子类。
@@ -184,7 +213,7 @@ class Employee extends Person {
 
 let howard = new Employee("Howard", "Sales");
 console.log(howard.getElevatorPitch());
-console.log(howard.name); // error
+console.log(howard.name); // 错误
 ```
 
 注意，我们不能在`Person`类外使用`name`，但是我们仍然可以通过`Employee`类的实例方法访问，因为`Employee`是由`Person`派生而来的。
@@ -198,7 +227,7 @@ class Person {
     protected constructor(theName: string) { this.name = theName; }
 }
 
-// Employee can extend Person
+// Employee 能够继承 Person
 class Employee extends Person {
     private department: string;
 
@@ -213,7 +242,7 @@ class Employee extends Person {
 }
 
 let howard = new Employee("Howard", "Sales");
-let john = new Person("John"); // Error: The 'Person' constructor is protected
+let john = new Person("John"); // 错误: 'Person' 的构造函数是被保护的.
 ```
 
 # readonly修饰符
@@ -230,7 +259,7 @@ class Octopus {
     }
 }
 let dad = new Octopus("Man with the 8 strong legs");
-dad.name = "Man with the 3-piece suit"; // error! name is readonly.
+dad.name = "Man with the 3-piece suit"; // 错误! name 是只读的.
 ```
 
 ## 参数属性
@@ -379,7 +408,7 @@ abstract class Department {
 class AccountingDepartment extends Department {
 
     constructor() {
-        super('Accounting and Auditing'); // constructors in derived classes must call super()
+        super('Accounting and Auditing'); // 在派生类的构造函数中必须调用 super()
     }
 
     printMeeting(): void {
@@ -391,12 +420,12 @@ class AccountingDepartment extends Department {
     }
 }
 
-let department: Department; // ok to create a reference to an abstract type
-department = new Department(); // error: cannot create an instance of an abstract class
-department = new AccountingDepartment(); // ok to create and assign a non-abstract subclass
+let department: Department; // 允许创建一个对抽象类型的引用
+department = new Department(); // 错误: 不能创建一个抽象类的实例
+department = new AccountingDepartment(); // 允许对一个抽象子类进行实例化和赋值
 department.printName();
 department.printMeeting();
-department.generateReports(); // error: method doesn't exist on declared abstract type
+department.generateReports(); // 错误: 方法在声明的抽象类中不存在
 ```
 
 # 高级技巧

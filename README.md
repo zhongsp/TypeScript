@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/zhongsp/TypeScript.svg?branch=master)](https://travis-ci.org/zhongsp/TypeScript) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-<img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 2.4 发布！](https://blogs.msdn.microsoft.com/typescript/2017/06/27/announcing-typescript-2-4/)
+<img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 2.6 (October 31, 2017)](https://blogs.msdn.microsoft.com/typescript/2017/10/31/announcing-typescript-2-6/)
 
 TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript.
 
@@ -58,6 +58,7 @@ TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript.
   * [Decorators](./doc/handbook/Decorators.md)
   * [混入](./doc/handbook/Mixins.md)
   * [三斜线指令](./doc/handbook/Triple-Slash%20Directives.md)
+  * [JavaScript文件里的类型检查](./doc/handbook/Type%20Checking%20JavaScript%20Files.md)
 * [如何书写声明文件](./doc/handbook/declaration%20files/Introduction.md)
   * [结构](./doc/handbook/declaration%20files/Library%20Structures.md)
   * [规范](./doc/handbook/declaration%20files/Do's%20and%20Don'ts.md)

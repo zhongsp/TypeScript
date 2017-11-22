@@ -45,8 +45,7 @@ Webpack会帮助我们生成`dist`目录。
 npm init
 ```
 
-你会看到一些提示。
-你可以使用默认项除了开始脚本。
+你会看到一些提示，放心地使用默认值就可以了。
 当然，你也可以随时到生成的`package.json`文件里修改。
 
 # 安装依赖
@@ -123,7 +122,7 @@ export const Hello = (props: HelloProps) => <h1>Hello from {props.compiler} and 
 
 ```
 
-注意这个例子使用了[无状态的功能组件](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions))，我们可以让它更像一点*类*。
+注意这个例子使用了[无状态的功能组件](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions)，我们可以让它更像一点*类*。
 
 ```ts
 import * as React from "react";
@@ -131,8 +130,8 @@ import * as React from "react";
 export interface HelloProps { compiler: string; framework: string; }
 
 // 'HelloProps' describes the shape of props.
-// State is never set so we use the 'undefined' type.
-export class Hello extends React.Component<HelloProps, undefined> {
+// State is never set so we use the '{}' type.
+export class Hello extends React.Component<HelloProps, {}> {
     render() {
         return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
     }
@@ -171,8 +170,8 @@ ReactDOM.render(
         <div id="example"></div>
 
         <!-- Dependencies -->
-        <script src="./node_modules/react/dist/react.js"></script>
-        <script src="./node_modules/react-dom/dist/react-dom.js"></script>
+        <script src="./node_modules/react/umd/react.development.js"></script>
+        <script src="./node_modules/react-dom/umd/react-dom.development.js"></script>
 
         <!-- Main -->
         <script src="./dist/bundle.js"></script>
@@ -234,7 +233,7 @@ module.exports = {
 这叫做“命名空间”模式，webpack也允许我们继续使用通过这种方式写的代码库。
 通过我们的设置`"react": "React"`，webpack会神奇地将所有对`"react"`的导入转换成从`React`全局变量中加载。
 
-你可以在[这里](http://webpack.github.io/docs/configuration.html)了解更多如何配置webpack。
+你可以在[这里](https://webpack.js.org/concepts)了解更多如何配置webpack。
 
 # 整合在一起
 

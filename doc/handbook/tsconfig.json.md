@@ -88,7 +88,7 @@
 然而，通过`"files"`属性明确指定的文件却总是会被包含在内，不管`"exclude"`如何设置。
 如果没有特殊指定，`"exclude"`默认情况下会排除`node_modules`，`bower_components`，`jspm_packages`和`<outDir>`目录。
 
-任何被`"files"或`"include"`指定的文件所引用的文件也会被包含进来。
+任何被`"files"`或`"include"`指定的文件所引用的文件也会被包含进来。
 `A.ts`引用了`B.ts`，因此`B.ts`不能被排除，除非引用它的`A.ts`在`"exclude"`列表中。
 
 需要注意编译器不会去引入那些可能做为输出的文件；比如，假设我们包含了`index.ts`，那么`index.d.ts`和`index.js`会被排除在外。
