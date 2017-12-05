@@ -241,7 +241,7 @@ function loggingIdentity<T>(arg: T): T {
 为此，我们需要列出对于T的约束要求。
 
 为此，我们定义一个接口来描述约束条件。
-创建一个包含`.length`属性的接口，使用这个接口和`extends`关键字还实现约束：
+创建一个包含`.length`属性的接口，使用这个接口和`extends`关键字来实现约束：
 
 ```ts
 interface Lengthwise {
