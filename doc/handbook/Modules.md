@@ -254,7 +254,7 @@ strings.forEach(s => {
 
 # 生成模块代码
 
-根据编译时指定的模块目标参数，编译器会生成相应的供Node.js ([CommonJS](http://wiki.commonjs.org/wiki/CommonJS))，Require.js ([AMD](https://github.com/amdjs/amdjs-api/wiki/AMD))，isomorphic ([UMD](https://github.com/umdjs/umd)), [SystemJS](https://github.com/systemjs/systemjs)或[ECMAScript 2015 native modules](http://www.ecma-international.org/ecma-262/6.0/#sec-modules) (ES6)模块加载系统使用的代码。
+根据编译时指定的模块目标参数，编译器会生成相应的供Node.js ([CommonJS](http://wiki.commonjs.org/wiki/CommonJS))，Require.js ([AMD](https://github.com/amdjs/amdjs-api/wiki/AMD))，[UMD](https://github.com/umdjs/umd), [SystemJS](https://github.com/systemjs/systemjs)或[ECMAScript 2015 native modules](http://www.ecma-international.org/ecma-262/6.0/#sec-modules) (ES6)模块加载系统使用的代码。
 想要了解生成代码中`define`，`require` 和 `register`的意义，请参考相应模块加载器的文档。
 
 下面的例子说明了导入导出语句里使用的名字是怎么转换为相应的模块加载器代码的。
@@ -327,7 +327,7 @@ export let t = something + 1;
 下面我们来整理一下前面的验证器实现，每个模块只有一个命名的导出。
 
 为了编译，我们必需要在命令行上指定一个模块目标。对于Node.js来说，使用`--module commonjs`；
-对于Require.js来说，使用``--module amd`。比如：
+对于Require.js来说，使用`--module amd`。比如：
 
 ```Shell
 tsc --module commonjs Test.ts
@@ -547,7 +547,7 @@ console.log(data, fileContent);
 ### UMD模块
 
 有些模块被设计成兼容多个模块加载器，或者不使用模块加载器（全局变量）。
-它们以[UMD](https://github.com/umdjs/umd)或[Isomorphic](http://isomorphic.net)模块为代表。
+它们以[UMD](https://github.com/umdjs/umd)模块为代表。
 这些库可以通过导入的形式或全局变量的形式访问。
 例如：
 
