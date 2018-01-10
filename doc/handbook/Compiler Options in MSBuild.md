@@ -105,7 +105,7 @@
 ## ToolsVersion
 
 工程文件里的`<TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>`属性值表明了构建时使用的编译器的版本号（这个例子里是1.7）
-这样就允许一个工程在不同的机器上使用固定的版本去编译。
+这样就允许一个工程在不同的机器上使用相同版本的编译器进行构建。
 
 如果没有指定`TypeScriptToolsVersion`，则会使用机器上安装的最新版本的编译器去构建。
 
