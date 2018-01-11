@@ -179,7 +179,7 @@ class Hello extends React.Component<Props, object> {
 首先我们在文件头部导入它：
 
 ```ts
-import Hello from './components/Hello.tsx';
+import Hello from './components/Hello';
 ```
 
 然后修改`render`调用：
