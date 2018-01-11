@@ -291,7 +291,7 @@ class Dog extends Animal {
     breed: string;
 }
 
-// 错误：使用'string'索引，有时会得到Animal!
+// 错误：使用数值型的字符串索引，有时会得到完全不同的Animal!
 interface NotOkay {
     [x: number]: Animal;
     [x: string]: Dog;
