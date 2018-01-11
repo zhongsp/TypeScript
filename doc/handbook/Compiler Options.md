@@ -38,6 +38,7 @@
 `--noEmit`                              | `boolean` | `false`                  | 不生成输出文件。
 `--noEmitHelpers`                       | `boolean` | `false`                  | 不在输出文件中生成用户自定义的帮助函数代码，如`__extends`。
 `--noEmitOnError`                       | `boolean` | `false`                  | 报错时不生成输出文件。
+`--noErrorTruncation`                   | `boolean` | `false`                  | 不截短错误消息。
 `--noFallthroughCasesInSwitch`          | `boolean` | `false`                  | 报告switch语句的fallthrough错误。（即，不允许switch的case语句贯穿）
 `--noImplicitAny`                       | `boolean` | `false`                  | 在表达式和声明上有隐含的`any`类型时报错。
 `--noImplicitReturns`                   | `boolean` | `false`                  | 不是函数的所有返回路径都有返回值时报错。
