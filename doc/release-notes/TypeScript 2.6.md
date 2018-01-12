@@ -4,7 +4,7 @@
 
 TypeScript 2.6引入了新的类型检查选项，`--strictFunctionTypes`。`--strictFunctionTypes`选项是`--strict`系列选项之一，也就是说 `--strict`模式下它默认是启用的。你可以通过在命令行或tsconfig.json中设置`--strictFunctionTypes false`来单独禁用它。
 
-`--strictFunctionTypes`启用时，函数类型参数的检查是*逆变（contravariantly）*而非*双变（bivariantly）*的。关于变型 (variance) 对于函数类型意义的相关背景，请查看[协变（covariance）和逆变（contravariance）是什么？](https://www.stephanboyer.com/post/132/what-are-covariance-and-contravariance)。
+`--strictFunctionTypes`启用时，函数类型参数的检查是*抗变（contravariantly）*而非*双变（bivariantly）*的。关于变体 (variance) 对于函数类型意义的相关背景，请查看[协变（covariance）和抗变（contravariance）是什么？](https://www.stephanboyer.com/post/132/what-are-covariance-and-contravariance)。
 
 这一更严格的检查应用于除方法或构造函数声明以外的所有函数类型。方法被专门排除在外是为了确保带泛型的类和接口（如 Array<T>）总体上仍然保持协变。
 
@@ -23,7 +23,7 @@ f2 = f3;  // 错误
 通俗地讲，默认模式允许这么赋值，因为它*可能是*合理的，而严格函数类型模式将它标记为错误，因为它不能*被证明*合理。
 任何一种模式中，第三个赋值都是错误的，因为它*永远不*合理。
 
-用另一种方式来描述这个例子则是，默认类型检查模式中`T`在类型`(x: T) => void`是*双变的*（也即协变*或*逆变），但在严格函数类型模式中`T`是*逆变*的。
+用另一种方式来描述这个例子则是，默认类型检查模式中`T`在类型`(x: T) => void`是*双变的*（也即协变*或*抗变），但在严格函数类型模式中`T`是*抗变*的。
 
 ##### 例子
 
@@ -39,9 +39,9 @@ animalComparer = dogComparer;  // 错误
 dogComparer = animalComparer;  // 正确
 ```
 
-现在第一个赋值是错误的。更明确地说，`Comparer<T>`中的`T`因为仅在函数类型参数的位置被使用，是逆变的。
+现在第一个赋值是错误的。更明确地说，`Comparer<T>`中的`T`因为仅在函数类型参数的位置被使用，是抗变的。
 
-另外，注意尽管有的语言（比如C#和Scala）要求变型标注（variance annotations）（`out`/`in` 或 `+`/`-`），而由于TypeScript的结构化类型系统，它的变型是由泛型中的类型参数的实际使用自然得出的。
+另外，注意尽管有的语言（比如C#和Scala）要求变体标注（variance annotations）（`out`/`in` 或 `+`/`-`），而由于TypeScript的结构化类型系统，它的变体是由泛型中的类型参数的实际使用自然得出的。
 
 ##### 注意：
 
@@ -60,7 +60,7 @@ animalComparer = dogComparer;  // 正确，因为双变
 dogComparer = animalComparer;  // 正确
 ```
 
-TypeScript 2.6 还改进了与逆变位置相关的类型推导：
+TypeScript 2.6 还改进了与抗变位置相关的类型推导：
 
 ```ts
 function combine<T>(...funcs: ((x: ）=> void)[]): (x: T) => void {
@@ -75,7 +75,7 @@ function dogFunc(x: Dog) {}
 let combined = combine(animalFunc，dogFunc);  // (x: Dog) => void
 ```
 
-这上面所有`T`的推断都来自逆变的位置，由此我们得出`T`的*最普遍子类型*。
+这上面所有`T`的推断都来自抗变的位置，由此我们得出`T`的*最普遍子类型*。
 这与从协变位置推导出的结果恰恰相反，从协变位置我们得出的是*最普遍超类型*。
 
 ## 缓存模块中的标签模板对象
