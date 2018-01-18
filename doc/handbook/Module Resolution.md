@@ -89,12 +89,12 @@ Node.js会根据`require`的是相对路径还是非相对路径做出不同的�
 例如，假设有一个文件路径为`/root/src/moduleA.js`，包含了一个导入`var x = require("./moduleB");`
 Node.js以下面的顺序解析这个导入：
 
-1. 将`/root/src/moduleB.js`视为文件，检查是否存在。
+1. 检查`/root/src/moduleB.js`文件是否存在。
 
-2. 将`/root/src/moduleB`视为目录，检查是否它包含`package.json`文件并且其指定了一个`"main"`模块。
+2. 检查`/root/src/moduleB`目录是否包含一个`package.json`文件，且`package.json`文件指定了一个`"main"`模块。
    在我们的例子里，如果Node.js发现文件`/root/src/moduleB/package.json`包含了`{ "main": "lib/mainModule.js" }`，那么Node.js会引用`/root/src/moduleB/lib/mainModule.js`。
 
-3. 将`/root/src/moduleB`视为目录，检查它是否包含`index.js`文件。
+3. 检查`/root/src/moduleB`目录是否包含一个`index.js`文件。
    这个文件会被隐式地当作那个文件夹下的"main"模块。
 
 你可以阅读Node.js文档了解更多详细信息：[file modules](https://nodejs.org/api/modules.html#modules_file_modules) 和 [folder modules](https://nodejs.org/api/modules.html#modules_folders_as_modules)。
