@@ -4,6 +4,11 @@
 
 <img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 2.7 RC (January 17, 2018)](https://blogs.msdn.microsoft.com/typescript/2018/01/17/announcing-typescript-2-7-rc/)
 
+* 对类属性进行确切地赋值检查。
+* 支持固定长度的元组。
+* 改进`in`和`instanceof`操作符的类型细化。
+* [查看更多...](./doc/release-notes/TypeScript%202.7.md)
+
 TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript.
 
 请阅读 :book: [TypeScript Handbook 中文版 - Published with GitBook](http://zhongsp.gitbooks.io/typescript-handbook/content/)
