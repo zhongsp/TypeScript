@@ -236,6 +236,7 @@ import './Hello.css';
 # 使用Jest编写测试
 
 如果你没使用过Jest，你可能先要把它安装为开发依赖项。
+
 ```sh
 npm install -D jest jest-cli jest-config
 ```
@@ -259,7 +260,9 @@ Enzyme与此类似，但是是基于jsdom的，并且方便我们查询组件。
 ```sh
 npm install -D enzyme @types/enzyme enzyme-adapter-react-16 @types/enzyme-adapter-react-16
 ```
+
 如果你的react版本低于15.5.0，还需安装如下
+
 ```sh
 npm install -D react-addons-test-utils
 ```
