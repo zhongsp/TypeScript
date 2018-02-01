@@ -235,6 +235,11 @@ import './Hello.css';
 
 # 使用Jest编写测试
 
+如果你没使用过Jest，你可能先要把它安装为开发依赖项。
+```sh
+npm install -D jest jest-cli jest-config
+```
+
 我们对`Hello`组件有一些假设。
 让我们在此重申一下：
 
@@ -252,15 +257,19 @@ Enzyme与此类似，但是是基于jsdom的，并且方便我们查询组件。
 让我们把它安装为开发依赖项。
 
 ```sh
-npm install -D enzyme @types/enzyme react-addons-test-utils
+npm install -D enzyme @types/enzyme enzyme-adapter-react-16 @types/enzyme-adapter-react-16
+```
+如果你的react版本低于15.5.0，还需安装如下
+```sh
+npm install -D react-addons-test-utils
 ```
 
 注意我们同时安装了`enzyme`和`@types/enzyme`。
 `enzyme`包指的是包含了实际运行的JavaScript代码包，而`@types/enzyme`则包含了声明文件（`.d.ts`文件）的包，以便TypeScript能够了解该如何使用Enzyme。
 你可以在[这里](https://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html)了解更多关于`@types`包的信息。
 
-我们还需要安装`react-addons-test-utils`。
-它是使用`enzyme`所需要安装的包。
+我们还需要安装`enzyme-adapter`和`react-addons-test-utils`。
+它们是使用`enzyme`所需要安装的包，前者作为配置适配器是必须的，而后者若采用的React版本在15.5.0之上则毋需安装。
 
 现在我们已经设置好了Enzyme，下面开始编写测试！
 先创建一个文件`src/components/Hello.test.tsx`，与先前的`Hello.tsx`文件放在一起。
@@ -270,7 +279,10 @@ npm install -D enzyme @types/enzyme react-addons-test-utils
 
 import * as React from 'react';
 import * as enzyme from 'enzyme';
+import * as Adapter from 'enzyme-adapter-react-16';
 import Hello from './Hello';
+
+enzyme.configure({ adapter: new Adapter() });
 
 it('renders the correct text when no enthusiasm level is given', () => {
   const hello = enzyme.shallow(<Hello name='Daniel' />);
