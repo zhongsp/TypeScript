@@ -103,7 +103,7 @@ for (let i of range(10)) {
 
 然而，ES命名空间导入不能被调用，因此这种方案并非总是可行。
 
-```
+```ts
 import * as express from "express";
 
 // Should be an error in any valid implementation.
