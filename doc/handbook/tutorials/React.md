@@ -1,4 +1,4 @@
-这篇快速上手指南会教你如何将TypeScript与[React](http://facebook.github.io/react/)结合起来使用。
+这篇快速上手指南会教你如何将TypeScript与[React](https://reactjs.org/)结合起来使用。
 在最后，你将学到：
 
 * 使用TypeScript和React创建工程
@@ -9,7 +9,7 @@
 我们会使用[create-react-app](https://github.com/facebookincubator/create-react-app)工具快速搭建工程环境。
 
 这里假设你已经在使用[Node.js](https://nodejs.org/)和[npm](https://www.npmjs.com/)。
-并且已经了解了[React的基础知识](https://facebook.github.io/react/docs/hello-world.html)。
+并且已经了解了[React的基础知识](https://reactjs.org/docs/hello-world.html)。
 
 # 安装create-react-app
 
@@ -146,7 +146,7 @@ function getExclamationMarks(numChars: number) {
 具体来讲，`Hello`是一个函数，接收一个`Props`对象并拆解它。
 如果`Props`对象里没有设置`enthusiasmLevel`，默认值为`1`。
 
-使用函数是React中定义组件的[两种方式](https://facebook.github.io/react/docs/components-and-props.html#functional-and-class-components)之一。
+使用函数是React中定义组件的[两种方式](https://reactjs.org/docs/components-and-props.html#functional-and-class-components)之一。
 如果你喜欢的话，也*可以*通过类的方式定义：
 
 ```ts
@@ -169,7 +169,7 @@ class Hello extends React.Component<Props, object> {
 }
 ```
 
-当我们的[组件具有某些状态](https://facebook.github.io/react/docs/state-and-lifecycle.html)的时候，使用类的方式是很有用处的。
+当我们的[组件具有某些状态](https://reactjs.org/docs/state-and-lifecycle.html)的时候，使用类的方式是很有用处的。
 但在这个例子里我们不需要考虑状态 - 事实上，在`React.Component<Props, object>`我们把状态指定为了`object`，因此使用SFC更简洁。
 当在创建可重用的通用UI组件的时候，在表现层使用组件局部状态比较适合。
 针对我们应用的生命周期，我们会审视应用是如何通过Redux轻松地管理普通状态的。
@@ -464,7 +464,7 @@ export function enthusiasm(state: StoreState, action: EnthusiasmAction): StoreSt
 你可能想要对reducer写一些测试。
 因为reducers是纯函数，它们可以传入任意的数据。
 针对每个输入，可以测试reducers生成的新的状态。
-可以考虑使用Jest的[toEqual](https://facebook.github.io/jest/docs/expect.html#toequalvalue)方法。
+可以考虑使用Jest的[toEqual](https://facebook.github.io/jest/docs/en/expect.html#toequalvalue)方法。
 
 ## 创建容器
 

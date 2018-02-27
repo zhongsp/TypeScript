@@ -2,7 +2,7 @@
 
 [JSX](https://facebook.github.io/jsx/)是一种嵌入式的类似XML的语法。
 它可以被转换成合法的JavaScript，尽管转换的语义是依据不同的实现而定的。
-JSX因[React](http://facebook.github.io/react/)框架而流行，但是也被其它应用所使用。
+JSX因[React](https://reactjs.org/)框架而流行，但是也被其它应用所使用。
 TypeScript支持内嵌，类型检查和将JSX直接编译为JavaScript。
 
 # 基本用法

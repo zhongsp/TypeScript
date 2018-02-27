@@ -1,4 +1,4 @@
-这篇指南将会教你如何将TypeScript和[React](http://facebook.github.io/react/)还有[webpack](http://webpack.github.io/)结合在一起使用。
+这篇指南将会教你如何将TypeScript和[React](https://reactjs.org/)还有[webpack](http://webpack.github.io/)结合在一起使用。
 
 如果你正在做一个全新的工程，可以先阅读这篇[React快速上手指南](./React.md)。
 
@@ -122,7 +122,7 @@ export const Hello = (props: HelloProps) => <h1>Hello from {props.compiler} and 
 
 ```
 
-注意这个例子使用了[无状态的功能组件](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions)，我们可以让它更像一点*类*。
+注意这个例子使用了[无状态的功能组件](https://reactjs.org/docs/components-and-props.html#functional-and-class-components)，我们可以让它更像一点*类*。
 
 ```ts
 import * as React from "react";
