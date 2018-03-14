@@ -7,7 +7,7 @@
 
 我们大多是在混入（mixins）或其它不适合典型面向对象模型的地方看到交叉类型的使用。
 （在JavaScript里发生这种情况的场合很多！）
-下面是如何创建混入的一个简单例子：
+下面是如何创建混入的一个简单例子("target": "es5")：
 
 ```ts
 function extend<T, U>(first: T, second: U): T & U {
