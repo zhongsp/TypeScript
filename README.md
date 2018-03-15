@@ -64,7 +64,7 @@ TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript.
   * [深入](./doc/handbook/declaration%20files/Deep%20Dive.md)
   * [发布](./doc/handbook/declaration%20files/Publishing.md)
   * [使用](./doc/handbook/declaration%20files/Consumption.md)
-* [工程配置](./doc/handbook/README.md)
+* [工程配置](./doc/handbook/tsconfig.json.md)
   * [tsconfig.json](./doc/handbook/tsconfig.json.md)
   * [NPM包的类型](./doc/handbook/Typings%20for%20NPM%20Packages.md)
   * [编译选项](./doc/handbook/Compiler%20Options.md)

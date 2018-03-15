@@ -63,7 +63,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [深入](./doc/handbook/declaration files/Deep Dive.html)
   * [发布](./doc/handbook/declaration files/Publishing.html)
   * [使用](./doc/handbook/declaration files/Consumption.html)
-* [工程配置](./doc/handbook/README.html)
+* [工程配置](./doc/handbook/tsconfig.json.html)
   * [tsconfig.json](./doc/handbook/tsconfig.json.html)
   * [NPM包的类型](./doc/handbook/Typings for NPM Packages.html)
   * [编译选项](./doc/handbook/Compiler Options.html)
