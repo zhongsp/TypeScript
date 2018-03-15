@@ -41,7 +41,7 @@
   * [深入](./doc/handbook/declaration files/Deep Dive.md)
   * [发布](./doc/handbook/declaration files/Publishing.md)
   * [使用](./doc/handbook/declaration files/Consumption.md)
-* 工程配置
+* [工程配置](./doc/handbook/tsconfig.json.md)
   * [tsconfig.json](./doc/handbook/tsconfig.json.md)
   * [NPM包的类型](./doc/handbook/Typings for NPM Packages.md)
   * [编译选项](./doc/handbook/Compiler Options.md)
