@@ -2,18 +2,12 @@
 
 [![Build Status](https://travis-ci.org/zhongsp/TypeScript.svg?branch=master)](https://travis-ci.org/zhongsp/TypeScript) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-<img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 2.7 (January 31, 2018)](https://blogs.msdn.microsoft.com/typescript/2018/01/31/announcing-typescript-2-7/)
+<img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 2.8 RC (March 15, 2018)](https://blogs.msdn.microsoft.com/typescript/2018/03/15/announcing-typescript-2-8-rc/)
 
-* 更严格的类属性检查
-* 显式赋值断言
-* 更便利的与ECMAScript模块的互通性
-* `unique symbol`类型和常量名属性
-* `--watch`模式下具有更简洁的输出
-* 数字分隔符
-* 固定长度元组
-* `in`操作符细化和精确的`instanceof`
-* 更智能的对象字面量推断
-* [查看更多...](./doc/release-notes/TypeScript%202.7.md)
+* 条件性类型（Conditional Types）
+* JSX编译注释
+* Map类型修饰符上的细粒度控制
+* `JSX.Element`将使用JSX Factory进行解析
 
 TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript.
 
