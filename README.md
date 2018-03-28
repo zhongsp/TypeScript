@@ -2,12 +2,15 @@
 
 [![Build Status](https://travis-ci.org/zhongsp/TypeScript.svg?branch=master)](https://travis-ci.org/zhongsp/TypeScript) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-<img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 2.8 RC (March 15, 2018)](https://blogs.msdn.microsoft.com/typescript/2018/03/15/announcing-typescript-2-8-rc/)
+<img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 2.8 (March 27, 2018)](https://blogs.msdn.microsoft.com/typescript/2018/03/27/announcing-typescript-2-8/)
 
 * 条件性类型（Conditional Types）
-* JSX编译注释
+* 新增标记：仅输出声明文件
+* @jsx编译注释
+* JS将使用工厂函数进行解析
 * Map类型修饰符上的细粒度控制
-* `JSX.Element`将使用JSX Factory进行解析
+* 重新组织导入语句
+* 快速修复未初始化属性
 
 TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript.
 
