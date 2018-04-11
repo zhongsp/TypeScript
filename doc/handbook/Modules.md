@@ -769,8 +769,9 @@ class ProgrammerCalculator extends Calculator {
 
     constructor(public base: number) {
         super();
-        if (base <= 0 || base > ProgrammerCalculator.digits.length) {
-            throw new Error("base has to be within 0 to 16 inclusive.");
+        const maxBase = ProgrammerCalculator.digits.length;
+        if (base <= 0 || base > maxBase) {
+            throw new Error(`base has to be within 0 to ${maxBase} inclusive.`);
         }
     }
 
