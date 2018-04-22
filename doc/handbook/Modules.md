@@ -708,7 +708,7 @@ export class Calculator {
         this.current = 0;
     }
 
-    public handelChar(char: string) {
+    public handleChar(char: string) {
         if (char === "=") {
             this.evaluate();
             return;
@@ -738,7 +738,7 @@ export class Calculator {
 
 export function test(c: Calculator, input: string) {
     for (let i = 0; i < input.length; i++) {
-        c.handelChar(input[i]);
+        c.handleChar(input[i]);
     }
 
     console.log(`result of '${input}' is '${c.getResult()}'`);
