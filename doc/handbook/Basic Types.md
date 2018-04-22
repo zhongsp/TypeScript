@@ -240,6 +240,24 @@ function infiniteLoop(): never {
 }
 ```
 
+# Object
+
+`object`表示非原始类型，也就是除`number`，`string`，`boolean`，`symbol`，`null`或`undefined`之外的类型。
+
+使用`object`类型，就可以更好的表示像`Object.create`这样的API。例如：
+
+```ts
+declare function create(o: object | null): void;
+
+create({ prop: 0 }); // OK
+create(null); // OK
+
+create(42); // Error
+create("string"); // Error
+create(false); // Error
+create(undefined); // Error
+```
+
 # 类型断言
 
 有时候你会遇到这样的情况，你会比TypeScript更了解某个值的详细信息。
