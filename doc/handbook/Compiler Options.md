@@ -68,6 +68,7 @@
 `--sourceRoot`                          | `string`  |                          | 指定TypeScript源文件的路径，以便调试器定位。当TypeScript文件的位置是在运行时指定时使用此标记。路径信息会被加到`sourceMap`里。
 `--strict`                              | `boolean` | `false`                  | 启用所有严格类型检查选项。<br/>启用`--strict`相当于启用 `--noImplicitAny`, `--noImplicitThis`, `--alwaysStrict`，`--strictNullChecks`和`--strictFunctionTypes`。
 `--strictFunctionTypes`                 | `boolean` | `false`                  | 禁用函数参数双向协变检查。
+`--strictPropertyInitialization`        | `boolean` | `false`                  | 确保类的非`undefined`属性已经在构造函数里初始化。若要令此选项生效，需要同时启用`--strictNullChecks`。
 `--strictNullChecks`                    | `boolean` | `false`                  | 在严格的`null`检查模式下，`null`和`undefined`值不包含在任何类型里，只允许用它们自己和`any`来赋值（有个例外，`undefined`可以赋值到`void`）。
 `--stripInternal`<sup>[1]</sup>         | `boolean` | `false`                  | 不对具有`/** @internal */` JSDoc注解的代码生成代码。
 `--suppressExcessPropertyErrors`<sup>[1]</sup> | `boolean` | `false`           | 阻止对对象字面量的额外属性检查。
