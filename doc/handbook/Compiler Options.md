@@ -33,7 +33,7 @@
 `--mapRoot`                             | `string`  |                          | 为调试器指定指定sourcemap文件的路径，而不是使用生成时的路径。当`.map`文件是在运行时指定的，并不同于`js`文件的地址时使用这个标记。指定的路径会嵌入到`sourceMap`里告诉调试器到哪里去找它们。
 `--maxNodeModuleJsDepth`                | `number`  | `0`                      | node_modules依赖的最大搜索深度并加载JavaScript文件。仅适用于`--allowJs`。
 `--module`<br/>`-m`                     | `string`  | `target === "ES6" ? "ES6" : "commonjs"`                                  | 指定生成哪个模块系统代码：`"None"`，`"CommonJS"`，`"AMD"`，`"System"`，`"UMD"`，`"ES6"`或`"ES2015"`。<br/>► 只有`"AMD"`和`"System"`能和`--outFile`一起使用。<br/>►`"ES6"`和`"ES2015"`可使用在目标输出为`"ES5"`或更低的情况下。
-`--moduleResolution`                    | `string`  | `module === "AMD" | "System" | "ES6" ?  "Classic" : "Node"`              | 决定如何处理模块。或者是`"Node"`对于Node.js/io.js，或者是`"Classic"`（默认）。查看[模块解析](./Module Resolution.md)了解详情。
+`--moduleResolution`                    | `string`  | `module === "AMD" or "System" or "ES6" ? "Classic" : "Node"`              | 决定如何处理模块。或者是`"Node"`对于Node.js/io.js，或者是`"Classic"`（默认）。查看[模块解析](./Module Resolution.md)了解详情。
 `--newLine`                             | `string`  | *(platform specific)*    | 当生成文件时指定行结束符：`"crlf"`（windows）或`"lf"`（unix）。
 `--noEmit`                              | `boolean` | `false`                  | 不生成输出文件。
 `--noEmitHelpers`                       | `boolean` | `false`                  | 不在输出文件中生成用户自定义的帮助函数代码，如`__extends`。
