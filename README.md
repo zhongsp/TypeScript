@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/zhongsp/TypeScript.svg?branch=master)](https://travis-ci.org/zhongsp/TypeScript) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-<img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 2.9 RC (May 16, 2018)](https://blogs.msdn.microsoft.com/typescript/2018/05/16/announcing-typescript-2-9-rc/)
+<img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 2.9 (May 31, 2018)](https://blogs.msdn.microsoft.com/typescript/2018/05/31/announcing-typescript-2-9/)
 
 * `keyof`和映射对象类型里支持symbol和数字字面量
 * import()类型
