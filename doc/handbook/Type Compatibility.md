@@ -102,7 +102,7 @@ let x = () => ({name: 'Alice'});
 let y = () => ({name: 'Alice', location: 'Seattle'});
 
 x = y; // OK
-y = x; // Error because x() lacks a location property
+y = x; // Error, because x() lacks a location property
 ```
 
 类型系统强制源函数的返回值类型必须是目标函数返回值类型的子类型。
@@ -172,7 +172,7 @@ enum Status { Ready, Waiting };
 enum Color { Red, Blue, Green };
 
 let status = Status.Ready;
-status = Color.Green;  //error
+status = Color.Green;  // Error
 ```
 
 # 类
@@ -195,8 +195,8 @@ class Size {
 let a: Animal;
 let s: Size;
 
-a = s;  //OK
-s = a;  //OK
+a = s;  // OK
+s = a;  // OK
 ```
 
 ## 类的私有成员和受保护成员
@@ -216,7 +216,7 @@ interface Empty<T> {
 let x: Empty<number>;
 let y: Empty<string>;
 
-x = y;  // okay, y matches structure of x
+x = y;  // OK, because y matches structure of x
 ```
 
 上面代码里，`x`和`y`是兼容的，因为它们的结构使用类型参数时并没有什么不同。
@@ -229,7 +229,7 @@ interface NotEmpty<T> {
 let x: NotEmpty<number>;
 let y: NotEmpty<string>;
 
-x = y;  // error, x and y are not compatible
+x = y;  // Error, because x and y are not compatible
 ```
 
 在这里，泛型类型在使用时就好比不是一个泛型类型。
@@ -248,7 +248,7 @@ let reverse = function<U>(y: U): U {
     // ...
 }
 
-identity = reverse;  // Okay because (x: any)=>any matches (y: any)=>any
+identity = reverse;  // OK, because (x: any) => any matches (y: any) => any
 ```
 
 # 高级主题
