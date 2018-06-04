@@ -53,11 +53,11 @@ c.prop = "string";  // Error: string is not assignable to number|undefined
 相似地，`require`函数调用被识别为模块导入。例如：
 
 ```ts
-// import module "fs"
+// Import module "fs"
 const fs = require("fs");
 
 
-// export function readFile
+// Export function readFile
 module.exports.readFile = function(f) {
   return fs.readFileSync(f);
 }
@@ -109,9 +109,9 @@ bar(1, 2, 3); // Error, too many arguments
  */
 function sayHello(somebody) {
     if (!somebody) {
-        somebody = 'John Doe';
+        somebody = "John Doe";
     }
-    alert('Hello ' + somebody);
+    console.log("Hello " + somebody);
 }
 
 sayHello();

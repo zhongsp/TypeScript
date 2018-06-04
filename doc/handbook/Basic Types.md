@@ -135,7 +135,7 @@ let c: Color = Color.Green;
 enum Color {Red = 1, Green, Blue}
 let colorName: string = Color[2];
 
-alert(colorName);  // 显示'Green'因为上面代码里它的值是2
+console.log(colorName);  // 显示'Green'因为上面代码里它的值是2
 ```
 
 # 任意值
@@ -180,7 +180,7 @@ list[1] = 100;
 
 ```ts
 function warnUser(): void {
-    alert("This is my warning message");
+    console.log("This is my warning message");
 }
 ```
 

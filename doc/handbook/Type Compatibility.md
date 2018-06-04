@@ -50,7 +50,7 @@ x = y;
 
 ```ts
 function greet(n: Named) {
-    alert('Hello, ' + n.name);
+    console.log('Hello, ' + n.name);
 }
 greet(y); // OK
 ```
