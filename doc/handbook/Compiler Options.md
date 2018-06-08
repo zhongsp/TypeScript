@@ -17,6 +17,7 @@
 `--emitBOM`                             | `boolean` | `false`                  | 在输出文件的开头加入BOM头（UTF-8 Byte Order Mark）。
 `--emitDecoratorMetadata`<sup>[1]</sup> | `boolean` | `false`                  | 给源码里的装饰器声明加上设计类型元数据。查看[issue #2577](https://github.com/Microsoft/TypeScript/issues/2577)了解更多信息。
 `--experimentalDecorators`<sup>[1]</sup>| `boolean` | `false`                  | 启用实验性的ES装饰器。
+`--extendedDiagnostics`                 | `boolean` | `false`                  | 显示详细的诊段信息。
 `--forceConsistentCasingInFileNames`    | `boolean` | `false`                  | 禁止对同一个文件的不一致的引用。
 `--help`<br/>`-h`                       |           |                          | 打印帮助信息。
 `--importHelpers`                       | `string`  |                          | 从[`tslib`](https://www.npmjs.com/package/tslib)导入辅助工具函数（比如`__extends`，`__rest`等）
