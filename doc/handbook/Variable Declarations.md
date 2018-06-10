@@ -579,10 +579,10 @@ function f({ a, b }: C): void {
 首先，你需要在默认值之前设置其格式。
 
 ```ts
-function f({ a, b } = { a: "", b: 0 }): void {
+function f({ a="", b=0 } = {}): void {
     // ...
 }
-f(); // ok, default to { a: "", b: 0 }
+f();
 ```
 
 > 上面的代码是一个类型推断的例子，将在本手册后文介绍。
