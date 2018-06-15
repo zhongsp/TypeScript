@@ -195,7 +195,6 @@ type AnyFunction = (...args: any[]) => any;
 type ReturnType<T extends AnyFunction> = T extends (...args: any[]) => infer R ? R : any;
 ```
 
-
 ### 预定义的有条件类型
 
 TypeScript 2.8在`lib.d.ts`里增加了一些预定义的有条件类型：
