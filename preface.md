@@ -58,7 +58,7 @@ TypeScript 目前仍然在積極的開發中，不斷會有新功能加入。
   - [深入探討](./doc/handbook/declaration files/Deep Dive.html)
   - [發布](./doc/handbook/declaration files/Publishing.html)
   - [使用](./doc/handbook/declaration files/Consumption.html)
-- [工程配置](./doc/handbook/tsconfig.json.html)
+- [typescript 設定檔](./doc/handbook/tsconfig.json.html)
   - [tsconfig.json](./doc/handbook/tsconfig.json.html)
   - [NPM 中的類別](./doc/handbook/Typings for NPM Packages.html)
   - [編譯選項](./doc/handbook/Compiler Options.html)
