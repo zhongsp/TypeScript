@@ -1,6 +1,8 @@
-这个快速上手指南将会教你如何将TypeScript和[React](http://facebook.github.io/react/)还有[webpack](http://webpack.github.io/)连结在一起使用。
+这篇指南将会教你如何将TypeScript和[React](https://reactjs.org/)还有[webpack](http://webpack.github.io/)结合在一起使用。
 
-我们假设已经在使用[Node.js](https://nodejs.org/)和[npm](https://www.npmjs.com/)。
+如果你正在做一个全新的工程，可以先阅读这篇[React快速上手指南](./React.md)。
+
+否则，我们假设已经在使用[Node.js](https://nodejs.org/)和[npm](https://www.npmjs.com/)。
 
 # 初始化项目结构
 
@@ -43,8 +45,7 @@ Webpack会帮助我们生成`dist`目录。
 npm init
 ```
 
-你会看到一些提示。
-你可以使用默认项除了开始脚本。
+你会看到一些提示，放心地使用默认值就可以了。
 当然，你也可以随时到生成的`package.json`文件里修改。
 
 # 安装依赖
@@ -121,7 +122,7 @@ export const Hello = (props: HelloProps) => <h1>Hello from {props.compiler} and 
 
 ```
 
-注意这个例子使用了[无状态的功能组件](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions))，我们可以让它更像一点*类*。
+注意这个例子使用了[无状态的功能组件](https://reactjs.org/docs/components-and-props.html#functional-and-class-components)，我们可以让它更像一点*类*。
 
 ```ts
 import * as React from "react";
@@ -129,8 +130,8 @@ import * as React from "react";
 export interface HelloProps { compiler: string; framework: string; }
 
 // 'HelloProps' describes the shape of props.
-// State is never set so we use the 'undefined' type.
-export class Hello extends React.Component<HelloProps, undefined> {
+// State is never set so we use the '{}' type.
+export class Hello extends React.Component<HelloProps, {}> {
     render() {
         return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
     }
@@ -152,7 +153,7 @@ ReactDOM.render(
 ```
 
 我们仅仅将`Hello`组件导入`index.tsx`。
-注意，不同于`"react"`或`"react-dom"`，我们使用`index.tsx`的*相对路径* - 这很重要。
+注意，不同于`"react"`或`"react-dom"`，我们使用`Hello.tsx`的*相对路径* - 这很重要。
 如果不这样做，TypeScript只会尝试在`node_modules`文件夹里查找。
 
 我们还需要一个页面来显示`Hello`组件。
@@ -169,8 +170,8 @@ ReactDOM.render(
         <div id="example"></div>
 
         <!-- Dependencies -->
-        <script src="./node_modules/react/dist/react.js"></script>
-        <script src="./node_modules/react-dom/dist/react-dom.js"></script>
+        <script src="./node_modules/react/umd/react.development.js"></script>
+        <script src="./node_modules/react-dom/umd/react-dom.development.js"></script>
 
         <!-- Main -->
         <script src="./dist/bundle.js"></script>
@@ -200,18 +201,16 @@ module.exports = {
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
+        extensions: [".ts", ".tsx", ".js", ".json"]
     },
 
     module: {
-        loaders: [
+        rules: [
             // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
-            { test: /\.tsx?$/, loader: "awesome-typescript-loader" }
-        ],
+            { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
 
-        preLoaders: [
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-            { test: /\.js$/, loader: "source-map-loader" }
+            { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
         ]
     },
 
@@ -222,7 +221,7 @@ module.exports = {
     externals: {
         "react": "React",
         "react-dom": "ReactDOM"
-    },
+    }
 };
 ```
 
@@ -234,7 +233,7 @@ module.exports = {
 这叫做“命名空间”模式，webpack也允许我们继续使用通过这种方式写的代码库。
 通过我们的设置`"react": "React"`，webpack会神奇地将所有对`"react"`的导入转换成从`React`全局变量中加载。
 
-你可以在[这里](http://webpack.github.io/docs/configuration.html)了解更多如何配置webpack。
+你可以在[这里](https://webpack.js.org/concepts)了解更多如何配置webpack。
 
 # 整合在一起
 

@@ -40,11 +40,11 @@
     "version": "1.0.0",
     "main": "./lib/main.js",
     "types": "./lib/main.d.ts",
-    "dependencies": [
-        "browserify@latest",
-        "@types/browserify@latest",
-        "typescript@next"
-    ]
+    "dependencies": {
+        "browserify": "latest",
+        "@types/browserify": "latest",
+        "typescript": "next"
+    }
 }
 ```
 

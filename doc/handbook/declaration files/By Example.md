@@ -116,7 +116,9 @@ declare function getWidget(s: string): Widget[];
 > 这个对象具有以下几个属性：
 >
 > 1- greeting：必需的字符串
+>
 > 2- duration: 可靠的时长（毫秒表示）
+>
 > 3- color: 可选字符串，比如‘#ff00ff’
 
 *代码*
@@ -166,7 +168,7 @@ greet(new MyGreeter());
 你可以使用类型别名来定义类型的短名：
 
 ```ts
-type GreetingLike = string | (() => string) | Greeting;
+type GreetingLike = string | (() => string) | MyGreeter;
 
 declare function greet(g: GreetingLike): void;
 ```

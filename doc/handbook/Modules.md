@@ -17,6 +17,7 @@
 大家最熟知的JavaScript模块加载器是服务于Node.js的[CommonJS](https://en.wikipedia.org/wiki/CommonJS)和服务于Web应用的[Require.js](http://requirejs.org/)。
 
 TypeScript与ECMAScript 2015一样，任何包含顶级`import`或者`export`的文件都被当成一个模块。
+相反地，如果一个文件不带有顶级的`import`或者`export`声明，那么它的内容被视为全局可见的（因此对模块也是可见的）。
 
 # <a name="export"></a>导出
 
@@ -221,7 +222,7 @@ TypeScript模块支持`export =`语法以支持传统的CommonJS和AMD的工作�
 `export =`语法定义一个模块的导出对象。
 它可以是类，接口，命名空间，函数或枚举。
 
-若要导入一个使用了`export =`的模块时，必须使用TypeScript提供的特定语法`import let = require("module")`。
+若使用`export =`导出一个模块，则必须使用TypeScript的特定语法`import module = require("module")`来导入此模块。
 
 ##### ZipCodeValidator.ts
 
@@ -254,7 +255,7 @@ strings.forEach(s => {
 
 # 生成模块代码
 
-根据编译时指定的模块目标参数，编译器会生成相应的供Node.js ([CommonJS](http://wiki.commonjs.org/wiki/CommonJS))，Require.js ([AMD](https://github.com/amdjs/amdjs-api/wiki/AMD))，isomorphic ([UMD](https://github.com/umdjs/umd)), [SystemJS](https://github.com/systemjs/systemjs)或[ECMAScript 2015 native modules](http://www.ecma-international.org/ecma-262/6.0/#sec-modules) (ES6)模块加载系统使用的代码。
+根据编译时指定的模块目标参数，编译器会生成相应的供Node.js ([CommonJS](http://wiki.commonjs.org/wiki/CommonJS))，Require.js ([AMD](https://github.com/amdjs/amdjs-api/wiki/AMD))，[UMD](https://github.com/umdjs/umd), [SystemJS](https://github.com/systemjs/systemjs)或[ECMAScript 2015 native modules](http://www.ecma-international.org/ecma-262/6.0/#sec-modules) (ES6)模块加载系统使用的代码。
 想要了解生成代码中`define`，`require` 和 `register`的意义，请参考相应模块加载器的文档。
 
 下面的例子说明了导入导出语句里使用的名字是怎么转换为相应的模块加载器代码的。
@@ -327,7 +328,7 @@ export let t = something + 1;
 下面我们来整理一下前面的验证器实现，每个模块只有一个命名的导出。
 
 为了编译，我们必需要在命令行上指定一个模块目标。对于Node.js来说，使用`--module commonjs`；
-对于Require.js来说，使用``--module amd`。比如：
+对于Require.js来说，使用`--module amd`。比如：
 
 ```Shell
 tsc --module commonjs Test.ts
@@ -431,7 +432,7 @@ if (needZipValidation) {
 ```ts
 declare function require(moduleNames: string[], onLoad: (...args: any[]) => void): void;
 
-import  * as Zip from "./ZipCodeValidator";
+import * as Zip from "./ZipCodeValidator";
 
 if (needZipValidation) {
     require(["./ZipCodeValidator"], (ZipCodeValidator: typeof Zip) => {
@@ -492,7 +493,7 @@ declare module "path" {
 }
 ```
 
-现在我们可以`/// <reference>` `node.d.ts`并且使用`import url = require("url");`加载模块。
+现在我们可以`/// <reference>` `node.d.ts`并且使用`import url = require("url");`或`import * as URL from "url"`加载模块。
 
 ```ts
 /// <reference path="node.d.ts"/>
@@ -547,14 +548,14 @@ console.log(data, fileContent);
 ### UMD模块
 
 有些模块被设计成兼容多个模块加载器，或者不使用模块加载器（全局变量）。
-它们以[UMD](https://github.com/umdjs/umd)或[Isomorphic](http://isomorphic.net)模块为代表。
+它们以[UMD](https://github.com/umdjs/umd)模块为代表。
 这些库可以通过导入的形式或全局变量的形式访问。
 例如：
 
 ##### math-lib.d.ts
 
 ```ts
-export const isPrime(x: number): boolean;
+export function isPrime(x: number): boolean;
 export as namespace mathLib;
 ```
 
@@ -707,7 +708,7 @@ export class Calculator {
         this.current = 0;
     }
 
-    public handelChar(char: string) {
+    public handleChar(char: string) {
         if (char === "=") {
             this.evaluate();
             return;
@@ -737,14 +738,14 @@ export class Calculator {
 
 export function test(c: Calculator, input: string) {
     for (let i = 0; i < input.length; i++) {
-        c.handelChar(input[i]);
+        c.handleChar(input[i]);
     }
 
     console.log(`result of '${input}' is '${c.getResult()}'`);
 }
 ```
 
-这是使用导出的`test`函数来测试计算器。
+下面使用导出的`test`函数来测试计算器。
 
 #### TestCalculator.ts
 
@@ -768,8 +769,9 @@ class ProgrammerCalculator extends Calculator {
 
     constructor(public base: number) {
         super();
-        if (base <= 0 || base > ProgrammerCalculator.digits.length) {
-            throw new Error("base has to be within 0 to 16 inclusive.");
+        const maxBase = ProgrammerCalculator.digits.length;
+        if (base <= 0 || base > maxBase) {
+            throw new Error(`base has to be within 0 to ${maxBase} inclusive.`);
         }
     }
 

@@ -111,7 +111,7 @@ function sumMatrix(matrix: number[][]) {
 这里很容易看出一些问题，里层的`for`循环会覆盖变量`i`，因为所有`i`都引用相同的函数作用域内的变量。
 有经验的开发者们很清楚，这些问题可能在代码审查时漏掉，引发无穷的麻烦。
 
-## 变量获取怪异之处
+## 捕获变量怪异之处
 
 快速的猜一下下面的代码会返回什么：
 
@@ -154,11 +154,10 @@ for (var i = 0; i < 10; i++) {
 9
 ```
 
-还记得我们上面讲的变量获取吗？
+还记得我们上面提到的捕获变量吗？
+我们传给`setTimeout`的每一个函数表达式实际上都引用了相同作用域里的同一个`i`。
 
-> 每当`g`被调用时，它都可以访问到`f`里的`a`变量。
-
-让我们花点时间考虑在这个上下文里的情况。
+让我们花点时间思考一下这是为什么。
 `setTimeout`在若干毫秒后执行一个函数，并且是在`for`循环结束后。
 `for`循环结束后，`i`的值为`10`。
 所以当函数被调用的时候，它会打印出`10`！
@@ -227,7 +226,7 @@ console.log(e);
 ```
 
 拥有块级作用域的变量的另一个特点是，它们不能在被声明之前读或写。
-虽然这些变量始终“存在”于它们的作用域里，但在直到声明它的代码之前的区域都属于*时间死区*。
+虽然这些变量始终“存在”于它们的作用域里，但在直到声明它的代码之前的区域都属于*暂时性死区*。
 它只是用来说明我们不能在`let`语句之前访问它们，幸运的是TypeScript可以告诉我们这些信息。
 
 ```ts
@@ -252,7 +251,7 @@ foo();
 let a;
 ```
 
-关于*时间死区*的更多信息，查看这里[Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone_and_errors_with_let).
+关于*暂时性死区*的更多信息，查看这里[Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone_and_errors_with_let).
 
 ## 重定义及屏蔽
 
@@ -291,8 +290,8 @@ function g() {
 }
 ```
 
-并不是说块级作用域变量不能在函数作用域内声明。
-而是块级作用域变量需要在不用的块里声明。
+并不是说块级作用域变量不能用函数作用域变量来声明。
+而是块级作用域变量需要在明显不同的块里声明。
 
 ```ts
 function f(condition, x) {
@@ -429,12 +428,9 @@ kitty.numLives--;
 基本原则就是如果一个变量不需要对它写入，那么其它使用这些代码的人也不能够写入它们，并且要思考为什么会需要对这些变量重新赋值。
 使用`const`也可以让我们更容易的推测数据的流动。
 
-另一方面，用户很喜欢`let`的简洁性。
-这个手册大部分地方都使用了`let`。
-
 跟据你的自己判断，如果合适的话，与团队成员商议一下。
-Fortunately, TypeScript allows you to specify that members of an object are `readonly`.
-The [chapter on Interfaces](./Interfaces.md) has the details.
+
+这个手册大部分地方都使用了`let`声明。
 
 # 解构
 
@@ -508,7 +504,7 @@ let o = {
     a: "foo",
     b: 12,
     c: "bar"
-}
+};
 let { a, b } = o;
 ```
 
@@ -580,14 +576,16 @@ function f({ a, b }: C): void {
 ```
 
 但是，通常情况下更多的是指定默认值，解构默认值有些棘手。
-首先，你需要知道在设置默认值之前设置其类型。
+首先，你需要在默认值之前设置其格式。
 
 ```ts
-function f({ a, b } = { a: "", b: 0 }): void {
+function f({ a="", b=0 } = {}): void {
     // ...
 }
-f(); // ok, default to { a: "", b: 0 }
+f();
 ```
+
+> 上面的代码是一个类型推断的例子，将在本手册后文介绍。
 
 其次，你需要知道在解构属性上给予一个默认或可选的属性用来替换主初始化列表。
 要知道 `C` 的定义有一个 `b` 可选属性：
@@ -596,9 +594,9 @@ f(); // ok, default to { a: "", b: 0 }
 function f({ a, b = 0 } = { a: "" }): void {
     // ...
 }
-f({ a: "yes" }) // ok, default b = 0
-f() // ok, default to {a: ""}, which then defaults b = 0
-f({}) // error, 'a' is required if you supply an argument
+f({ a: "yes" }); // ok, default b = 0
+f(); // ok, default to {a: ""}, which then defaults b = 0
+f({}); // error, 'a' is required if you supply an argument
 ```
 
 要小心使用解构。
@@ -644,8 +642,9 @@ let search = { food: "rich", ...defaults };
 那么，`defaults`里的`food`属性会重写`food: "rich"`，在这里这并不是我们想要的结果。
 
 对象展开还有其它一些意想不到的限制。
-首先，它只包含自身的可枚举的属性。
-首先，当你展开一个对象实例时，你会丢失其方法：
+首先，它仅包含对象
+[自身的可枚举属性](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Enumerability_and_ownership_of_properties)。
+大体上是说当你展开一个对象实例时，你会丢失其方法：
 
 ```ts
 class C {

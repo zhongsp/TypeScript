@@ -11,6 +11,8 @@
 npm install --save @types/lodash
 ```
 
+如果一个npm包像[Publishing](./Publishing.md)里所讲的一样已经包含了它的声明文件，那就不必再去下载相应的`@types`包了。
+
 # 使用
 
 下载完后，就可以直接在TypeScript里使用lodash了。

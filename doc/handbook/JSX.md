@@ -2,8 +2,8 @@
 
 [JSX](https://facebook.github.io/jsx/)是一种嵌入式的类似XML的语法。
 它可以被转换成合法的JavaScript，尽管转换的语义是依据不同的实现而定的。
-JSX因[React](http://facebook.github.io/react/)框架而流行，但是也被其它应用所使用。
-TypeScript支持内嵌，类型检查和将JSX直接编译为JavaScript。
+JSX因[React](https://reactjs.org/)框架而流行，但也存在其它的实现。
+TypeScript支持内嵌，类型检查以及将JSX直接编译为JavaScript。
 
 # 基本用法
 
@@ -12,16 +12,18 @@ TypeScript支持内嵌，类型检查和将JSX直接编译为JavaScript。
 1. 给文件一个`.tsx`扩展名
 2. 启用`jsx`选项
 
-TypeScript具有两种JSX模式：`preserve`和`react`。
+TypeScript具有三种JSX模式：`preserve`，`react`和`react-native`。
 这些模式只在代码生成阶段起作用 - 类型检查并不受影响。
 在`preserve`模式下生成代码中会保留JSX以供后续的转换操作使用（比如：[Babel](https://babeljs.io/)）。
 另外，输出文件会带有`.jsx`扩展名。
 `react`模式会生成`React.createElement`，在使用前不需要再进行转换操作了，输出文件的扩展名为`.js`。
+`react-native`相当于`preserve`，它也保留了所有的JSX，但是输出文件的扩展名是`.js`。
 
-模式        | 输入      | 输出                          | 输出文件扩展名
------------|-----------|------------------------------|----------------------
-`preserve` | `<div />` | `<div />`                    | `.jsx`
-`react`    | `<div />` | `React.createElement("div")` | `.js`
+模式            | 输入      | 输出                          | 输出文件扩展名
+---------------|-----------|------------------------------|----------------------
+`preserve`     | `<div />` | `<div />`                    | `.jsx`
+`react`        | `<div />` | `React.createElement("div")` | `.js`
+`react-native` | `<div />` | `<div />`                    | `.js`
 
 你可以通过在命令行里使用`--jsx`标记或[tsconfig.json](./tsconfig.json.md)里的选项来指定模式。
 
@@ -35,17 +37,17 @@ TypeScript具有两种JSX模式：`preserve`和`react`。
 var foo = <foo>bar;
 ```
 
-这里我们断言`bar`变量是`foo`类型的。
-因为TypeScript也使用尖括号来表示类型断言，JSX的语法带来了解析的困难。因此，TypeScript在`.tsx`文件里禁用了使用尖括号的类型断言。
+这里断言`bar`变量是`foo`类型的。
+因为TypeScript也使用尖括号来表示类型断言，在结合JSX的语法后将带来解析上的困难。因此，TypeScript在`.tsx`文件里禁用了使用尖括号的类型断言。
 
-为了弥补`.tsx`里的这个功能，新加入了一个类型断言符号：`as`。
+由于不能够在`.tsx`文件里使用上述语法，因此我们应该使用另一个类型断言操作符：`as`。
 上面的例子可以很容易地使用`as`操作符改写：
 
 ```ts
 var foo = bar as foo;
 ```
 
-`as`操作符在`.ts`和`.tsx`里都可用，并且与其它类型断言行为是等价的。
+`as`操作符在`.ts`和`.tsx`里都可用，并且与尖括号类型断言行为是等价的。
 
 # 类型检查
 
@@ -64,7 +66,7 @@ TypeScript使用[与React相同的规范](http://facebook.github.io/react/docs/j
 
 固有元素使用特殊的接口`JSX.IntrinsicElements`来查找。
 默认地，如果这个接口没有指定，会全部通过，不对固有元素进行类型检查。
-然而，如果接口存在，那么固有元素的名字需要在`JSX.IntrinsicElements`接口的属性里查找。
+然而，如果这个接口存在，那么固有元素的名字需要在`JSX.IntrinsicElements`接口的属性里查找。
 例如：
 
 ```ts
@@ -100,14 +102,64 @@ import MyComponent from "./myComponent";
 <SomeOtherComponent />; // 错误
 ```
 
-可以限制基于值的元素的类型。
-然而，为了这么做我们需要引入两个新的术语：*元素类的类型*和*元素实例的类型*。
+有两种方式可以定义基于值的元素：
+
+1. 无状态函数组件 (SFC)
+2. 类组件
+
+由于这两种基于值的元素在JSX表达式里无法区分，因此TypeScript首先会尝试将表达式做为无状态函数组件进行解析。如果解析成功，那么TypeScript就完成了表达式到其声明的解析操作。如果按照无状态函数组件解析失败，那么TypeScript会继续尝试以类组件的形式进行解析。如果依旧失败，那么将输出一个错误。
+
+### 无状态函数组件
+
+正如其名，组件被定义成JavaScript函数，它的第一个参数是`props`对象。
+TypeScript会强制它的返回值可以赋值给`JSX.Element`。
+
+```ts
+interface FooProp {
+  name: string;
+  X: number;
+  Y: number;
+}
+
+declare function AnotherComponent(prop: {name: string});
+function ComponentFoo(prop: FooProp) {
+  return <AnotherComponent name={prop.name} />;
+}
+
+const Button = (prop: {value: string}, context: { color: string }) => <button>
+```
+
+由于无状态函数组件是简单的JavaScript函数，所以我们还可以利用函数重载。
+
+```ts
+interface ClickableProps {
+  children: JSX.Element[] | JSX.Element
+}
+
+interface HomeProps extends ClickableProps {
+  home: JSX.Element;
+}
+
+interface SideProps extends ClickableProps {
+  side: JSX.Element | string;
+}
+
+function MainButton(prop: HomeProps): JSX.Element;
+function MainButton(prop: SideProps): JSX.Element {
+  ...
+}
+```
+
+### 类组件
+
+我们可以定义类组件的类型。
+然而，我们首先最好弄懂两个新的术语：*元素类的类型*和*元素实例的类型*。
 
 现在有`<Expr />`，*元素类的类型*为`Expr`的类型。
-所以在上面的例子里，如果`MyComponent`是ES6的类，那么它的类类型就是这个类。
+所以在上面的例子里，如果`MyComponent`是ES6的类，那么类类型就是类的构造函数和静态部分。
 如果`MyComponent`是个工厂函数，类类型为这个函数。
 
-一旦建立起了类类型，实例类型就确定了，为类类型调用签名的返回值与构造签名的联合类型。
+一旦建立起了类类型，实例类型由类构造器或调用签名（如果存在的话）的返回值的联合构成。
 再次说明，在ES6类的情况下，实例类型为这个类的实例的类型，并且如果是工厂函数，实例类型为这个函数返回值类型。
 
 ```ts
@@ -187,6 +239,7 @@ declare namespace JSX {
 至于该使用哪个属性来确定类型取决于`JSX.ElementAttributesProperty`。
 它应该使用单一的属性来定义。
 这个属性名之后会被使用。
+TypeScript 2.8，如果未指定`JSX.ElementAttributesProperty`，那么将使用类元素构造函数或SFC调用的第一个参数的类型。
 
 ```ts
 declare namespace JSX {
@@ -226,6 +279,8 @@ declare namespace JSX {
 
 > 注意：如果一个属性名不是个合法的JS标识符（像`data-*`属性），并且它没出现在元素属性类型里时不会当做一个错误。
 
+另外，JSX还会使用`JSX.IntrinsicAttributes`接口来指定额外的属性，这些额外的属性通常不会被组件的props或arguments使用 - 比如React里的`key`。还有，`JSX.IntrinsicClassAttributes<T>`泛型类型也可以用来做同样的事情。这里的泛型参数表示类实例类型。在React里，它用来允许`Ref<T>`类型上的`ref`属性。通常来讲，这些接口上的所有属性都是可选的，除非你想要用户在每个JSX标签上都提供一些属性。
+
 延展操作符也可以使用：
 
 ```JSX
@@ -236,9 +291,76 @@ var badProps = {};
 <foo {...badProps} />; // 错误
 ```
 
+## 子孙类型检查
+
+从TypeScript 2.3开始，我们引入了*children*类型检查。*children*是*元素属性(attribute)类型*的一个特殊属性(property)，子*JSXExpression*将会被插入到属性里。
+与使用`JSX.ElementAttributesProperty`来决定*props*名类似，我们可以利用`JSX.ElementChildrenAttribute`来决定*children*名。
+`JSX.ElementChildrenAttribute`应该被声明在单一的属性(property)里。
+
+```ts
+declare namespace JSX {
+  interface ElementChildrenAttribute {
+    children: {};  // specify children name to use
+  }
+}
+```
+
+如不特殊指定子孙的类型，我们将使用[React typings](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react)里的默认类型。
+
+```ts
+<div>
+  <h1>Hello</h1>
+</div>;
+
+<div>
+  <h1>Hello</h1>
+  World
+</div>;
+
+const CustomComp = (props) => <div>props.children</div>
+<CustomComp>
+  <div>Hello World</div>
+  {"This is just a JS expression..." + 1000}
+</CustomComp>
+```
+
+```ts
+interface PropsType {
+  children: JSX.Element
+  name: string
+}
+
+class Component extends React.Component<PropsType, {}> {
+  render() {
+    return (
+      <h2>
+        {this.props.children}
+      </h2>
+    )
+  }
+}
+
+// OK
+<Component>
+  <h1>Hello World</h1>
+</Component>
+
+// Error: children is of type JSX.Element not array of JSX.Element
+<Component>
+  <h1>Hello World</h1>
+  <h2>Hello World</h2>
+</Component>
+
+// Error: children is of type JSX.Element not array of JSX.Element or string.
+<Component>
+  <h1>Hello</h1>
+  World
+</Component>
+```
+
 # JSX结果类型
 
-默认地JSX表达式结果的类型为`any。
+默认地JSX表达式结果的类型为`any`。
 你可以自定义这个类型，通过指定`JSX.Element`接口。
 然而，不能够从接口里检索元素，属性或JSX的子元素的类型信息。
 它是一个黑盒。
@@ -264,7 +386,7 @@ var a = <div>
 
 # React整合
 
-要想一起使用JSX和React，你应该使用[React类型定义](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/react)。
+要想一起使用JSX和React，你应该使用[React类型定义](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react)。
 这些类型声明定义了`JSX`合适命名空间来使用React。
 
 ```ts
@@ -283,3 +405,24 @@ class MyComponent extends React.Component<Props, {}> {
 <MyComponent foo="bar" />; // 正确
 <MyComponent foo={0} />; // 错误
 ```
+
+# 工厂函数
+
+`jsx: react`编译选项使用的工厂函数是可以配置的。可以使用`jsxFactory`命令行选项，或内联的`@jsx`注释指令在每个文件上设置。比如，给`createElement`设置`jsxFactory`，`</div>`会使用`createElement("div")`来生成，而不是`React.createElement("div")`。
+
+注释指令可以像下面这样使用（在TypeScript 2.8里）：
+
+```ts
+import preact = require("preact");
+/* @jsx preact.h */
+const x = </div>;
+```
+
+生成：
+
+```ts
+const preact = require("preact");
+const x = preact.h("div", null);
+```
+
+工厂函数的选择同样会影响`JSX`命名空间的查找（类型检查）。如果工厂函数使用`React.createElement`定义（默认），编译器会先检查`React.JSX`，之后才检查全局的`JSX`。如果工厂函数定义为`h`，那么在检查全局的`JSX`之前先检查`h.JSX`。

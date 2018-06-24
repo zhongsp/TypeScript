@@ -46,8 +46,7 @@ npm init
 ## 安装依赖项
 
 现在我们可以使用`npm install`命令来安装包。
-首先全局安装TypeScript和Gulp。
-（如果你正在使用Unix系统，你可能需要使用`sudo`命令来启动`npm install`命令行。）
+首先全局安装`gulp-cli`（如果你使用Unix系统，你可能需要在`npm install`命令上使用`sudo`）。
 
 ```shell
 npm install -g gulp-cli
@@ -399,7 +398,7 @@ cat dist/bundle.js
 默认情况下Babelify只会处理扩展名为`.js`，`.es`，`.es6`和`.jsx`的文件，因此我们需要添加`.ts`扩展名到Babelify选项。
 
 ```shell
-npm install --save-dev babelify babel-preset-es2015 vinyl-buffer gulp-sourcemaps
+npm install --save-dev babelify babel-core babel-preset-es2015 vinyl-buffer gulp-sourcemaps
 ```
 
 修改gulpfile文件如下：

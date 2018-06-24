@@ -45,7 +45,7 @@ function add(x: number, y: number): number {
     return x + y;
 }
 
-let myAdd = function(x: number, y: number): number { return x+y; };
+let myAdd = function(x: number, y: number): number { return x + y; };
 ```
 
 我们可以给每个参数添加类型之后再为函数本身添加返回值类型。
@@ -56,8 +56,8 @@ TypeScript能够根据返回语句自动推断出返回值类型，因此我们�
 现在我们已经为函数指定了类型，下面让我们写出函数的完整类型。
 
 ```ts
-let myAdd: (x:number, y:number)=>number =
-    function(x: number, y: number): number { return x+y; };
+let myAdd: (x:number, y:number) => number =
+    function(x: number, y: number): number { return x + y; };
 ```
 
 函数类型包含两部分：参数类型和返回值类型。
@@ -67,7 +67,7 @@ let myAdd: (x:number, y:number)=>number =
 我们也可以这么写：
 
 ```ts
-let myAdd: (baseValue:number, increment:number) => number =
+let myAdd: (baseValue: number, increment: number) => number =
     function(x: number, y: number): number { return x + y; };
 ```
 
@@ -90,7 +90,7 @@ let myAdd: (baseValue:number, increment:number) => number =
 let myAdd = function(x: number, y: number): number { return x + y; };
 
 // The parameters `x` and `y` have the type number
-let myAdd: (baseValue:number, increment:number) => number =
+let myAdd: (baseValue: number, increment: number) => number =
     function(x, y) { return x + y; };
 ```
 
@@ -217,7 +217,7 @@ let buildNameFun: (fname: string, ...rest: string[]) => string = buildName;
 
 # `this`
 
-学习使用JavaScript里`this`就好比一场成年礼。
+学习如何在JavaScript里正确使用`this`就好比一场成年礼。
 由于TypeScript是JavaScript的超集，TypeScript程序员也需要弄清`this`工作机制并且当有bug的时候能够找出错误所在。
 幸运的是，TypeScript能通知你错误地使用了`this`的地方。
 如果你想了解JavaScript里的`this`是如何工作的，那么首先阅读Yehuda Katz写的[Understanding JavaScript Function Invocation and "this"](http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/)。
@@ -335,10 +335,10 @@ alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 现在TypeScript知道`createCardPicker`期望在某个`Deck`对象上调用。
 也就是说`this`是`Deck`类型的，而非`any`，因此`--noImplicitThis`不会报错了。
 
-### `this`参数在回调函数里
+### 回调函数里的`this`参数
 
-你可以也看到过在回调函数里的`this`报错，当你将一个函数传递到某个库函数里稍后会被调用时。
-因为当回调被调用的时候，它们会被当成一个普通函数调用，`this`将为`undefined`。
+当你将一个函数传递到某个库函数里在稍后被调用时，你可能也见到过回调函数里的`this`会报错。
+因为当回调函数被调用时，它会被当成一个普通函数调用，`this`将为`undefined`。
 稍做改动，你就可以通过`this`参数来避免错误。
 首先，库函数的作者要指定`this`的类型：
 
@@ -348,8 +348,8 @@ interface UIElement {
 }
 ```
 
-`this: void` means that `addClickListener` expects `onclick` to be a function that does not require a `this` type.
-Second, annotate your calling code with `this`:
+`this: void`意味着`addClickListener`期望`onclick`是一个函数且它不需要一个`this`类型。
+然后，为调用代码里的`this`添加类型注解：
 
 ```ts
 class Handler {
@@ -357,7 +357,7 @@ class Handler {
     onClickBad(this: Handler, e: Event) {
         // oops, used this here. using this callback would crash at runtime
         this.info = e.message;
-    };
+    }
 }
 let h = new Handler();
 uiElement.addClickListener(h.onClickBad); // error!

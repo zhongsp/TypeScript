@@ -2,7 +2,7 @@
 
 随着TypeScript和ES6里引入了类，在一些场景下我们需要额外的特性来支持标注或修改类及其成员。
 装饰器（Decorators）为我们在类的声明及成员上通过元编程语法添加标注提供了一种方式。
-Javascript里的装饰器目前处在[建议征集的第一阶段](https://github.com/wycats/javascript-decorators/blob/master/README.md)，但在TypeScript里已做为一项实验性特性予以支持。
+Javascript里的装饰器目前处在[建议征集的第二阶段](https://github.com/tc39/proposal-decorators)，但在TypeScript里已做为一项实验性特性予以支持。
 
 > 注意&emsp; 装饰器是一项实验性特性，在未来的版本中可能会发生改变。
 
@@ -163,6 +163,28 @@ function sealed(constructor: Function) {
 
 当`@sealed`被执行的时候，它将密封此类的构造函数和原型。(注：参见[Object.seal](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/seal))
 
+下面是一个重载构造函数的例子。
+
+```ts
+function classDecorator<T extends {new(...args:any[]):{}}>(constructor:T) {
+    return class extends constructor {
+        newProperty = "new property";
+        hello = "override";
+    }
+}
+
+@classDecorator
+class Greeter {
+    property = "property";
+    hello: string;
+    constructor(m: string) {
+        this.hello = m;
+    }
+}
+
+console.log(new Greeter("world"));
+```
+
 ## <a name="method-decorators"></a>方法装饰器
 
 *方法装饰器*声明在一个方法的声明之前（紧靠着方法声明）。
@@ -270,12 +292,8 @@ function configurable(value: boolean) {
 2. 成员的名字。
 
 > 注意&emsp; *属性描述符*不会做为参数传入属性装饰器，这与TypeScript是如何初始化属性装饰器的有关。
-因为目前没有办法在定义一个原型对象的成员时描述一个实例属性，并且没办法监视或修改一个属性的初始化方法。
+因为目前没有办法在定义一个原型对象的成员时描述一个实例属性，并且没办法监视或修改一个属性的初始化方法。返回值也会被忽略。
 因此，属性描述符只能用来监视类中是否声明了某个名字的属性。
-
-如果属性装饰器返回一个值，它会被用作方法的*属性描述符*。
-
-> 注意&emsp; 如果代码输出目标版本小于`ES5`，返回值会被忽略。
 
 如果访问符装饰器返回一个值，它会被用作方法的*属性描述符*。
 

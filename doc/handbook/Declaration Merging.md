@@ -11,7 +11,7 @@ TypeScript中有些独特的概念可以在类型层面上描述JavaScript对象
 
 # 基础概念
 
-Typescript中的声明会创建以下三种实体之一：命名空间，类型或值。
+TypeScript中的声明会创建以下三种实体之一：命名空间，类型或值。
 创建命名空间的声明会新建一个命名空间，它包含了用（.）符号来访问时使用的名字。
 创建类型的声明是：用声明的模型创建一个类型并绑定到给定的名字上。
 最后，创建值的声明会创建在JavaScript输出中看到的值。
@@ -46,8 +46,9 @@ interface Box {
 let box: Box = {height: 5, width: 6, scale: 10};
 ```
 
-接口的非函数的成员必须是唯一的。
-如果两个接口中同时声明了同名的非函数成员编译器则会报错。
+接口的非函数的成员应该是唯一的。
+如果它们不是唯一的，那么它们必须是相同的类型。
+如果两个接口中同时声明了同名的非函数成员且它们的类型不同，则编译器会报错。
 
 对于函数成员，每个同名函数声明都会被当成这个函数的一个重载。
 同时需要注意，当接口`A`与后来的接口`A`合并时，后面的接口具有更高的优先级。
@@ -162,7 +163,7 @@ namespace Animal {
 
 namespace Animal {
     export function doAnimalsHaveMuscles() {
-        return haveMuscles;  // <-- error, haveMuscles is not visible here
+        return haveMuscles;  // Error, because haveMuscles is not accessible here
     }
 }
 ```
@@ -174,7 +175,7 @@ namespace Animal {
 
 命名空间可以与其它类型的声明进行合并。
 只要命名空间的定义符合将要合并类型的定义。合并结果包含两者的声明类型。
-Typescript使用这个功能去实现一些JavaScript里的设计模式。
+TypeScript使用这个功能去实现一些JavaScript里的设计模式。
 
 ## 合并命名空间和类
 
@@ -194,7 +195,7 @@ namespace Album {
 你也可以使用命名空间为类增加一些静态属性。
 
 除了内部类的模式，你在JavaScript里，创建一个函数稍后扩展它增加一些属性也是很常见的。
-Typescript使用声明合并来达到这个目的并保证类型安全。
+TypeScript使用声明合并来达到这个目的并保证类型安全。
 
 ```ts
 function buildLabel(name: string): string {
@@ -206,7 +207,7 @@ namespace buildLabel {
     export let prefix = "Hello, ";
 }
 
-alert(buildLabel("Sam Smith"));
+console.log(buildLabel("Sam Smith"));
 ```
 
 相似的，命名空间可以用来扩展枚举型：

@@ -1,18 +1,18 @@
 > 这节假设你已经了解了模块的一些基本知识
 请阅读[模块](./Modules.md)文档了解更多信息。
 
-*模块解析*就是指编译器所要依据的一个流程，用它来找出某个导入操作所引用的具体值。
+*模块解析*是指编译器在查找导入模块内容时所遵循的流程。
 假设有一个导入语句`import { a } from "moduleA"`;
-为了去检查任何对`a`的使用，编译器需要准确的知道它表示什么，并且会需要检查它的定义`moduleA`。
+为了去检查任何对`a`的使用，编译器需要准确的知道它表示什么，并且需要检查它的定义`moduleA`。
 
-这时候，编译器会想知道“`moduleA`的shape是怎样的？”
-这听上去很简单，`moduleA`可能在你写的某个`.ts`/`.tsx`文件里或者在你的代码所依赖的`.d.ts`里。
+这时候，编译器会有个疑问“`moduleA`的结构是怎样的？”
+这听上去很简单，但`moduleA`可能在你写的某个`.ts`/`.tsx`文件里或者在你的代码所依赖的`.d.ts`里。
 
 首先，编译器会尝试定位表示导入模块的文件。
-编译会遵循下列二种策略之一：[Classic](#classic)或[Node](#node)。
+编译器会遵循以下二种策略之一：[Classic](#classic)或[Node](#node)。
 这些策略会告诉编译器到*哪里*去查找`moduleA`。
 
-如果它们失败了并且如果模块名是非相对的（且是在`"moduleA"`的情况下），编译器会尝试定位一个[外部模块声明](./Modules.md#ambient-modules)。
+如果上面的解析失败了并且模块名是非相对的（且是在`"moduleA"`的情况下），编译器会尝试定位一个[外部模块声明](./Modules.md#ambient-modules)。
 我们接下来会讲到非相对导入。
 
 最后，如果编译器还是不能解析这个模块，它会记录一个错误。
@@ -33,24 +33,24 @@
 下面是一些例子：
 
 * `import * as $ from "jQuery";`
-* `import { Component } from "angular2/core";`
+* `import { Component } from "@angular/core";`
 
-相对导入解析时是相对于导入它的文件来的，并且*不能*解析为一个外部模块声明。
+相对导入在解析时是相对于导入它的文件，并且*不能*解析为一个外部模块声明。
 你应该为你自己写的模块使用相对导入，这样能确保它们在运行时的相对位置。
 
 非相对模块的导入可以相对于`baseUrl`或通过下文会讲到的路径映射来进行解析。
-它们还可以被解析能[外部模块声明](./Modules.md#ambient-modules)。
+它们还可以被解析成[外部模块声明](./Modules.md#ambient-modules)。
 使用非相对路径来导入你的外部依赖。
 
 ## 模块解析策略
 
 共有两种可用的模块解析策略：[Node](#node)和[Classic](#classic)。
-你可以使用`--moduleResolution`标记指定使用哪种模块解析策略。
+你可以使用`--moduleResolution`标记来指定使用哪种模块解析策略。
 若未指定，那么在使用了`--module AMD | System | ES2015`时的默认值为[Classic](#classic)，其它情况时则为[Node](#node)。
 
 ### Classic
 
-这种策略以前是TypeScript默认的解析策略。
+这种策略在以前是TypeScript默认的解析策略。
 现在，它存在的理由主要是为了向后兼容。
 
 相对导入的模块是相对于导入它的文件进行解析的。
@@ -89,12 +89,12 @@ Node.js会根据`require`的是相对路径还是非相对路径做出不同的�
 例如，假设有一个文件路径为`/root/src/moduleA.js`，包含了一个导入`var x = require("./moduleB");`
 Node.js以下面的顺序解析这个导入：
 
-1. 将`/root/src/moduleB.js`视为文件，检查是否存在。
+1. 检查`/root/src/moduleB.js`文件是否存在。
 
-2. 将`/root/src/moduleB`视为目录，检查是否它包含`package.json`文件并且其指定了一个`"main"`模块。
+2. 检查`/root/src/moduleB`目录是否包含一个`package.json`文件，且`package.json`文件指定了一个`"main"`模块。
    在我们的例子里，如果Node.js发现文件`/root/src/moduleB/package.json`包含了`{ "main": "lib/mainModule.js" }`，那么Node.js会引用`/root/src/moduleB/lib/mainModule.js`。
 
-3. 将`/root/src/moduleB`视为目录，检查它是否包含`index.js`文件。
+3. 检查`/root/src/moduleB`目录是否包含一个`index.js`文件。
    这个文件会被隐式地当作那个文件夹下的"main"模块。
 
 你可以阅读Node.js文档了解更多详细信息：[file modules](https://nodejs.org/api/modules.html#modules_file_modules) 和 [folder modules](https://nodejs.org/api/modules.html#modules_folders_as_modules)。
@@ -127,14 +127,14 @@ Node则会以下面的顺序去解析`moduleB`，直到有一个匹配上。
 
 TypeScript是模仿Node.js运行时的解析策略来在编译阶段定位模块定义文件。
 因此，TypeScript在Node解析逻辑基础上增加了TypeScript源文件的扩展名（`.ts`，`.tsx`和`.d.ts`）。
-同时，TypeScript在`package.json`里使用字段`"typings"`来表示类似`"main"`的意义 - 编译器会使用它来找到要使用的"main"定义文件。
+同时，TypeScript在`package.json`里使用字段`"types"`来表示类似`"main"`的意义 - 编译器会使用它来找到要使用的"main"定义文件。
 
 比如，有一个导入语句`import { b } from "./moduleB"`在`/root/src/moduleA.ts`里，会以下面的流程来定位`"./moduleB"`：
 
 1. `/root/src/moduleB.ts`
 2. `/root/src/moduleB.tsx`
 3. `/root/src/moduleB.d.ts`
-4. `/root/src/moduleB/package.json` (如果指定了`"typings"`属性)
+4. `/root/src/moduleB/package.json` (如果指定了`"types"`属性)
 5. `/root/src/moduleB/index.ts`
 6. `/root/src/moduleB/index.tsx`
 7. `/root/src/moduleB/index.d.ts`
@@ -142,12 +142,12 @@ TypeScript是模仿Node.js运行时的解析策略来在编译阶段定位模块
 回想一下Node.js先查找`moduleB.js`文件，然后是合适的`package.json`，再之后是`index.js`。
 
 类似地，非相对的导入会遵循Node.js的解析逻辑，首先查找文件，然后是合适的文件夹。
-因此`/src/moduleA.ts`文件里的`import { b } from "moduleB"`会以下面的查找顺序解析：
+因此`/root/src/moduleA.ts`文件里的`import { b } from "moduleB"`会以下面的查找顺序解析：
 
 1. `/root/src/node_modules/moduleB.ts`
 2. `/root/src/node_modules/moduleB.tsx`
 3. `/root/src/node_modules/moduleB.d.ts`
-4. `/root/src/node_modules/moduleB/package.json` (如果指定了`"typings"`属性)
+4. `/root/src/node_modules/moduleB/package.json` (如果指定了`"types"`属性)
 5. `/root/src/node_modules/moduleB/index.ts`
 6. `/root/src/node_modules/moduleB/index.tsx`
 7. `/root/src/node_modules/moduleB/index.d.ts`
@@ -155,7 +155,7 @@ TypeScript是模仿Node.js运行时的解析策略来在编译阶段定位模块
 8. `/root/node_modules/moduleB.ts`
 9. `/root/node_modules/moduleB.tsx`
 10. `/root/node_modules/moduleB.d.ts`
-11. `/root/node_modules/moduleB/package.json` (如果指定了`"typings"`属性)
+11. `/root/node_modules/moduleB/package.json` (如果指定了`"types"`属性)
 12. `/root/node_modules/moduleB/index.ts`
 13. `/root/node_modules/moduleB/index.tsx`
 14. `/root/node_modules/moduleB/index.d.ts`
@@ -163,7 +163,7 @@ TypeScript是模仿Node.js运行时的解析策略来在编译阶段定位模块
 15. `/node_modules/moduleB.ts`
 16. `/node_modules/moduleB.tsx`
 17. `/node_modules/moduleB.d.ts`
-18. `/node_modules/moduleB/package.json` (如果指定了`"typings"`属性)
+18. `/node_modules/moduleB/package.json` (如果指定了`"types"`属性)
 19. `/node_modules/moduleB/index.ts`
 20. `/node_modules/moduleB/index.tsx`
 21. `/node_modules/moduleB/index.d.ts`
@@ -199,13 +199,13 @@ TypeScript编译器有一些额外的标记用来*通知*编译器在源码编�
 
 注意相对模块的导入不会被设置的`baseUrl`所影响，因为它们总是相对于导入它们的文件。
 
-阅读更多关于`baseUrl`的信息[RequireJS](http://requirejs.org/docs/api.html#config-baseUrl)和[SystemJS](https://github.com/systemjs/systemjs/blob/master/docs/overview.md#baseurl)。
+阅读更多关于`baseUrl`的信息[RequireJS](http://requirejs.org/docs/api.html#config-baseUrl)和[SystemJS](https://github.com/systemjs/systemjs/blob/master/docs/config-api.md#baseurl)。
 
 ### 路径映射
 
 有时模块不是直接放在*baseUrl*下面。
-比如，充分`"jquery"`模块地导入，在运行时可能被解释为`"node_modules\jquery\dist\jquery.slim.min.js"`。
-加载器使用映射配置来将模块名映射到运行时的文件，查看[RequireJs documentation](http://requirejs.org/docs/api.html#config-paths)和[SystemJS documentation](https://github.com/systemjs/systemjs/blob/master/docs/overview.md#map-config)。
+比如，充分`"jquery"`模块地导入，在运行时可能被解释为`"node_modules/jquery/dist/jquery.slim.min.js"`。
+加载器使用映射配置来将模块名映射到运行时的文件，查看[RequireJs documentation](http://requirejs.org/docs/api.html#config-paths)和[SystemJS documentation](https://github.com/systemjs/systemjs/blob/master/docs/config-api.md#paths)。
 
 TypeScript编译器通过使用`tsconfig.json`文件里的`"paths"`来支持这样的声明映射。
 下面是一个如何指定`jquery`的`"paths"`的例子。
@@ -215,11 +215,15 @@ TypeScript编译器通过使用`tsconfig.json`文件里的`"paths"`来支持这�
   "compilerOptions": {
     "baseUrl": ".", // This must be specified if "paths" is.
     "paths": {
-      "jquery": ["node_modules/jquery/dist/jquery"]
+      "jquery": ["node_modules/jquery/dist/jquery"] // 此处映射是相对于"baseUrl"
     }
   }
 }
 ```
+
+请注意`"paths"`是相对于`"baseUrl"`进行解析。
+如果`"baseUrl"`被设置成了除`"."`外的其它值，比如`tsconfig.json`所在的目录，那么映射必须要做相应的改变。
+如果你在上例中设置了`"baseUrl": "./src"`，那么jquery应该映射到`"../node_modules/jquery/dist/jquery"`。
 
 通过`"paths"`我们还可以指定复杂的映射，包括指定多个回退位置。
 假设在一个工程配置里，有一些模块位于一处，而其它的则在另个的位置。
@@ -256,23 +260,23 @@ projectRoot
 
 它告诉编译器所有匹配`"*"`（所有的值）模式的模块导入会在以下两个位置查找：
 
- 1. `"*"`： 表示名字不发生改变，所以映射为`<moduleName>` => `<baseUrl>\<moduleName>`
- 2. `"generated\*"`表示模块名添加了“generated”前缀，所以映射为`<moduleName>` => `<baseUrl>\generated\<moduleName>`
+ 1. `"*"`： 表示名字不发生改变，所以映射为`<moduleName>` => `<baseUrl>/<moduleName>`
+ 2. `"generated/*"`表示模块名添加了“generated”前缀，所以映射为`<moduleName>` => `<baseUrl>/generated/<moduleName>`
 
 按照这个逻辑，编译器将会如下尝试解析这两个导入：
 
 * 导入'folder1/file2'
   1. 匹配'*'模式且通配符捕获到整个名字。
   2. 尝试列表里的第一个替换：'*' -> `folder1/file2`。
-  3. 替换结果为相对名 - 与*baseUrl*合并 -> `projectRoot/folder1/file2.ts`。
+  3. 替换结果为非相对名 - 与*baseUrl*合并 -> `projectRoot/folder1/file2.ts`。
   4. 文件存在。完成。
 * 导入'folder2/file3'
   1. 匹配'*'模式且通配符捕获到整个名字。
   2. 尝试列表里的第一个替换：'*' -> `folder2/file3`。
-  3. 替换结果为相对名 - 与*baseUrl*合并 -> `projectRoot/folder2/file3.ts`。
+  3. 替换结果为非相对名 - 与*baseUrl*合并 -> `projectRoot/folder2/file3.ts`。
   4. 文件不存在，跳到第二个替换。
   5. 第二个替换：'generated/*' -> `generated/folder2/file3`。
-  6. 替换结果为相对名 - 与*baseUrl*合并 -> `projectRoot/generated/folder2/file3.ts`。
+  6. 替换结果为非相对名 - 与*baseUrl*合并 -> `projectRoot/generated/folder2/file3.ts`。
   7. 文件存在。完成。
 
 ### 利用`rootDirs`指定虚拟目录
@@ -317,7 +321,36 @@ projectRoot
 }
 ```
 
-第当编译器在`rootDirs`的子目录下找到一个相对模块导入，它会尝试从`rootDirs`里导入。
+每当编译器在某一`rootDirs`的子目录下发现了相对模块导入，它就会尝试从每一个`rootDirs`中导入。
+
+`rootDirs`的灵活性不仅仅局限于其指定了要在逻辑上合并的物理目录列表。它提供的数组可以包含任意数量的任何名字的目录，不论它们是否存在。这允许编译器以类型安全的方式处理复杂捆绑(bundles)和运行时的特性，比如条件引入和工程特定的加载器插件。
+
+设想这样一个国际化的场景，构建工具自动插入特定的路径记号来生成针对不同区域的捆绑，比如将`#{locale}`做为相对模块路径`./#{locale}/messages`的一部分。在这个假定的设置下，工具会枚举支持的区域，将抽像的路径映射成`./zh/messages`，`./de/messages`等。
+
+假设每个模块都会导出一个字符串的数组。比如`./zh/messages`可能包含：
+
+```ts
+export default [
+    "您好吗",
+    "很高兴认识你"
+];
+```
+
+利用`rootDirs`我们可以让编译器了解这个映射关系，从而也允许编译器能够安全地解析`./#{locale}/messages`，就算这个目录永远都不存在。比如，使用下面的`tsconfig.json`：
+
+```json
+{
+  "compilerOptions": {
+    "rootDirs": [
+      "src/zh",
+      "src/de",
+      "src/#{locale}"
+    ]
+  }
+}
+```
+
+编译器现在可以将`import messages from './#{locale}/messages'`解析为`import messages from './zh/messages'`用做工具支持的目的，并允许在开发时不必了解区域信息。
 
 ## 跟踪模块解析
 
@@ -358,7 +391,7 @@ File 'node_modules/typescript.ts' does not exist.
 File 'node_modules/typescript.tsx' does not exist.
 File 'node_modules/typescript.d.ts' does not exist.
 Found 'package.json' at 'node_modules/typescript/package.json'.
-'package.json' has 'typings' field './lib/typescript.d.ts' that references 'node_modules/typescript/lib/typescript.d.ts'.
+'package.json' has 'types' field './lib/typescript.d.ts' that references 'node_modules/typescript/lib/typescript.d.ts'.
 File 'node_modules/typescript/lib/typescript.d.ts' exist - use it as a module resolution result.
 ======== Module name 'typescript' was successfully resolved to 'node_modules/typescript/lib/typescript.d.ts'. ========
 ```
@@ -373,9 +406,9 @@ File 'node_modules/typescript/lib/typescript.d.ts' exist - use it as a module re
 
  > Module resolution kind is not specified, using **'NodeJs'**.
 
-* 从npm加载typings
+* 从npm加载types
 
- > 'package.json' has **'typings'** field './lib/typescript.d.ts' that references 'node_modules/typescript/lib/typescript.d.ts'.
+ > 'package.json' has **'types'** field './lib/typescript.d.ts' that references 'node_modules/typescript/lib/typescript.d.ts'.
 
 * 最终结果
 

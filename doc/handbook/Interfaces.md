@@ -1,6 +1,6 @@
 # 介绍
 
-TypeScript的核心原则之一是对值所具有的*shape*进行类型检查。
+TypeScript的核心原则之一是对值所具有的*结构*进行类型检查。
 它有时被称做“鸭式辨型法”或“结构性子类型化”。
 在TypeScript里，接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约。
 
@@ -85,7 +85,7 @@ interface SquareConfig {
 
 function createSquare(config: SquareConfig): { color: string; area: number } {
   let newSquare = {color: "white", area: 100};
-  if (config.color) {
+  if (config.clor) {
     // Error: Property 'clor' does not exist on type 'SquareConfig'
     newSquare.color = config.clor;
   }
@@ -162,7 +162,7 @@ function createSquare(config: SquareConfig): { color: string; area: number } {
 let mySquare = createSquare({ colour: "red", width: 100 });
 ```
 
-注意传入`createSquare`的参数拼写为*`colour`*而不是`color`。
+注意传入`createSquare`的参数拼写为`colour`而不是`color`。
 在JavaScript里，这会默默地失败。
 
 你可能会争辩这个程序已经正确地类型化了，因为`width`属性是兼容的，不存在`color`属性，而且额外的`colour`属性是无意义的。
@@ -246,7 +246,7 @@ mySearch = function(src: string, sub: string): boolean {
 ```
 
 函数的参数会逐个进行检查，要求对应位置上的参数类型是兼容的。
-如果你不想指定类型，Typescript的类型系统会推断出参数类型，因为函数直接赋值给了`SearchFunc`类型变量。
+如果你不想指定类型，TypeScript的类型系统会推断出参数类型，因为函数直接赋值给了`SearchFunc`类型变量。
 函数的返回值类型是通过其返回值推断出来的（此例是`false`和`true`）。
 如果让这个函数返回数字或字符串，类型检查器会警告我们函数的返回值类型与`SearchFunc`接口中的定义不匹配。
 
@@ -291,7 +291,7 @@ class Dog extends Animal {
     breed: string;
 }
 
-// Error: indexing with a 'string' will sometimes get you a Dog!
+// 错误：使用数值型的字符串索引，有时会得到完全不同的Animal!
 interface NotOkay {
     [x: number]: Animal;
     [x: string]: Dog;
@@ -306,7 +306,7 @@ interface NotOkay {
 interface NumberDictionary {
   [index: string]: number;
   length: number;    // 可以，length是number类型
-  name: string       // 错误，`name`的类型不是索引类型的子类型
+  name: string       // 错误，`name`的类型与索引类型返回值的类型不匹配
 }
 ```
 
@@ -413,9 +413,9 @@ let analog = createClock(AnalogClock, 7, 32);
 
 因为`createClock`的第一个参数是`ClockConstructor`类型，在`createClock(AnalogClock, 7, 32)`里，会检查`AnalogClock`是否符合构造函数签名。
 
-# 扩展接口
+# 继承接口
 
-和类一样，接口也可以相互扩展。
+和类一样，接口也可以相互继承。
 这让我们能够从一个接口里复制成员到另一个接口里，可以更灵活地将接口分割到可重用的模块里。
 
 ```ts
@@ -490,7 +490,7 @@ c.interval = 5.0;
 这意味着当你创建了一个接口继承了一个拥有私有或受保护的成员的类时，这个接口类型只能被这个类或其子类所实现（implement）。
 
 当你有一个庞大的继承结构时这很有用，但要指出的是你的代码只在子类拥有特定属性时起作用。
-这个子类除了继承至基类外与基类没有任何关系。
+除了继承自基类，子类之间不必相关联。
 例：
 
 ```ts
@@ -502,7 +502,7 @@ interface SelectableControl extends Control {
     select(): void;
 }
 
-class Button extends Control {
+class Button extends Control implements SelectableControl {
     select() { }
 }
 
@@ -510,12 +510,13 @@ class TextBox extends Control {
     select() { }
 }
 
-class Image {
+// Error: Property 'state' is missing in type 'Image'.
+class Image implements SelectableControl {
     select() { }
 }
 
 class Location {
-    select() { }
+
 }
 ```
 

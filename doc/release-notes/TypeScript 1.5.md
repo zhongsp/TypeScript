@@ -84,7 +84,7 @@ TypeScript 1.5 添加了对 ES6 解构声明与赋值的支持.
 
 解构声明会引入一个或多个命名变量, 并且初始化它们的值为对象的属性或者数组的元素对应的值.
 
-比如说, 下面的例子声明了变量 `x`, `y` 和 `z`, 并且分别将它们的值初始化为 `getSomeObject().x`, `getSomeObject().x` 和 `getSomeObject().x`:
+比如说, 下面的例子声明了变量 `x`, `y` 和 `z`, 并且分别将它们的值初始化为 `getSomeObject().x`, `getSomeObject().y` 和 `getSomeObject().z`:
 
 ```ts
 var { x, y, z } = getSomeObject();

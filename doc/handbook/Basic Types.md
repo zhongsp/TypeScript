@@ -15,7 +15,7 @@ let isDone: boolean = false;
 
 和JavaScript一样，TypeScript里的所有数字都是浮点数。
 这些浮点数的类型是`number`。
-除了支持十进制和十六进制字面量，Typescript还支持ECMAScript 2015中引入的二进制和八进制字面量。
+除了支持十进制和十六进制字面量，TypeScript还支持ECMAScript 2015中引入的二进制和八进制字面量。
 
 ```ts
 let decLiteral: number = 6;
@@ -108,7 +108,7 @@ x[6] = true; // Error, 布尔不是(string | number)类型
 像C#等其它语言一样，使用枚举类型可以为一组数值赋予友好的名字。
 
 ```ts
-enum Color {Red, Green, Blue};
+enum Color {Red, Green, Blue}
 let c: Color = Color.Green;
 ```
 
@@ -117,14 +117,14 @@ let c: Color = Color.Green;
 例如，我们将上面的例子改成从`1`开始编号：
 
 ```ts
-enum Color {Red = 1, Green, Blue};
+enum Color {Red = 1, Green, Blue}
 let c: Color = Color.Green;
 ```
 
 或者，全部都采用手动赋值：
 
 ```ts
-enum Color {Red = 1, Green = 2, Blue = 4};
+enum Color {Red = 1, Green = 2, Blue = 4}
 let c: Color = Color.Green;
 ```
 
@@ -132,10 +132,10 @@ let c: Color = Color.Green;
 例如，我们知道数值为2，但是不确定它映射到Color里的哪个名字，我们可以查找相应的名字：
 
 ```ts
-enum Color {Red = 1, Green, Blue};
+enum Color {Red = 1, Green, Blue}
 let colorName: string = Color[2];
 
-alert(colorName);
+console.log(colorName);  // 显示'Green'因为上面代码里它的值是2
 ```
 
 # 任意值
@@ -180,7 +180,7 @@ list[1] = 100;
 
 ```ts
 function warnUser(): void {
-    alert("This is my warning message");
+    console.log("This is my warning message");
 }
 ```
 
@@ -238,6 +238,24 @@ function infiniteLoop(): never {
     while (true) {
     }
 }
+```
+
+# Object
+
+`object`表示非原始类型，也就是除`number`，`string`，`boolean`，`symbol`，`null`或`undefined`之外的类型。
+
+使用`object`类型，就可以更好的表示像`Object.create`这样的API。例如：
+
+```ts
+declare function create(o: object | null): void;
+
+create({ prop: 0 }); // OK
+create(null); // OK
+
+create(42); // Error
+create("string"); // Error
+create(false); // Error
+create(undefined); // Error
 ```
 
 # 类型断言

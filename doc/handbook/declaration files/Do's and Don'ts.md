@@ -17,9 +17,7 @@ function reverse(s: String): String;
 function reverse(s: string): string;
 ```
 
-如果你就要使用`Object`类型，考虑使用`any`代替。
-目前在TypeScript里无法指定一个对象“不是一个原始值”。
-<!--(Revisit if/when #1809 is implemented)-->
+使用非原始的`object`类型来代替`Object` （[TypeScript 2.2新增](../../release-notes/TypeScript 2.2.md#object-type)）
 
 ## 泛型
 
@@ -161,7 +159,7 @@ interface Example {
 
 注意这在所有重载都有相同类型的返回值时会不好用。
 
-*为什么*：有两种生要的原因。
+*为什么*：有以下两个重要原因。
 
 TypeScript解析签名兼容性时会查看是否某个目标签名能够使用源的参数调用，
   *且允许外来参数*。
@@ -199,7 +197,7 @@ interface Moment {
 }
 ```
 
-*应该*尽可能使用类型类型：
+*应该*尽可能地使用类型类型：
 
 ```ts
 /* OK */

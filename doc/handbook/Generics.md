@@ -28,7 +28,7 @@ function identity(arg: any): any {
 }
 ```
 
-虽然使用`any`类型后这个函数已经能接收任何类型的arg参数，但是却丢失了一些信息：传入的类型与返回的类型应该是相同的。
+使用`any`类型会导致这个函数可以接收任何类型的`arg`参数，这样就丢失了一些信息：传入的类型与返回的类型应该是相同的。
 如果我们传入一个数字，我们只知道任何类型的值都有可能被返回。
 
 因此，我们需要一种方法使返回值的类型与传入参数的类型是相同的。
@@ -102,7 +102,7 @@ function loggingIdentity<T>(arg: T[]): T[] {
 }
 ```
 
-你可以这样理解`loggingIdentity`的类型：泛型函数`loggingIdentity`，接收类型参数`T`，和函数`arg`，它是个元素类型是`T`的数组，并返回元素类型是`T`的数组。
+你可以这样理解`loggingIdentity`的类型：泛型函数`loggingIdentity`，接收类型参数`T`和参数`arg`，它是个元素类型是`T`的数组，并返回元素类型是`T`的数组。
 如果我们传入数字数组，将返回一个数字数组，因为此时`T`的的类型为`number`。
 这可以让我们把泛型变量T当做类型的一部分使用，而不是整个类型，增加了灵活性。
 
@@ -216,7 +216,7 @@ let stringNumeric = new GenericNumber<string>();
 stringNumeric.zeroValue = "";
 stringNumeric.add = function(x, y) { return x + y; };
 
-alert(stringNumeric.add(stringNumeric.zeroValue, "test"));
+console.log(stringNumeric.add(stringNumeric.zeroValue, "test"));
 ```
 
 与接口一样，直接把泛型类型放在类后面，可以帮助我们确认类的所有属性都在使用相同的类型。
@@ -241,7 +241,7 @@ function loggingIdentity<T>(arg: T): T {
 为此，我们需要列出对于T的约束要求。
 
 为此，我们定义一个接口来描述约束条件。
-创建一个包含`.length`属性的接口，使用这个接口和`extends`关键字还实现约束：
+创建一个包含`.length`属性的接口，使用这个接口和`extends`关键字来实现约束：
 
 ```ts
 interface Lengthwise {
@@ -269,21 +269,18 @@ loggingIdentity({length: 10, value: 3});
 ## 在泛型约束中使用类型参数
 
 你可以声明一个类型参数，且它被另一个类型参数所约束。
-比如，现在我们有两个对象，并把一个对象的属性拷贝到另一个对象。
-我们要确保没有不小心地把额外的属性从源对象拷贝到目标对象，因此我们需要在这两个类型之间使用约束。
+比如，现在我们想要用属性名从对象里获取这个属性。
+并且我们想要确保这个属性存在于对象`obj`上，因此我们需要在这两个类型之间使用约束。
 
 ```ts
-function copyFields<T extends U, U>(target: T, source: U): T {
-    for (let id in source) {
-        target[id] = source[id];
-    }
-    return target;
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+    return obj[key];
 }
 
 let x = { a: 1, b: 2, c: 3, d: 4 };
 
-copyFields(x, { b: 10, d: 20 }); // okay
-copyFields(x, { Q: 90 });  // error: property 'Q' isn't declared in 'x'.
+getProperty(x, "a"); // okay
+getProperty(x, "m"); // error: Argument of type 'm' isn't assignable to 'a' | 'b' | 'c' | 'd'.
 ```
 
 ## 在泛型里使用类类型
@@ -319,11 +316,10 @@ class Lion extends Animal {
     keeper: ZooKeeper;
 }
 
-function findKeeper<A extends Animal, K> (a: {new(): A;
-    prototype: {keeper: K}}): K {
-
-    return a.prototype.keeper;
+function createInstance<A extends Animal>(c: new () => A): A {
+    return new c();
 }
 
-findKeeper(Lion).nametag;  // typechecks!
+createInstance(Lion).keeper.nametag;  // typechecks!
+createInstance(Bee).keeper.hasMask;   // typechecks!
 ```

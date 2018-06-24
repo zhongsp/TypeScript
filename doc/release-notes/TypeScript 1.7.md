@@ -6,7 +6,7 @@ TypeScript 目前在已经原生支持 ES6 generator 的引擎 (比如 Node v4 �
 
 ### 例子
 
-在下面的例子中, 输入的内容将会延时 200 毫秒逐个打印:
+在下面的例子中, 输入的内容将会延时 400 毫秒逐个打印:
 
 ```ts
 "use strict";
@@ -14,7 +14,7 @@ TypeScript 目前在已经原生支持 ES6 generator 的引擎 (比如 Node v4 �
 // printDelayed 返回值是一个 'Promise<void>'
 async function printDelayed(elements: string[]) {
     for (const element of elements) {
-        await delay(200);
+        await delay(400);
         console.log(element);
     }
 }

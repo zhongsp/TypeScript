@@ -4,6 +4,8 @@ TypeScript不是存在于真空中。
 接下来这篇教程将教你怎么做。
 在开始转换TypeScript之前，我们假设你已经理解了足够多本手册里的内容。
 
+如果你打算要转换一个React工程，推荐你先阅读[React转换指南](https://github.com/Microsoft/TypeScript-React-Conversion-Guide#typescript-react-conversion-guide)。
+
 # 设置目录
 
 如果你在写纯JavaScript，你大概是想直接运行这些JavaScript文件，
@@ -214,7 +216,7 @@ foo.doStuff();
 如果TypeScript报怨像是没有`lodash`包，那你只需这样做
 
 ```shell
-npm install -s @types/lodash
+npm install -S @types/lodash
 ```
 
 如果你没有使用`commonjs`模块模块选项，那么就需要将`moduleResolution`选项设置为`node`。
@@ -392,7 +394,7 @@ foo!.length; // okay - 'foo!' just has type 'string[]'
 
 ```ts
 class Point {
-    constuctor(public x, public y) {}
+    constructor(public x, public y) {}
     getDistance(p: Point) {
         let dx = p.x - this.x;
         let dy = p.y - this.y;

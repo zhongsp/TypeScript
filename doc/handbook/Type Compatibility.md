@@ -50,7 +50,7 @@ x = y;
 
 ```ts
 function greet(n: Named) {
-    alert('Hello, ' + n.name);
+    console.log('Hello, ' + n.name);
 }
 greet(y); // OK
 ```
@@ -102,7 +102,7 @@ let x = () => ({name: 'Alice'});
 let y = () => ({name: 'Alice', location: 'Seattle'});
 
 x = y; // OK
-y = x; // Error because x() lacks a location property
+y = x; // Error, because x() lacks a location property
 ```
 
 类型系统强制源函数的返回值类型必须是目标函数返回值类型的子类型。
@@ -137,8 +137,8 @@ listenEvent(EventType.Mouse, (e: number) => console.log(e));
 
 ## 可选参数及剩余参数
 
-比较函数兼容性的时候，可选参数与必须参数是可交换的。
-原类型上额外的可选参数并不会造成错误，目标类型的可选参数没有对应的参数也不是错误。
+比较函数兼容性的时候，可选参数与必须参数是可互换的。
+源类型上有额外的可选参数不是错误，目标类型的可选参数在源类型里没有对应的参数也不是错误。
 
 当一个函数有剩余参数时，它被当做无限个可选参数。
 
@@ -172,7 +172,7 @@ enum Status { Ready, Waiting };
 enum Color { Red, Blue, Green };
 
 let status = Status.Ready;
-status = Color.Green;  //error
+status = Color.Green;  // Error
 ```
 
 # 类
@@ -195,14 +195,15 @@ class Size {
 let a: Animal;
 let s: Size;
 
-a = s;  //OK
-s = a;  //OK
+a = s;  // OK
+s = a;  // OK
 ```
 
-## 类的私有成员
+## 类的私有成员和受保护成员
 
-私有成员会影响兼容性判断。
-当类的实例用来检查兼容时，如果它包含一个私有成员，那么目标类型必须包含来自同一个类的这个私有成员。
+类的私有成员和受保护成员会影响兼容性。
+当检查类实例的兼容时，如果目标类型包含一个私有成员，那么源类型必须包含来自同一个类的这个私有成员。
+同样地，这条规则也适用于包含受保护成员实例的类型检查。
 这允许子类赋值给父类，但是不能赋值给其它有同样类型的类。
 
 # 泛型
@@ -215,7 +216,7 @@ interface Empty<T> {
 let x: Empty<number>;
 let y: Empty<string>;
 
-x = y;  // okay, y matches structure of x
+x = y;  // OK, because y matches structure of x
 ```
 
 上面代码里，`x`和`y`是兼容的，因为它们的结构使用类型参数时并没有什么不同。
@@ -228,7 +229,7 @@ interface NotEmpty<T> {
 let x: NotEmpty<number>;
 let y: NotEmpty<string>;
 
-x = y;  // error, x and y are not compatible
+x = y;  // Error, because x and y are not compatible
 ```
 
 在这里，泛型类型在使用时就好比不是一个泛型类型。
@@ -247,17 +248,18 @@ let reverse = function<U>(y: U): U {
     // ...
 }
 
-identity = reverse;  // Okay because (x: any)=>any matches (y: any)=>any
+identity = reverse;  // OK, because (x: any) => any matches (y: any) => any
 ```
 
 # 高级主题
 
 ## 子类型与赋值
 
-目前为止，我们使用了`兼容性`，它在语言规范里没有定义。
-在TypeScript里，有两种类型的兼容性：子类型与赋值。
-它们的不同点在于，赋值扩展了子类型兼容，允许给`any`赋值或从`any`取值和允许数字赋值给枚举类型或枚举类型赋值给数字。
+目前为止，我们使用了“兼容性”，它在语言规范里没有定义。
+在TypeScript里，有两种兼容性：子类型和赋值。
+它们的不同点在于，赋值扩展了子类型兼容性，增加了一些规则，允许和`any`来回赋值，以及`enum`和对应数字值之间的来回赋值。
 
 语言里的不同地方分别使用了它们之中的机制。
-实际上，类型兼容性是由赋值兼容性来控制的甚至在`implements`和`extends`语句里。
+实际上，类型兼容性是由赋值兼容性来控制的，即使在`implements`和`extends`语句也不例外。
+
 更多信息，请参阅[TypeScript语言规范](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md).

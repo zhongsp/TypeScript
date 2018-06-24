@@ -1,3 +1,5 @@
+# TypeScript 2.1
+
 ## `keyof`和查找类型
 
 在JavaScript中属性名称作为参数的API是相当普遍的，但是到目前为止还没有表达在那些API中出现的类型关系。
@@ -134,7 +136,7 @@ const lengths = mapObject(names, s => s.length);  // { foo: number, bar: number,
 
 ## 对象扩展运算符和rest运算符
 
-TypeScript 2.1带来了[ES2017扩展运算符和rest运算符](https://github.com/sebmarkbage/ecmascript-rest-spread)的支持。
+TypeScript 2.1带来了[ESnext扩展运算符和rest运算符](https://github.com/sebmarkbage/ecmascript-rest-spread)的支持。
 
 类似于数组扩展，展开对象可以方便得到浅拷贝：
 
@@ -423,7 +425,7 @@ var Derived = (function (_super) {
 }(Base));
 ```
 
-> 这在继承内置类如`Error`，`Array`，`Map`等的行为上有了破坏性的改变。请阅读[extending built-ins breaking change documnetation](https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work)。
+> 这在继承内置类如`Error`，`Array`，`Map`等的行为上有了破坏性的改变。请阅读[extending built-ins breaking change documentation](https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work)。
 
 ## 配置继承
 

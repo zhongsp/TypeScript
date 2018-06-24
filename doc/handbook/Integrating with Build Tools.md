@@ -1,3 +1,14 @@
+Build tools
+
+* [Browserify](#browserify)
+* [Duo](#duo)
+* [Grunt](#grunt)
+* [Gulp](#gulp)
+* [Jspm](#jspm)
+* [Webpack](#webpack)
+* [MSBuild](#msbuild)
+* [NuGet](#nuget)
+
 # Browserify
 
 ### 安装
@@ -89,7 +100,7 @@ module.exports = function(grunt) {
 
 更多详细信息：[TypeStrong/grunt-ts](https://github.com/TypeStrong/grunt-ts)
 
-# gulp
+# Gulp
 
 ### 安装
 
@@ -115,7 +126,7 @@ gulp.task("default", function () {
 
 更多详细信息：[ivogabe/gulp-typescript](https://github.com/ivogabe/gulp-typescript)
 
-# jspm
+# Jspm
 
 ### 安装
 
@@ -127,7 +138,7 @@ _注意：目前jspm的0.16beta版本支持TypeScript_
 
 更多详细信息：[TypeScriptSamples/jspm](https://github.com/Microsoft/TypeScriptSamples/tree/master/jspm)
 
-# webpack
+# Webpack
 
 ### 安装
 
@@ -169,7 +180,7 @@ module.exports = {
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <!-- Include default props at the bottom -->
+  <!-- Include default props at the top -->
   <Import
       Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props"
       Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
