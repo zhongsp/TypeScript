@@ -4,9 +4,6 @@
 
 <img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 2.9 (May 31, 2018)](https://blogs.msdn.microsoft.com/typescript/2018/05/31/announcing-typescript-2-9/)
 
-* `keyof`和映射对象类型里支持symbol和数字字面量
-* import()类型
-
 TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript.
 
 请阅读 :book: [TypeScript Handbook 中文版 - Published with GitBook](http://zhongsp.gitbooks.io/typescript-handbook/content/)
@@ -72,6 +69,7 @@ TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript.
   * [架构概述](./doc/wiki/Architectural-Overview.md)
   * [发展路线图](./doc/wiki/Roadmap.md)
 * [新增功能](./doc/release-notes/README.md)
+  * [TypeScript 2.9](./doc/release-notes/TypeScript%202.9.md)
   * [TypeScript 2.8](./doc/release-notes/TypeScript%202.8.md)
   * [TypeScript 2.7](./doc/release-notes/TypeScript%202.7.md)
   * [TypeScript 2.6](./doc/release-notes/TypeScript%202.6.md)
