@@ -10,6 +10,8 @@ TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript.
 
 :link: [一大波新的快速开始指南：React，Angular，Nodejs，ASP.NET Core，React Native，Vue，Glimmer，WeChat，Dojo2，Knockout等](./doc/quick-start/README.md)
 
+<img src="./misc/reward.jpg" alt="Reward the Author" width="150px" height="150px" style="vertical-align: bottom;">  如果觉得不错可以微信打赏哟 <3
+
 ## 目录
 
 * [快速上手](./doc/handbook/tutorials/README.md)
