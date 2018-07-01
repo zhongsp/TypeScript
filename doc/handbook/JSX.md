@@ -408,14 +408,14 @@ class MyComponent extends React.Component<Props, {}> {
 
 # 工厂函数
 
-`jsx: react`编译选项使用的工厂函数是可以配置的。可以使用`jsxFactory`命令行选项，或内联的`@jsx`注释指令在每个文件上设置。比如，给`createElement`设置`jsxFactory`，`</div>`会使用`createElement("div")`来生成，而不是`React.createElement("div")`。
+`jsx: react`编译选项使用的工厂函数是可以配置的。可以使用`jsxFactory`命令行选项，或内联的`@jsx`注释指令在每个文件上设置。比如，给`createElement`设置`jsxFactory`，`<div />`会使用`createElement("div")`来生成，而不是`React.createElement("div")`。
 
 注释指令可以像下面这样使用（在TypeScript 2.8里）：
 
 ```ts
 import preact = require("preact");
 /* @jsx preact.h */
-const x = </div>;
+const x = <div />;
 ```
 
 生成：
