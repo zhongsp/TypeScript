@@ -925,3 +925,278 @@ let originalProps = unproxify(proxyProps);
 
 注意这个拆包推断只适用于同态的映射类型。
 如果映射类型不是同态的，那么需要给拆包函数一个明确的类型参数。
+
+## 有条件类型
+
+TypeScript 2.8引入了*有条件类型*，它能够表示非统一的类型。
+有条件的类型会以一个条件表达式进行类型关系检测，从而在两种类型中选择其一：
+
+```ts
+T extends U ? X : Y
+```
+
+上面的类型意思是，若`T`能够赋值给`U`，那么类型是`X`，否则为`Y`。
+
+有条件的类型`T extends U ? X : Y`或者*解析*为`X`，或者*解析*为`Y`，再或者*延迟*解析，因为它可能依赖一个或多个类型变量。
+若`T`或`U`包含类型参数，那么是否解析为`X`或`Y`或推迟，取决于类型系统是否有足够的信息来确定`T`总是可以赋值给`U`。
+
+下面是一些类型可以被立即解析的例子：
+
+```ts
+declare function f<T extends boolean>(x: T): T extends true ? string : number;
+
+// Type is 'string | number
+let x = f(Math.random() < 0.5)
+
+```
+
+另外一个例子涉及`TypeName`类型别名，它使用了嵌套了有条件类型：
+
+```ts
+type TypeName<T> =
+    T extends string ? "string" :
+    T extends number ? "number" :
+    T extends boolean ? "boolean" :
+    T extends undefined ? "undefined" :
+    T extends Function ? "function" :
+    "object";
+
+type T0 = TypeName<string>;  // "string"
+type T1 = TypeName<"a">;  // "string"
+type T2 = TypeName<true>;  // "boolean"
+type T3 = TypeName<() => void>;  // "function"
+type T4 = TypeName<string[]>;  // "object"
+```
+
+下面是一个有条件类型被推迟解析的例子:
+
+```ts
+interface Foo {
+    propA: boolean;
+    propB: boolean;
+}
+
+declare function f<T>(x: T): T extends Foo ? string : number;
+
+function foo<U>(x: U) {
+    // Has type 'U extends Foo ? string : number'
+    let a = f(x);
+
+    // This assignment is allowed though!
+    let b: string | number = a;
+}
+```
+
+这里，`a`变量含有未确定的有条件类型。
+当有另一段代码调用`foo`，它会用其它类型替换`U`，TypeScript将重新计算有条件类型，决定它是否可以选择一个分支。
+
+与此同时，我们可以将有条件类型赋值给其它类型，只要有条件类型的每个分支都可以赋值给目标类型。
+因此在我们的例子里，我们可以将`U extends Foo ? string : number`赋值给`string | number`，因为不管这个有条件类型最终结果是什么，它只能是`string`或`number`。
+
+### 分布式有条件类型
+
+如果有条件类型里待检查的类型是`naked type parameter`，那么它也被称为“分布式有条件类型”。
+分布式有条件类型在实例化时会自动分发成联合类型。
+例如，实例化`T extends U ? X : Y`，`T`的类型为`A | B | C`，会被解析为`(A extends U ? X : Y) | (B extends U ? X : Y) | (C extends U ? X : Y)`。
+
+#### 例子
+
+```ts
+type T10 = TypeName<string | (() => void)>;  // "string" | "function"
+type T12 = TypeName<string | string[] | undefined>;  // "string" | "object" | "undefined"
+type T11 = TypeName<string[] | number[]>;  // "object"
+```
+
+在`T extends U ? X : Y`的实例化里，对`T`的引用被解析为联合类型的一部分（比如，`T`指向某一单个部分，在有条件类型分布到联合类型之后）。
+此外，在`X`内对`T`的引用有一个附加的类型参数约束`U`（例如，`T`被当成在`X`内可赋值给`U`）。
+
+#### 例子
+
+```ts
+type BoxedValue<T> = { value: T };
+type BoxedArray<T> = { array: T[] };
+type Boxed<T> = T extends any[] ? BoxedArray<T[number]> : BoxedValue<T>;
+
+type T20 = Boxed<string>;  // BoxedValue<string>;
+type T21 = Boxed<number[]>;  // BoxedArray<number>;
+type T22 = Boxed<string | number[]>;  // BoxedValue<string> | BoxedArray<number>;
+```
+
+注意在`Boxed<T>`的`true`分支里，`T`有个额外的约束`any[]`，因此它适用于`T[number]`数组元素类型。同时也注意一下有条件类型是如何分布成联合类型的。
+
+有条件类型的分布式的属性可以方便地用来*过滤*联合类型：
+
+```ts
+type Diff<T, U> = T extends U ? never : T;  // Remove types from T that are assignable to U
+type Filter<T, U> = T extends U ? T : never;  // Remove types from T that are not assignable to U
+
+type T30 = Diff<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "b" | "d"
+type T31 = Filter<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "a" | "c"
+type T32 = Diff<string | number | (() => void), Function>;  // string | number
+type T33 = Filter<string | number | (() => void), Function>;  // () => void
+
+type NonNullable<T> = Diff<T, null | undefined>;  // Remove null and undefined from T
+
+type T34 = NonNullable<string | number | undefined>;  // string | number
+type T35 = NonNullable<string | string[] | null | undefined>;  // string | string[]
+
+function f1<T>(x: T, y: NonNullable<T>) {
+    x = y;  // Ok
+    y = x;  // Error
+}
+
+function f2<T extends string | undefined>(x: T, y: NonNullable<T>) {
+    x = y;  // Ok
+    y = x;  // Error
+    let s1: string = x;  // Error
+    let s2: string = y;  // Ok
+}
+```
+
+有条件类型与映射类型结合时特别有用：
+
+```ts
+type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
+type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
+
+type NonFunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T];
+type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>;
+
+interface Part {
+    id: number;
+    name: string;
+    subparts: Part[];
+    updatePart(newName: string): void;
+}
+
+type T40 = FunctionPropertyNames<Part>;  // "updatePart"
+type T41 = NonFunctionPropertyNames<Part>;  // "id" | "name" | "subparts"
+type T42 = FunctionProperties<Part>;  // { updatePart(newName: string): void }
+type T43 = NonFunctionProperties<Part>;  // { id: number, name: string, subparts: Part[] }
+```
+
+与联合类型和交叉类型相似，有条件类型不允许递归地引用自己。比如下面的错误。
+
+#### 例子
+
+```ts
+type ElementType<T> = T extends any[] ? ElementType<T[number]> : T;  // Error
+```
+
+### 有条件类型中的类型推断
+
+现在在有条件类型的`extends`子语句中，允许出现`infer`声明，它会引入一个待推断的类型变量。
+这个推断的类型变量可以在有条件类型的true分支中被引用。
+允许出现多个同类型变量的`infer`。
+
+例如，下面代码会提取函数类型的返回值类型：
+
+```ts
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
+```
+
+有条件类型可以嵌套来构成一系列的匹配模式，按顺序进行求值：
+
+```ts
+type Unpacked<T> =
+    T extends (infer U)[] ? U :
+    T extends (...args: any[]) => infer U ? U :
+    T extends Promise<infer U> ? U :
+    T;
+
+type T0 = Unpacked<string>;  // string
+type T1 = Unpacked<string[]>;  // string
+type T2 = Unpacked<() => string>;  // string
+type T3 = Unpacked<Promise<string>>;  // string
+type T4 = Unpacked<Promise<string>[]>;  // Promise<string>
+type T5 = Unpacked<Unpacked<Promise<string>[]>>;  // string
+```
+
+下面的例子解释了在协变位置上，同一个类型变量的多个候选类型会被推断为联合类型：
+
+```ts
+type Foo<T> = T extends { a: infer U, b: infer U } ? U : never;
+type T10 = Foo<{ a: string, b: string }>;  // string
+type T11 = Foo<{ a: string, b: number }>;  // string | number
+```
+
+相似地，在抗变位置上，同一个类型变量的多个候选类型会被推断为交叉类型：
+
+```ts
+type Bar<T> = T extends { a: (x: infer U) => void, b: (x: infer U) => void } ? U : never;
+type T20 = Bar<{ a: (x: string) => void, b: (x: string) => void }>;  // string
+type T21 = Bar<{ a: (x: string) => void, b: (x: number) => void }>;  // string & number
+```
+
+当推断具有多个调用签名（例如函数重载类型）的类型时，用*最后*的签名（大概是最自由的包含所有情况的签名）进行推断。
+无法根据参数类型列表来解析重载。
+
+```ts
+declare function foo(x: string): number;
+declare function foo(x: number): string;
+declare function foo(x: string | number): string | number;
+type T30 = ReturnType<typeof foo>;  // string | number
+```
+
+无法在正常类型参数的约束子语句中使用`infer`声明：
+
+```ts
+type ReturnType<T extends (...args: any[]) => infer R> = R;  // 错误，不支持
+```
+
+但是，可以这样达到同样的效果，在约束里删掉类型变量，用有条件类型替换：
+
+```ts
+type AnyFunction = (...args: any[]) => any;
+type ReturnType<T extends AnyFunction> = T extends (...args: any[]) => infer R ? R : any;
+```
+
+### 预定义的有条件类型
+
+TypeScript 2.8在`lib.d.ts`里增加了一些预定义的有条件类型：
+
+* `Exclude<T, U>` -- 从`T`中剔除可以赋值给`U`的类型。
+* `Extract<T, U>` -- 提取`T`中可以赋值给`U`的类型。
+* `NonNullable<T>` -- 从`T`中剔除`null`和`undefined`。
+* `ReturnType<T>` -- 获取函数返回值类型。
+* `InstanceType<T>` -- 获取构造函数类型的实例类型。
+
+#### Example
+
+```ts
+type T00 = Exclude<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "b" | "d"
+type T01 = Extract<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "a" | "c"
+
+type T02 = Exclude<string | number | (() => void), Function>;  // string | number
+type T03 = Extract<string | number | (() => void), Function>;  // () => void
+
+type T04 = NonNullable<string | number | undefined>;  // string | number
+type T05 = NonNullable<(() => string) | string[] | null | undefined>;  // (() => string) | string[]
+
+function f1(s: string) {
+    return { a: 1, b: s };
+}
+
+class C {
+    x = 0;
+    y = 0;
+}
+
+type T10 = ReturnType<() => string>;  // string
+type T11 = ReturnType<(s: string) => void>;  // void
+type T12 = ReturnType<(<T>() => T)>;  // {}
+type T13 = ReturnType<(<T extends U, U extends number[]>() => T)>;  // number[]
+type T14 = ReturnType<typeof f1>;  // { a: number, b: string }
+type T15 = ReturnType<any>;  // any
+type T16 = ReturnType<never>;  // any
+type T17 = ReturnType<string>;  // Error
+type T18 = ReturnType<Function>;  // Error
+
+type T20 = InstanceType<typeof C>;  // C
+type T21 = InstanceType<any>;  // any
+type T22 = InstanceType<never>;  // any
+type T23 = InstanceType<string>;  // Error
+type T24 = InstanceType<Function>;  // Error
+```
+
+> 注意：`Exclude`类型是[建议的](https://github.com/Microsoft/TypeScript/issues/12215#issuecomment-307871458)`Diff`类型的一种实现。我们使用`Exclude`这个名字是为了避免破坏已经定义了`Diff`的代码，并且我们感觉这个名字能更好地表达类型的语义。我们没有增加`Omit<T, K>`类型，因为它可以很容易的用`Pick<T, Exclude<keyof T, K>>`来表示。
