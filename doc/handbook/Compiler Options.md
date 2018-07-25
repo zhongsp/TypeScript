@@ -79,7 +79,7 @@
 `--types`                               | `string[]`|                          | 要包含的类型声明文件名列表。查看[@types，--typeRoots和--types](./tsconfig.json.md#types-typeroots-and-types)章节了解详细信息。
 `--typeRoots`                           | `string[]`|                          | 要包含的类型声明文件路径列表。查看[@types，--typeRoots和--types](./tsconfig.json.md#types-typeroots-and-types)章节了解详细信息。
 `--version`<br/>`-v`                    |           |                          | 打印编译器版本号。
-`--watch`<br/>`-w`                      |           |                          | 在监视模式下运行编译器。会监视输出文件，在它们改变时重新编译。
+`--watch`<br/>`-w`                      |           |                          | 在监视模式下运行编译器。会监视输出文件，在它们改变时重新编译。监视文件和目录的具体实现可以通过环境变量进行配置。详情请看[配置 Watch](./Configuring%20Watch.md)。
 
 * <sup>[1]</sup> 这些选项是试验性的。
 * <sup>[2]</sup> 这些选项只能在`tsconfig.json`里使用，不能在命令行使用。

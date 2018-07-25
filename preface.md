@@ -67,6 +67,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [tsconfig.json](./doc/handbook/tsconfig.json.html)
   * [NPM包的类型](./doc/handbook/Typings for NPM Packages.html)
   * [编译选项](./doc/handbook/Compiler Options.html)
+  * [配置 Watch](./doc/handbook/Configuring Watch.html)
   * [在MSBuild里使用编译选项](./doc/handbook/Compiler Options in MSBuild.html)
   * [与其它构建工具整合](./doc/handbook/Integrating with Build Tools.html)
   * [使用TypeScript的每日构建版本](./doc/handbook/Nightly Builds.html)

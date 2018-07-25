@@ -59,6 +59,7 @@ TypeScript是JavaScript的超集并且能够编译输出为纯粹的JavaScript.
   * [tsconfig.json](./doc/handbook/tsconfig.json.md)
   * [NPM包的类型](./doc/handbook/Typings%20for%20NPM%20Packages.md)
   * [编译选项](./doc/handbook/Compiler%20Options.md)
+  * [配置 Watch](./doc/handbook/Configuring%20Watch.md)
   * [在MSBuild里使用编译选项](./doc/handbook/Compiler%20Options%20in%20MSBuild.md)
   * [与其它构建工具整合](./doc/handbook/Integrating%20with%20Build%20Tools.md)
   * [使用TypeScript的每日构建版本](./doc/handbook/Nightly%20Builds.md)
