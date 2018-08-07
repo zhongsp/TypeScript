@@ -1,28 +1,16 @@
-# How to contribute
+# 如何贡献代码
 
-First, thanks for contribution!
+首先，感谢你的奉献精神！步骤如下：
 
-## Fix typos
+* 从队列中选择一项待翻译的条目。
 
-Submit pull requests to fix them.
+  [翻译列表](https://github.com/zhongsp/TypeScript/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 
-## Fix bad translation
-
-Submit pull requests to fix them.
-
-## Add new translations
-
-You could select one from [Help wanted issues](https://github.com/zhongsp/TypeScript/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
-Leave a comment for translating to avoid duplicate work.
-
-Or, you could add any topic related to TypeScript.
-
-Submit pull requests.
-
-## Lint your markdown content
+* Fork仓库，添加译文，最后检查Markdown风格
 
 ```sh
-npm install && npm test
+npm install
+npm run lint
 ```
 
-Fix lint errors, then commit and push.
+* 提交 Pull Request
