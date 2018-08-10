@@ -4,15 +4,9 @@
 
 <img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 3.0 (July 30, 2018)](https://blogs.msdn.microsoft.com/typescript/2018/07/30/announcing-typescript-3-0/)
 
-:heavy_check_mark: TypeScript语言用于大规模应用的JavaScript开发。  
-:heavy_check_mark: TypeScript支持类型，是JavaScript的超集且可以编译成纯JavaScript代码。  
-:heavy_check_mark: TypeScript兼容所有浏览器，所有宿主环境，所有操作系统。  
-:heavy_check_mark: TypeScript是开源的。
+:heavy_check_mark: TypeScript语言用于大规模应用的JavaScript开发。  :heavy_check_mark: TypeScript支持类型，是JavaScript的超集且可以编译成纯JavaScript代码。  :heavy_check_mark: TypeScript兼容所有浏览器，所有宿主环境，所有操作系统。  :heavy_check_mark: TypeScript是开源的。
 
-:book: [在GitBook网站上阅读本手册](http://zhongsp.gitbooks.io/typescript-handbook/content/)  
-:arrow_down: [下载本手册 PDF 版](https://legacy.gitbook.com/download/pdf/book/zhongsp/typescript-handbook)  
-:arrow_down: [下载本手册 Mobi 版](https://legacy.gitbook.com/download/mobi/book/zhongsp/typescript-handbook)  
-:arrow_down: [下载本手册 ePub 版](https://legacy.gitbook.com/download/epub/book/zhongsp/typescript-handbook)
+:book: [在GitBook网站上阅读本手册](http://zhongsp.gitbooks.io/typescript-handbook/content/)  :arrow_down: [下载本手册 PDF 版](https://legacy.gitbook.com/download/pdf/book/zhongsp/typescript-handbook)  :arrow_down: [下载本手册 Mobi 版](https://legacy.gitbook.com/download/mobi/book/zhongsp/typescript-handbook)  :arrow_down: [下载本手册 ePub 版](https://legacy.gitbook.com/download/epub/book/zhongsp/typescript-handbook)
 
 :link: [一大波新的快速开始指南：React，Angular，Nodejs，ASP.NET Core，React Native，Vue，Glimmer，WeChat，Dojo2，Knockout等](./doc/quick-start/README.md)
 
@@ -78,6 +72,7 @@
   * [架构概述](./doc/wiki/Architectural-Overview.md)
   * [发展路线图](./doc/wiki/Roadmap.md)
 * [新增功能](./doc/release-notes/README.md)
+  * [TypeScript 3.0](./doc/release-notes/TypeScript%203.0.md)
   * [TypeScript 2.9](./doc/release-notes/TypeScript%202.9.md)
   * [TypeScript 2.8](./doc/release-notes/TypeScript%202.8.md)
   * [TypeScript 2.7](./doc/release-notes/TypeScript%202.7.md)

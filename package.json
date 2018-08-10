@@ -6,6 +6,7 @@
     "doc": "doc"
   },
   "scripts": {
+    "test": "node ./lint.js",
     "lint": "node ./lint.js"
   },
   "repository": {
