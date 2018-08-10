@@ -2,9 +2,9 @@
 
 ## 工程引用
 
-TypeScript 3.0引入了一个叫做工程引用的新概念。工程引用允许TypeScript工程依赖于其它TypeScript工程 - 特别要提的是允许`tsconfig.json`文件引用其它`tsconfig.json`文件。当指名了这些依赖后，就可以方便地将代码分割成一个个小的工程，有助于TypeScript（以及周边的工具）了解构建顺序和输出结构。
+TypeScript 3.0 引入了一个叫做工程引用的新概念。工程引用允许TypeScript工程依赖于其它TypeScript工程 - 特别要提的是允许`tsconfig.json`文件引用其它`tsconfig.json`文件。当指明了这些依赖后，就可以方便地将代码分割成单独的小工程，有助于TypeScript（以及周边的工具）了解构建顺序和输出结构。
 
-TypeScript 3.0还引入了一种新的`tsc`模式，即`--build`标记，它和工程引用同时运用可以加速构建TypeScript。
+TypeScript 3.0 还引入了一种新的`tsc`模式，即`--build`标记，它与工程引用同时运用可以加速构建TypeScript。
 
 相关详情请阅读[工程引用手册](../handbook/Project%20References.md)。
 
@@ -19,11 +19,11 @@ TypeScript 3.0 增加了支持以元组类型与函数参数列表进行交互�
 * [元组类型里的可选元素](#optional-elements-in-tuple-types)
 * [元组类型里的剩余元素](#rest-elements-in-tuple-types)
 
-With these features it becomes possible to strongly type a number of higher-order functions that transform functions and their parameter lists.
+有了这些特性后，便有可能将转换函数和它们参数列表的高阶函数变为强类型的。
 
 ### <a name="rest-parameters-with-tuple-types"></a>带元组类型的剩余参数
 
-当剩余参数里有元组类型，元组类型被扩展成离散参数的序列。
+当剩余参数里有元组类型时，元组类型被扩展为离散参数序列。
 例如，如下两个声明是等价的：
 
 ```ts
@@ -36,7 +36,7 @@ declare function foo(args_0: number, args_1: string, args_2: boolean): void;
 
 ### <a name="spread-expressions-with-tuple-types"></a>带有元组类型的展开表达式
 
-在函数调用中，若最后一个参数包含带元组的展开表达式，那么这个展开表达式相当于元组元素类型的离散参数序列。
+在函数调用中，若最后一个参数是元组类型的展开表达式，那么这个展开表达式相当于元组元素类型的离散参数序列。
 
 因此，下面的调用都是等价的：
 
@@ -49,7 +49,7 @@ foo(...args);
 
 ### <a name="generic-rest-parameters"></a>泛型剩余参数
 
-剩余参数允许带有泛型类型，这个泛型类型被限制为一个数组类型，类型推断系统能够推断这类泛型剩余参数里的元组类型。这就支持了高阶的捕获和扩展部分参数列表:
+剩余参数允许带有泛型类型，这个泛型类型被限制为是一个数组类型，类型推断系统能够推断这类泛型剩余参数里的元组类型。这样就可以进行高阶捕获和展开部分参数列表:
 
 #### 例子
 
@@ -70,11 +70,11 @@ f0();
 
 上例的`f2`声明，类型推断可以推断出`number`，`[string, boolean]`和`void`做为`T`，`U`和`V`。
 
-注意，如果元组类型是从参数序列中推断出来的，之后又扩展成参数列表，就像`U`那样，原来的参数名称会被用在扩展中（然而，这个名字没有语义上的意义且是不可观察的）。
+注意，如果元组类型是从参数序列中推断出来的，之后又扩展成参数列表，就像`U`那样，原来的参数名称会被用在扩展中（然而，这个名字没有语义上的意义且是察觉不到的）。
 
 ### <a name="optional-elements-in-tuple-types"></a>元组类型里的可选元素
 
-元组类型现在允许在元素类型上使用`?`后缀，表示这个元素是可选的：
+元组类型现在允许在其元素类型上使用`?`后缀，表示这个元素是可选的：
 
 #### 例子
 
@@ -87,14 +87,14 @@ t = [42];
 
 在`--strictNullChecks`模式下，`?`修饰符会自动地在元素类型中包含`undefined`，类似于可选参数。
 
-在元组类型的一个元素类型上使用`?`修饰符后缀来把它标记为可忽略的元素，且它右侧所有元素也同时带有了`?`修饰符。
+在元组类型的一个元素类型上使用`?`后缀修饰符来把它标记为可忽略的元素，且它右侧所有元素也同时带有了`?`修饰符。
 
 当剩余参数推断为元组类型时，源码中的可选参数在推断出的类型里成为了可选元组元素。
 
 带有可选元素的元组类型的`length`属性是表示可能长度的数字字面量类型的联合类型。
-例如，`[number, string?, boolean?]`元组类型的`length`属性类型是`1 | 2 | 3`。
+例如，`[number, string?, boolean?]`元组类型的`length`属性的类型是`1 | 2 | 3`。
 
-### <a name="rest-elements-in-tuple-types"></a>Rest elements in tuple types
+### <a name="rest-elements-in-tuple-types"></a>元组类型里的剩余元素
 
 元组类型里最后一个元素可以是剩余元素，形式为`...X`，这里`X`是数组类型。
 剩余元素代表元组类型是开放的，可以有零个或多个额外的元素。
@@ -118,7 +118,7 @@ const t2 = tuple("bar", ...numbers);  // [string, ...number[]]
 
 TypeScript 3.0引入了一个顶级的`unknown`类型。
 对照于`any`，`unknown`是类型安全的。
-任何值都可以赋给`unknown`，但是当没有类型断言或基于控制流的类型细化时`unknown`不可以赋值给其它，除了它自己和`any`外。
+任何值都可以赋给`unknown`，但是当没有类型断言或基于控制流的类型细化时`unknown`不可以赋值给其它类型，除了它自己和`any`外。
 同样地，在`unknown`没有被断言或细化到一个确切类型之前，是不允许在其上进行任何操作的。
 
 ### 例子
@@ -284,11 +284,11 @@ class C1 {
 
 ## 在JSX里支持`defaultProps`
 
-TypeScript 2.9和之前的版本不支持在JSX组件里使用[React `defaultProps`](https://reactjs.org/docs/typechecking-with-proptypes.html#default-prop-values)声明。
+TypeScript 2.9和之前的版本不支持在JSX组件里使用[React的`defaultProps`](https://reactjs.org/docs/typechecking-with-proptypes.html#default-prop-values)声明。
 用户通常不得不将属性声明为可选的，然后在`render`里使用非`null`的断言，或者在导出之前对组件的类型使用类型断言。
 
 TypeScript 3.0在`JSX`命名空间里支持一个新的类型别名`LibraryManagedAttributes`。
-这个助手类型定义了在检查JSX表达式之前组件`Props`的一个类型转换；因此可以这样定制：如何处理提供的`props`与推断`props`之前的冲突，推断是如何映射的，可选性是如何处理的以及不同位置的推断如何结合在一起。
+这个助手类型定义了在检查JSX表达式之前在组件`Props`上的一个类型转换；因此我们可以进行定制：如何处理提供的`props`与推断`props`之间的冲突，推断如何映射，如何处理可选性以及不同位置的推断如何结合在一起。
 
 我们可以利用它来处理React的`defaultProps`以及`propTypes`。
 
@@ -313,9 +313,9 @@ let el = <Greet />
 
 #### `defaultProps`的确切类型
 
-默认类型是从`defaultProps`属性的类型推断而来。如果添加了明确的类型注释，比如`static defaultProps: Partial<Props>;`，编译器无法识别哪个属性具有默认值（因为`defaultProps`类型包含了`Props`的所有属性）。
+默认类型是从`defaultProps`属性的类型推断而来。如果添加了显式的类型注释，比如`static defaultProps: Partial<Props>;`，编译器无法识别哪个属性具有默认值（因为`defaultProps`类型包含了`Props`的所有属性）。
 
-使用`static defaultProps: Pick<Props, "name">;`做为明确的类型注释，或者不添加类型注释。
+使用`static defaultProps: Pick<Props, "name">;`做为显式的类型注释，或者不添加类型注释。
 
 对于无状态的函数式组件（SFCs），使用ES2015默认的初始化器：
 
