@@ -68,22 +68,22 @@ assert.areEqual(converter.celsiusToFahrenheit(0), 32);
 
 # `composite`
 
-Referenced projects must have the new `composite` setting enabled.
-This setting is needed to ensure TypeScript can quickly determine where to find the outputs of the referenced project.
-Enabling the `composite` flag changes a few things:
+引用的工程必须启用新的`composite`设置。
+这个选项用于帮助TypeScript快速确定引用工程的输出文件位置。
+若启用`composite`标记则会发生如下变动：
 
-* The `rootDir` setting, if not explicitly set, defaults to the directory containing the `tsconfig` file
-* All implementation files must be matched by an `include` pattern or listed in the `files` array. If this constraint is violated, `tsc` will inform you which files weren't specified
-* `declaration` must be turned on
+* 对于`rootDir`设置，如果没有被显式指定，默认为包含`tsconfig`文件的目录
+* 所有的实现文件必须匹配到某个`include`模式或在`files`数组里列出。如果违反了这个限制，`tsc`会提示你哪些文件未指定。
+* 必须开启`declaration`选项。
 
 # `declarationMaps`
 
-We've also added support for [declaration source maps](https://github.com/Microsoft/TypeScript/issues/14479).
-If you enable `--declarationMap`, you'll be able to use editor features like "Go to Definition" and Rename to transparently navigate and edit code across project boundaries in supported editors.
+我们增加了对[declaration source maps](https://github.com/Microsoft/TypeScript/issues/14479)的支持。
+如果启用`--declarationMap`，在某些编辑器上，你可以使用诸如“Go to Definition”，重命名以及跨工程编辑文件等编辑器特性。
 
-# `prepend` with `outFile`
+# 带`prepend`的`outFile`
 
-You can also enable prepending the output of a dependency using the `prepend` option in a reference:
+你可以在引用中使用`prepend`选项来启用前置某个依赖的输出：
 
 ```js
    "references": [
@@ -91,11 +91,11 @@ You can also enable prepending the output of a dependency using the `prepend` op
    ]
 ```
 
-Prepending a project will include the project's output above the output of the current project.
-This works for both `.js` files and `.d.ts` files, and source map files will also be emitted correctly.
+前置工程会将工程的输出添加到当前工程输出之前。
+它对`.js`文件和`.d.ts`文件都启作用，`source map`文件也同样会正确地生成。
 
-`tsc` will only ever use existing files on disk to do this process, so it's possible to create a project where a correct output file can't be generated because some project's output would be present more than once in the resulting file.
-For example:
+`tsc`永远只会使用磁盘上已经存在的文件来进行这个操作，因此创建一个无法生成正确的输出文件的工程是可能的，因为有些工程的输出可能会在结果文件中重覆多次。
+例如：
 
 ```txt
    A
@@ -107,36 +107,36 @@ B     C
    D
 ```
 
-It's important in this situation to not prepend at each reference, because you'll end up with two copies of `A` in the output of `D` - this can lead to unexpected results.
+这种情况下，不能前置引用，因为在`D`的最终输出里会有两份`A`存在 - 这可能会发生未预料的错误。
 
-# Caveats for Project References
+# 关于工程引用的说明
 
-Project references have a few trade-offs you should be aware of.
+工程引用在某些方面需要你进行权衡.
 
-Because dependent projects make use of `.d.ts` files that are built from their dependencies, you'll either have to check in certain build outputs *or* build a project after cloning it before you can navigate the project in an editor without seeing spurious errors.
-We're working on a behind-the-scenes .d.ts generation process that should be able to mitigate this, but for now we recommend informing developers that they should build after cloning.
+因为有依赖的工程要使用它的依赖生成的`.d.ts`，因此你必须要检查相应构建后的输出*或*在下载源码后进行构建，然后才能在编辑器里自由地导航。
+我们是在操作在幕后的`.d.ts`生成过程，我们应该减少这种情况，但是目前还们建议提示开发者在下载源码后进行构建。
 
-Additionally, to preserve compatability with existing build workflows, `tsc` will *not* automatically build dependencies unless invoked with the `--build` switch.
-Let's learn more about `--build`.
+此外，为了兼容已有的构建流程，`tsc`*不会*自动地构建依赖项，除非启用了`--build`选项。
+下面让我们看看`--build`。
 
-# Build Mode for TypeScript
+# TypeScript构建模式
 
-A long-awaited feature is smart incremental builds for TypeScript projects.
-In 3.0 you can use the `--build` flag with `tsc`.
-This is effectively a new entry point for `tsc` that behaves more like a build orchestrator than a simple compiler.
+在TypeScript工程里支持增量构建是个期待已久的功能。
+在TypeScrpt 3.0里，你可以在`tsc`上使用`--build`标记。
+它实际上是个新的`tsc`入口点，它更像是一个构建的协调员而不是简简单单的编译器。
 
-Running `tsc --build` (`tsc -b` for short) will do the following:
+运行`tsc --build`（简写`tsc -b`）会执行如下操作：
 
-* Find all referenced projects
-* Detect if they are up-to-date
-* Build out-of-date projects in the correct order
+* 找到所有引用的工程
+* 检查它们是否为最新版本
+* 按顺序构建非最新版本的工程
 
-You can provide `tsc -b` with multiple config file paths (e.g. `tsc -b src test`).
-Just like `tsc -p`, specifying the config file name itself is unnecessary if it's named `tsconfig.json`.
+可以给`tsc -b`指写多个配置文件地址（例如：`tsc -b src test`）。
+好比`tsc -p`，如果配置文件名为`tsconfig.json`，那么文件名可省略。
 
-## `tsc -b` Commandline
+## `tsc -b`命令行
 
-You can specify any number of config files:
+你可以指令任意数量的配置文件：
 
 ```shell
  > tsc -b                                # Build the tsconfig.json in the current directory
@@ -144,17 +144,17 @@ You can specify any number of config files:
  > tsc -b foo/release.tsconfig.json bar  # Build foo/release.tsconfig.json and bar/tsconfig.json
 ```
 
-Don't worry about ordering the files you pass on the commandline - `tsc` will re-order them if needed so that dependencies are always built first.
+不需要担心命令上指定的文件的顺序 - `tsc`会根据需要重新进行排序，被依赖的项会优先构建。
 
-There are also some flags specific to `tsc -b`:
+`tsc -b`还可以指定其它一些标记：
 
-* `--verbose`: Prints out verbose logging to explain what's going on (may be combined with any other flag)
-* `--dry`: Shows what would be done but doesn't actually build anything
-* `--clean`: Deletes the outputs of the specified projects (may be combined with `--dry`)
-* `--force`: Act as if all projects are out of date
-* `--watch`: Watch mode (may not be combined with any flag except `--verbose`)
+* `--verbose`：打印详细的日志（可以与其它标记一起使用）
+* `--dry`: 显示将要执行的操作但是并不真正进行这些操作
+* `--clean`: 删除指定工程的输出（可以与`--dry`一起使用）
+* `--force`: 把所有工程当作非最新版本对待
+* `--watch`: 观察模式（可能与`--verbose`一起使用）
 
-# Caveats
+# 说明
 
 Normally, `tsc` will produce outputs (`.js` and `.d.ts`) in the presence of syntax or type errors, unless `noEmitOnError` is on.
 Doing this in an incremental build system would be very bad - if one of your out-of-date dependencies had a new error, you'd only see it *once* because a subsequent build would skip building the now up-to-date project.
