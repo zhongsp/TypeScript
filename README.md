@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/zhongsp/TypeScript.svg?branch=master)](https://travis-ci.org/zhongsp/TypeScript) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 <img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 3.0 (July 30, 2018)](https://blogs.msdn.microsoft.com/typescript/2018/07/30/announcing-typescript-3-0/)
+|
 [版本发布说明](./doc/release-notes/TypeScript%203.0.md)
 
 :heavy_check_mark: TypeScript语言用于大规模应用的JavaScript开发。  :heavy_check_mark: TypeScript支持类型，是JavaScript的超集且可以编译成纯JavaScript代码。  :heavy_check_mark: TypeScript兼容所有浏览器，所有宿主环境，所有操作系统。  :heavy_check_mark: TypeScript是开源的。
