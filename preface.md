@@ -65,6 +65,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [使用](./doc/handbook/declaration files/Consumption.html)
 * [工程配置](./doc/handbook/tsconfig.json.html)
   * [tsconfig.json](./doc/handbook/tsconfig.json.html)
+  * [工程引用](./doc/handbook/Project References.html)
   * [NPM包的类型](./doc/handbook/Typings for NPM Packages.html)
   * [编译选项](./doc/handbook/Compiler Options.html)
   * [配置 Watch](./doc/handbook/Configuring Watch.html)
@@ -109,14 +110,10 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [TypeScript 1.5](./doc/breaking-changes/TypeScript 1.5.html)
   * [TypeScript 1.4](./doc/breaking-changes/TypeScript 1.4.html)
 
-## 主要修改 (Latest 5 updates)
+## 最新修改
 
-* 2017-11-07 新增章节：[JavaScript文件里的类型检查](./doc/handbook/Type Checking JavaScript Files.html)
-* 2017-05-16 新增章节：[教程-5分钟了解TypeScript](./doc/handbook/tutorials/TypeScript in 5 minutes.html)
-* 2017-05-01 新增章节：[教程-React](./doc/handbook/tutorials/React.html)
-* 2016-11-27 新增章节：[使用`/// <reference types="..." />`](./doc/handbook/Triple-Slash Directives.html)
-* 2016-11-23 新增章节：[变量声明 - 展开操作符](./doc/handbook/Variable Declarations.html)
-* 2016-10-23 新增章节：[高级类型 - 可辨识联合（Discriminated Unions）](./doc/handbook/Advanced Types.html)
+* 2018-08-15 新增章节：[工程引用](./doc/handbook/Project References.html)
+* [TypeScript 3.0](./doc/release-notes/TypeScript 3.0.html)
 
 ## 相关链接
 

@@ -43,6 +43,7 @@
   * [使用](./doc/handbook/declaration files/Consumption.md)
 * [工程配置](./doc/handbook/tsconfig.json.md)
   * [tsconfig.json](./doc/handbook/tsconfig.json.md)
+  * [工程引用](./doc/handbook/Project References.md)
   * [NPM包的类型](./doc/handbook/Typings for NPM Packages.md)
   * [编译选项](./doc/handbook/Compiler Options.md)
   * [配置 Watch](./doc/handbook/Configuring Watch.md)
