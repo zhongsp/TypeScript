@@ -156,51 +156,51 @@ B     C
 
 # 说明
 
-Normally, `tsc` will produce outputs (`.js` and `.d.ts`) in the presence of syntax or type errors, unless `noEmitOnError` is on.
-Doing this in an incremental build system would be very bad - if one of your out-of-date dependencies had a new error, you'd only see it *once* because a subsequent build would skip building the now up-to-date project.
-For this reason, `tsc -b` effectively acts as if `noEmitOnError` is enabled for all all projects.
+一般情况下，就算代码里有语法或类型错误，`tsc`也会产生输出（`.js`和`.d.ts`），除非启用了`noEmitOnError`选项。
+这在增量构建系统里就不好了 - 如果某个过期的依赖里有一个新的错误，那么你只能看到它*一次*，因为后续的构建会跳过这个最新的工程。
+正是这个原因，`tsc -b`的作用就好比在所有工程上启用`noEmitOnError`。
 
-If you check in any build outputs (`.js`, `.d.ts`, `.d.ts.map`, etc.), you may need to run a `--force` build after certain source control operations depending on whether your source control tool preserves timestmaps between the local copy and the remote copy.
+如果你想要提交所有的构建输出（`.js`, `.d.ts`, `.d.ts.map`等），你可能需要运行`--force`来构建，因为一些源码管理操作依赖于源码版本管理工具保存的本地拷贝和远程拷贝的时间戳。
 
 # MSBuild
 
-If you have an msbuild project, you can turn enable build mode by adding
+如果你在使用msbuild工程，你可以用下面的方式启用构建模式。
 
 ```xml
     <TypeScriptBuildMode>true</TypeScriptBuildMode>
 ```
 
-to your proj file. This will enable automatic incremental build as well as cleaning.
+将这段代码添加到`proj`文件。它会自动地启用增量构建模式和清理工作。
 
-Note that as with `tsconfig.json` / `-p`, existing TypeScript project properties will not be respected - all settings should be managed using your tsconfig file.
+注意，在使用`tsconfig.json` / `-p`时，已存在的TypeScript工程属性会被忽略 - 因此所有的设置需要在`tsconfig`文件里进行。
 
-Some teams have set up msbuild-based workflows wherein tsconfig files have the same *implicit* graph ordering as the managed projects they are paired with.
-If your solution is like this, you can continue to use `msbuild` with `tsc -p` along with project references; these are fully interoperable.
+一些团队已经设置好了基于msbuild的构建流程，并且`tsconfig`文件具有和它们匹配的工程一致的*隐式*图序。
+你如你的项目如此，那么你可以继续使用`msbuild`和`tsc -p`以及工程引用；它们是完全互通的。
 
-# Guidance
+# 指导
 
-## Overall Structure
+## 整体结构
 
-With more `tsconfig.json` files, you'll usually want to use [Configuration file inheritance](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) to centralize your common compiler options.
-This way you can change a setting in one file rather than having to edit multiple files.
+当`tsconfig.json`多了以后，通常会使用[配置文件继承](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)来集中管理公共的编译选项。
+这样你就可以在一个文件里更改配置而不必在多个文件中进行修改。
 
-Another good practice is to have a "solution" `tsconfig.json` file that simply has `references` to all of your leaf-node projects.
-This presents a simple entry point; e.g. in the TypeScript repo we simply run `tsc -b src` to build all endpoints because we list all the subprojects in `src/tsconfig.json`
-Note that starting with 3.0, it is no longer an error to have an empty `files` array if you have at least one `reference` in a `tsconfig.json` file.
+另一个最佳实践是有一个`solution`级别的`tsconfig.json`文件，它仅仅用于引用所有的子工程。
+它用于提供一个简单的入口；比如，在TypeScript仓库里，我们可以简单地运行`tsc -b src`来构建所有的结点，因为我们在`src/tsconfig.json`文件里列出了所有的子工程。
+注意从3.0开始，如果`tsconfig.json`文件里至少有一个工程引用`reference`，那么`files`数组为空的话也不会报错。
 
-You can see these pattern in the TypeScript repo - see `src/tsconfig_base.json`, `src/tsconfig.json`, and `src/tsc/tsconfig.json` as key examples.
+你可以在TypeScript仓库里看到这些模式 - 阅读`src/tsconfig_base.json`，`src/tsconfig.json`和`src/tsc/tsconfig.json`。
 
-## Structuring for relative modules
+## 相对模块的结构
 
-In general, not much is needed to transition a repo using relative modules.
-Simply place a `tsconfig.json` file in each subdirectory of a given parent folder, and add `reference`s to these config files to match the intended layering of the program.
-You will need to either set the `outDir` to an explicit subfolder of the output folder, or set the `rootDir` to the common root of all project folders.
+通常地，将代码转成使用相对模块而不需要改动太多。
+只需在某个给定父目录的每个子目录里放一个`tsconfig.json`文件，并将添加`reference`。
+然后将`outDir`指定为输出目录的子目录或将`rootDir`指定为所有工程的公共的某个根目录。
 
-## Structuring for outFiles
+## `outFile`的结构
 
-Layout for compilations using `outFile` is more flexible because relative paths don't matter as much.
-One thing to keep in mind is that you'll generally want to not use `prepend` until the "last" project - this will improve build times and reduce the amount of I/O needed in any given build.
-The TypeScript repo itself is a good reference here - we have some "library" projects and some "endpoint" projects; "endpoint" projects are kept as small as possible and pull in only the libraries they need.
+使用了`outFile`的编译输出结构十分灵活，因为相对路径是无关紧要的。
+要注意的是，你通常不需要使用`prepend` - 因为这会改善构建时间并结省I/O。
+TypeScript项目本身是一个好的参照 - 我们有一些“library”的工程和一些“endpoint”工程，“endpoint”工程会确保足够小并仅仅导入它们需要的“library”。
 
 <!--
 ## Structuring for monorepos
