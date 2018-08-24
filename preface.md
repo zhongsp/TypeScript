@@ -43,6 +43,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [类型推论](./doc/handbook/Type Inference.html)
   * [类型兼容性](./doc/handbook/Type Compatibility.html)
   * [高级类型](./doc/handbook/Advanced Types.html)
+  * [工具实用类型](./doc/handbook/Utilit Types.html)
   * [Symbols](./doc/handbook/Symbols.html)
   * [Iterators 和 Generators](./doc/handbook/Iterators and Generators.html)
   * [模块](./doc/handbook/Modules.html)
