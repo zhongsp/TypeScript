@@ -63,43 +63,41 @@ TypeScript对回调函数参数的检测将与立即签名检测协变。
 
 ### Promises
 
-Here is an example of improved Promise checking:
+下面是改进后的Promise检查的例子：
 
 ```ts
 let p = new Promise((c, e) => { c(12) });
 let u: Promise<number> = p;
     ~
-Type 'Promise<{}>' is not assignable to 'Promise<number>'
+    类型 'Promise<{}>' 不能赋值给 'Promise<number>'
 ```
 
-The reason this occurs is that TypeScript is not able to infer the type argument `T` when you call `new Promise`.
-As a result, it just infers `Promise<{}>`.
-Unfortunately, this allows you to write `c(12)` and `c('foo')`, even though the declaration of `p` explicitly says that it must be `Promise<number>`.
+TypeScript无法在调用`new Promise`时推断类型参数`T`的值。
+因此，它仅推断为`Promise<{}>`。
+不幸的是，它会允许你这样写`c(12)`和`c('foo')`，就算`p`的声明明确指出它应该是`Promise<number>`。
 
-Under the new rules, `Promise<{}>` is not assignable to
-`Promise<number>` because it breaks the callbacks to Promise.
-TypeScript still isn't able to infer the type argument, so to fix this you have to provide the type argument yourself:
+在新的规则下，`Promise<{}>`不能够赋值给`Promise<number>`，因为它破坏了Promise的回调函数。
+TypeScript仍无法推断类型参数，所以你只能通过传递类型参数来解决这个问题：
 
 ```ts
 let p: Promise<number> = new Promise<number>((c, e) => { c(12) });
-//                                  ^^^^^^^^ explicit type arguments here
+//                                  ^^^^^^^^ 明确的类型参数
 ```
 
-This requirement helps find errors in the body of the promise code.
-Now if you mistakenly call `c('foo')`, you get the following error:
+它能够帮助从promise代码体里发现错误。
+现在，如果你错误地调用`c('foo')`，你就会得到一个错误提示:
 
 ```ts
 let p: Promise<number> = new Promise<number>((c, e) => { c('foo') });
 //                                                         ~~~~~
-//  Argument of type '"foo"' is not assignable to 'number'
+//  参数类型 '"foo"' 不能赋值给 'number'
 ```
 
-### (Nested) Callbacks
+### （嵌套）回调
 
-Other callbacks are affected by the improved callback checking as
-well, primarily nested callbacks. Here's an example with a function
-that takes a callback, which takes a nested callback. The nested
-callback is now checked co-variantly.
+其它类型的回调也会被这个改进所影响，其中主要是嵌套的回调。
+下面是一个接收回调函数的函数，回调函数又接收嵌套的回调。
+嵌套的回调现在会以协变的方式检查。
 
 ```ts
 declare function f(
@@ -108,20 +106,19 @@ declare function f(
 
 f((nested: (error: number) => void) => { log(error) });
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-'(error: number) => void' is not assignable to (error: number, result: any) => void'
+'(error: number) => void' 不能赋值给 '(error: number, result: any) => void'
 ```
 
-The fix is easy in this case. Just add the missing parameter to the
-nested callback:
+修复这个问题很容易。给嵌套的回调传入缺失的参数：
 
 ```ts
 f((nested: (error: number, result: any) => void) => { });
 ```
 
-## Stricter checking for generic functions
+## 更严格的泛型函数检查
 
-TypeScript now tries to unify type parameters when comparing two single-signature types.
-As a result, you'll get stricter checks when relating two generic signatures, and may catch some bugs.
+TypeScript在比较两个单一签名的类型时会尝试统一类型参数。
+结果就是，当关系到两个泛型签名时检查变得更严格了，但同时也会捕获一些bug。
 
 ```ts
 type A = <T, U>(x: T, y: U) => [T, U];
@@ -133,23 +130,25 @@ function f(a: A, b: B) {
 }
 ```
 
-**Recommendation**
+**推荐做法**
 
-Either correct the definition or use `--noStrictGenericChecks`.
+或者修改定义或者使用`--noStrictGenericChecks`。
 
-## Type parameter inference from contextual types
+## 从上下文类型中推荐类型参数
 
-Prior to TypeScript 2.4, in the following example
+在TypeScript之前，下面例子中
 
 ```ts
 let f: <T>(x: T) => T = y => y;
 ```
 
-`y` would have the type `any`.
-This meant the program would type-check, but you could technically do anything with `y`, such as the following:
+`y`的类型将是`any`。
+这意味着，程序虽会进行类型检查，但是你可以在`y`上做任何事，比如：
 
 ```ts
 let f: <T>(x: T) => T = y => y() + y.foo.bar;
 ```
 
-**Recommendation:** Appropriately re-evaluate whether your generics have the correct constraint, or are even necessary. As a last resort, annotate your parameters with the `any` type.
+**推荐做法:**
+
+适当地重新审视你的泛型是否为正确的约束。实在不行，就为参数加上`any`注解。

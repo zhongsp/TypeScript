@@ -101,6 +101,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [TypeScript 1.3](./doc/release-notes/TypeScript 1.3.html)
   * [TypeScript 1.1](./doc/release-notes/TypeScript 1.1.html)
 * [Breaking Changes](./doc/breaking-changes/breaking-changes.html)
+  * [TypeScript 2.4](./doc/breaking-changes/TypeScript 2.4.html)
   * [TypeScript 2.3](./doc/breaking-changes/TypeScript 2.3.html)
   * [TypeScript 2.2](./doc/breaking-changes/TypeScript 2.2.html)
   * [TypeScript 2.1](./doc/breaking-changes/TypeScript 2.1.html)
