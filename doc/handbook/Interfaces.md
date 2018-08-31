@@ -468,7 +468,7 @@ interface Counter {
 }
 
 function getCounter(): Counter {
-    let counter = <Counter>function (start: number) { };
+    let counter = <Counter>function (start: number): string { return '' };
     counter.interval = 123;
     counter.reset = function () { };
     return counter;
