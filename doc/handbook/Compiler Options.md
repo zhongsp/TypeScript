@@ -3,7 +3,7 @@
 选项                                     | 类型      | 默认值                    | 描述
 ----------------------------------------|-----------|--------------------------|----------------------------------------------------------------------
 `--allowJs`                             | `boolean` |  `false`                 | 允许编译javascript文件。
-`--allowSyntheticDefaultImports`        | `boolean` | `module === "system"`或`--esModuleInterop`    | 允许从没有设置默认导出的模块中默认导入。这并不影响代码的显示，仅为了类型检查。
+`--allowSyntheticDefaultImports`        | `boolean` | `module === "system"`或设置了`--esModuleInterop`且`module`不为`es2015`/`esnext` | 允许从没有设置默认导出的模块中默认导入。这并不影响代码的输出，仅为了类型检查。
 `--allowUnreachableCode`                | `boolean` | `false`                  | 不报告执行不到的代码错误。
 `--allowUnusedLabels`                   | `boolean` | `false`                  | 不报告未使用的标签错误。
 `--alwaysStrict`                        | `boolean` | `false`                  | 以严格模式解析并为每个源文件生成`"use strict"`语句
