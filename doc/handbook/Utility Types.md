@@ -16,11 +16,11 @@ TypeScript提供一些工具类型来帮助常见的类型转换。这些类型�
 * [`Required<T>`，TypeScript 2.8](#requiredt)
 * [`ThisType<T>`，TypeScript 2.8](#thistypet)
 
-# `Partial<T>`
+## `Partial<T>`
 
 构造类型`T`，并将它所有的属性设置为可选的。它的返回类型表示输入类型的所有子类型。
 
-##### 例子
+### 例子
 
 ```ts
 interface Todo {
@@ -42,11 +42,11 @@ const todo2 = updateTodo(todo1, {
 });
 ```
 
-# `Readonly<T>`
+## `Readonly<T>`
 
 构造类型`T`，并将它所有的属性设置为`readonly`，也就是说构造出的类型的属性不能被再次赋值。
 
-##### 例子
+### 例子
 
 ```ts
 interface Todo {
@@ -62,17 +62,17 @@ todo.title = 'Hello'; // Error: cannot reassign a readonly property
 
 这个工具可用来表示在运行时会失败的赋值表达式（比如，当尝试给[冻结对象](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze)的属性再次赋值时）。
 
-##### `Object.freeze`
+### `Object.freeze`
 
 ```ts
 function freeze<T>(obj: T): Readonly<T>;
 ```
 
-# `Record<K,T>`
+## `Record<K,T>`
 
-构造一个类型，它的属性`K`的类型是`T`。这个工具可用来将某个类型的属性映射到另一个类型上。
+构造一个类型，其属性名的类型为`K`，属性值的类型为`T`。这个工具可用来将某个类型的属性映射到另一个类型上。
 
-##### 例子
+### 例子
 
 ```ts
 interface PageInfo {
@@ -88,11 +88,11 @@ const x: Record<Page, PageInfo> = {
 };
 ```
 
-# `Pick<T,K>`
+## `Pick<T,K>`
 
 从类型`T`中挑选部分属性`K`来构造类型。
 
-##### 例子
+### 例子
 
 ```ts
 interface Todo {
@@ -109,11 +109,11 @@ const todo: TodoPreview = {
 };
 ```
 
-# `Exclude<T,U>`
+## `Exclude<T,U>`
 
 从类型`T`中剔除所有可以赋值给`U`的属性，然后构造一个类型。
 
-##### 例子
+### 例子
 
 ```ts
 type T0 = Exclude<"a" | "b" | "c", "a">;  // "b" | "c"
@@ -121,33 +121,33 @@ type T1 = Exclude<"a" | "b" | "c", "a" | "b">;  // "c"
 type T2 = Exclude<string | number | (() => void), Function>;  // string | number
 ```
 
-# `Extract<T,U>`
+## `Extract<T,U>`
 
 从类型`T`中提取所有可以赋值给`U`的类型，然后构造一个类型。
 
-##### 例子
+### 例子
 
 ```ts
 type T0 = Extract<"a" | "b" | "c", "a" | "f">;  // "a"
 type T1 = Extract<string | number | (() => void), Function>;  // () => void
 ```
 
-# `NonNullable<T>`
+## `NonNullable<T>`
 
 从类型`T`中剔除`null`和`undefined`，然后构造一个类型。
 
-##### 例子
+### 例子
 
 ```ts
 type T0 = NonNullable<string | number | undefined>;  // string | number
 type T1 = NonNullable<string[] | null | undefined>;  // string[]
 ```
 
-# `ReturnType<T>`
+## `ReturnType<T>`
 
 由函数类型`T`的返回值类型构造一个类型。
 
-##### 例子
+### 例子
 
 ```ts
 type T0 = ReturnType<() => string>;  // string
@@ -161,11 +161,11 @@ type T7 = ReturnType<string>;  // Error
 type T8 = ReturnType<Function>;  // Error
 ```
 
-# `InstanceType<T>`
+## `InstanceType<T>`
 
 由构造函数类型`T`的实例类型构造一个类型。
 
-##### 例子
+### 例子
 
 ```ts
 class C {
@@ -180,11 +180,11 @@ type T3 = InstanceType<string>;  // Error
 type T4 = InstanceType<Function>;  // Error
 ```
 
-# `Required<T>`
+## `Required<T>`
 
 构造一个类型，使类型`T`的所有属性为`required`。
 
-##### 例子
+### 例子
 
 ```ts
 interface Props {
@@ -197,11 +197,11 @@ const obj: Props = { a: 5 }; // OK
 const obj2: Required<Props> = { a: 5 }; // Error: property 'b' missing
 ```
 
-# `ThisType<T>`
+## `ThisType<T>`
 
 这个工具不会返回一个转换后的类型。它做为上下文的`this`类型的一个标记。注意，若想使用此类型，必须启用`--noImplicitThis`。
 
-##### 例子
+### 例子
 
 ```ts
 // Compile with --noImplicitThis
