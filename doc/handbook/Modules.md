@@ -213,14 +213,14 @@ console.log(num); // "123"
 
 # `export =` 和 `import = require()`
 
-CommonJS和AMD都有一个`exports`对象的概念，它包含了一个模块的所有导出内容。
+CommonJS和AMD的环境里都有一个`exports`变量，这个变量包含了一个模块的所有导出内容。
 
-它们也支持把`exports`替换为一个自定义对象。
-默认导出就好比这样一个功能；然而，它们却并不相互兼容。
-TypeScript模块支持`export =`语法以支持传统的CommonJS和AMD的工作流模型。
+CommonJS和AMD的`exports`都可以被赋值为一个`对象`, 这种情况下其作用就类似于 es6 语法里的默认导出，即 `export default`语法了。虽然作用相似，但是 `export default` 语法并不能兼容CommonJS和AMD的`exports`。
 
-`export =`语法定义一个模块的导出对象。
-它可以是类，接口，命名空间，函数或枚举。
+为了支持CommonJS和AMD的`exports`, TypeScript提供了`export =`语法。
+
+`export =`语法定义一个模块的导出`对象`。
+这里的`对象`一词指的是类，接口，命名空间，函数或枚举。
 
 若使用`export =`导出一个模块，则必须使用TypeScript的特定语法`import module = require("module")`来导入此模块。
 
