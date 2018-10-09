@@ -50,7 +50,7 @@ TypeScript类型推论也可能按照相反的方向进行。
 
 ```ts
 window.onmousedown = function(mouseEvent) {
-    console.log(mouseEvent.button);  //<- Error
+    console.log(mouseEvent.clickTime);  //<- Error
 };
 ```
 
@@ -63,7 +63,7 @@ window.onmousedown = function(mouseEvent) {
 
 ```ts
 window.onmousedown = function(mouseEvent: any) {
-    console.log(mouseEvent.button);  //<- Now, no error is given
+    console.log(mouseEvent.clickTime);  //<- Now, no error is given
 };
 ```
 
