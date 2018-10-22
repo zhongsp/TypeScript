@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/zhongsp/TypeScript.svg?branch=master)](https://travis-ci.org/zhongsp/TypeScript) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-<img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 3.1 RC (September 13, 2018)](https://blogs.msdn.microsoft.com/typescript/2018/09/13/announcing-typescript-3-1-rc/)
+<img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 3.1 (September 27, 2018)](https://blogs.msdn.microsoft.com/typescript/2018/09/27/announcing-typescript-3-1/)
 |
 [版本发布说明](./doc/release-notes/TypeScript%203.1.md)
 
