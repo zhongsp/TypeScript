@@ -148,25 +148,28 @@ TypeScript是模仿Node.js运行时的解析策略来在编译阶段定位模块
 2. `/root/src/node_modules/moduleB.tsx`
 3. `/root/src/node_modules/moduleB.d.ts`
 4. `/root/src/node_modules/moduleB/package.json` (如果指定了`"types"`属性)
-5. `/root/src/node_modules/moduleB/index.ts`
-6. `/root/src/node_modules/moduleB/index.tsx`
-7. `/root/src/node_modules/moduleB/index.d.ts`
+5. `/root/src/node_modules/@types/moduleB.d.ts`
+6. `/root/src/node_modules/moduleB/index.ts`
+7. `/root/src/node_modules/moduleB/index.tsx`
+8. `/root/src/node_modules/moduleB/index.d.ts`
    <br /><br />
-8. `/root/node_modules/moduleB.ts`
-9. `/root/node_modules/moduleB.tsx`
-10. `/root/node_modules/moduleB.d.ts`
-11. `/root/node_modules/moduleB/package.json` (如果指定了`"types"`属性)
-12. `/root/node_modules/moduleB/index.ts`
-13. `/root/node_modules/moduleB/index.tsx`
-14. `/root/node_modules/moduleB/index.d.ts`
+9. `/root/node_modules/moduleB.ts`
+10. `/root/node_modules/moduleB.tsx`
+11. `/root/node_modules/moduleB.d.ts`
+12. `/root/node_modules/moduleB/package.json` (如果指定了`"types"`属性)
+13. `/root/node_modules/@types/moduleB.d.ts`
+14. `/root/node_modules/moduleB/index.ts`
+15. `/root/node_modules/moduleB/index.tsx`
+16. `/root/node_modules/moduleB/index.d.ts`
     <br /><br />
-15. `/node_modules/moduleB.ts`
-16. `/node_modules/moduleB.tsx`
-17. `/node_modules/moduleB.d.ts`
-18. `/node_modules/moduleB/package.json` (如果指定了`"types"`属性)
-19. `/node_modules/moduleB/index.ts`
-20. `/node_modules/moduleB/index.tsx`
-21. `/node_modules/moduleB/index.d.ts`
+17. `/node_modules/moduleB.ts`
+18. `/node_modules/moduleB.tsx`
+19. `/node_modules/moduleB.d.ts`
+20. `/node_modules/moduleB/package.json` (如果指定了`"types"`属性)
+21. `/node_modules/@types/moduleB.d.ts`
+22. `/node_modules/moduleB/index.ts`
+23. `/node_modules/moduleB/index.tsx`
+24. `/node_modules/moduleB/index.d.ts`
 
 不要被这里步骤的数量吓到 - TypeScript只是在步骤（8）和（15）向上跳了两次目录。
 这并不比Node.js里的流程复杂。
