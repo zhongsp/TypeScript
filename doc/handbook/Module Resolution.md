@@ -171,7 +171,7 @@ TypeScript是模仿Node.js运行时的解析策略来在编译阶段定位模块
 23. `/node_modules/moduleB/index.tsx`
 24. `/node_modules/moduleB/index.d.ts`
 
-不要被这里步骤的数量吓到 - TypeScript只是在步骤（8）和（15）向上跳了两次目录。
+不要被这里步骤的数量吓到 - TypeScript只是在步骤（9）和（17）向上跳了两次目录。
 这并不比Node.js里的流程复杂。
 
 ## 附加的模块解析标记
