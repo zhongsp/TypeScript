@@ -47,9 +47,11 @@ for (const n of numbers) {
 ## 在`allowSyntheticDefaultImports`下，对于TS和JS文件来说默认导入的类型合成不常见
 
 在过去，我们在类型系统中合成一个默认导入，用于TS或JS文件，如下所示：
+
 ```ts
 export const foo = 12;
 ```
+
 意味着模块的类型为`{foo: number, default: {foo: number}}`。
 这是错误的，因为文件将使用`__esModule`标记发出，因此在加载文件时没有流行的模块加载器会为它创建合成默认值，并且类型系统推断的`default`成员永远不会在运行时存在。现在我们在`ESModuleInterop`标志下的发出中模拟了这个合成默认行为，我们收紧了类型检查器的行为，以匹配你期望在运行时所看到的内容。如果运行时没有其他工具的介入，此更改应仅指出错误的错误默认导入用法，应将其更改为命名空间导入。
 
@@ -68,6 +70,7 @@ function fails<K extends keyof O>(o: O, k: K) {
 }
 
 ```
+
 ## `in`表达式被视为类型保护
 
 对于`n in x`表达式，其中`n`是字符串文字或字符串文字类型而`x`是联合类型，"true"分支缩小为具有可选或必需属性`n`的类型，并且 "false"分支缩小为具有可选或缺少属性`n`的类型。 如果声明类型始终具有属性`n`，则可能导致在false分支中将变量的类型缩小为`never`的情况。
@@ -108,6 +111,7 @@ var a = Math.random() ? new Animal() : new Dog();
 class MyCustomEvent extends CustomEvent {
 }
 ```
+
 应该成为
 
 ```ts

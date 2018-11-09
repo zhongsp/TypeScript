@@ -32,16 +32,20 @@ function f() {
 ## 环境上下文中的导出赋值中禁止使用任意表达式
 
 以前，像这样的结构
+
 ```ts
 declare module "foo" {
     export default "some" + "string";
 }
 ```
+
 在环境上下文中未被标记为错误。声明文件和环境模块中通常禁止使用表达式，因为`typeof`之类的意图不明确，因此这与我们在这些上下文中的其他地方处理可执行代码不一致。现在，任何不是标识符或限定名称的内容都会被标记为错误。为具有上述值形状的模块制作DTS的正确方法如下：
+
 ```ts
 declare module "foo" {
     const _default: string;
     export default _default;
 }
 ```
+
 编译器已经生成了这样的定义，因此这只应该是手工编写的定义的问题。
