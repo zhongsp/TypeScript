@@ -96,6 +96,7 @@
   * [TypeScript 1.3](./doc/release-notes/TypeScript%201.3.md)
   * [TypeScript 1.1](./doc/release-notes/TypeScript%201.1.md)
 * [Breaking Changes](./doc/breaking-changes/breaking-changes.md)
+  * [TypeScript 2.8](./doc/breaking-changes/TypeScript%202.8.md)
   * [TypeScript 2.7](./doc/breaking-changes/TypeScript%202.7.md)
   * [TypeScript 2.6](./doc/breaking-changes/TypeScript%202.6.md)
   * [TypeScript 2.4](./doc/breaking-changes/TypeScript%202.4.md)
