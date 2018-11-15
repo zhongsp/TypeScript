@@ -1,5 +1,6 @@
 # Breaking Changes
 
+* [TypeScript 2.8](./TypeScript 2.8.md)
 * [TypeScript 2.7](./TypeScript 2.7.md)
 * [TypeScript 2.6](./TypeScript 2.6.md)
 * [TypeScript 2.4](./TypeScript 2.4.md)
