@@ -123,7 +123,7 @@ pet.swim();    // errors
 我们不能确定一个`Bird | Fish`类型的变量是否有`fly`方法。
 如果变量在运行时是`Fish`类型，那么调用`pet.fly()`就出错了。
 
-# 类型保护与区分类型（Type Guards and Differentiating Types）
+# 类型守卫与类型区分（Type Guards and Differentiating Types）
 
 联合类型适合于那些值可以为不同类型的情况。
 但当我们想确切地了解是否为`Fish`时怎么办？
@@ -155,14 +155,14 @@ else {
 }
 ```
 
-## 用户自定义的类型保护
+## 用户自定义的类型守卫
 
 这里可以注意到我们不得不多次使用类型断言。
 假若我们一旦检查过类型，就能在之后的每个分支里清楚地知道`pet`的类型的话就好了。
 
-TypeScript里的*类型保护*机制让它成为了现实。
-类型保护就是一些表达式，它们会在运行时检查以确保在某个作用域里的类型。
-要定义一个类型保护，我们只要简单地定义一个函数，它的返回值是一个*类型谓词*：
+TypeScript里的*类型守卫*机制让它成为了现实。
+类型守卫就是一些表达式，它们会在运行时检查以确保在某个作用域里的类型。
+要定义一个类型守卫，我们只要简单地定义一个函数，它的返回值是一个*类型谓词*：
 
 ```ts
 function isFish(pet: Fish | Bird): pet is Fish {
@@ -189,7 +189,7 @@ else {
 注意TypeScript不仅知道在`if`分支里`pet`是`Fish`类型；
 它还清楚在`else`分支里，一定*不是*`Fish`类型，一定是`Bird`类型。
 
-## `typeof`类型保护
+## `typeof`类型守卫
 
 现在我们回过头来看看怎么使用联合类型书写`padLeft`代码。
 我们可以像下面这样利用类型断言来写：
@@ -215,7 +215,7 @@ function padLeft(value: string, padding: string | number) {
 ```
 
 然而，必须要定义一个函数来判断类型是否是原始类型，这太痛苦了。
-幸运的是，现在我们不必将`typeof x === "number"`抽象成一个函数，因为TypeScript可以将它识别为一个类型保护。
+幸运的是，现在我们不必将`typeof x === "number"`抽象成一个函数，因为TypeScript可以将它识别为一个类型守卫。
 也就是说我们可以直接在代码里检查类型了。
 
 ```ts
@@ -230,14 +230,14 @@ function padLeft(value: string, padding: string | number) {
 }
 ```
 
-这些*`typeof`类型保护*只有两种形式能被识别：`typeof v === "typename"`和`typeof v !== "typename"`，`"typename"`必须是`"number"`，`"string"`，`"boolean"`或`"symbol"`。
-但是TypeScript并不会阻止你与其它字符串比较，语言不会把那些表达式识别为类型保护。
+这些*`typeof`类型守卫*只有两种形式能被识别：`typeof v === "typename"`和`typeof v !== "typename"`，`"typename"`必须是`"number"`，`"string"`，`"boolean"`或`"symbol"`。
+但是TypeScript并不会阻止你与其它字符串比较，语言不会把那些表达式识别为类型守卫。
 
-## `instanceof`类型保护
+## `instanceof`类型守卫
 
-如果你已经阅读了`typeof`类型保护并且对JavaScript里的`instanceof`操作符熟悉的话，你可能已经猜到了这节要讲的内容。
+如果你已经阅读了`typeof`类型守卫并且对JavaScript里的`instanceof`操作符熟悉的话，你可能已经猜到了这节要讲的内容。
 
-*`instanceof`类型保护*是通过构造函数来细化类型的一种方式。
+*`instanceof`类型守卫*是通过构造函数来细化类型的一种方式。
 比如，我们借鉴一下之前字符串填充的例子：
 
 ```ts
@@ -283,10 +283,10 @@ if (padder instanceof StringPadder) {
 
 以此顺序。
 
-# 可以为null的类型
+# 可以为`null`的类型
 
-TypeScript具有两种特殊的类型，`null`和`undefined`，它们分别具有值null和undefined.
-我们在[基础类型](./Basic Types.md)一节里已经做过简要说明。
+TypeScript具有两种特殊的类型，`null`和`undefined`，它们分别具有值`null`和`undefined`.
+我们在[基础类型](./Basic%20Types.md)一节里已经做过简要说明。
 默认情况下，类型检查器认为`null`与`undefined`可以赋值给任何类型。
 `null`与`undefined`是所有其它类型的一个有效值。
 这也意味着，你阻止不了将它们赋值给其它类型，就算是你想要阻止这种情况也不行。
@@ -336,9 +336,9 @@ c.b = undefined; // ok
 c.b = null; // error, 'null' is not assignable to 'number | undefined'
 ```
 
-## 类型保护和类型断言
+## 类型守卫和类型断言
 
-由于可以为null的类型是通过联合类型实现，那么你需要使用类型保护来去除`null`。
+由于可以为`null`的类型是通过联合类型实现，那么你需要使用类型守卫来去除`null`。
 幸运地是这与在JavaScript里写的代码一致：
 
 ```ts
@@ -381,7 +381,7 @@ function fixed(name: string | null): string {
 }
 ```
 
-本例使用了嵌套函数，因为编译器无法去除嵌套函数的null（除非是立即调用的函数表达式）。
+本例使用了嵌套函数，因为编译器无法去除嵌套函数的`null`（除非是立即调用的函数表达式）。
 因为它无法跟踪所有对嵌套函数的调用，尤其是你将内层函数做为外层函数的返回值。
 如果无法知道函数在哪里被调用，就无法知道调用时`name`的类型。
 
@@ -470,7 +470,7 @@ declare function interfaced(arg: Interface): Interface;
 # 字符串字面量类型
 
 字符串字面量类型允许你指定字符串必须的固定值。
-在实际应用中，字符串字面量类型可以与联合类型，类型保护和类型别名很好的配合。
+在实际应用中，字符串字面量类型可以与联合类型，类型守卫和类型别名很好的配合。
 通过结合使用这些特性，你可以实现类似枚举类型的字符串。
 
 ```ts
@@ -543,14 +543,14 @@ function foo(x: number) {
 
 # 可辨识联合（Discriminated Unions）
 
-你可以合并单例类型，联合类型，类型保护和类型别名来创建一个叫做*可辨识联合*的高级模式，它也称做*标签联合*或*代数数据类型*。
-可辨识联合在函数式编程很有用处。
+你可以合并单例类型，联合类型，类型守卫和类型别名来创建一个叫做*可辨识联合*的高级模式，它也称做*标签联合*或*代数数据类型*。
+可辨识联合在函数式编程里很有用处。
 一些语言会自动地为你辨识联合；而TypeScript则基于已有的JavaScript模式。
 它具有3个要素：
 
 1. 具有普通的单例类型属性&mdash;*可辨识的特征*。
 2. 一个类型别名包含了那些类型的联合&mdash;*联合*。
-3. 此属性上的类型保护。
+3. 此属性上的类型守卫。
 
 ```ts
 interface Square {
@@ -621,7 +621,7 @@ function area(s: Shape): number { // error: returns number | undefined
 }
 ```
 
-因为`switch`没有包涵所有情况，所以TypeScript认为这个函数有时候会返回`undefined`。
+因为`switch`没有包含所有情况，所以TypeScript认为这个函数有时候会返回`undefined`。
 如果你明确地指定了返回值类型为`number`，那么你会看到一个错误，因为实际上返回值的类型为`number | undefined`。
 然而，这种方法存在些微妙之处且`--strictNullChecks`对旧代码支持不好。
 
