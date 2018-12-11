@@ -63,11 +63,12 @@
 `--removeComments`                      | `boolean` | `false`                  | 删除所有注释，除了以`/!*`开头的版权信息。
 `--rootDir`                             | `string`  | *(common root directory is computed from the list of input files)*   | 仅用来控制输出的目录结构`--outDir`。
 `rootDirs`<sup>[2]</sup>                | `string[]`|                          | <i>根（root）</i>文件夹列表，表示运行时组合工程结构的内容。查看[模块解析文档](./Module Resolution.md#virtual-directories-with-rootdirs)了解详情。
+`--showConfig`                          | `boolean` | `false`                  | 不真正执行build，而是显示build使用的配置文件信息。
 `--skipDefaultLibCheck`                 | `boolean` | `false`                  | 忽略[库的默认声明文件](./Triple-Slash Directives.md#-reference-no-default-libtrue)的类型检查。
 `--skipLibCheck`                        | `boolean` | `false`                  | 忽略所有的声明文件（`*.d.ts`）的类型检查。
 `--sourceMap`                           | `boolean` | `false`                  | 生成相应的`.map`文件。
 `--sourceRoot`                          | `string`  |                          | 指定TypeScript源文件的路径，以便调试器定位。当TypeScript文件的位置是在运行时指定时使用此标记。路径信息会被加到`sourceMap`里。
-`--strict`                              | `boolean` | `false`                  | 启用所有严格类型检查选项。<br/>启用`--strict`相当于启用 `--noImplicitAny`, `--noImplicitThis`, `--alwaysStrict`，`--strictNullChecks`和`--strictFunctionTypes`。
+`--strict`                              | `boolean` | `false`                  | 启用所有严格检查选项。 <br/>包含`--noImplicitAny`, `--noImplicitThis`, `--alwaysStrict`, `--strictBindCallApply`, `--strictNullChecks`, `--strictFunctionTypes`和`--strictPropertyInitialization`.
 `--strictFunctionTypes`                 | `boolean` | `false`                  | 禁用函数参数双向协变检查。
 `--strictPropertyInitialization`        | `boolean` | `false`                  | 确保类的非`undefined`属性已经在构造函数里初始化。若要令此选项生效，需要同时启用`--strictNullChecks`。
 `--strictNullChecks`                    | `boolean` | `false`                  | 在严格的`null`检查模式下，`null`和`undefined`值不包含在任何类型里，只允许用它们自己和`any`来赋值（有个例外，`undefined`可以赋值到`void`）。
