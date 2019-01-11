@@ -1,4 +1,4 @@
-TypeScript不是存在于真空中。
+TypeScript不是凭空存在的。
 它从JavaScript生态系统和大量现存的JavaScript而来。
 将JavaScript代码转换成TypeScript虽乏味却不是难事。
 接下来这篇教程将教你怎么做。
