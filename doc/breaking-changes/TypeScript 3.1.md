@@ -1,9 +1,9 @@
 # TypeScript 3.1
 
-## 一些vendor特定的类型从`lib.d.ts`中被移除
+## 一些浏览器厂商特定的类型从`lib.d.ts`中被移除
 
 TypeScript内置的`.d.ts`库(`lib.d.ts`等)现在会部分地从DOM规范的Web IDL文件中生成。
-因此有一些vendor特定的类型被移除了。
+因此有一些浏览器厂商特定的类型被移除了。
 
 <details><summary>点击这里查看被移除类型的完整列表：</summary><p>
 
