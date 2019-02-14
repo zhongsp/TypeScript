@@ -44,7 +44,7 @@
 `--inlineSources`                            | TypeScriptInlineSources                    | 布尔值
 `--init`                                     | *MSBuild不支持此选项*                        |
 `--isolatedModules`                          | TypeScriptIsolatedModules                  | 布尔值
-`--jsx`                                      | TypeScriptJSXEmit                          | `React`或`Preserve`
+`--jsx`                                      | TypeScriptJSXEmit                          | `react`，`react-native`，`preserve`
 `--jsxFactory`                               | TypeScriptJSXFactory                       | 有效的名字
 `--lib`                                      | TypeScriptLib                              | 逗号分隔的字符串列表
 `--listEmittedFiles`                         | *MSBuild不支持此选项*                        |
