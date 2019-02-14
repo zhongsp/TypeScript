@@ -80,6 +80,10 @@ awesome-typescript-loader可以让Webpack使用TypeScript的标准配置文件`t
 source-map-loader使用TypeScript输出的sourcemap文件来告诉webpack何时生成*自己的*sourcemaps。
 这就允许你在调试最终生成的文件时就好像在调试TypeScript源码一样。
 
+请注意，`awesome-typescript-loader`并不是唯一的`TypeScript`加载器。
+你还可以选择[ts-loader](https://github.com/TypeStrong/ts-loader)。
+可以到[这里](https://github.com/s-panferov/awesome-typescript-loader#differences-between-ts-loader)查看它们之间的区别。
+
 注意我们安装TypeScript为一个开发依赖。
 我们还可以使用`npm link typescript`来链接TypeScript到一个全局拷贝，但这不是常见用法。
 
@@ -97,7 +101,7 @@ source-map-loader使用TypeScript输出的sourcemap文件来告诉webpack何时�
         "sourceMap": true,
         "noImplicitAny": true,
         "module": "commonjs",
-        "target": "es5",
+        "target": "es6",
         "jsx": "react"
     },
     "include": [
