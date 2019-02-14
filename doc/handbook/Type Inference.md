@@ -43,32 +43,48 @@ let zoo: Animal[] = [new Rhino(), new Elephant(), new Snake()];
 
 如果没有找到最佳通用类型的话，类型推断的结果为联合数组类型，`(Rhino | Elephant | Snake)[]`。
 
-# 上下文类型
+# 上下文归类
 
 TypeScript类型推论也可能按照相反的方向进行。
-这被叫做“按上下文归类”。按上下文归类会发生在表达式的类型与所处的位置相关时。比如：
+这被叫做“上下文归类”。按上下文归类会发生在表达式的类型与所处的位置相关时。比如：
 
 ```ts
 window.onmousedown = function(mouseEvent) {
-    console.log(mouseEvent.clickTime);  //<- Error
+    console.log(mouseEvent.button);   //<- OK
+    console.log(mouseEvent.kangaroo); //<- Error!
 };
 ```
 
-这个例子会得到一个类型错误，TypeScript类型检查器使用`Window.onmousedown`函数的类型来推断右边函数表达式的类型。
-因此，就能推断出`mouseEvent`参数的类型了。
-如果函数表达式不是在上下文类型的位置，`mouseEvent`参数的类型需要指定为`any`，这样也不会报错了。
+在这个例子里，TypeScript类型检查器会使用`Window.onmousedown`函数的类型来推断右边函数表达式的类型。
+所以它能够推断出`mouseEvent`参数的[类型](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent)中包含了`button`属性而不包含`kangaroo`属性。
 
-如果上下文类型表达式包含了明确的类型信息，上下文的类型被忽略。
-重写上面的例子：
+TypeScript还能够很好地推断出其它上下文中的类型。
 
 ```ts
-window.onmousedown = function(mouseEvent: any) {
-    console.log(mouseEvent.clickTime);  //<- Now, no error is given
+window.onscroll = function(uiEvent) {
+    console.log(uiEvent.button); //<- Error!
+}
+```
+
+上面的函数被赋值给`window.onscroll`，`TypeScript`能够知道`uiEvent`是[UIEvent](https://developer.mozilla.org/en-US/docs/Web/API/UIEvent)，而不是[MouseEvent](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent)。`UIEvent`对象不包含`button`属性，因此TypeScript会报错。
+
+如果这个函数不是在上下文归类的位置上，那么这个函数的参数类型将隐式的成为`any`类型，而且也不会报错（除非你开启了`--noImplicitAny`选项）：
+
+```ts
+const handler = function(uiEvent) {
+    console.log(uiEvent.button); //<- OK
+}
+```
+
+我们也可以明确地为函数参数类型赋值来覆写上下文类型：
+
+```ts
+window.onscroll = function(uiEvent: any) {
+    console.log(uiEvent.button);  //<- Now, no error is given
 };
 ```
 
-这个函数表达式有明确的参数类型注解，上下文类型被忽略。
-这样的话就不报错了，因为这里不会使用到上下文类型。
+但这段代码会打印`undefined`，因为`uiEvent`并不包含`button`属性。
 
 上下文归类会在很多情况下使用到。
 通常包含函数的参数，赋值表达式的右边，类型断言，对象成员和数组字面量和返回值语句。
