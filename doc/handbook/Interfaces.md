@@ -413,6 +413,25 @@ let analog = createClock(AnalogClock, 7, 32);
 
 因为`createClock`的第一个参数是`ClockConstructor`类型，在`createClock(AnalogClock, 7, 32)`里，会检查`AnalogClock`是否符合构造函数签名。
 
+另一种简单方式是使用类表达式：
+
+```ts
+interface ClockConstructor {
+  new (hour: number, minute: number);
+}
+
+interface ClockInterface {
+  tick();
+}
+
+const Clock: ClockConstructor = class Clock implements ClockInterface {
+  constructor(h: number, m: number) {}
+  tick() {
+      console.log("beep beep");
+  }
+}
+```
+
 # 继承接口
 
 和类一样，接口也可以相互继承。
