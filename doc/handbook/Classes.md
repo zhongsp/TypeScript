@@ -382,7 +382,7 @@ console.log(grid2.calculateDistanceFromOrigin({x: 10, y: 10}));
 abstract class Animal {
     abstract makeSound(): void;
     move(): void {
-        console.log('roaming the earch...');
+        console.log("roaming the earth...");
     }
 }
 ```
