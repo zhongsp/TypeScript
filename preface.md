@@ -1,7 +1,5 @@
 # TypeScript Handbook（中文版）
 
-<img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 3.0 (July 30, 2018)](https://blogs.msdn.microsoft.com/typescript/2018/07/30/announcing-typescript-3-0/)
-
 > 从前打心眼儿里讨厌编译成JavaScript的这类语言，像Coffee，Dart等。
 > 但是在15年春节前后却爱上了TypeScript。
 > 同时非常喜欢的框架Dojo，Angularjs也宣布使用TypeScript做新版本的开发。
