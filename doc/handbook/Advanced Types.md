@@ -517,7 +517,7 @@ function createElement(tagName: string): Element {
 TypeScript还具有数字字面量类型。
 
 ```ts
-function rollDie(): 1 | 2 | 3 | 4 | 5 | 6 {
+function rollDice(): 1 | 2 | 3 | 4 | 5 | 6 {
     // ...
 }
 ```
