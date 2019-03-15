@@ -56,7 +56,7 @@ npm install -g gulp-cli
 [Gulp-typescript](https://www.npmjs.com/package/gulp-typescript)是TypeScript的一个Gulp插件。
 
 ```shell
-npm install --save-dev typescript gulp gulp-typescript
+npm install --save-dev typescript gulp@4.0.0 gulp-typescript
 ```
 
 ## 写一个简单的例子
@@ -220,7 +220,7 @@ gulp.task("copy-html", function () {
         .pipe(gulp.dest("dist"));
 });
 
-gulp.task("default", ["copy-html"], function () {
+gulp.task("default", gulp.series(gulp.parallel('copy-html'), function () {
     return browserify({
         basedir: '.',
         debug: true,
@@ -232,7 +232,7 @@ gulp.task("default", ["copy-html"], function () {
     .bundle()
     .pipe(source('bundle.js'))
     .pipe(gulp.dest("dist"));
-});
+}));
 ```
 
 这里增加了`copy-html`任务并且把它加作`default`的依赖项。
@@ -268,7 +268,7 @@ gulp.task("default", ["copy-html"], function () {
 我们启动Watchify，让它在后台帮我们编译：
 
 ```shell
-npm install --save-dev watchify gulp-util
+npm install --save-dev watchify fancy-log
 ```
 
 修改gulpfile文件如下：
@@ -279,7 +279,7 @@ var browserify = require("browserify");
 var source = require('vinyl-source-stream');
 var watchify = require("watchify");
 var tsify = require("tsify");
-var gutil = require("gulp-util");
+var fancy_log = require("fancy-log");
 var paths = {
     pages: ['src/*.html']
 };
@@ -304,9 +304,9 @@ function bundle() {
         .pipe(gulp.dest("dist"));
 }
 
-gulp.task("default", ["copy-html"], bundle);
+gulp.task("default", gulp.series(gulp.parallel('copy-html'), bundle));
 watchedBrowserify.on("update", bundle);
-watchedBrowserify.on("log", gutil.log);
+watchedBrowserify.on("log", fancy_log);
 ```
 
 共有三处改变，但是需要你略微重构一下代码。
@@ -363,7 +363,7 @@ gulp.task("copy-html", function () {
         .pipe(gulp.dest("dist"));
 });
 
-gulp.task("default", ["copy-html"], function () {
+gulp.task("default", gulp.series(gulp.parallel('copy-html'), function () {
     return browserify({
         basedir: '.',
         debug: true,
@@ -379,7 +379,7 @@ gulp.task("default", ["copy-html"], function () {
     .pipe(uglify())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest("dist"));
-});
+}));
 ```
 
 注意`uglify`只是调用了自己&mdash;`buffer`和`sourcemaps`的调用是用于确保sourcemaps可以工作。
@@ -419,7 +419,7 @@ gulp.task('copyHtml', function () {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('default', ['copyHtml'], function () {
+gulp.task('default', gulp.series(gulp.parallel('copy-html'), function () {
     return browserify({
         basedir: '.',
         debug: true,
@@ -438,7 +438,7 @@ gulp.task('default', ['copyHtml'], function () {
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('dist'));
-});
+}));
 ```
 
 我们需要设置TypeScript目标为ES2015。
