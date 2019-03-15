@@ -82,12 +82,12 @@ window.createGreeting = function(s) {
 ## 模块化库
 
 一些库只能工作在模块加载器的环境下。
-比如，像`express`只能在Node.js里工作所以必须使用CommonJS的`require`函数加载。
+比如，`express`只能在Node.js里工作，所以必须使用CommonJS的`require`函数加载。
 
 ECMAScript 2015（也就是ES2015，ECMAScript 6或ES6），CommonJS和RequireJS具有相似的*导入*一个*模块*的表示方法。
 例如，对于JavaScript CommonJS （Node.js），有下面的代码
 
-```ts
+```js
 var fs = require("fs");
 ```
 
@@ -105,7 +105,7 @@ var someLib = require('someLib');
 
 或
 
-```ts
+```js
 define(..., ['someLib'], function(someLib) {
 
 });
@@ -142,7 +142,7 @@ console.log(moment.format());
 
 然而在纯净的浏览器环境里你也可以这样写：
 
-```ts
+```js
 console.log(moment.format());
 ```
 
@@ -180,7 +180,7 @@ UMD库的文档里经常会包含通过`require`“在Node.js里使用”例子�
 
 使用[`module-function.d.ts`](./templates/module-function.d.ts.md)，如果模块能够作为函数*调用*。
 
-```ts
+```js
 var x = require("foo");
 // Note: calling 'x' as a function
 var y = x(42);
@@ -190,7 +190,7 @@ var y = x(42);
 
 使用[`module-class.d.ts`](./templates/module-class.d.ts.md)如果模块能够使用`new`来*构造*：
 
-```ts
+```js
 var x = require("bar");
 // Note: using 'new' operator on the imported variable
 var y = new x("hello");
@@ -224,7 +224,7 @@ var y = new x("hello");
 
 你会看到像下面这样的例子：
 
-```ts
+```js
 var x = "hello, world";
 // Creates new methods on built-in types
 console.log(x.startsWithHello());
@@ -252,7 +252,7 @@ console.log(y.reverseAndSort());
 
 你可能会看到像下面这样的文档:
 
-```ts
+```js
 // 'require' call that doesn't use its return value
 var unused = require("magic-string-time");
 /* or */
@@ -273,7 +273,8 @@ console.log(y.reverseAndSort());
 
 # <a name="consuming-dependencies"></a>使用依赖
 
-可能会有以下几种依赖。
+你的代码库可能有好几种类型的依赖。
+这部分会介绍如何把它们导入声明文件。
 
 ## 依赖全局库
 
@@ -362,3 +363,37 @@ var app = exp();
   顶层的模块对象*永远不能*被调用。
 十分常见的解决方法是定义一个`default`导出到一个可调用的/可构造的对象；
   一会模块加载器助手工具能够自己探测到这种情况并且使用`default`导出来替换顶层对象。
+
+## 代码库文件结构
+
+声明文件的结构应该与代码文件结构保持一致。
+一个库可能由多个模块构成，比如
+
+```txt
+myLib
+  +---- index.js
+  +---- foo.js
+  +---- bar
+         +---- index.js
+         +---- baz.js
+```
+
+它们可以被这样导入
+
+```js
+var a = require("myLib");
+var b = require("myLib/foo");
+var c = require("myLib/bar");
+var d = require("myLib/bar/baz");
+```
+
+声明应该这样写
+
+```txt
+@types/myLib
+  +---- index.d.ts
+  +---- foo.d.ts
+  +---- bar
+         +---- index.d.ts
+         +---- baz.d.ts
+```
