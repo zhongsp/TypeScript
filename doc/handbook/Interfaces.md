@@ -146,8 +146,7 @@ a = ro as number[];
 我们在第一个例子里使用了接口，TypeScript让我们传入`{ size: number; label: string; }`到仅期望得到`{ label: string; }`的函数里。
 我们已经学过了可选属性，并且知道他们在“option bags”模式里很有用。
 
-然而，天真地将这两者结合的话就会像在JavaScript里那样搬起石头砸自己的脚。
-比如，拿`createSquare`例子来说：
+然而，天真地将这两者结合的话就会像在JavaScript里那样搬起石头砸自己的脚。比如，拿`createSquare`例子来说：
 
 ```ts
 interface SquareConfig {
