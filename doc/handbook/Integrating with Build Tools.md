@@ -146,7 +146,28 @@ _注意：目前jspm的0.16beta版本支持TypeScript_
 npm install ts-loader --save-dev
 ```
 
-### 基本webpack.config.js
+### Webpack 2 webpack.config.js 基础配置
+
+ ```js
+module.exports = {
+    entry: "./src/index.tsx",
+    output: {
+        path: '/',
+        filename: "bundle.js"
+    },
+    resolve: {
+        extensions: [".tsx", ".ts", ".js", ".json"]
+    },
+    module: {
+        rules: [
+            // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
+            { test: /\.tsx?$/, use: ["ts-loader"], exclude: /node_modules/ }
+        ]
+    }
+}
+```
+
+### Webpack 1 webpack.config.js 基础配置
 
 ```js
 module.exports = {
