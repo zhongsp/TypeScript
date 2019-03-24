@@ -148,7 +148,7 @@ npm install ts-loader --save-dev
 
 ### Webpack 2 webpack.config.js 基础配置
 
- ```js
+```js
 module.exports = {
     entry: "./src/index.tsx",
     output: {
