@@ -25,6 +25,7 @@ npm install @babel/cli @babel/core @babel/preset-typescript --save-dev
   "presets": ["@babel/preset-typescript"]
 }
 ```
+
 ### 使用命令行工具
 
 ```sh
