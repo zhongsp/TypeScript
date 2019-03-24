@@ -203,6 +203,14 @@ let squareOptions = { colour: "red", width: 100 };
 let mySquare = createSquare(squareOptions);
 ```
 
+上面的方法只在`squareOptions`和`SquareConfig`之间有共同的属性时才好用。
+在这个例子中，这个属性为`width`。如果变量间不存在共同的对象属性将会报错。例如：
+
+```ts
+let squareOptions = { colour: "red" };
+let mySquare = createSquare(squareOptions);
+```
+
 要留意，在像上面一样的简单代码里，你可能不应该去绕开这些检查。
 对于包含方法和内部状态的复杂对象字面量来讲，你可能需要使用这些技巧，但是大部额外属性检查错误是真正的bug。
 就是说你遇到了额外类型检查出的错误，比如“option bags”，你应该去审查一下你的类型声明。
