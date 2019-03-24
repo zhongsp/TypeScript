@@ -1,5 +1,6 @@
 Build tools
 
+* [Babel](#babel)
 * [Browserify](#browserify)
 * [Duo](#duo)
 * [Grunt](#grunt)
@@ -8,6 +9,43 @@ Build tools
 * [Webpack](#webpack)
 * [MSBuild](#msbuild)
 * [NuGet](#nuget)
+
+# Babel
+
+### 安装
+
+```sh
+npm install @babel/cli @babel/core @babel/preset-typescript --save-dev
+```
+
+### .babelrc
+
+```js
+{
+  "presets": ["@babel/preset-typescript"]
+}
+```
+### 使用命令行工具
+
+```sh
+./node_modules/.bin/babel --out-file bundle.js src/index.ts
+```
+
+### package.json
+
+```js
+{
+  "scripts": {
+    "build": "babel --out-file bundle.js main.ts"
+  },
+}
+```
+
+### 在命令行上运行Babel
+
+```sh
+npm run build
+```
 
 # Browserify
 
