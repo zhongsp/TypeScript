@@ -44,10 +44,10 @@ class C {
     method() {
         this.constructorOnly = false // error, constructorOnly is a number
         this.constructorUnknown = "plunkbat" // ok, constructorUnknown is string | undefined
-        this.methodOnly = 'ok'  // ok, but y could also be undefined
+        this.methodOnly = 'ok'  // ok, but methodOnly could also be undefined
     }
     method2() {
-        this.methodOnly = true  // also, ok, y's type is string | boolean | undefined
+        this.methodOnly = true  // also, ok, methodOnly's type is string | boolean | undefined
     }
 }
 ```
