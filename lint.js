@@ -61,7 +61,7 @@ Object.keys(result).forEach(function (file) {
 inputFiles.forEach(function(fileName) {
     var text = fs.readFileSync(fileName, "utf8")
     exitCode += checkForImproperlyIndentedFencedCodeBlocks(fileName, text);
-})
+});
 
 process.exit(exitCode);
 
