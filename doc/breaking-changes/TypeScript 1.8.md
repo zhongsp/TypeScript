@@ -32,6 +32,7 @@ export { localPromise as Promise };
 TypeScript 1.8里，我们添加了一些[可达性检查](https://github.com/Microsoft/TypeScript/pull/4788)来阻止一些种类的错误。特别是：
 
 1. 检查代码的可达性（默认启用，可以通过`allowUnreachableCode`编译器选项禁用）
+
    ```ts
       function test1() {
           return 1;
@@ -48,7 +49,9 @@ TypeScript 1.8里，我们添加了一些[可达性检查](https://github.com/Mi
           var y = 1; // error here
       }
    ```
+
 2. 检查标签是否被使用（默认启用，可以通过`allowUnusedLabels`编译器选项禁用）
+
    ```ts
    l: // error will be reported - label `l` is unused
    while (true) {
@@ -56,6 +59,7 @@ TypeScript 1.8里，我们添加了一些[可达性检查](https://github.com/Mi
 
    (x) => { x:x } // error will be reported - label `x` is unused
    ```
+
 3. 检查是否函数里所有带有返回值类型注解的代码路径都返回了值（默认启用，可以通过`noImplicitReturns`编译器选项禁用）
 
    ```ts
@@ -64,6 +68,7 @@ TypeScript 1.8里，我们添加了一些[可达性检查](https://github.com/Mi
       if (x) return 10;
    }
    ```
+
 4. 检查控制流是否能进到switch语句的case里（默认禁用，可以通过`noFallthroughCasesInSwitch`编译器选项启用）。注意没有语句的case不会被检查。
 
    ```ts
