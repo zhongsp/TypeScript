@@ -54,7 +54,7 @@
 `--noUnusedParameters`                  | `boolean` | `false`                  | 若有未使用的参数则抛错。
 ~~`--out`~~                             | `string`  |                          | 弃用。使用 `--outFile` 代替。
 `--outDir`                              | `string`  |                          | 重定向输出目录。
-`--outFile`                             | `string`  |                          | 将输出文件合并为一个文件。合并的顺序是根据传入编译器的文件顺序和`///<reference``>`和`import`的文件顺序决定的。查看输出文件顺序文件了解详情。
+`--outFile`                             | `string`  |                          | 将输出文件合并为一个文件。合并的顺序是根据传入编译器的文件顺序和`///<reference``>`和`import`的文件顺序决定的。查看输出文件顺序文档[了解详情](https://github.com/Microsoft/TypeScript/wiki/FAQ#how-do-i-control-file-ordering-in-combined-output---out-)。
 `paths`<sup>[2]</sup>                   | `Object`  |                          | 模块名到基于`baseUrl`的路径映射的列表。查看[模块解析文档](./Module Resolution.md#path-mapping)了解详情。
 `--preserveConstEnums`                  | `boolean` | `false`                  | 保留`const`和`enum`声明。查看[const enums documentation](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md#94-constant-enum-declarations)了解详情。
 `--preserveSymlinks`                    | `boolean` | `false`                  | 不把符号链接解析为其真实路径；将符号链接文件视为真正的文件。
