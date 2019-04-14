@@ -288,7 +288,7 @@ let strLength: number = (someValue as string).length;
 两种形式是等价的。
 至于使用哪个大多数情况下是凭个人喜好；然而，当你在TypeScript里使用JSX时，只有`as`语法断言是被允许的。
 
-# 关于`let`
+# <a name="a-note-about-let"></a>关于`let`
 
 你可能已经注意到了，我们使用`let`关键字来代替大家所熟悉的JavaScript关键字`var`。
 `let`关键字是JavaScript的一个新概念，TypeScript实现了它。

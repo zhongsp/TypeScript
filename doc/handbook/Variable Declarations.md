@@ -1,7 +1,7 @@
 # 变量声明
 
 `let`和`const`是JavaScript里相对较新的变量声明方式。
-像我们之前提到过的，`let`在很多方面与`var`是相似的，但是可以帮助大家避免在JavaScript里常见一些问题。
+[像我们之前提到过的](./Basic%20Types.md#a-note-about-let)，`let`在很多方面与`var`是相似的，但是可以帮助大家避免在JavaScript里常见一些问题。
 `const`是对`let`的一个增强，它能阻止对一个变量再次赋值。
 
 因为TypeScript是JavaScript的超集，所以它本身就支持`let`和`const`。
