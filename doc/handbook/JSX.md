@@ -83,13 +83,14 @@ declare namespace JSX {
 在上例中，`<foo />`没有问题，但是`<bar />`会报错，因为它没在`JSX.IntrinsicElements`里指定。
 
 > 注意：你也可以在`JSX.IntrinsicElements`上指定一个用来捕获所有字符串索引：
->```ts
->declare namespace JSX {
->    interface IntrinsicElements {
->        [elemName: string]: any;
->    }
->}
->```
+
+```ts
+declare namespace JSX {
+    interface IntrinsicElements {
+        [elemName: string]: any;
+    }
+}
+```
 
 ## 基于值的元素
 
