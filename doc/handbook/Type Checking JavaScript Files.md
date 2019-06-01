@@ -468,7 +468,7 @@ function walk(p) {
 
 ```js
 /**
- * @typedef Pet { import("./a").Pet }
+ * @typedef { import("./a").Pet } Pet
  */
 
 /**
