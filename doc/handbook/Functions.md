@@ -83,7 +83,7 @@ let myAdd: (baseValue: number, increment: number) => number =
 
 ## 推断类型
 
-尝试这个例子的时候，你会发现如果你在赋值语句的一边指定了类型但是另一边没有类型的话，TypeScript编译器会自动识别出类型：
+尝试这个例子的时候，你会注意到，就算仅在等式的一侧带有类型，TypeScript编译器仍可正确识别类型：
 
 ```ts
 // myAdd has the full function type
