@@ -74,4 +74,10 @@ npm install -g typescript@next
 ### IntelliJ IDEA (Mac)
 
 前往`Preferences` > `Languages & Frameworks` > `TypeScript`：
- > TypeScript Version: 如果通过NPM安装：`/usr/local/lib/node_modules/typescript/lib`
+ > TypeScript Version：如果通过npm安装：`/usr/local/lib/node_modules/typescript/lib`
+
+### IntelliJ IDEA (Windows)
+
+前往 `File` > `Settings` > `Languages & Frameworks` > `TypeScript`：
+ > TypeScript Version：如果通过npm安装：
+  `C:\Users\USERNAME\AppData\Roaming\npm\node_modules\typescript\lib`
