@@ -398,7 +398,7 @@ cat dist/bundle.js
 默认情况下Babelify只会处理扩展名为`.js`，`.es`，`.es6`和`.jsx`的文件，因此我们需要添加`.ts`扩展名到Babelify选项。
 
 ```shell
-npm install --save-dev babelify babel-core babel-preset-es2015 vinyl-buffer gulp-sourcemaps
+npm install --save-dev babelify@8 babel-core babel-preset-es2015 vinyl-buffer gulp-sourcemaps
 ```
 
 修改gulpfile文件如下：
