@@ -139,9 +139,9 @@ B     C
 你可以指令任意数量的配置文件：
 
 ```shell
- > tsc -b                                # Build the tsconfig.json in the current directory
- > tsc -b src                            # Build src/tsconfig.json
- > tsc -b foo/release.tsconfig.json bar  # Build foo/release.tsconfig.json and bar/tsconfig.json
+ > tsc -b                                # Run the tsconfig.json in the current directory
+ > tsc -b src                            # Run src/tsconfig.json
+ > tsc -b foo/prd.tsconfig.json bar  # Run foo/prd.tsconfig.json and bar/tsconfig.json
 ```
 
 不需要担心命令行上指定的文件顺序 - `tsc`会根据需要重新进行排序，被依赖的项会优先构建。
