@@ -22,7 +22,7 @@ sym2 === sym3; // false, symbols是唯一的
 像字符串一样，symbols也可以被用做对象属性的键。
 
 ```ts
-let sym = Symbol();
+const sym = Symbol();
 
 let obj = {
     [sym]: "value"
