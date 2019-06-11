@@ -829,6 +829,22 @@ type PersonPartial = Partial<Person>;
 type ReadonlyPerson = Readonly<Person>;
 ```
 
+需要注意的是这个语法描述的是类型而非成员。
+若想添加额外的成员，则可以使用交叉类型：
+
+ ```ts
+// 这样使用
+type PartialWithNewMember<T> = {
+  [P in keyof T]?: T[P];
+} & { newMember: boolean }
+// 不要这样使用
+// 这会报错！
+type PartialWithNewMember<T> = {
+  [P in keyof T]?: T[P];
+  newMember: boolean;
+}
+```
+
 下面来看看最简单的映射类型和它的组成部分：
 
 ```ts
