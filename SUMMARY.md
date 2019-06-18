@@ -21,7 +21,7 @@
   * [类型推论](./doc/handbook/Type Inference.md)
   * [类型兼容性](./doc/handbook/Type Compatibility.md)
   * [高级类型](./doc/handbook/Advanced Types.md)
-  * [实用工具类型](./doc/handbook/Utilit Types.md)
+  * [实用工具类型](./doc/handbook/Utility Types.md)
   * [Symbols](./doc/handbook/Symbols.md)
   * [Iterators 和 Generators](./doc/handbook/Iterators and Generators.md)
   * [模块](./doc/handbook/Modules.md)
