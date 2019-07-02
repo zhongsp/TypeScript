@@ -247,13 +247,13 @@ TypeScript并非允许所有的合并。
 
 虽然JavaScript不支持合并，但你可以为导入的对象打补丁以更新它们。让我们考察一下这个玩具性的示例：
 
-```js
-// observable.js
+```ts
+// observable.ts
 export class Observable<T> {
     // ... implementation left as an exercise for the reader ...
 }
 
-// map.js
+// map.ts
 import { Observable } from "./observable";
 Observable.prototype.map = function (f) {
     // ... another exercise for the reader
