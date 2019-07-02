@@ -303,14 +303,14 @@ if (employee.fullName) {
 }
 ```
 
-我们可以随意的设置`fullName`，这是非常方便的，但是这也可能会带来麻烦。
+允许随意设置`fullName`虽然方便，但是我们仍想在设置`fullName`强制执行某些约束。
 
-下面这个版本里，我们先检查用户密码是否正确，然后再允许其修改员工信息。
-我们把对`fullName`的直接访问改成了可以检查密码的`set`方法。
-我们也加了一个`get`方法，让上面的例子仍然可以工作。
+在这个版本里，我们添加一个`setter`来检查`newName`的长度，以确保它满足数据库字段的最大长度限制。若它不满足，那么我们就抛一个错误来告诉客户端出错了。
+
+为保留原有的功能，我们同时添加一个`getter`用来读取`fullName`。
 
 ```ts
-let passcode = "secret passcode";
+const fullNameMaxLength = 10;
 
 class Employee {
     private _fullName: string;
@@ -320,12 +320,11 @@ class Employee {
     }
 
     set fullName(newName: string) {
-        if (passcode && passcode == "secret passcode") {
-            this._fullName = newName;
+        if (newName && newName.length > fullNameMaxLength) {
+            throw new Error("fullName has a max length of " + fullNameMaxLength);
         }
-        else {
-            console.log("Error: Unauthorized update of employee!");
-        }
+
+        this._fullName = newName;
     }
 }
 
@@ -336,7 +335,7 @@ if (employee.fullName) {
 }
 ```
 
-我们可以修改一下密码，来验证一下存取器是否是工作的。当密码不对时，会提示我们没有权限去修改员工。
+为证明我们写的存取器现在能检查长度，我们可以给名字赋一个长度大于`10`字符的值，并验证是否得到一个错误。
 
 对于存取器有下面几点需要注意的：
 
