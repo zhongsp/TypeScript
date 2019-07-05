@@ -133,7 +133,7 @@ import "./my-module.js";
 `default`导出十分便利。
 比如，像JQuery这样的类库可能有一个默认导出`jQuery`或`$`，并且我们基本上也会使用同样的名字`jQuery`或`$`导出JQuery。
 
-##### JQuery.d.ts
+##### [JQuery.d.ts](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/jquery/JQuery.d.ts)
 
 ```ts
 declare let $: JQuery;
@@ -826,5 +826,5 @@ test(c, "001+010="); // prints 3
 
 以下均为模块结构上的危险信号。重新检查以确保你没有在对模块使用命名空间：
 
-* 文件的顶层声明是`export namespace Foo { ... }` （删除`Foo`并把所有内容向上层移动一层）
+* 文件的顶层声明是`export namespace Foo { ... }` （删除`Foo`并把所有内容向上层移动一层）©
 * 多个文件的顶层具有同样的`export namespace Foo {` （不要以为这些会合并到一个`Foo`中！）
