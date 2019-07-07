@@ -831,7 +831,7 @@ type ReadonlyPerson = Readonly<Person>;
 需要注意的是这个语法描述的是类型而非成员。
 若想添加额外的成员，则可以使用交叉类型：
 
- ```ts
+```ts
 // 这样使用
 type PartialWithNewMember<T> = {
   [P in keyof T]?: T[P];
