@@ -220,8 +220,34 @@ function f(obj: { X: number }) {
     return obj.X;
 }
 
-// Works, since 'E' has a property named 'X' which is a number.
+// 没问题，因为 'E'包含一个数值型属性'X'。
 f(E);
+```
+
+## 编译时的枚举
+
+尽管一个枚举是在运行时真正存在的对象，但`keyof`关键字的行为与其作用在对象上时有所不同。应该使用`keyof typeof`来获取一个表示枚举里所有字符串`key`的类型。
+
+```ts
+enum LogLevel {
+    ERROR, WARN, INFO, DEBUG
+}
+
+/**
+ * 等同于：
+ * type LogLevelStrings = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
+ */
+type LogLevelStrings = keyof typeof LogLevel;
+
+function printImportant(key: LogLevelStrings, message: string) {
+    const num = LogLevel[key];
+    if (num <= LogLevel.WARN) {
+       console.log('Log level key is: ', key);
+       console.log('Log level value is: ', num);
+       console.log('Log level message is: ', message);
+    }
+}
+printImportant('ERROR', 'This is a message');
 ```
 
 ### 反向映射
