@@ -23,7 +23,7 @@ proj/
    └─ components/
 ```
 
-TypeScript文件会放在`src`文件夹里，通过TypeScript编译器编译，然后经webpack处理，最后生成一个`bundle.js`文件放在`dist`目录下。
+TypeScript文件会放在`src`文件夹里，通过TypeScript编译器编译，然后经webpack处理，最后生成一个`main.js`文件放在`dist`目录下。
 我们自定义的组件将会放在`src/components`文件夹下。
 
 下面来创建基本结构：
@@ -42,18 +42,17 @@ Webpack会帮助我们生成`dist`目录。
 现在把这个目录变成npm包。
 
 ```shell
-npm init
+npm init -y
 ```
 
-你会看到一些提示，放心地使用默认值就可以了。
-当然，你也可以随时到生成的`package.json`文件里修改。
+它会使用默认值生成一个`package.json`文件。
 
 # 安装依赖
 
 首先确保已经全局安装了Webpack。
 
 ```shell
-npm install -g webpack
+npm install --save-dev webpack webpack-cli
 ```
 
 Webpack这个工具可以将你的所有代码和可选择地将依赖捆绑成一个单独的`.js`文件。
@@ -61,7 +60,8 @@ Webpack这个工具可以将你的所有代码和可选择地将依赖捆绑成�
 现在我们添加React和React-DOM以及它们的声明文件到`package.json`文件里做为依赖：
 
 ```shell
-npm install --save react react-dom @types/react @types/react-dom
+npm install --save react react-dom
+npm install --save-dev @types/react @types/react-dom
 ```
 
 使用`@types/`前缀表示我们额外要获取React和React-DOM的声明文件。
@@ -69,19 +69,20 @@ npm install --save react react-dom @types/react @types/react-dom
 然而，并不是所有的包都包含了声明文件，所以TypeScript还会查看`@types/react`包。
 你会发现我们以后将不必在意这些。
 
-接下来，我们要添加开发时依赖[awesome-typescript-loader](https://www.npmjs.com/package/awesome-typescript-loader)和[source-map-loader](https://www.npmjs.com/package/source-map-loader)。
+接下来，我们要添加开发时依赖[ts-loader](https://www.npmjs.com/package/ts-loader)和[source-map-loader](https://www.npmjs.com/package/source-map-loader)。
 
 ```shell
-npm install --save-dev typescript awesome-typescript-loader source-map-loader
+npm install --save-dev typescript ts-loader source-map-loader
 ```
 
 这些依赖会让TypeScript和webpack在一起良好地工作。
-awesome-typescript-loader可以让Webpack使用TypeScript的标准配置文件`tsconfig.json`编译TypeScript代码。
+`ts-loader`可以让Webpack使用TypeScript的标准配置文件`tsconfig.json`编译TypeScript代码。
 source-map-loader使用TypeScript输出的sourcemap文件来告诉webpack何时生成*自己的*sourcemaps。
 这就允许你在调试最终生成的文件时就好像在调试TypeScript源码一样。
 
-请注意，`awesome-typescript-loader`并不是唯一的`TypeScript`加载器。
-你还可以选择[ts-loader](https://github.com/TypeStrong/ts-loader)。
+请注意，`ts-loader`并不是唯一的`TypeScript`加载器。
+
+你还可以选择[awesome-typescript-loader](https://www.npmjs.com/package/awesome-typescript-loader)。
 可以到[这里](https://github.com/s-panferov/awesome-typescript-loader#differences-between-ts-loader)查看它们之间的区别。
 
 注意我们安装TypeScript为一个开发依赖。
@@ -103,10 +104,7 @@ source-map-loader使用TypeScript输出的sourcemap文件来告诉webpack何时�
         "module": "commonjs",
         "target": "es6",
         "jsx": "react"
-    },
-    "include": [
-        "./src/**/*"
-    ]
+    }
 }
 ```
 
@@ -178,7 +176,7 @@ ReactDOM.render(
         <script src="./node_modules/react-dom/umd/react-dom.development.js"></script>
 
         <!-- Main -->
-        <script src="./dist/bundle.js"></script>
+        <script src="./dist/main.js"></script>
     </body>
 </html>
 ```
@@ -194,27 +192,33 @@ Facebook在CND上提供了一系列可用的React版本，你可以在这里查�
 
 ```js
 module.exports = {
-    entry: "./src/index.tsx",
-    output: {
-        filename: "bundle.js",
-        path: __dirname + "/dist"
-    },
+    mode: "production",
 
     // Enable sourcemaps for debugging webpack's output.
     devtool: "source-map",
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: [".ts", ".tsx", ".js", ".json"]
+        extensions: [".ts", ".tsx"]
     },
 
     module: {
         rules: [
-            // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
-            { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
-
+            {
+                test: /\.ts(x?)$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: "ts-loader"
+                    }
+                ]
+            },
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-            { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
+            {
+                enforce: "pre",
+                test: /\.js$/,
+                loader: "source-map-loader"
+            }
         ]
     },
 
@@ -244,7 +248,7 @@ module.exports = {
 执行：
 
 ```shell
-webpack
+npx webpack
 ```
 
 在浏览器里打开`index.html`，工程应该已经可以用了！
