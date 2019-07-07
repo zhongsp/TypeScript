@@ -262,7 +262,7 @@ module.exports = {
 </Project>
 ```
 
-关于配置MSBuild编译器选项的更多详细信息，请参考：[在MSBuild里使用编译选项](./Compiler Options in MSBuild.md)
+关于配置MSBuild编译器选项的更多详细信息，请参考：[在MSBuild里使用编译选项](./Compiler%20Options%20in%20MSBuild.md)
 
 # NuGet
 

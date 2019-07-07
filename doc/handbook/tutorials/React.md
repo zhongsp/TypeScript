@@ -653,7 +653,7 @@ create-react-app带有很多很棒的功能。
 同样的，[MobX](https://mobx.js.org/)官方站点。
 
 如果你想要在某个时间点eject，你需要了解再多关于Webpack的知识。
-你可以查看[React & Webpack教程](./React & Webpack.md)。
+你可以查看[React & Webpack教程](./React%20&%20Webpack.md)。
 
 有时候你需要路由功能。
 已经有一些解决方案了，但是对于Redux工程来讲[react-router](https://github.com/ReactTraining/react-router)是最流行的，并经常与[react-router-redux](https://github.com/reactjs/react-router-redux)联合使用。

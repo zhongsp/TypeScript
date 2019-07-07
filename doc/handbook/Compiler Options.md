@@ -7,8 +7,8 @@
 `--allowUnreachableCode`                | `boolean` | `false`                  | 不报告执行不到的代码错误。
 `--allowUnusedLabels`                   | `boolean` | `false`                  | 不报告未使用的标签错误。
 `--alwaysStrict`                        | `boolean` | `false`                  | 以严格模式解析并为每个源文件生成`"use strict"`语句
-`--baseUrl`                             | `string`  |                          | 解析非相对模块名的基准目录。查看[模块解析文档](./Module%20Resolution.md)了解详情。
-`--build`<br/>`-b`                      | `boolean` | `false`                  | 使用[Project References](./Project%20References.md)来构建此工程及其依赖工程。注意这个标记与本页内其它标记不兼容。详情参考[这里](./project-references.md)
+`--baseUrl`                             | `string`  |                          | 解析非相对模块名的基准目录。查看[模块解析文档](./Module%20Resolution.md#base-url)了解详情。
+`--build`<br/>`-b`                      | `boolean` | `false`                  | 使用[Project References](./Project%20References.md)来构建此工程及其依赖工程。注意这个标记与本页内其它标记不兼容。详情参考[这里](./Project%20References.md)
 `--charset`                             | `string`  | `"utf8"`                 | 输入文件的字符集。
 `--checkJs`                             | `boolean` | `false`                  | 在.js文件中报告错误。与`--allowJs`配合使用。
 `--composite`                           | `boolean` | `true`                   | 确保TypeScript能够找到编译当前工程所需要的引用工程的输出位置。
@@ -36,7 +36,7 @@
 `--mapRoot`                             | `string`  |                          | 为调试器指定指定sourcemap文件的路径，而不是使用生成时的路径。当`.map`文件是在运行时指定的，并不同于`js`文件的地址时使用这个标记。指定的路径会嵌入到`sourceMap`里告诉调试器到哪里去找它们。
 `--maxNodeModuleJsDepth`                | `number`  | `0`                      | node_modules依赖的最大搜索深度并加载JavaScript文件。仅适用于`--allowJs`。
 `--module`<br/>`-m`                     | `string`  | `target === "ES6" ? "ES6" : "commonjs"`                                  | 指定生成哪个模块系统代码：`"None"`，`"CommonJS"`，`"AMD"`，`"System"`，`"UMD"`，`"ES6"`或`"ES2015"`。<br/>► 只有`"AMD"`和`"System"`能和`--outFile`一起使用。<br/>►`"ES6"`和`"ES2015"`可使用在目标输出为`"ES5"`或更低的情况下。
-`--moduleResolution`                    | `string`  | `module === "AMD" or "System" or "ES6" ? "Classic" : "Node"`              | 决定如何处理模块。或者是`"Node"`对于Node.js/io.js，或者是`"Classic"`（默认）。查看[模块解析](./Module Resolution.md)了解详情。
+`--moduleResolution`                    | `string`  | `module === "AMD" or "System" or "ES6" ? "Classic" : "Node"`              | 决定如何处理模块。或者是`"Node"`对于Node.js/io.js，或者是`"Classic"`（默认）。查看[模块解析](./Module%20Resolution.md)了解详情。
 `--newLine`                             | `string`  | *(platform specific)*    | 当生成文件时指定行结束符：`"crlf"`（windows）或`"lf"`（unix）。
 `--noEmit`                              | `boolean` | `false`                  | 不生成输出文件。
 `--noEmitHelpers`                       | `boolean` | `false`                  | 不在输出文件中生成用户自定义的帮助函数代码，如`__extends`。
@@ -55,7 +55,7 @@
 ~~`--out`~~                             | `string`  |                          | 弃用。使用 `--outFile` 代替。
 `--outDir`                              | `string`  |                          | 重定向输出目录。
 `--outFile`                             | `string`  |                          | 将输出文件合并为一个文件。合并的顺序是根据传入编译器的文件顺序和`///<reference``>`和`import`的文件顺序决定的。查看输出文件顺序文档[了解详情](https://github.com/Microsoft/TypeScript/wiki/FAQ#how-do-i-control-file-ordering-in-combined-output---out-)。
-`paths`<sup>[2]</sup>                   | `Object`  |                          | 模块名到基于`baseUrl`的路径映射的列表。查看[模块解析文档](./Module Resolution.md#path-mapping)了解详情。
+`paths`<sup>[2]</sup>                   | `Object`  |                          | 模块名到基于`baseUrl`的路径映射的列表。查看[模块解析文档](./Module%20Resolution.md#path-mapping)了解详情。
 `--preserveConstEnums`                  | `boolean` | `false`                  | 保留`const`和`enum`声明。查看[const enums documentation](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md#94-constant-enum-declarations)了解详情。
 `--preserveSymlinks`                    | `boolean` | `false`                  | 不把符号链接解析为其真实路径；将符号链接文件视为真正的文件。
 `--preserveWatchOutput`                 | `boolean` | `false`                  | 保留watch模式下过时的控制台输出。
@@ -64,9 +64,9 @@
 `--reactNamespace`                      | `string`  | `"React"`                | 当目标为生成`"react"` JSX时，指定`createElement`和`__spread`的调用对象
 `--removeComments`                      | `boolean` | `false`                  | 删除所有注释，除了以`/!*`开头的版权信息。
 `--rootDir`                             | `string`  | *(common root directory is computed from the list of input files)*   | 仅用来控制输出的目录结构`--outDir`。
-`rootDirs`<sup>[2]</sup>                | `string[]`|                          | <i>根（root）</i>文件夹列表，表示运行时组合工程结构的内容。查看[模块解析文档](./Module Resolution.md#virtual-directories-with-rootdirs)了解详情。
+`rootDirs`<sup>[2]</sup>                | `string[]`|                          | <i>根（root）</i>文件夹列表，表示运行时组合工程结构的内容。查看[模块解析文档](./Module%20Resolution.md#virtual-directories-with-rootdirs)了解详情。
 `--showConfig`                          | `boolean` | `false`                  | 不真正执行build，而是显示build使用的配置文件信息。
-`--skipDefaultLibCheck`                 | `boolean` | `false`                  | 忽略[库的默认声明文件](./Triple-Slash Directives.md#-reference-no-default-libtrue)的类型检查。
+`--skipDefaultLibCheck`                 | `boolean` | `false`                  | 忽略[库的默认声明文件](./Triple-Slash%20Directives.md#-reference-no-default-libtrue)的类型检查。
 `--skipLibCheck`                        | `boolean` | `false`                  | 忽略所有的声明文件（`*.d.ts`）的类型检查。
 `--sourceMap`                           | `boolean` | `false`                  | 生成相应的`.map`文件。
 `--sourceRoot`                          | `string`  |                          | 指定TypeScript源文件的路径，以便调试器定位。当TypeScript文件的位置是在运行时指定时使用此标记。路径信息会被加到`sourceMap`里。

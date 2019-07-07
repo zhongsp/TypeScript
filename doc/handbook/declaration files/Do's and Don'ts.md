@@ -17,7 +17,7 @@ function reverse(s: String): String;
 function reverse(s: string): string;
 ```
 
-使用非原始的`object`类型来代替`Object` （[TypeScript 2.2新增](../../release-notes/TypeScript 2.2.md#object-type)）
+使用非原始的`object`类型来代替`Object` （[TypeScript 2.2新增](../../release-notes/TypeScript%202.2.md#object-type)）
 
 ## 泛型
 

@@ -130,7 +130,7 @@ module.exports = {
 这与另一个TypeScript的Webpack加载器[ts-loader](https://github.com/TypeStrong/ts-loader)是一样的。
 你可以到[这里](https://github.com/s-panferov/awesome-typescript-loader#differences-between-ts-loader)了解两者之间的差别。
 
-你可以在[React和Webpack教程](./React & Webpack.md)里找到使用Webpack的例子。
+你可以在[React和Webpack教程](./React%20&%20Webpack.md)里找到使用Webpack的例子。
 
 # 转换到TypeScript文件
 
