@@ -8,6 +8,7 @@ TypeScript提供一些工具类型来帮助常见的类型转换。这些类型�
 * [`Readonly<T>`，TypeScript 2.1](#readonlyt)
 * [`Record<K,T>`，TypeScript 2.1](#recordkt)
 * [`Pick<T,K>`，TypeScript 2.1](#picktk)
+* [`Omit<T,K>`](#omittk)
 * [`Exclude<T,U>`，TypeScript 2.8](#excludetu)
 * [`Extract<T,U>`，TypeScript 2.8](#extracttu)
 * [`NonNullable<T>`，TypeScript 2.8](#nonnullablet)
@@ -102,6 +103,27 @@ interface Todo {
 }
 
 type TodoPreview = Pick<Todo, 'title' | 'completed'>;
+
+const todo: TodoPreview = {
+    title: 'Clean room',
+    completed: false,
+};
+```
+
+## `Omit<T,K>`
+
+从类型`T`中获取所有属性，然后从中剔除`K`属性后构造一个类型。
+
+### 例子
+
+```ts
+interface Todo {
+    title: string;
+    description: string;
+    completed: boolean;
+}
+
+type TodoPreview = Omit<Todo, 'description'>;
 
 const todo: TodoPreview = {
     title: 'Clean room',
