@@ -86,8 +86,8 @@ x = [10, 'hello']; // Error
 当访问一个已知索引的元素，会得到正确的类型：
 
 ```ts
-console.log(x[0].substr(1)); // OK
-console.log(x[1].substr(1)); // Error, 'number' does not have 'substr'
+console.log(x[0].substring(1)); // OK
+console.log(x[1].substring(1)); // Error, 'number' does not have 'substring'
 ```
 
 当访问一个越界的元素，会使用联合类型替代：
