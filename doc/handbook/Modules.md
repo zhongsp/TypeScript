@@ -25,7 +25,7 @@ TypeScript与ECMAScript 2015一样，任何包含顶级`import`或者`export`的
 
 任何声明（比如变量，函数，类，类型别名或接口）都能够通过添加`export`关键字来导出。
 
-##### Validation.ts
+##### StringValidator.ts
 
 ```ts
 export interface StringValidator {
@@ -36,6 +36,8 @@ export interface StringValidator {
 ##### ZipCodeValidator.ts
 
 ```ts
+import { StringValidator } from "./StringValidator";
+
 export const numberRegexp = /^[0-9]+$/;
 
 export class ZipCodeValidator implements StringValidator {
@@ -82,9 +84,11 @@ export {ZipCodeValidator as RegExpBasedZipCodeValidator} from "./ZipCodeValidato
 ##### AllValidators.ts
 
 ```ts
-export * from "./StringValidator"; // exports interface StringValidator
-export * from "./LettersOnlyValidator"; // exports class LettersOnlyValidator
-export * from "./ZipCodeValidator";  // exports class ZipCodeValidator
+export * from "./StringValidator"; // exports 'StringValidator' interface
+export * from "./ZipCodeValidator";  // exports 'ZipCodeValidator' and const 'numberRegexp' class
+export * from "./ParseIntBasedZipCodeValidator"; //  exports the 'ParseIntBasedZipCodeValidator' class
+                                                 // and re-exports 'RegExpBasedZipCodeValidator' as alias
+                                                 // of the 'ZipCodeValidator' class from 'ZipCodeValidator.ts'
 ```
 
 # <a name="import"></a>导入
