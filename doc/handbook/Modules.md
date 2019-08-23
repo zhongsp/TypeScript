@@ -135,19 +135,19 @@ import "./my-module.js";
 需要使用一种特殊的导入形式来导入`default`导出。
 
 `default`导出十分便利。
-比如，像JQuery这样的类库可能有一个默认导出`jQuery`或`$`，并且我们基本上也会使用同样的名字`jQuery`或`$`导出JQuery。
+比如，像jQuery这样的类库可能有一个默认导出`jQuery`或`$`，并且我们基本上也会使用同样的名字`jQuery`或`$`导出jQuery。
 
-##### [JQuery.d.ts](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/jquery/JQuery.d.ts)
+##### [jQuery.d.ts](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/jQuery/jQuery.d.ts)
 
 ```ts
-declare let $: JQuery;
+declare let $: jQuery;
 export default $;
 ```
 
 ##### App.ts
 
 ```ts
-import $ from "JQuery";
+import $ from "jQuery";
 
 $("button.continue").html( "Next Step..." );
 ```
@@ -666,7 +666,7 @@ let x = new myLargeModule.Dog();
 ## 使用重新导出进行扩展
 
 你可能经常需要去扩展一个模块的功能。
-JS里常用的一个模式是JQuery那样去扩展原对象。
+JS里常用的一个模式是jQuery那样去扩展原对象。
 如我们之前提到的，模块不会像全局命名空间对象那样去*合并*。
 推荐的方案是*不要*去改变原来的对象，而是导出一个新的实体来提供新的功能。
 
