@@ -1,6 +1,6 @@
 # `strictBindCallApply`
 
-TypeScript 3.2引入了一个新的`--strictBindCallApply`编译选项（是`--strict`选项族之一），使用此选项函数对象上的`bind`，`call`和`apply`方法将应用强类型并进行严格的类型检查。
+TypeScript 3.2引入了一个新的`--strictBindCallApply`编译选项（是`--strict`选项家族之一）。在使用了此选项后，函数对象上的`bind`，`call`和`apply`方法将应用强类型并进行严格的类型检查。
 
 ```ts
 function foo(a: number, b: string): string {
@@ -13,13 +13,13 @@ let c = foo.apply(undefined, [10, "hello", 30]); // error: too many arguments
 let d = foo.apply(undefined, [10, "hello"]);     // okay! returns a string
 ```
 
-它是通过引入两种新类型实现的，即`lib.d.ts`里的`CallableFunction`和`NewableFunction`。这些类型包含了针对常规函数和构造函数`bind`，`call`和`apply`的泛型方法声明。这些声明使用了泛型剩余参数来捕获和反射参数列表，使之具有强类型。在`--strictBindCallApply`模式下，这些声明用在`Function`类型声明的位置。
+它的实现是通过引入了两种新类型来完成的，即`lib.d.ts`里的`CallableFunction`和`NewableFunction`。这些类型包含了针对常规函数和构造函数上`bind`、`call`和`apply`的泛型方法声明。这些声明使用了泛型剩余参数来捕获和反射参数列表，使之具有强类型。在`--strictBindCallApply`模式下，这些声明作用在`Function`类型声明出现的位置。
 
 ## 警告
 
 由于更严格的检查可能暴露之前没发现的错误，因此这是`--strict`模式下的一个破坏性改动。
 
-此外，这个新功能还有[另一个警告](https://github.com/Microsoft/TypeScript/pull/27028#issuecomment-429334450)，此于有这些限制，`bind`，`call`和`apply`无法为有重载的泛型函数或函数进行完整地建模。
+此外，这个新功能还有[另一个警告](https://github.com/Microsoft/TypeScript/pull/27028#issuecomment-429334450)。由于有这些限制，`bind`、`call`和`apply`无法为重载的泛型函数或重载的函数进行完整地建模。
 当在泛型函数上使用这些方法时，类型参数会被替换为空对象类型（`{}`），并且若在有重载的函数上使用这些方法时，只有最后一个重载会被建模。
 
 # 对象字面量的泛型展开表达式
@@ -42,7 +42,7 @@ function foo1<T>(t: T, obj1: { a: string }, obj2: { b: string }) {
 }
 ```
 
-非泛型展开表达式与以前的方式相同：函数调用签名和构造签名被移除，仅有非方法的属性被保留，针对同名属性则只有出现在最右侧的会被使用。它与交叉类型不同，交叉类型会连接调用签名和构造签名，保留所有的属性，合并同名属性的类型。因此，当展开使用泛型初始化的相同类型时可能会产生不同的结果：
+非泛型展开表达式与之前的行为相同：函数调用签名和构造签名被移除，仅有非方法的属性被保留，针对同名属性则只有出现在最右侧的会被使用。它与交叉类型不同，交叉类型会连接调用签名和构造签名，保留所有的属性，合并同名属性的类型。因此，当展开使用泛型初始化的相同类型时可能会产生不同的结果：
 
 ```ts
 function spread<T, U>(t: T, u: U) {
@@ -74,8 +74,8 @@ const point = excludeTag(taggedPoint);  // { x: number, y: number }
 
 # BigInt
 
-BigInt里ECMAScript的一项提案，它理论上允许我们建模任意大的整数。
-TypeScript 3.2可以为BigInit进行类型检查，并支持目标为`esnext`时输出BigInit字面量。
+BigInt里ECMAScript的一项提案，它在理论上允许我们建模任意大小的整数。
+TypeScript 3.2可以为BigInit进行类型检查，并支持在目标为`esnext`时输出BigInit字面量。
 
 为支持BigInt，TypeScript引入了一个新的原始类型`bigint`（全小写）。
 可以通过调用`BigInt()`函数或书写BigInt字面量（在整型数字字面量末尾添加`n`）来获取`bigint`。
@@ -99,7 +99,7 @@ function fibonacci(n: bigint) {
 fibonacci(10000n)
 ```
 
-尽管可能会认为`number`和`bigint`能交互使用，但它们是不同的东西。
+尽管你可能会认为`number`和`bigint`能互换使用，但它们是不同的东西。
 
 ```ts
 declare let foo: number;
