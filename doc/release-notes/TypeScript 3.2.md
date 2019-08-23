@@ -149,11 +149,11 @@ TypeScript需根据类型和涉及到的每一处加法，字符串拼接，乘�
 
 # Non-unit types as union discriminants
 
-TypeScript 3.2 makes narrowing easier by relaxing rules for what it considers a discriminant property.
-Common properties of unions are now considered discriminants as long as they contain *some* singleton type (e.g. a string literal, `null`, or `undefined`), and they contain no generics.
+TypeScript 3.2放宽了作为判别式属性的限制，来让类型细化变得容易。
+如果联合类型的共同属性包含了*某些*单体类型（如，字面符字面量，`null`或`undefined`）且不包含泛型，那么它就可以做为判别式。
 
-As a result, TypeScript 3.2 considers the `error` property in the following example to be a discriminant, whereas before it wouldn't since `Error` isn't a singleton type.
-Thanks to this, narrowing works correctly in the body of the `unwrap` function.
+因此，TypeScript 3.2认为下例中的`error`属性可以做为判别式。这在之前是不可以的，因为`Error`并非是一个单体类型。
+那么，`unwrap`函数体里的类型细化就可以正确地工作了。
 
 ```ts
 type Result<T> =
@@ -171,9 +171,9 @@ function unwrap<T>(result: Result<T>) {
 }
 ```
 
-# `tsconfig.json` inheritance via Node.js packages
+# `tsconfig.json`可以通过Node.js包来继承
 
-TypeScript 3.2 now resolves `tsconfig.json`s from `node_modules`. When using a bare path for the `"extends"` field in `tsconfig.json`, TypeScript will dive into `node_modules` packages for us.
+TypeScript 3.2现在可以从`node_modules`里解析`tsconfig.json`。如果`tsconfig.json`文件里的`"extends"`设置为空，那么TypeScript会检测`node_modules`包。 When using a bare path for the `"extends"` field in `tsconfig.json`, TypeScript will dive into `node_modules` packages for us.
 
 ```json5
 {
@@ -186,20 +186,21 @@ TypeScript 3.2 now resolves `tsconfig.json`s from `node_modules`. When using a b
 }
 ```
 
-Here, TypeScript will climb up `node_modules` folders looking for a `@my-team/tsconfig-base` package. For each of those packages, TypeScript will first check whether `package.json` contains a `"tsconfig"` field, and if it does, TypeScript will try to load a configuration file from that field. If neither exists, TypeScript will try to read from a `tsconfig.json` at the root. This is similar to the lookup process for `.js` files in packages that Node uses, and the `.d.ts` lookup process that TypeScript already uses.
+这里，TypeScript会去`node_modules`目录里查找`@my-team/tsconfig-base`包。针对每一个包，TypeScript检查`package.json`里是否包含`"tsconfig"`字段，如果是，TypeScript会尝试从那里加载配置文件。如果两者都不存在，TypeScript尝试从根目录读取`tsconfig.json`。这与Nodejs查找`.js`文件或TypeScript查找`.d.ts`文件的已有过程类似。
 
-This feature can be extremely useful for bigger organizations, or projects with lots of distributed dependencies.
+这个特性对于大型组织或具有很多分布的依赖的工程特别有帮助。
 
 # The new `--showConfig` flag
 
-`tsc`, the TypeScript compiler, supports a new flag called `--showConfig`.
-When running `tsc --showConfig`, TypeScript will calculate the effective `tsconfig.json` (after calculating options inherited from the `extends` field) and print that out.
-This can be useful for diagnosing configuration issues in general.
 
-# `Object.defineProperty` declarations in JavaScript
+`tsc`，TypeScript编译器，支持一个新的标记`--showConfig`。
+运行`tsc --showConfig`时，TypeScript计算生效的`tsconfig.json`并打印（继承的配置也会计算在内）。
+这对于调试诊断配置问题很有帮助。
 
-When writing in JavaScript files (using `allowJs`), TypeScript now recognizes declarations that use `Object.defineProperty`.
-This means you'll get better completions, and stronger type-checking when enabling type-checking in JavaScript files (by turning on the `checkJs` option or adding a `// @ts-check` comment to the top of your file).
+# JavaScript的`Object.defineProperty`声明
+
+在编写JavaScript文件时（使用`allowJs`），TypeScript能识别出使用`Object.defineProperty`声明。
+也就是说会有更好的代码补全功能，和强类型检查，这需要在JavaScript文件里启用类型检查功能（打开`checkJs`选项或在文件顶端添加`// @ts-check`注释）。
 
 ```js
 // @ts-check
