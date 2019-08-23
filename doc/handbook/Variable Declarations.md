@@ -561,6 +561,7 @@ function keepWholeObject(wholeObject: { a: string, b?: number }) {
 }
 ```
 
+此例中，`b?`表明`b`是可选的，因此它可能为`undefined`。
 现在，即使 `b` 为 undefined ， `keepWholeObject` 函数的变量 `wholeObject` 的属性 `a` 和 `b` 都会有值。
 
 ## 函数声明
