@@ -58,7 +58,7 @@ let b1 = s1.b;  // string
 let b2 = s2.b;  // number & string
 ```
 
-#  泛型对象剩余变量和参数
+# 泛型对象剩余变量和参数
 
 TypeScript 3.2开始允许从泛型变量中解构剩余绑定。它是通过使用`lib.d.ts`里预定义的`Pick`和`Exclude`助手类型，并结合使用泛型类型和解构式里的其它绑定名实现的。
 
@@ -132,7 +132,6 @@ function whatKindOfNumberIsIt(x: number | bigint) {
 }
 ```
 
-
 感谢[Caleb Sander](https://github.com/calebsander)为实现此功能的付出。
 
 ## 警告
@@ -191,7 +190,6 @@ TypeScript 3.2现在可以从`node_modules`里解析`tsconfig.json`。如果`tsc
 这个特性对于大型组织或具有很多分布的依赖的工程特别有帮助。
 
 # The new `--showConfig` flag
-
 
 `tsc`，TypeScript编译器，支持一个新的标记`--showConfig`。
 运行`tsc --showConfig`时，TypeScript计算生效的`tsconfig.json`并打印（继承的配置也会计算在内）。
