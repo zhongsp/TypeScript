@@ -60,6 +60,7 @@
   * [架构概述](./doc/wiki/Architectural-Overview.md)
   * [发展路线图](./doc/wiki/Roadmap.md)
 * [新增功能](./doc/release-notes/README.md)
+  * [TypeScript 3.2](./doc/release-notes/TypeScript 3.2.md)
   * [TypeScript 3.1](./doc/release-notes/TypeScript 3.1.md)
   * [TypeScript 3.0](./doc/release-notes/TypeScript 3.0.md)
   * [TypeScript 2.9](./doc/release-notes/TypeScript 2.9.md)
