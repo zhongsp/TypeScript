@@ -317,6 +317,15 @@ interface NumberDictionary {
 }
 ```
 
+但如果索引签名是包含属性类型的联合类型，那么使用不同类型的属性就是允许的。
+
+ ```ts
+interface NumberOrStringDictionary {
+    [index: string]: number | string;
+    length: number;    // ok, length is a number
+    name: string;      // ok, name is a string
+```
+
 最后，你可以将索引签名设置为只读，这样就防止了给索引赋值：
 
 ```ts
