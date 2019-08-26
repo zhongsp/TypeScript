@@ -1,6 +1,6 @@
-# Improved behavior for calling union types
+# 改进调用联合类型时的行为
 
-In prior versions of TypeScript, unions of callable types could *only* be invoked if they had identical parameter lists.
+在TypeScript之前的版本中，将可调用类型联合后仅在它们具有相同的参数列表时才能被调用。
 
 ```ts
 type Fruit = "apple" | "orange";
@@ -16,9 +16,9 @@ declare let f: FruitEater | ColorConsumer;
 f("orange");
 ```
 
-However, in the above example, both `FruitEater`s and `ColorConsumer`s should be able to take the string `"orange"`, and return either a `number` or a `string`.
+然而，上例中，`FruitEater`和`ColorConsumer`应该都可以使用`"orange"`，并返回`number`或`string`。
 
-In TypeScript 3.3, this is no longer an error.
+在TypeScript 3.3里，这个错误不存在了。
 
 ```ts
 type Fruit = "apple" | "orange";
@@ -36,18 +36,21 @@ f("apple");  // error - Argument of type '"apple"' is not assignable to paramete
 f("red");    // error - Argument of type '"red"' is not assignable to parameter of type '"orange"'.
 ```
 
-In TypeScript 3.3, the parameters of these signatures are *intersected* together to create a new signature.
+TypeScript 3.3，这些签名的参数被连结在一起构成了一个新的签名。
 
-In the example above, the parameters `fruit` and `color` are intersected together to a new parameter of type `Fruit & Color`.
-`Fruit & Color` is really the same as `("apple" | "orange") & ("red" | "orange")` which is equivalent to `("apple" & "red") | ("apple" & "orange") | ("orange" & "red") | ("orange" & "orange")`.
-Each of those impossible intersections reduces to `never`, and we're left with `"orange" & "orange"` which is just `"orange"`.
+在上例中，`fruit`和`color`连结在一起形成新的参数类型`Fruit & Color`。
+`Fruit & Color`和`("apple" | "orange") & ("red" | "orange")`是一样的，都相当于`("apple" & "red") | ("apple" & "orange") | ("orange" & "red") | ("orange" & "orange")`。
+那些不可能交叉的会规约成`never`类型，只剩下`"orange" & "orange"`，就是`"orange"`。
 
-## Caveats
+## 警告
+这个新行为仅在满足如下情形时生效：
 
-This new behavior only kicks in when at most one type in the union has multiple overloads, and at most one type in the union has a generic signature.
-That means methods on `number[] | string[]` like `map` (which is generic) still won't be callable.
+* 联合类型中最多有一个类型具有多个重载，
+* 联合类型中最多有一个类型有泛型签名。
 
-On the other hand, methods like `forEach` will now be callable, but under `noImplicitAny` there may be some issues.
+这意味着，像`map`这种操作`number[] | string[]`的方法，还是不能调用，因为`map`是泛型函数。
+
+另一方面，像`forEach`就可以调用，因为它不是泛型函数，但在`noImplicitAny`可能有些问题。
 
 ```ts
 interface Dog {
@@ -67,7 +70,7 @@ catOrDogArray.forEach(animal => {
 });
 ```
 
-This is still strictly more capable in TypeScript 3.3, and adding an explicit type annotation will work.
+添加显式的类型信息可以解决。
 
 ```ts
 interface Dog {
@@ -92,12 +95,12 @@ catOrDogArray.forEach((animal: Dog | Cat) => {
 });
 ```
 
-# Incremental file watching for composite projects in `--build --watch`
+# 在合复合工程中增量地监控文件的变化 `--build --watch`
 
-TypeScript 3.0 introduced a new feature for structuring builds called "composite projects".
-Part of the goal here was to ensure users could break up large projects into smaller parts that build quickly and preserve project structure, without compromising the existing TypeScript experience.
-Thanks to composite projects, TypeScript can use `--build` mode to recompile only the set of projects and dependencies.
-You can think of this as optimizing *inter*-project builds.
+TypeScript 3.0引入了一个新特性来按结构进行build，它叫做“复合工程”。
+目的是让用户能够把大型工程拆分成小块快速build并保留项目结构。
+正是因为支持复合工程，TypeScript可以使用`--build`模式仅重新编译部分工程和依赖。
+可以把它当做工作内部build的一种优化。
 
 TypeScript 2.7 also introduced `--watch` mode builds via a new incremental "builder" API.
 In a similar vein, the entire idea is that this mode only re-checks and re-emits changed files or files whose dependencies might impact type-checking.
