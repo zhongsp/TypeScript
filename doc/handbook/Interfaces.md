@@ -1,8 +1,8 @@
 # 介绍
 
-TypeScript的核心原则之一是对值所具有的*结构*进行类型检查。
+TypeScript 的核心原则之一是对值所具有的*结构*进行类型检查。
 它有时被称做“鸭式辨型法”或“结构性子类型化”。
-在TypeScript里，接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约。
+在 TypeScript 里，接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约。
 
 # 接口初探
 
@@ -20,7 +20,7 @@ printLabel(myObj);
 类型检查器会查看`printLabel`的调用。
 `printLabel`有一个参数，并要求这个对象参数有一个名为`label`类型为`string`的属性。
 需要注意的是，我们传入的对象参数实际上会包含很多属性，但是编译器只会检查那些必需的属性是否存在，并且其类型是否匹配。
-然而，有些时候TypeScript却并不会这么宽松，我们下面会稍做讲解。
+然而，有些时候 TypeScript 却并不会这么宽松，我们下面会稍做讲解。
 
 下面我们重写上面的例子，这次使用接口来描述：必须包含一个`label`属性且类型为`string`：
 
@@ -33,7 +33,7 @@ function printLabel(labeledObj: LabeledValue) {
   console.log(labeledObj.label);
 }
 
-let myObj = {size: 10, label: "Size 10 Object"};
+let myObj = { size: 10, label: "Size 10 Object" };
 printLabel(myObj);
 ```
 
@@ -58,8 +58,8 @@ interface SquareConfig {
   width?: number;
 }
 
-function createSquare(config: SquareConfig): {color: string; area: number} {
-  let newSquare = {color: "white", area: 100};
+function createSquare(config: SquareConfig): { color: string; area: number } {
+  let newSquare = { color: "white", area: 100 };
   if (config.color) {
     newSquare.color = config.color;
   }
@@ -69,7 +69,7 @@ function createSquare(config: SquareConfig): {color: string; area: number} {
   return newSquare;
 }
 
-let mySquare = createSquare({color: "black"});
+let mySquare = createSquare({ color: "black" });
 ```
 
 带有可选属性的接口与普通的接口定义差不多，只是在可选属性名字定义的后面加一个`?`符号。
@@ -84,7 +84,7 @@ interface SquareConfig {
 }
 
 function createSquare(config: SquareConfig): { color: string; area: number } {
-  let newSquare = {color: "white", area: 100};
+  let newSquare = { color: "white", area: 100 };
   if (config.clor) {
     // Error: Property 'clor' does not exist on type 'SquareConfig'
     newSquare.color = config.clor;
@@ -95,7 +95,7 @@ function createSquare(config: SquareConfig): { color: string; area: number } {
   return newSquare;
 }
 
-let mySquare = createSquare({color: "black"});
+let mySquare = createSquare({ color: "black" });
 ```
 
 # 只读属性
@@ -105,8 +105,8 @@ let mySquare = createSquare({color: "black"});
 
 ```ts
 interface Point {
-    readonly x: number;
-    readonly y: number;
+  readonly x: number;
+  readonly y: number;
 }
 ```
 
@@ -118,7 +118,7 @@ let p1: Point = { x: 10, y: 20 };
 p1.x = 5; // error!
 ```
 
-TypeScript具有`ReadonlyArray<T>`类型，它与`Array<T>`相似，只是把所有可变方法去掉了，因此可以确保数组创建后再也不能被修改：
+TypeScript 具有`ReadonlyArray<T>`类型，它与`Array<T>`相似，只是把所有可变方法去掉了，因此可以确保数组创建后再也不能被修改：
 
 ```ts
 let a: number[] = [1, 2, 3, 4];
@@ -143,30 +143,30 @@ a = ro as number[];
 
 # 额外的属性检查
 
-我们在第一个例子里使用了接口，TypeScript让我们传入`{ size: number; label: string; }`到仅期望得到`{ label: string; }`的函数里。
+我们在第一个例子里使用了接口，TypeScript 让我们传入`{ size: number; label: string; }`到仅期望得到`{ label: string; }`的函数里。
 我们已经学过了可选属性，并且知道他们在“option bags”模式里很有用。
 
-然而，天真地将这两者结合的话就会像在JavaScript里那样搬起石头砸自己的脚。比如，拿`createSquare`例子来说：
+然而，天真地将这两者结合的话就会像在 JavaScript 里那样搬起石头砸自己的脚。比如，拿`createSquare`例子来说：
 
 ```ts
 interface SquareConfig {
-    color?: string;
-    width?: number;
+  color?: string;
+  width?: number;
 }
 
 function createSquare(config: SquareConfig): { color: string; area: number } {
-    // ...
+  // ...
 }
 
 let mySquare = createSquare({ colour: "red", width: 100 });
 ```
 
 注意传入`createSquare`的参数拼写为`colour`而不是`color`。
-在JavaScript里，这会默默地失败。
+在 JavaScript 里，这会默默地失败。
 
 你可能会争辩这个程序已经正确地类型化了，因为`width`属性是兼容的，不存在`color`属性，而且额外的`colour`属性是无意义的。
 
-然而，TypeScript会认为这段代码可能存在bug。
+然而，TypeScript 会认为这段代码可能存在 bug。
 对象字面量会被特殊对待而且会经过*额外属性检查*，当将它们赋值给变量或作为参数传递的时候。
 如果一个对象字面量存在任何“目标类型”不包含的属性时，你会得到一个错误。
 
@@ -187,9 +187,9 @@ let mySquare = createSquare({ width: 100, opacity: 0.5 } as SquareConfig);
 
 ```ts
 interface SquareConfig {
-    color?: string;
-    width?: number;
-    [propName: string]: any;
+  color?: string;
+  width?: number;
+  [propName: string]: any;
 }
 ```
 
@@ -212,13 +212,13 @@ let mySquare = createSquare(squareOptions);
 ```
 
 要留意，在像上面一样的简单代码里，你可能不应该去绕开这些检查。
-对于包含方法和内部状态的复杂对象字面量来讲，你可能需要使用这些技巧，但是大部额外属性检查错误是真正的bug。
+对于包含方法和内部状态的复杂对象字面量来讲，你可能需要使用这些技巧，但是大部额外属性检查错误是真正的 bug。
 就是说你遇到了额外类型检查出的错误，比如“option bags”，你应该去审查一下你的类型声明。
 在这里，如果支持传入`color`或`colour`属性到`createSquare`，你应该修改`SquareConfig`定义来体现出这一点。
 
 # 函数类型
 
-接口能够描述JavaScript中对象拥有的各种各样的外形。
+接口能够描述 JavaScript 中对象拥有的各种各样的外形。
 除了描述带有属性的普通对象外，接口也可以描述函数类型。
 
 为了使用接口表示函数类型，我们需要给接口定义一个调用签名。
@@ -238,7 +238,7 @@ let mySearch: SearchFunc;
 mySearch = function(source: string, subString: string) {
   let result = source.search(subString);
   return result > -1;
-}
+};
 ```
 
 对于函数类型的类型检查来说，函数的参数名不需要与接口里定义的名字相匹配。
@@ -249,20 +249,20 @@ let mySearch: SearchFunc;
 mySearch = function(src: string, sub: string): boolean {
   let result = src.search(sub);
   return result > -1;
-}
+};
 ```
 
 函数的参数会逐个进行检查，要求对应位置上的参数类型是兼容的。
-如果你不想指定类型，TypeScript的类型系统会推断出参数类型，因为函数直接赋值给了`SearchFunc`类型变量。
+如果你不想指定类型，TypeScript 的类型系统会推断出参数类型，因为函数直接赋值给了`SearchFunc`类型变量。
 函数的返回值类型是通过其返回值推断出来的（此例是`false`和`true`）。
 如果让这个函数返回数字或字符串，类型检查器会警告我们函数的返回值类型与`SearchFunc`接口中的定义不匹配。
 
 ```ts
 let mySearch: SearchFunc;
 mySearch = function(src, sub) {
-    let result = src.search(sub);
-    return result > -1;
-}
+  let result = src.search(sub);
+  return result > -1;
+};
 ```
 
 # 可索引的类型
@@ -285,23 +285,23 @@ let myStr: string = myArray[0];
 上面例子里，我们定义了`StringArray`接口，它具有索引签名。
 这个索引签名表示了当用`number`去索引`StringArray`时会得到`string`类型的返回值。
 
-Typescript支持两种索引签名：字符串和数字。
+Typescript 支持两种索引签名：字符串和数字。
 可以同时使用两种类型的索引，但是数字索引的返回值必须是字符串索引返回值类型的子类型。
-这是因为当使用`number`来索引时，JavaScript会将它转换成`string`然后再去索引对象。
+这是因为当使用`number`来索引时，JavaScript 会将它转换成`string`然后再去索引对象。
 也就是说用`100`（一个`number`）去索引等同于使用`"100"`（一个`string`）去索引，因此两者需要保持一致。
 
 ```ts
 class Animal {
-    name: string;
+  name: string;
 }
 class Dog extends Animal {
-    breed: string;
+  breed: string;
 }
 
 // 错误：使用数值型的字符串索引，有时会得到完全不同的Animal!
 interface NotOkay {
-    [x: number]: Animal;
-    [x: string]: Dog;
+  [x: number]: Animal;
+  [x: string]: Dog;
 }
 ```
 
@@ -312,25 +312,25 @@ interface NotOkay {
 ```ts
 interface NumberDictionary {
   [index: string]: number;
-  length: number;    // 可以，length是number类型
-  name: string       // 错误，`name`的类型与索引类型返回值的类型不匹配
+  length: number; // 可以，length是number类型
+  name: string; // 错误，`name`的类型与索引类型返回值的类型不匹配
 }
 ```
 
 但如果索引签名是包含属性类型的联合类型，那么使用不同类型的属性就是允许的。
 
- ```ts
+```ts
 interface NumberOrStringDictionary {
-    [index: string]: number | string;
-    length: number;    // ok, length is a number
-    name: string;      // ok, name is a string
+   [index: string]: number | string;
+   length: number;    // ok, length is a number
+   name: string;      // ok, name is a string
 ```
 
 最后，你可以将索引签名设置为只读，这样就防止了给索引赋值：
 
 ```ts
 interface ReadonlyStringArray {
-    readonly [index: number]: string;
+  readonly [index: number]: string;
 }
 let myArray: ReadonlyStringArray = ["Alice", "Bob"];
 myArray[2] = "Mallory"; // error!
@@ -342,16 +342,16 @@ myArray[2] = "Mallory"; // error!
 
 ## 实现接口
 
-与C#或Java里接口的基本作用一样，TypeScript也能够用它来明确的强制一个类去符合某种契约。
+与 C#或 Java 里接口的基本作用一样，TypeScript 也能够用它来明确的强制一个类去符合某种契约。
 
 ```ts
 interface ClockInterface {
-    currentTime: Date;
+  currentTime: Date;
 }
 
 class Clock implements ClockInterface {
-    currentTime: Date = new Date();
-    constructor(h: number, m: number) { }
+  currentTime: Date = new Date();
+  constructor(h: number, m: number) {}
 }
 ```
 
@@ -359,16 +359,16 @@ class Clock implements ClockInterface {
 
 ```ts
 interface ClockInterface {
-    currentTime: Date;
-    setTime(d: Date): void;
+  currentTime: Date;
+  setTime(d: Date): void;
 }
 
 class Clock implements ClockInterface {
-    currentTime: Date = new Date();
-    setTime(d: Date) {
-        this.currentTime = d;
-    }
-    constructor(h: number, m: number) { }
+  currentTime: Date = new Date();
+  setTime(d: Date) {
+    this.currentTime = d;
+  }
+  constructor(h: number, m: number) {}
 }
 ```
 
@@ -382,17 +382,17 @@ class Clock implements ClockInterface {
 
 ```ts
 interface ClockConstructor {
-    new (hour: number, minute: number);
+  new (hour: number, minute: number);
 }
 
 class Clock implements ClockConstructor {
-    currentTime: Date;
-    constructor(h: number, m: number) { }
+  currentTime: Date;
+  constructor(h: number, m: number) {}
 }
 ```
 
 这里因为当一个类实现了一个接口时，只对其实例部分进行类型检查。
-constructor存在于类的静态部分，所以不在检查的范围内。
+constructor 存在于类的静态部分，所以不在检查的范围内。
 
 因此，我们应该直接操作类的静态部分。
 看下面的例子，我们定义了两个接口，`ClockConstructor`为构造函数所用和`ClockInterface`为实例方法所用。
@@ -400,27 +400,31 @@ constructor存在于类的静态部分，所以不在检查的范围内。
 
 ```ts
 interface ClockConstructor {
-    new (hour: number, minute: number): ClockInterface;
+  new (hour: number, minute: number): ClockInterface;
 }
 interface ClockInterface {
-    tick(): void;
+  tick(): void;
 }
 
-function createClock(ctor: ClockConstructor, hour: number, minute: number): ClockInterface {
-    return new ctor(hour, minute);
+function createClock(
+  ctor: ClockConstructor,
+  hour: number,
+  minute: number
+): ClockInterface {
+  return new ctor(hour, minute);
 }
 
 class DigitalClock implements ClockInterface {
-    constructor(h: number, m: number) { }
-    tick() {
-        console.log("beep beep");
-    }
+  constructor(h: number, m: number) {}
+  tick() {
+    console.log("beep beep");
+  }
 }
 class AnalogClock implements ClockInterface {
-    constructor(h: number, m: number) { }
-    tick() {
-        console.log("tick tock");
-    }
+  constructor(h: number, m: number) {}
+  tick() {
+    console.log("tick tock");
+  }
 }
 
 let digital = createClock(DigitalClock, 12, 17);
@@ -443,9 +447,9 @@ interface ClockInterface {
 const Clock: ClockConstructor = class Clock implements ClockInterface {
   constructor(h: number, m: number) {}
   tick() {
-      console.log("beep beep");
+    console.log("beep beep");
   }
-}
+};
 ```
 
 # 继承接口
@@ -455,11 +459,11 @@ const Clock: ClockConstructor = class Clock implements ClockInterface {
 
 ```ts
 interface Shape {
-    color: string;
+  color: string;
 }
 
 interface Square extends Shape {
-    sideLength: number;
+  sideLength: number;
 }
 
 let square = {} as Square;
@@ -471,15 +475,15 @@ square.sideLength = 10;
 
 ```ts
 interface Shape {
-    color: string;
+  color: string;
 }
 
 interface PenStroke {
-    penWidth: number;
+  penWidth: number;
 }
 
 interface Square extends Shape, PenStroke {
-    sideLength: number;
+  sideLength: number;
 }
 
 let square = {} as Square;
@@ -490,23 +494,23 @@ square.penWidth = 5.0;
 
 # 混合类型
 
-先前我们提过，接口能够描述JavaScript里丰富的类型。
-因为JavaScript其动态灵活的特点，有时你会希望一个对象可以同时具有上面提到的多种类型。
+先前我们提过，接口能够描述 JavaScript 里丰富的类型。
+因为 JavaScript 其动态灵活的特点，有时你会希望一个对象可以同时具有上面提到的多种类型。
 
 一个例子就是，一个对象可以同时做为函数和对象使用，并带有额外的属性。
 
 ```ts
 interface Counter {
-    (start: number): string;
-    interval: number;
-    reset(): void;
+  (start: number): string;
+  interval: number;
+  reset(): void;
 }
 
 function getCounter(): Counter {
-    let counter = (function (start: number) { }) as Counter;
-    counter.interval = 123;
-    counter.reset = function () { };
-    return counter;
+  let counter = function(start: number) {} as Counter;
+  counter.interval = 123;
+  counter.reset = function() {};
+  return counter;
 }
 
 let c = getCounter();
@@ -515,13 +519,13 @@ c.reset();
 c.interval = 5.0;
 ```
 
-在使用JavaScript第三方库的时候，你可能需要像上面那样去完整地定义类型。
+在使用 JavaScript 第三方库的时候，你可能需要像上面那样去完整地定义类型。
 
 # 接口继承类
 
 当接口继承了一个类类型时，它会继承类的成员但不包括其实现。
 就好像接口声明了所有类中存在的成员，但并没有提供具体实现一样。
-接口同样会继承到类的private和protected成员。
+接口同样会继承到类的 private 和 protected 成员。
 这意味着当你创建了一个接口继承了一个拥有私有或受保护的成员的类时，这个接口类型只能被这个类或其子类所实现（implement）。
 
 当你有一个庞大的继承结构时这很有用，但要指出的是你的代码只在子类拥有特定属性时起作用。
@@ -530,29 +534,27 @@ c.interval = 5.0;
 
 ```ts
 class Control {
-    private state: any;
+  private state: any;
 }
 
 interface SelectableControl extends Control {
-    select(): void;
+  select(): void;
 }
 
 class Button extends Control implements SelectableControl {
-    select() { }
+  select() {}
 }
 
 class TextBox extends Control {
-    select() { }
+  select() {}
 }
 
 // Error: Property 'state' is missing in type 'Image'.
 class Image implements SelectableControl {
-    select() { }
+  select() {}
 }
 
-class Location {
-
-}
+class Location {}
 ```
 
 在上面的例子里，`SelectableControl`包含了`Control`的所有成员，包括私有成员`state`。
