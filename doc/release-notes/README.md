@@ -1,5 +1,8 @@
 # TypeScript 新增内容
 
+* [TypeScript 3.3](./TypeScript%203.3.md)
+* [TypeScript 3.2](./TypeScript%203.2.md)
+* [TypeScript 3.1](./TypeScript%203.1.md)
 * [TypeScript 3.0](./TypeScript%203.0.md)
 * [TypeScript 2.9](./TypeScript%202.9.md)
 * [TypeScript 2.8](./TypeScript%202.8.md)
