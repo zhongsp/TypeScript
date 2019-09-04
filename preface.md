@@ -81,6 +81,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [发展路线图](./doc/wiki/Roadmap.html)
 * [新增功能](./doc/release-notes/README.html)
   * [TypeScript 3.6](./doc/release-notes/TypeScript 3.6.html)
+  * [TypeScript 3.5](./doc/release-notes/TypeScript 3.5.html)
   * [TypeScript 3.3](./doc/release-notes/TypeScript 3.3.html)
   * [TypeScript 3.2](./doc/release-notes/TypeScript 3.2.html)
   * [TypeScript 3.1](./doc/release-notes/TypeScript 3.1.html)
