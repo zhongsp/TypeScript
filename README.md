@@ -77,6 +77,7 @@
   * [发展路线图](./doc/wiki/Roadmap.md)
 * [新增功能](./doc/release-notes/README.md)
   * [TypeScript 3.6](./doc/release-notes/TypeScript%203.6.md)
+  * [TypeScript 3.5](./doc/release-notes/TypeScript%203.5.md)
   * [TypeScript 3.3](./doc/release-notes/TypeScript%203.3.md)
   * [TypeScript 3.2](./doc/release-notes/TypeScript%203.2.md)
   * [TypeScript 3.1](./doc/release-notes/TypeScript%203.1.md)
