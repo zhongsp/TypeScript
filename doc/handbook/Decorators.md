@@ -471,7 +471,7 @@ function validate<T>(target: any, propertyKey: string, descriptor: TypedProperty
         if (!(value instanceof type)) {
             throw new TypeError("Invalid type.");
         }
-        set(value);
+        set.call(target, value);
     }
 }
 ```

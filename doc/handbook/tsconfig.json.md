@@ -68,7 +68,7 @@
 
 ## 细节
 
-`"compilerOptions"`可以被忽略，这时编译器会使用默认值。在这里查看完整的[编译器选项](./Compiler Options.md)列表。
+`"compilerOptions"`可以被忽略，这时编译器会使用默认值。在这里查看完整的[编译器选项](./Compiler%20Options.md)列表。
 
 `"files"`指定一个包含相对或绝对文件路径的列表。
 `"include"`和`"exclude"`属性指定一个文件glob匹配模式列表。

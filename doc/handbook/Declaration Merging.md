@@ -247,13 +247,13 @@ TypeScript并非允许所有的合并。
 
 虽然JavaScript不支持合并，但你可以为导入的对象打补丁以更新它们。让我们考察一下这个玩具性的示例：
 
-```js
-// observable.js
+```ts
+// observable.ts
 export class Observable<T> {
     // ... implementation left as an exercise for the reader ...
 }
 
-// map.js
+// map.ts
 import { Observable } from "./observable";
 Observable.prototype.map = function (f) {
     // ... another exercise for the reader
@@ -286,8 +286,11 @@ o.map(x => x.toFixed());
 
 模块名的解析和用`import`/`export`解析模块标识符的方式是一致的。
 更多信息请参考 [Modules](./Modules.md)。
-当这些声明在扩展中合并时，就好像在原始位置被声明了一样。
-但是，你不能在扩展中声明新的顶级声明－仅可以扩展模块中已经存在的声明。
+当这些声明在扩展中合并时，就如同在原始位置被声明一样。
+但是，有两点限制需要注意：
+
+1. 你不能在扩展中声明新的顶级声明－仅可以扩展模块中已经存在的声明。
+2. 默认导出也不能扩展，只有命名的导出才可以（因为你需要使用导出的名字来进行扩展，并且`default`是保留关键字 - 详情查看[#14080](https://github.com/Microsoft/TypeScript/issues/14080)）
 
 ## 全局扩展
 

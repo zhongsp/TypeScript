@@ -71,8 +71,7 @@ let list: Array<number> = [1, 2, 3];
 
 # 元组 Tuple
 
-元组类型允许表示一个已知元素数量和类型的数组，各元素的类型不必相同。
-比如，你可以定义一对值分别为`string`和`number`类型的元组。
+元组类型允许表示一个已知元素数量和类型的数组，各元素的类型不必相同。比如，你可以定义一对值分别为`string`和`number`类型的元组。
 
 ```ts
 // Declare a tuple type
@@ -90,14 +89,12 @@ console.log(x[0].substr(1)); // OK
 console.log(x[1].substr(1)); // Error, 'number' does not have 'substr'
 ```
 
-当访问一个越界的元素，会使用联合类型替代：
+当访问一个越界的元素会报错。
 
 ```ts
-x[3] = 'world'; // OK, 字符串可以赋值给(string | number)类型
+x[3] = "world"; // Error, Property '3' does not exist on type '[string, number]'.
 
-console.log(x[5].toString()); // OK, 'string' 和 'number' 都有 toString
-
-x[6] = true; // Error, 布尔不是(string | number)类型
+console.log(x[5].toString()); // Error, Property '5' does not exist on type '[string, number]'.
 ```
 
 联合类型是高级主题，我们会在以后的章节里讨论它。
@@ -204,7 +201,7 @@ let n: null = null;
 默认情况下`null`和`undefined`是所有类型的子类型。
 就是说你可以把`null`和`undefined`赋值给`number`类型的变量。
 
-然而，当你指定了`--strictNullChecks`标记，`null`和`undefined`只能赋值给`void`和它们各自。
+然而，当你指定了`--strictNullChecks`标记，`null`和`undefined`只能赋值给`any`和它们各自的类型（有一个例外是`undefined`还可以赋值给`void`类型）。
 这能避免*很多*常见的问题。
 也许在某处你想传入一个`string`或`null`或`undefined`，你可以使用联合类型`string | null | undefined`。
 再次说明，稍后我们会介绍联合类型。
@@ -288,7 +285,7 @@ let strLength: number = (someValue as string).length;
 两种形式是等价的。
 至于使用哪个大多数情况下是凭个人喜好；然而，当你在TypeScript里使用JSX时，只有`as`语法断言是被允许的。
 
-# 关于`let`
+# <a name="a-note-about-let"></a>关于`let`
 
 你可能已经注意到了，我们使用`let`关键字来代替大家所熟悉的JavaScript关键字`var`。
 `let`关键字是JavaScript的一个新概念，TypeScript实现了它。

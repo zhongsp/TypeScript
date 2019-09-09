@@ -119,11 +119,13 @@ enum BooleanLikeHeterogeneousEnum {
 * 枚举成员使用*常量枚举表达式*初始化。
   常量枚举表达式是TypeScript表达式的子集，它可以在编译阶段求值。
   当一个表达式满足下面条件之一时，它就是一个常量枚举表达式：
-  * 一个枚举表达式字面量（主要是字符串字面量或数字字面量）
-  * 一个对之前定义的常量枚举成员的引用（可以是在不同的枚举类型中定义的）
-  * 带括号的常量枚举表达式
-  * 一元运算符`+`, `-`, `~`其中之一应用在了常量枚举表达式
-  * 常量枚举表达式做为二元运算符`+`, `-`, `*`, `/`, `%`, `<<`, `>>`, `>>>`, `&`, `|`, `^`的操作对象。
+
+  1. 一个枚举表达式字面量（主要是字符串字面量或数字字面量）
+  2. 一个对之前定义的常量枚举成员的引用（可以是在不同的枚举类型中定义的）
+  3. 带括号的常量枚举表达式
+  4. 一元运算符`+`, `-`, `~`其中之一应用在了常量枚举表达式
+  5. 常量枚举表达式做为二元运算符`+`, `-`, `*`, `/`, `%`, `<<`, `>>`, `>>>`, `&`, `|`, `^`的操作对象。
+
   若常量枚举表达式求值后为`NaN`或`Infinity`，则会在编译阶段报错。
 
 所有其它情况的枚举成员被当作是需要计算得出的值。
@@ -178,7 +180,7 @@ let c: Circle = {
 ```
 
 另一个变化是枚举类型本身变成了每个枚举成员的*联合*。
-虽然我们还没有讨论[联合类型](./Advanced Types.md#union-types)，但你只要知道通过联合枚举，类型系统能够利用这样一个事实，它可以知道枚举里的值的集合。
+虽然我们还没有讨论[联合类型](./Advanced%20Types.md#union-types)，但你只要知道通过联合枚举，类型系统能够利用这样一个事实，它可以知道枚举里的值的集合。
 因此，TypeScript能够捕获在比较值的时候犯的愚蠢的错误。
 例如：
 
@@ -218,8 +220,34 @@ function f(obj: { X: number }) {
     return obj.X;
 }
 
-// Works, since 'E' has a property named 'X' which is a number.
+// 没问题，因为 'E'包含一个数值型属性'X'。
 f(E);
+```
+
+## 编译时的枚举
+
+尽管一个枚举是在运行时真正存在的对象，但`keyof`关键字的行为与其作用在对象上时有所不同。应该使用`keyof typeof`来获取一个表示枚举里所有字符串`key`的类型。
+
+```ts
+enum LogLevel {
+    ERROR, WARN, INFO, DEBUG
+}
+
+/**
+ * 等同于：
+ * type LogLevelStrings = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
+ */
+type LogLevelStrings = keyof typeof LogLevel;
+
+function printImportant(key: LogLevelStrings, message: string) {
+    const num = LogLevel[key];
+    if (num <= LogLevel.WARN) {
+       console.log('Log level key is: ', key);
+       console.log('Log level value is: ', num);
+       console.log('Log level message is: ', message);
+    }
+}
+printImportant('ERROR', 'This is a message');
 ```
 
 ### 反向映射

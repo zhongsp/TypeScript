@@ -10,33 +10,37 @@
 下面是如何创建混入的一个简单例子("target": "es5")：
 
 ```ts
-function extend<T, U>(first: T, second: U): T & U {
-    let result = <T & U>{};
-    for (let id in first) {
-        (<any>result)[id] = (<any>first)[id];
-    }
-    for (let id in second) {
-        if (!result.hasOwnProperty(id)) {
-            (<any>result)[id] = (<any>second)[id];
+function extend<First, Second>(first: First, second: Second): First & Second {
+    const result: Partial<First & Second> = {};
+    for (const prop in first) {
+        if (first.hasOwnProperty(prop)) {
+            (result as First)[prop] = first[prop];
         }
     }
-    return result;
+    for (const prop in second) {
+        if (second.hasOwnProperty(prop)) {
+            (result as Second)[prop] = second[prop];
+        }
+    }
+    return result as First & Second;
 }
 
 class Person {
     constructor(public name: string) { }
 }
+
 interface Loggable {
-    log(): void;
+    log(name: string): void;
 }
+
 class ConsoleLogger implements Loggable {
-    log() {
-        // ...
+    log(name) {
+        console.log(`Hello, I'm ${name}.`);
     }
 }
-var jim = extend(new Person("Jim"), new ConsoleLogger());
-var n = jim.name;
-jim.log();
+
+const jim = extend(new Person('Jim'), ConsoleLogger.prototype);
+jim.log(jim.name);
 ```
 
 # 联合类型（Union Types）
@@ -147,11 +151,10 @@ else if (pet.fly) {
 ```ts
 let pet = getSmallPet();
 
-if ((<Fish>pet).swim) {
-    (<Fish>pet).swim();
-}
-else {
-    (<Bird>pet).fly();
+if ((pet as Fish).swim) {
+    (pet as Fish).swim();
+} else if ((pet as Bird).fly) {
+    (pet as Bird).fly();
 }
 ```
 
@@ -162,11 +165,14 @@ else {
 
 TypeScript里的*类型守卫*机制让它成为了现实。
 类型守卫就是一些表达式，它们会在运行时检查以确保在某个作用域里的类型。
+
+### 使用类型判定
+
 要定义一个类型守卫，我们只要简单地定义一个函数，它的返回值是一个*类型谓词*：
 
 ```ts
 function isFish(pet: Fish | Bird): pet is Fish {
-    return (<Fish>pet).swim !== undefined;
+    return (pet as Fish).swim !== undefined;
 }
 ```
 
@@ -188,6 +194,21 @@ else {
 
 注意TypeScript不仅知道在`if`分支里`pet`是`Fish`类型；
 它还清楚在`else`分支里，一定*不是*`Fish`类型，一定是`Bird`类型。
+
+### 使用`in`操作符
+
+`in`操作符可以作为类型细化表达式来使用。
+
+对于`n in x`表达式，其中`n`是字符串字面量或字符串字面量类型且`x`是个联合类型，那么`true`分支的类型细化为有一个可选的或必须的属性`n`，`false`分支的类型细化为有一个可选的或不存在属性`n`。
+
+```ts
+function move(pet: Fish | Bird) {
+    if ("swim" in pet) {
+        return pet.swim();
+    }
+    return pet.fly();
+}
+```
 
 ## `typeof`类型守卫
 
@@ -517,7 +538,7 @@ function createElement(tagName: string): Element {
 TypeScript还具有数字字面量类型。
 
 ```ts
-function rollDie(): 1 | 2 | 3 | 4 | 5 | 6 {
+function rollDice(): 1 | 2 | 3 | 4 | 5 | 6 {
     // ...
 }
 ```
@@ -777,11 +798,11 @@ let unknown = getProperty(person, 'unknown'); // error, 'unknown' is not in 'nam
 并且`T[string]`为索引签名的类型：
 
 ```ts
-interface Map<T> {
+interface Dictionary<T> {
     [key: string]: T;
 }
-let keys: keyof Map<number>; // string
-let value: Map<number>['foo']; // number
+let keys: keyof Dictionary<number>; // string
+let value: Dictionary<number>['foo']; // number
 ```
 
 # 映射类型
@@ -823,6 +844,22 @@ type Partial<T> = {
 ```ts
 type PersonPartial = Partial<Person>;
 type ReadonlyPerson = Readonly<Person>;
+```
+
+需要注意的是这个语法描述的是类型而非成员。
+若想添加成员，则可以使用交叉类型：
+
+```ts
+// 这样使用
+type PartialWithNewMember<T> = {
+  [P in keyof T]?: T[P];
+} & { newMember: boolean }
+// 不要这样使用
+// 这会报错！
+type PartialWithNewMember<T> = {
+  [P in keyof T]?: T[P];
+  newMember: boolean;
+}
 ```
 
 下面来看看最简单的映射类型和它的组成部分：
@@ -892,7 +929,7 @@ let proxyProps = proxify(props);
 type Pick<T, K extends keyof T> = {
     [P in K]: T[P];
 }
-type Record<K extends string, T> = {
+type Record<K extends keyof any, T> = {
     [P in K]: T;
 }
 ```
@@ -1188,15 +1225,15 @@ type T12 = ReturnType<(<T>() => T)>;  // {}
 type T13 = ReturnType<(<T extends U, U extends number[]>() => T)>;  // number[]
 type T14 = ReturnType<typeof f1>;  // { a: number, b: string }
 type T15 = ReturnType<any>;  // any
-type T16 = ReturnType<never>;  // any
+type T16 = ReturnType<never>;  // never
 type T17 = ReturnType<string>;  // Error
 type T18 = ReturnType<Function>;  // Error
 
 type T20 = InstanceType<typeof C>;  // C
 type T21 = InstanceType<any>;  // any
-type T22 = InstanceType<never>;  // any
+type T22 = InstanceType<never>;  // never
 type T23 = InstanceType<string>;  // Error
 type T24 = InstanceType<Function>;  // Error
 ```
 
-> 注意：`Exclude`类型是[建议的](https://github.com/Microsoft/TypeScript/issues/12215#issuecomment-307871458)`Diff`类型的一种实现。我们使用`Exclude`这个名字是为了避免破坏已经定义了`Diff`的代码，并且我们感觉这个名字能更好地表达类型的语义。我们没有增加`Omit<T, K>`类型，因为它可以很容易的用`Pick<T, Exclude<keyof T, K>>`来表示。
+> 注意：`Exclude`类型是[建议的](https://github.com/Microsoft/TypeScript/issues/12215#issuecomment-307871458)`Diff`类型的一种实现。我们使用`Exclude`这个名字是为了避免破坏已经定义了`Diff`的代码，并且我们感觉这个名字能更好地表达类型的语义。

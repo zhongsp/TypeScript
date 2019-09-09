@@ -25,7 +25,7 @@ TypeScript与ECMAScript 2015一样，任何包含顶级`import`或者`export`的
 
 任何声明（比如变量，函数，类，类型别名或接口）都能够通过添加`export`关键字来导出。
 
-##### Validation.ts
+##### StringValidator.ts
 
 ```ts
 export interface StringValidator {
@@ -36,6 +36,8 @@ export interface StringValidator {
 ##### ZipCodeValidator.ts
 
 ```ts
+import { StringValidator } from "./StringValidator";
+
 export const numberRegexp = /^[0-9]+$/;
 
 export class ZipCodeValidator implements StringValidator {
@@ -82,9 +84,11 @@ export {ZipCodeValidator as RegExpBasedZipCodeValidator} from "./ZipCodeValidato
 ##### AllValidators.ts
 
 ```ts
-export * from "./StringValidator"; // exports interface StringValidator
-export * from "./LettersOnlyValidator"; // exports class LettersOnlyValidator
-export * from "./ZipCodeValidator";  // exports class ZipCodeValidator
+export * from "./StringValidator"; // exports 'StringValidator' interface
+export * from "./ZipCodeValidator";  // exports 'ZipCodeValidator' and const 'numberRegexp' class
+export * from "./ParseIntBasedZipCodeValidator"; //  exports the 'ParseIntBasedZipCodeValidator' class
+                                                 // and re-exports 'RegExpBasedZipCodeValidator' as alias
+                                                 // of the 'ZipCodeValidator' class from 'ZipCodeValidator.ts'
 ```
 
 # <a name="import"></a>导入
@@ -131,19 +135,19 @@ import "./my-module.js";
 需要使用一种特殊的导入形式来导入`default`导出。
 
 `default`导出十分便利。
-比如，像JQuery这样的类库可能有一个默认导出`jQuery`或`$`，并且我们基本上也会使用同样的名字`jQuery`或`$`导出JQuery。
+比如，像jQuery这样的类库可能有一个默认导出`jQuery`或`$`，并且我们基本上也会使用同样的名字`jQuery`或`$`导出jQuery。
 
-##### JQuery.d.ts
+##### [jQuery.d.ts](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/jQuery/jQuery.d.ts)
 
 ```ts
-declare let $: JQuery;
+declare let $: jQuery;
 export default $;
 ```
 
 ##### App.ts
 
 ```ts
-import $ from "JQuery";
+import $ from "jQuery";
 
 $("button.continue").html( "Next Step..." );
 ```
@@ -662,7 +666,7 @@ let x = new myLargeModule.Dog();
 ## 使用重新导出进行扩展
 
 你可能经常需要去扩展一个模块的功能。
-JS里常用的一个模式是JQuery那样去扩展原对象。
+JS里常用的一个模式是jQuery那样去扩展原对象。
 如我们之前提到的，模块不会像全局命名空间对象那样去*合并*。
 推荐的方案是*不要*去改变原来的对象，而是导出一个新的实体来提供新的功能。
 
@@ -820,12 +824,11 @@ test(c, "001+010="); // prints 3
 在一个模块里，没有理由两个对象拥有同一个名字。
 从模块的使用角度来说，使用者会挑出他们用来引用模块的名字，所以也没有理由发生重名的情况。
 
-> 更多关于模块和命名空间的资料查看[命名空间和模块](./Namespaces and Modules.md)
+> 更多关于模块和命名空间的资料查看[命名空间和模块](./Namespaces%20and%20Modules.md)
 
 ## 危险信号
 
 以下均为模块结构上的危险信号。重新检查以确保你没有在对模块使用命名空间：
 
-* 文件的顶层声明是`export namespace Foo { ... }` （删除`Foo`并把所有内容向上层移动一层）
-* 文件只有一个`export class`或`export function` （考虑使用`export default`）
+* 文件的顶层声明是`export namespace Foo { ... }` （删除`Foo`并把所有内容向上层移动一层）©
 * 多个文件的顶层具有同样的`export namespace Foo {` （不要以为这些会合并到一个`Foo`中！）

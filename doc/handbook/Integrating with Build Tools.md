@@ -1,5 +1,6 @@
 Build tools
 
+* [Babel](#babel)
 * [Browserify](#browserify)
 * [Duo](#duo)
 * [Grunt](#grunt)
@@ -8,6 +9,44 @@ Build tools
 * [Webpack](#webpack)
 * [MSBuild](#msbuild)
 * [NuGet](#nuget)
+
+# Babel
+
+### 安装
+
+```sh
+npm install @babel/cli @babel/core @babel/preset-typescript --save-dev
+```
+
+### .babelrc
+
+```js
+{
+  "presets": ["@babel/preset-typescript"]
+}
+```
+
+### 使用命令行工具
+
+```sh
+./node_modules/.bin/babel --out-file bundle.js src/index.ts
+```
+
+### package.json
+
+```js
+{
+  "scripts": {
+    "build": "babel --out-file bundle.js main.ts"
+  },
+}
+```
+
+### 在命令行上运行Babel
+
+```sh
+npm run build
+```
 
 # Browserify
 
@@ -146,7 +185,28 @@ _注意：目前jspm的0.16beta版本支持TypeScript_
 npm install ts-loader --save-dev
 ```
 
-### 基本webpack.config.js
+### Webpack 2 webpack.config.js 基础配置
+
+```js
+module.exports = {
+    entry: "./src/index.tsx",
+    output: {
+        path: '/',
+        filename: "bundle.js"
+    },
+    resolve: {
+        extensions: [".tsx", ".ts", ".js", ".json"]
+    },
+    module: {
+        rules: [
+            // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
+            { test: /\.tsx?$/, use: ["ts-loader"], exclude: /node_modules/ }
+        ]
+    }
+}
+```
+
+### Webpack 1 webpack.config.js 基础配置
 
 ```js
 module.exports = {
@@ -202,7 +262,7 @@ module.exports = {
 </Project>
 ```
 
-关于配置MSBuild编译器选项的更多详细信息，请参考：[在MSBuild里使用编译选项](./Compiler Options in MSBuild.md)
+关于配置MSBuild编译器选项的更多详细信息，请参考：[在MSBuild里使用编译选项](./Compiler%20Options%20in%20MSBuild.md)
 
 # NuGet
 

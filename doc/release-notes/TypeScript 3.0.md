@@ -300,7 +300,7 @@ export interface Props {
 export class Greet extends React.Component<Props> {
     render() {
         const { name } = this.props;
-        return <div>Hello ${name.toUpperCase()}!</div>;
+        return <div>Hello {name.toUpperCase()}!</div>;
     }
     static defaultProps = { name: "world"};
 }
@@ -321,7 +321,7 @@ let el = <Greet />
 
 ```tsx
 function Greet({ name = "world" }: Props) {
-    return <div>Hello ${name.toUpperCase()}!</div>;
+    return <div>Hello {name.toUpperCase()}!</div>;
 }
 ```
 

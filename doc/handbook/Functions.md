@@ -83,7 +83,7 @@ let myAdd: (baseValue: number, increment: number) => number =
 
 ## 推断类型
 
-尝试这个例子的时候，你会发现如果你在赋值语句的一边指定了类型但是另一边没有类型的话，TypeScript编译器会自动识别出类型：
+尝试这个例子的时候，你会注意到，就算仅在等式的一侧带有类型，TypeScript编译器仍可正确识别类型：
 
 ```ts
 // myAdd has the full function type
@@ -390,7 +390,7 @@ class Handler {
 }
 ```
 
-这是可行的因为箭头函数不会捕获`this`，所以你总是可以把它们传给期望`this: void`的函数。
+这是可行的因为箭头函数使用外层的`this`，所以你总是可以把它们传给期望`this: void`的函数。
 缺点是每个`Handler`对象都会创建一个箭头函数。
 另一方面，方法只会被创建一次，添加到`Handler`的原型链上。
 它们在不同`Handler`对象间是共享的。
