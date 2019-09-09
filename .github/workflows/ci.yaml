@@ -1,0 +1,25 @@
+on:
+  push:
+  pull_request:
+
+name: CI
+
+jobs:
+  GitBook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 2
+      - name: gitbook-build
+        uses: docker://khs1994/gitbook
+      - name: gitbook-deploy
+        if: github.event_name == 'push'
+        uses: docker://khs1994/gitbook
+        with:
+          args: deploy
+        env:
+          GIT_USERNAME: "khs1994"
+          GIT_USEREMAIL: "khs1994@khs1994.com"
+          GIT_BRANCH: "gh-pages"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
