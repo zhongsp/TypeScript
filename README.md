@@ -116,13 +116,12 @@
   * [TypeScript 1.5](./doc/breaking-changes/TypeScript%201.5.md)
   * [TypeScript 1.4](./doc/breaking-changes/TypeScript%201.4.md)
 
-**TypeScript Handbook**
+**TypeScript手册官方英文版**
 
-* Read [TypeScript Handbook (Recommended, BUT not up to date officially)](http://www.typescriptlang.org/Handbook)
-* Read [TypeScript手册中文版 - Published with GitBook（持续更新中，最新版）](http://zhongsp.gitbooks.io/typescript-handbook/content/):book:
+* [TypeScript手册（英文版）](http://www.typescriptlang.org/Handbook)
 
-**TypeScript Language Specification**
+**TypeScript语言规范**
 
-* Read [TypeScript Language Specification](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)
+* [TypeScript语言规范](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)
 
 I'd love for you to contribute to the translation:)
