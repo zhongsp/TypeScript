@@ -22,4 +22,4 @@ jobs:
           GIT_USERNAME: "khs1994"
           GIT_USEREMAIL: "khs1994@khs1994.com"
           GIT_BRANCH: "gh-pages"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PCIT_GIT_TOKEN }}
