@@ -8,7 +8,7 @@
 
 :heavy_check_mark: TypeScript语言用于大规模应用的JavaScript开发。  :heavy_check_mark: TypeScript支持类型，是JavaScript的超集且可以编译成纯JavaScript代码。  :heavy_check_mark: TypeScript兼容所有浏览器，所有宿主环境，所有操作系统。  :heavy_check_mark: TypeScript是开源的。
 
-:book: [在GitBook网站上阅读本手册](http://zhongsp.gitbooks.io/typescript-handbook/content/)  :arrow_down: [下载本手册 PDF 版](https://legacy.gitbook.com/download/pdf/book/zhongsp/typescript-handbook)  :arrow_down: [下载本手册 Mobi 版](https://legacy.gitbook.com/download/mobi/book/zhongsp/typescript-handbook)  :arrow_down: [下载本手册 ePub 版](https://legacy.gitbook.com/download/epub/book/zhongsp/typescript-handbook)
+:book: [在GitBook网站上阅读本手册](https://app.gitbook.com/@zhongsp/s/typescript-handbook/) :new:
 
 :link: [一大波新的快速开始指南：React，Angular，Nodejs，ASP.NET Core，React Native，Vue，Glimmer，WeChat，Dojo2，Knockout等](./doc/quick-start/README.md)
 
@@ -117,13 +117,12 @@
   * [TypeScript 1.5](./doc/breaking-changes/TypeScript%201.5.md)
   * [TypeScript 1.4](./doc/breaking-changes/TypeScript%201.4.md)
 
-**TypeScript Handbook**
+**TypeScript手册官方英文版**
 
-* Read [TypeScript Handbook (Recommended, BUT not up to date officially)](http://www.typescriptlang.org/Handbook)
-* Read [TypeScript手册中文版 - Published with GitBook（持续更新中，最新版）](http://zhongsp.gitbooks.io/typescript-handbook/content/):book:
+* [TypeScript手册（英文版）](http://www.typescriptlang.org/Handbook)
 
-**TypeScript Language Specification**
+**TypeScript语言规范**
 
-* Read [TypeScript Language Specification](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)
+* [TypeScript语言规范](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)
 
 I'd love for you to contribute to the translation:)
