@@ -2,6 +2,7 @@
 
 * [TypeScript 3.6](./TypeScript%203.6.md)
 * [TypeScript 3.5](./TypeScript%203.5.md)
+* [TypeScript 3.4](./TypeScript%203.4.md)
 * [TypeScript 3.3](./TypeScript%203.3.md)
 * [TypeScript 3.2](./TypeScript%203.2.md)
 * [TypeScript 3.1](./TypeScript%203.1.md)
