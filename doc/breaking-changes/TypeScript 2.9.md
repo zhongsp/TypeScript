@@ -46,6 +46,7 @@ function f(
 ## 在 `strictNullChecks` 中，无类型约束参数不再分配给 `object`
 
 以下代码是自[24013](https://github.com/microsoft/typescript/issues/24013)起在 `strickNullChecks` 下出现的编译器错误：
+
 ```ts
 function f<T>(x: T) {
   const y: object | null | undefined = x;
