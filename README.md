@@ -102,6 +102,7 @@
   * [TypeScript 1.1](./doc/release-notes/TypeScript%201.1.md)
 * [Breaking Changes](./doc/breaking-changes/breaking-changes.md)
   * [TypeScript 3.6](./doc/breaking-changes/TypeScript%203.6.md)
+  * [TypeScript 3.5](./doc/breaking-changes/TypeScript%203.5.md)
   * [TypeScript 3.4](./doc/breaking-changes/TypeScript%203.4.md)
   * [TypeScript 3.2](./doc/breaking-changes/TypeScript%203.2.md)
   * [TypeScript 3.1](./doc/breaking-changes/TypeScript%203.1.md)
