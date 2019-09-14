@@ -3,6 +3,7 @@
 ## 顶级 `this` 现在有类型了
 
 顶级 `this` 的类型现在被分配为 `typeof globalThis` 而不是 `any`。
+
 因此, 在 `noImplicitAny` 下访问 `this` 上的未知值，你可能收到错误提示。
 
 ```ts
@@ -55,7 +56,7 @@ function isEven(prom: Promise<number>): Promise<{ success: boolean }> {
 
 这通常是一种改进，但在上面的例子中，它导致 `true` 和 `false` 获取不合需要的字面量类型。
 
-```
+```sh
 Argument of type '(x: number) => Promise<{ success: false; }> | { success: true; }' is not assignable to parameter of type '(value: number) => { success: false; } | PromiseLike<{ success: false; }>'.
   Type 'Promise<{ success: false; }> | { success: true; }' is not assignable to type '{ success: false; } | PromiseLike<{ success: false; }>'.
     Type '{ success: true; }' is not assignable to type '{ success: false; } | PromiseLike<{ success: false; }>'.
