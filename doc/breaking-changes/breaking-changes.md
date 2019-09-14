@@ -1,6 +1,7 @@
 # Breaking Changes
 
 * [TypeScript 3.6](./TypeScript 3.6.md)
+* [TypeScript 3.4](./TypeScript 3.4.md)
 * [TypeScript 3.2](./TypeScript 3.2.md)
 * [TypeScript 3.1](./TypeScript 3.1.md)
 * [TypeScript 3.0](./TypeScript 3.0.md)
