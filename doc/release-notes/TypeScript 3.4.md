@@ -69,7 +69,7 @@ function compose<A, B, C>(f: (arg: A) => B, g: (arg: B) => C): (arg: A) => C {
 `compose` 然后返回一个函数，它通过 `f` 然后 `g` 来提供它的参数。
 
 调用此函数时，TypeScript 将尝试通过一个名为 *type argument inference* 的进程来计算出 `A`，`B` 和 `C` 的类型。
-这个推理过程通常很有效：
+这个推断过程通常很有效：
 
 ```ts
 interface Person {
@@ -95,7 +95,7 @@ const getDisplayNameLength = compose(
 getDisplayNameLength({ name: "Person McPersonface", age: 42 });
 ```
 
-推理过程在这里相当简单，因为 `getDisplayName` 和 `getLength` 使用的是可以轻松引用的类型。
+推断过程在这里相当简单，因为 `getDisplayName` 和 `getLength` 使用的是可以轻松引用的类型。
 但是，在 TypeScript 3.3 及更早版本中，泛型函数如 `compose` 在传递其他泛型函数时效果不佳。
 
 ```ts
