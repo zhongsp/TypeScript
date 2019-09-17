@@ -68,7 +68,7 @@ npm install --save-dev typescript gulp@4.0.0 gulp-typescript
 function hello(compiler: string) {
     console.log(`Hello from ${compiler}`);
 }
-hello("TypeScript");
+hello('TypeScript');
 ```
 
 在工程的根目录`proj`下新建一个`tsconfig.json`文件：
@@ -90,14 +90,14 @@ hello("TypeScript");
 在工程根目录下，新建一个`gulpfile.js`文件：
 
 ```js
-var gulp = require("gulp");
-var ts = require("gulp-typescript");
-var tsProject = ts.createProject("tsconfig.json");
+var gulp = require('gulp');
+var ts = require('gulp-typescript');
+var tsProject = ts.createProject('tsconfig.json');
 
-gulp.task("default", function () {
+gulp.task('default', function () {
     return tsProject.src()
         .pipe(tsProject())
-        .js.pipe(gulp.dest("dist"));
+        .js.pipe(gulp.dest('dist'));
 });
 ```
 
@@ -126,9 +126,9 @@ export function sayHello(name: string) {
 更改`src/main.ts`代码，从`greet.ts`导入`sayHello`：
 
 ```ts
-import { sayHello } from "./greet";
+import { sayHello } from './greet';
 
-console.log(sayHello("TypeScript"));
+console.log(sayHello('TypeScript'));
 ```
 
 最后，将`src/greet.ts`添加到`tsconfig.json`：
@@ -193,34 +193,34 @@ npm install --save-dev browserify tsify vinyl-source-stream
 修改`main.ts`文件来更新这个页面：
 
 ```ts
-import { sayHello } from "./greet";
+import { sayHello } from './greet';
 
 function showHello(divName: string, name: string) {
     const elt = document.getElementById(divName);
     elt.innerText = sayHello(name);
 }
 
-showHello("greeting", "TypeScript");
+showHello('greeting', 'TypeScript');
 ```
 
 `showHello`调用`sayHello`函数更改页面上段落的文字。
 现在修改gulpfile文件如下：
 
 ```js
-var gulp = require("gulp");
-var browserify = require("browserify");
+var gulp = require('gulp');
+var browserify = require('browserify');
 var source = require('vinyl-source-stream');
-var tsify = require("tsify");
+var tsify = require('tsify');
 var paths = {
     pages: ['src/*.html']
 };
 
-gulp.task("copy-html", function () {
+gulp.task('copy-html', function () {
     return gulp.src(paths.pages)
-        .pipe(gulp.dest("dist"));
+        .pipe(gulp.dest('dist'));
 });
 
-gulp.task("default", gulp.series(gulp.parallel('copy-html'), function () {
+gulp.task('default', gulp.series(gulp.parallel('copy-html'), function () {
     return browserify({
         basedir: '.',
         debug: true,
@@ -231,7 +231,7 @@ gulp.task("default", gulp.series(gulp.parallel('copy-html'), function () {
     .plugin(tsify)
     .bundle()
     .pipe(source('bundle.js'))
-    .pipe(gulp.dest("dist"));
+    .pipe(gulp.dest('dist'));
 }));
 ```
 
@@ -274,12 +274,12 @@ npm install --save-dev watchify fancy-log
 修改gulpfile文件如下：
 
 ```js
-var gulp = require("gulp");
-var browserify = require("browserify");
+var gulp = require('gulp');
+var browserify = require('browserify');
 var source = require('vinyl-source-stream');
-var watchify = require("watchify");
-var tsify = require("tsify");
-var fancy_log = require("fancy-log");
+var watchify = require('watchify');
+var tsify = require('tsify');
+var fancy_log = require('fancy-log');
 var paths = {
     pages: ['src/*.html']
 };
@@ -292,28 +292,28 @@ var watchedBrowserify = watchify(browserify({
     packageCache: {}
 }).plugin(tsify));
 
-gulp.task("copy-html", function () {
+gulp.task('copy-html', function () {
     return gulp.src(paths.pages)
-        .pipe(gulp.dest("dist"));
+        .pipe(gulp.dest('dist'));
 });
 
 function bundle() {
     return watchedBrowserify
         .bundle()
         .pipe(source('bundle.js'))
-        .pipe(gulp.dest("dist"));
+        .pipe(gulp.dest('dist'));
 }
 
-gulp.task("default", gulp.series(gulp.parallel('copy-html'), bundle));
-watchedBrowserify.on("update", bundle);
-watchedBrowserify.on("log", fancy_log);
+gulp.task('default', gulp.series(gulp.parallel('copy-html'), bundle));
+watchedBrowserify.on('update', bundle);
+watchedBrowserify.on('log', fancy_log);
 ```
 
 共有三处改变，但是需要你略微重构一下代码。
 
 1. 将`browserify`实例包裹在`watchify`的调用里，控制生成的结果。
-2. 调用`watchedBrowserify.on("update", bundle);`，每次TypeScript文件改变时Browserify会执行`bundle`函数。
-3. 调用`watchedBrowserify.on("log", gutil.log);`将日志打印到控制台。
+2. 调用`watchedBrowserify.on('update', bundle);`，每次TypeScript文件改变时Browserify会执行`bundle`函数。
+3. 调用`watchedBrowserify.on('log', gutil.log);`将日志打印到控制台。
 
 (1)和(2)在一起意味着我们要将`browserify`调用移出`default`任务。
 然后给函数起个名字，因为Watchify和Gulp都要调用它。
@@ -347,10 +347,10 @@ npm install --save-dev gulp-uglify vinyl-buffer gulp-sourcemaps
 修改gulpfile文件如下：
 
 ```js
-var gulp = require("gulp");
-var browserify = require("browserify");
+var gulp = require('gulp');
+var browserify = require('browserify');
 var source = require('vinyl-source-stream');
-var tsify = require("tsify");
+var tsify = require('tsify');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var buffer = require('vinyl-buffer');
@@ -358,12 +358,12 @@ var paths = {
     pages: ['src/*.html']
 };
 
-gulp.task("copy-html", function () {
+gulp.task('copy-html', function () {
     return gulp.src(paths.pages)
-        .pipe(gulp.dest("dist"));
+        .pipe(gulp.dest('dist'));
 });
 
-gulp.task("default", gulp.series(gulp.parallel('copy-html'), function () {
+gulp.task('default', gulp.series(gulp.parallel('copy-html'), function () {
     return browserify({
         basedir: '.',
         debug: true,
@@ -378,7 +378,7 @@ gulp.task("default", gulp.series(gulp.parallel('copy-html'), function () {
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(uglify())
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest("dist"));
+    .pipe(gulp.dest('dist'));
 }));
 ```
 
