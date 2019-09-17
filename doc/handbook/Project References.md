@@ -76,7 +76,7 @@ assert.areEqual(converter.celsiusToFahrenheit(0), 32);
 * 所有的实现文件必须匹配到某个`include`模式或在`files`数组里列出。如果违反了这个限制，`tsc`会提示你哪些文件未指定。
 * 必须开启`declaration`选项。
 
-# `declarationMaps`
+# `declarationMap`s
 
 我们增加了对[declaration source maps](https://github.com/Microsoft/TypeScript/issues/14479)的支持。
 如果启用`--declarationMap`，在某些编辑器上，你可以使用诸如“Go to Definition”，重命名以及跨工程编辑文件等编辑器特性。
