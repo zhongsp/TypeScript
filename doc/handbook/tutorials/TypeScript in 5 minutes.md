@@ -27,7 +27,7 @@ function greeter(person) {
 
 let user = "Jane User";
 
-document.body.innerHTML = greeter(user);
+document.body.textContent = greeter(user);
 ```
 
 ## 编译代码
@@ -54,7 +54,7 @@ function greeter(person: string) {
 
 let user = "Jane User";
 
-document.body.innerHTML = greeter(user);
+document.body.textContent = greeter(user);
 ```
 
 ## 类型注解
@@ -70,7 +70,7 @@ function greeter(person: string) {
 
 let user = [0, 1, 2];
 
-document.body.innerHTML = greeter(user);
+document.body.textContent = greeter(user);
 ```
 
 重新编译，你会看到产生了一个错误。
@@ -104,7 +104,7 @@ function greeter(person: Person) {
 
 let user = { firstName: "Jane", lastName: "User" };
 
-document.body.innerHTML = greeter(user);
+document.body.textContent = greeter(user);
 ```
 
 ## 类
@@ -136,7 +136,7 @@ function greeter(person: Person) {
 
 let user = new Student("Jane", "M.", "User");
 
-document.body.innerHTML = greeter(user);
+document.body.textContent = greeter(user);
 ```
 
 重新运行`tsc greeter.ts`，你会看到生成的JavaScript代码和原先的一样。
