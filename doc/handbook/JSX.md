@@ -105,12 +105,12 @@ import MyComponent from "./myComponent";
 
 有两种方式可以定义基于值的元素：
 
-1. 无状态函数组件 (SFC)
+1. 函数组件 (FC)
 2. 类组件
 
-由于这两种基于值的元素在JSX表达式里无法区分，因此TypeScript首先会尝试将表达式做为无状态函数组件进行解析。如果解析成功，那么TypeScript就完成了表达式到其声明的解析操作。如果按照无状态函数组件解析失败，那么TypeScript会继续尝试以类组件的形式进行解析。如果依旧失败，那么将输出一个错误。
+由于这两种基于值的元素在JSX表达式里无法区分，因此TypeScript首先会尝试将表达式做为函数组件进行解析。如果解析成功，那么TypeScript就完成了表达式到其声明的解析操作。如果按照函数组件解析失败，那么TypeScript会继续尝试以类组件的形式进行解析。如果依旧失败，那么将输出一个错误。
 
-### 无状态函数组件
+### 函数组件
 
 正如其名，组件被定义成JavaScript函数，它的第一个参数是`props`对象。
 TypeScript会强制它的返回值可以赋值给`JSX.Element`。
@@ -130,7 +130,7 @@ function ComponentFoo(prop: FooProp) {
 const Button = (prop: {value: string}, context: { color: string }) => <button>
 ```
 
-由于无状态函数组件是简单的JavaScript函数，所以我们还可以利用函数重载。
+由于函数组件是简单的JavaScript函数，所以我们还可以利用函数重载。
 
 ```ts
 interface ClickableProps {
@@ -150,6 +150,8 @@ function MainButton(prop: SideProps): JSX.Element {
   ...
 }
 ```
+
+> 注意：函数组件之前叫做无状态函数组件（SFC）。由于在当前React版本里，函数组件不再被当作是无状态的，因此类型`SFC`和它的别名`StatelessComponent`被废弃了。
 
 ### 类组件
 
@@ -240,7 +242,7 @@ declare namespace JSX {
 至于该使用哪个属性来确定类型取决于`JSX.ElementAttributesProperty`。
 它应该使用单一的属性来定义。
 这个属性名之后会被使用。
-TypeScript 2.8，如果未指定`JSX.ElementAttributesProperty`，那么将使用类元素构造函数或SFC调用的第一个参数的类型。
+TypeScript 2.8，如果未指定`JSX.ElementAttributesProperty`，那么将使用类元素构造函数或函数组件调用的第一个参数的类型。
 
 ```ts
 declare namespace JSX {
@@ -280,7 +282,7 @@ declare namespace JSX {
 
 > 注意：如果一个属性名不是个合法的JS标识符（像`data-*`属性），并且它没出现在元素属性类型里时不会当做一个错误。
 
-另外，JSX还会使用`JSX.IntrinsicAttributes`接口来指定额外的属性，这些额外的属性通常不会被组件的props或arguments使用 - 比如React里的`key`。还有，`JSX.IntrinsicClassAttributes<T>`泛型类型也可以用来做同样的事情。这里的泛型参数表示类实例类型。在React里，它用来允许`Ref<T>`类型上的`ref`属性。通常来讲，这些接口上的所有属性都是可选的，除非你想要用户在每个JSX标签上都提供一些属性。
+另外，JSX还会使用`JSX.IntrinsicAttributes`接口来指定额外的属性，这些额外的属性通常不会被组件的props或arguments使用 - 比如React里的`key`。还有，`JSX.IntrinsicClassAttributes<T>`泛型类型也可以用来为类组件（非函数组件）指定相同种类的额外属性。这里的泛型参数表示类实例类型。在React里，它用来允许`Ref<T>`类型上的`ref`属性。通常来讲，这些接口上的所有属性都是可选的，除非你想要用户在每个JSX标签上都提供一些属性。
 
 延展操作符也可以使用：
 

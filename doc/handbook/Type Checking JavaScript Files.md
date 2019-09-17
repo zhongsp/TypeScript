@@ -739,7 +739,7 @@ let myArrow = x => x * x;
  * Which means it works for stateless function components in JSX too
  * @param {{a: string, b: number}} test - Some param
  */
-var sfc = (test) => <div>{test.a.charAt(0)}</div>;
+var fc = (test) => <div>{test.a.charAt(0)}</div>;
 
 /**
  * A parameter can be a class constructor, using Closure syntax.

@@ -142,7 +142,7 @@ function getExclamationMarks(numChars: number) {
 注意我们定义了一个类型`Props`，它指定了我们组件要用到的属性。
 `name`是必需的且为`string`类型，同时`enthusiasmLevel`是可选的且为`number`类型（你可以通过名字后面加`?`为指定可选参数）。
 
-我们创建了一个无状态的函数式组件（Stateless Functional Components，SFC）`Hello`。
+我们创建了一个函数组件`Hello`。
 具体来讲，`Hello`是一个函数，接收一个`Props`对象并拆解它。
 如果`Props`对象里没有设置`enthusiasmLevel`，默认值为`1`。
 
@@ -170,7 +170,7 @@ class Hello extends React.Component<Props, object> {
 ```
 
 当我们的[组件具有某些状态](https://reactjs.org/docs/state-and-lifecycle.html)的时候，使用类的方式是很有用处的。
-但在这个例子里我们不需要考虑状态 - 事实上，在`React.Component<Props, object>`我们把状态指定为了`object`，因此使用SFC更简洁。
+但在这个例子里我们不需要考虑状态 - 事实上，在`React.Component<Props, object>`我们把状态指定为了`object`，因此使用函数组件更简洁。
 当在创建可重用的通用UI组件的时候，在表现层使用组件局部状态比较适合。
 针对我们应用的生命周期，我们会审视应用是如何通过Redux轻松地管理普通状态的。
 

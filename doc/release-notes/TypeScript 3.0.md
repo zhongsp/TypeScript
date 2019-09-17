@@ -317,7 +317,7 @@ let el = <Greet />
 
 使用`static defaultProps: Pick<Props, "name">;`做为显式的类型注释，或者不添加类型注释。
 
-对于无状态的函数式组件（SFCs），使用ES2015默认的初始化器：
+对于函数组件（之前叫做SFC），使用ES2015默认的初始化器：
 
 ```tsx
 function Greet({ name = "world" }: Props) {

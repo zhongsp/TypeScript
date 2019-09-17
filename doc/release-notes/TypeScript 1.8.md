@@ -122,9 +122,9 @@ switch (x % 3) {
 }
 ```
 
-## React 无状态的函数组件
+## React里的函数组件
 
-TypeScript 现在支持[无状态的函数组件](https://reactjs.org/docs/components-and-props.html#functional-and-class-components).
+TypeScript 现在支持[函数组件](https://reactjs.org/docs/components-and-props.html#functional-and-class-components).
 它是可以组合其他组件的轻量级组件.
 
 ```ts
