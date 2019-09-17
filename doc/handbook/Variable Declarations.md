@@ -471,7 +471,7 @@ function f([first, second]: [number, number]) {
     console.log(first);
     console.log(second);
 }
-f(input);
+f([1, 2]);
 ```
 
 你可以在数组里使用`...`语法创建剩余变量：
@@ -493,6 +493,38 @@ console.log(first); // outputs 1
 
 ```ts
 let [, second, , fourth] = [1, 2, 3, 4];
+console.log(second); // outputs 2
+console.log(fourth); // outputs 4
+```
+
+## 解构元组
+
+元组可以像数组一样解构；解构后的变量获得对应元组元素的类型：
+
+``` ts
+let tuple: [number, string, boolean] = [7, "hello", true];
+
+let [a, b, c] = tuple; // a: number, b: string, c: boolean
+```
+
+当解构元组时，若超出元组索引范围将报错：
+
+``` ts
+let [a, b, c, d] = tuple; // 错误，没有索引为3的元素
+```
+
+与数组一样，可以作用`...`来解构元组的剩余元素，从而得到一个短的元组：
+
+``` ts
+let [a, ...bc] = tuple; // bc: [string, boolean]
+let [a, b, c, ...d] = tuple; // d: [], the empty tuple
+```
+
+或者，忽略末尾元素或其它元素：
+
+``` ts
+let [a] = tuple; // a: number
+let [, b] = tuple; // b: string
 ```
 
 ## 对象解构
