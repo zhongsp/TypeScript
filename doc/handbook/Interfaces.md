@@ -171,7 +171,7 @@ let mySquare = createSquare({ colour: "red", width: 100 });
 如果一个对象字面量存在任何“目标类型”不包含的属性时，你会得到一个错误。
 
 ```ts
-// error: 'colour' not expected in type 'SquareConfig'
+// error: Object literal may only specify known properties, but 'colour' does not exist in type 'SquareConfig'. Did you mean to write 'color'?
 let mySquare = createSquare({ colour: "red", width: 100 });
 ```
 
