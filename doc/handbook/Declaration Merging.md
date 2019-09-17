@@ -264,7 +264,11 @@ Observable.prototype.map = function (f) {
 你可以使用扩展模块来将它告诉编译器：
 
 ```ts
-// observable.ts stays the same
+// observable.ts
+export class Observable<T> {
+    // ... implementation left as an exercise for the reader ...
+}
+
 // map.ts
 import { Observable } from "./observable";
 declare module "./observable" {
