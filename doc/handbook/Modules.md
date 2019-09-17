@@ -14,7 +14,7 @@
 
 模块使用模块加载器去导入其它的模块。
 在运行时，模块加载器的作用是在执行此模块代码前去查找并执行这个模块的所有依赖。
-大家最熟知的JavaScript模块加载器是服务于Node.js的[CommonJS](https://en.wikipedia.org/wiki/CommonJS)和服务于Web应用的[Require.js](http://requirejs.org/)。
+众所周知的JavaScript模块加载器有：作用于[CommonJS](https://en.wikipedia.org/wiki/CommonJS)模块的Node.js加载器和在Web应用里作用于[AMD](https://github.com/amdjs/amdjs-api/blob/master/AMD.md)模块的[RequireJS](http://requirejs.org/)加载器。
 
 TypeScript与ECMAScript 2015一样，任何包含顶级`import`或者`export`的文件都被当成一个模块。
 相反地，如果一个文件不带有顶级的`import`或者`export`声明，那么它的内容被视为全局可见的（因此对模块也是可见的）。
