@@ -727,46 +727,56 @@ let v = new ScientificCalculator(2)
 例如，一个常见的JavaScript模式是从对象中选取属性的子集。
 
 ```js
-function pluck(o, names) {
-    return names.map(n => o[n]);
+function pluck(o, propertyNames) {
+    return propertyNames.map(n => o[n]);
 }
 ```
 
 下面是如何在TypeScript里使用此函数，通过**索引类型查询**和**索引访问**操作符：
 
 ```ts
-function pluck<T, K extends keyof T>(o: T, names: K[]): T[K][] {
-  return names.map(n => o[n]);
+function pluck<T, K extends keyof T>(o: T, propertyNames: K[]): T[K][] {
+  return propertyNames.map(n => o[n]);
 }
 
-interface Person {
-    name: string;
-    age: number;
+interface Car {
+    manufacturer: string;
+    model: string;
+    year: number;
 }
-let person: Person = {
-    name: 'Jarid',
-    age: 35
+let taxi: Car = {
+    manufacturer: 'Toyota',
+    model: 'Camry',
+    year: 2014
 };
-let strings: string[] = pluck(person, ['name']); // ok, string[]
+
+// Manufacturer and model are both of type string,
+// so we can pluck them both into a typed string array
+let makeAndModel: string[] = pluck(taxi, ['manufacturer', 'model']);
+
+// If we try to pluck model and year, we get an
+// array of a union type: (string | number)[]
+let modelYear = pluck(taxi, ['model', 'year'])
 ```
 
-编译器会检查`name`是否真的是`Person`的一个属性。
+编译器会检查`manufacturer`和`model`是否真的是`Car`上的一个属性。
 本例还引入了几个新的类型操作符。
 首先是`keyof T`，**索引类型查询操作符**。
 对于任何类型`T`，`keyof T`的结果为`T`上已知的公共属性名的联合。
 例如：
 
 ```ts
-let personProps: keyof Person; // 'name' | 'age'
+let carProps: keyof Car; // the union of ('manufacturer' | 'model' | 'year')
 ```
 
-`keyof Person`是完全可以与`'name' | 'age'`互相替换的。
-不同的是如果你添加了其它的属性到`Person`，例如`address: string`，那么`keyof Person`会自动变为`'name' | 'age' | 'address'`。
+`keyof Car`是完全可以与`'manufacturer' | 'model' | 'year'`互相替换的。
+不同的是如果你添加了其它的属性到`Car`，例如`ownersAddress: string`，那么`keyof Car`会自动变为`'manufacturer' | 'model' | 'year' | 'ownersAddress'`。
 你可以在像`pluck`函数这类上下文里使用`keyof`，因为在使用之前你并不清楚可能出现的属性名。
 但编译器会检查你是否传入了正确的属性名给`pluck`：
 
 ```ts
-pluck(person, ['age', 'unknown']); // error, 'unknown' is not in 'name' | 'age'
+// error, 'unknown' is not in 'manufacturer' | 'model' | 'year'
+pluck(taxi, ['year', 'unknown']);
 ```
 
 第二个操作符是`T[K]`，**索引访问操作符**。
@@ -777,18 +787,20 @@ pluck(person, ['age', 'unknown']); // error, 'unknown' is not in 'name' | 'age'
 例如下面`getProperty`函数的例子：
 
 ```ts
-function getProperty<T, K extends keyof T>(o: T, name: K): T[K] {
-    return o[name]; // o[name] is of type T[K]
+function getProperty<T, K extends keyof T>(o: T, propertyName: K): T[K] {
+    return o[propertyName]; // o[propertyName] is of type T[K]
 }
 ```
 
-`getProperty`里的`o: T`和`name: K`，意味着`o[name]: T[K]`。
+`getProperty`里的`o: T`和`propertyName: K`，意味着`o[propertyName]: T[K]`。
 当你返回`T[K]`的结果，编译器会实例化键的真实类型，因此`getProperty`的返回值类型会随着你需要的属性改变。
 
 ```ts
-let name: string = getProperty(person, 'name');
-let age: number = getProperty(person, 'age');
-let unknown = getProperty(person, 'unknown'); // error, 'unknown' is not in 'name' | 'age'
+let name: string = getProperty(taxi, 'manufacturer');
+let year: number = getProperty(taxi, 'year');
+
+// error, 'unknown' is not in 'manufacturer' | 'model' | 'year'
+let unknown = getProperty(taxi, 'unknown');
 ```
 
 ## 索引类型和字符串索引签名
