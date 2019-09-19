@@ -483,7 +483,8 @@ declare function aliased(arg: Alias): Alias;
 declare function interfaced(arg: Interface): Interface;
 ```
 
-另一个重要区别是类型别名不能被`extends`和`implements`（自己也不能`extends`和`implements`其它类型）。
+在旧版本的TypeScript里，类型别名不能被继承和实现（它们也不能继承和实现其它类型）。从TypeScript 2.7开始，类型别名可以被继承并生成新的交叉类型。例如：`type Cat = Animal & { purrs: true }`。
+
 因为[软件中的对象应该对于扩展是开放的，但是对于修改是封闭的](https://en.wikipedia.org/wiki/Open/closed_principle)，你应该尽量去使用接口代替类型别名。
 
 另一方面，如果你无法通过接口来描述一个类型并且需要使用联合类型或元组类型，这时通常会使用类型别名。
