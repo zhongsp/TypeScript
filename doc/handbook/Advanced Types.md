@@ -806,7 +806,7 @@ let unknown = getProperty(taxi, 'unknown');
 
 ## 索引类型和字符串索引签名
 
-`keyof`和`T[K]`与字符串索引签名进行交互。
+`keyof`和`T[K]`与字符串索引签名进行交互。索引签名的参数类型必须为`number`或`string`。
 如果你有一个带有字符串索引签名的类型，那么`keyof T`会是`string | number`。
 (并非只有`string`，因为在JavaScript里，你可以使用字符串`object['42'`或
 数字`object[42]`索引来访问对象属性)。
@@ -818,6 +818,17 @@ interface Dictionary<T> {
 }
 let keys: keyof Dictionary<number>; // string | number
 let value: Dictionary<number>['foo']; // number
+```
+
+如果一个类型带有数字索引签名，那么`keyof T`为`number`。
+
+```ts
+interface Dictionary<T> {
+    [key: number]: T;
+}
+let keys: keyof Dictionary<number>; // number
+let value: Dictionary<number>['foo']; // Error, Property 'foo' does not exist on type 'Dictionary<number>'.
+let value: Dictionary<number>[42]; // number
 ```
 
 # 映射类型
