@@ -24,7 +24,7 @@ x = 0;      // OK
 x = false;  // Error: boolean is not assignable to number
 ```
 
-你可以在这里找到所有JSDoc支持的模式，[JSDoc文档](https://github.com/Microsoft/TypeScript/wiki/JSDoc-support-in-JavaScript)。
+你可以在这里找到所有JSDoc支持的模式，[JSDoc文档](#supported-jsdoc)。
 
 ## 属性的推断来自于类内的赋值语句
 
@@ -309,7 +309,7 @@ var p = new Promise((resolve, reject) => { reject() });
 p; // Promise<any>;
 ```
 
-# 支持的JSDoc
+# <a id="supported-jsdoc" name="supported-jsdoc"></a>支持的JSDoc
 
 下面的列表列出了当前所支持的JSDoc注解，你可以用它们在JavaScript文件里添加类型信息。
 
