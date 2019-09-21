@@ -135,6 +135,8 @@ listenEvent(EventType.Mouse, ((e: MouseEvent) => console.log(e.x + "," + e.y)) a
 listenEvent(EventType.Mouse, (e: number) => console.log(e));
 ```
 
+你可以使用`strictFunctionTypes`编译选项，使TypeScript在这种情况下报错。
+
 ## 可选参数及剩余参数
 
 比较函数兼容性的时候，可选参数与必须参数是可互换的。
