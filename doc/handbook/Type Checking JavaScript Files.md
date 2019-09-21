@@ -595,7 +595,7 @@ const ok = s => !(s.length % 2);
 ```js
 /**
  * @template T
- * @param {T} p1 - A generic parameter that flows through to the return type
+ * @param {T} x - A generic parameter that flows through to the return type
  * @return {T}
  */
 function id(x){ return x }
