@@ -313,7 +313,7 @@ watchedBrowserify.on('log', fancy_log);
 
 1. 将`browserify`实例包裹在`watchify`的调用里，控制生成的结果。
 2. 调用`watchedBrowserify.on('update', bundle);`，每次TypeScript文件改变时Browserify会执行`bundle`函数。
-3. 调用`watchedBrowserify.on('log', gutil.log);`将日志打印到控制台。
+3. 调用`watchedBrowserify.on('log', fancy_log);`将日志打印到控制台。
 
 (1)和(2)在一起意味着我们要将`browserify`调用移出`default`任务。
 然后给函数起个名字，因为Watchify和Gulp都要调用它。
