@@ -324,6 +324,7 @@ interface NumberOrStringDictionary {
    [index: string]: number | string;
    length: number;    // ok, length is a number
    name: string;      // ok, name is a string
+}
 ```
 
 最后，你可以将索引签名设置为只读，这样就防止了给索引赋值：
