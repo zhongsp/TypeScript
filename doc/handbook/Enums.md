@@ -57,7 +57,7 @@ respond("Princess Caroline", Response.Yes)
 ```ts
 enum E {
     A = getSomeValue(),
-    B, // error! 'A' is not constant-initialized, so 'B' needs an initializer
+    B, // Error! Enum member must have initializer.
 }
 ```
 
@@ -173,8 +173,7 @@ interface Square {
 }
 
 let c: Circle = {
-    kind: ShapeKind.Square,
-    //    ~~~~~~~~~~~~~~~~ Error!
+    kind: ShapeKind.Square, // Error! Type 'ShapeKind.Square' is not assignable to type 'ShapeKind.Circle'.
     radius: 100,
 }
 ```
@@ -193,7 +192,7 @@ enum E {
 function f(x: E) {
     if (x !== E.Foo || x !== E.Bar) {
         //             ~~~~~~~~~~~
-        // Error! Operator '!==' cannot be applied to types 'E.Foo' and 'E.Bar'.
+        // Error! This condition will always return 'true' since the types 'E.Foo' and 'E.Bar' have no overlap.
     }
 }
 ```
