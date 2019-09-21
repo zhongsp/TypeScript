@@ -97,8 +97,6 @@ x[3] = "world"; // Error, Property '3' does not exist on type '[string, number]'
 console.log(x[5].toString()); // Error, Property '5' does not exist on type '[string, number]'.
 ```
 
-联合类型是高级主题，我们会在以后的章节里讨论它。
-
 # 枚举
 
 `enum`类型是对JavaScript标准数据类型的一个补充。
@@ -204,7 +202,8 @@ let n: null = null;
 然而，当你指定了`--strictNullChecks`标记，`null`和`undefined`只能赋值给`any`和它们各自的类型（有一个例外是`undefined`还可以赋值给`void`类型）。
 这能避免*很多*常见的问题。
 也许在某处你想传入一个`string`或`null`或`undefined`，你可以使用联合类型`string | null | undefined`。
-再次说明，稍后我们会介绍联合类型。
+
+联合类型是高级主题，我们会在以后的章节里讨论它。
 
 > 注意：我们鼓励尽可能地使用`--strictNullChecks`，但在本手册里我们假设这个标记是关闭的。
 
