@@ -344,18 +344,18 @@ class Component extends React.Component<PropsType, {}> {
 }
 
 // OK
-<Component>
+<Component name="foo">
   <h1>Hello World</h1>
 </Component>
 
 // Error: children is of type JSX.Element not array of JSX.Element
-<Component>
+<Component name="bar">
   <h1>Hello World</h1>
   <h2>Hello World</h2>
 </Component>
 
 // Error: children is of type JSX.Element not array of JSX.Element or string.
-<Component>
+<Component name="baz">
   <h1>Hello</h1>
   World
 </Component>
