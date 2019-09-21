@@ -1,9 +1,19 @@
+# Table of contents
+
+[介绍](#introduction)
+
+[混入示例](#mixin-sample)
+
+[理解示例](#understanding-the-sample)
+
 # 介绍
+<b><a href="#table-of-contents">↥ 回到顶端</a></b>
 
 除了传统的面向对象继承方式，还流行一种通过可重用组件创建类的方式，就是联合另一个简单类的代码。
 你可能在Scala等语言里对mixins及其特性已经很熟悉了，但它在JavaScript中也是很流行的。
 
 # 混入示例
+<b><a href="#table-of-contents">↥ 回到顶端</a></b>
 
 下面的代码演示了如何在TypeScript里使用混入。
 后面我们还会解释这段代码是怎么工作的。
@@ -29,7 +39,7 @@ class Activatable {
     }
 }
 
-class SmartObject implements Disposable, Activatable {
+class SmartObject {
     constructor() {
         setInterval(() => console.log(this.isActive + " : " + this.isDisposed), 500);
     }
@@ -37,15 +47,9 @@ class SmartObject implements Disposable, Activatable {
     interact() {
         this.activate();
     }
-
-    // Disposable
-    isDisposed: boolean = false;
-    dispose: () => void;
-    // Activatable
-    isActive: boolean = false;
-    activate: () => void;
-    deactivate: () => void;
 }
+
+interface SmartObject extends Disposable, Activatable {}
 applyMixins(SmartObject, [Disposable, Activatable]);
 
 let smartObj = new SmartObject();
@@ -64,7 +68,8 @@ function applyMixins(derivedCtor: any, baseCtors: any[]) {
 }
 ```
 
-# 理解这个例子
+# 理解示例
+<b><a href="#table-of-contents">↥ 回到顶端</a></b>
 
 代码里首先定义了两个类，它们将做为mixins。
 可以看到每个类都只定义了一个特定的行为或功能。
@@ -96,17 +101,19 @@ class Activatable {
 下面来看一下具体是怎么操作的：
 
 ```ts
-class SmartObject implements Disposable, Activatable {
+class SmartObject {
+    ...
+}
+
+interface SmartObject extends Disposable, Activatable {}
 ```
 
-首先应该注意到的是，没使用`extends`而是使用`implements`。
-把类当成了接口，仅使用Disposable和Activatable的类型而非其实现。
-这意味着我们需要在类里面实现接口。
-但是这是我们在用mixin时想避免的。
+首先注意到的是，我们没有在`SmartObject`类里面继承`Disposable`和`Activatable`，而是在`SmartObject`接口里面继承的。由于[声明合并](./Declaration%20Merging.md)的存在，`SmartObject`接口会被混入到`SmartObject`类里面。
 
-我们可以这么做来达到目的，为将要mixin进来的属性方法创建出占位属性。
-这告诉编译器这些成员在运行时是可用的。
-这样就能使用mixin带来的便利，虽说需要提前定义一些占位属性。
+它将类视为接口，且只会混入Disposable和Activatable背后的类型到SmartObject类型里，不会混入实现。也就是说，我们要在类里面去实现。
+这正是我们想要在混入时避免的行为。
+
+最后，我们将混入融入到了类的实现中去。
 
 ```ts
 // Disposable
