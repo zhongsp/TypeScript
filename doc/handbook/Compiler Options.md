@@ -21,6 +21,7 @@
 `--experimentalDecorators`<sup>[1]</sup>| `boolean` | `false`                  | 启用实验性的ES装饰器。
 `--extendedDiagnostics`                 | `boolean` | `false`                  | 显示详细的诊段信息。
 `--forceConsistentCasingInFileNames`    | `boolean` | `false`                  | 禁止对同一个文件的不一致的引用。
+`--generateCpuProfile`                  | `string`  | `profile.cpuprofile`     | 在指定目录生成CPU资源使用报告。若传入的是已创建的目录名，将在此目录下生成以时间戳命名的报告。
 `--help`<br/>`-h`                       |           |                          | 打印帮助信息。
 `--importHelpers`                       | `string`  |                          | 从[`tslib`](https://www.npmjs.com/package/tslib)导入辅助工具函数（比如`__extends`，`__rest`等）
 `--inlineSourceMap`                     | `boolean` | `false`                  | 生成单个sourcemaps文件，而不是将每sourcemaps生成不同的文件。
