@@ -287,5 +287,5 @@ let strLength: number = (someValue as string).length;
 # <a name="a-note-about-let"></a>关于`let`
 
 你可能已经注意到了，我们使用`let`关键字来代替大家所熟悉的JavaScript关键字`var`。
-`let`关键字是JavaScript的一个新概念，TypeScript实现了它。
+`let`是ES2015引入的关键字，它比`var`更加安全，因此被看做是声明变量的标准方式。
 我们会在以后详细介绍它，很多常见的问题都可以通过使用`let`来解决，所以尽可能地使用`let`来代替`var`吧。
