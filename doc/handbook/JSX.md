@@ -186,7 +186,7 @@ function MyFactoryFunction() {
 // 使用调用签名
 var myComponent = MyFactoryFunction();
 
-// 元素类的类型 => FactoryFunction
+// 元素类的类型 => MyFactoryFunction
 // 元素实例的类型 => { render: () => void }
 ```
 
