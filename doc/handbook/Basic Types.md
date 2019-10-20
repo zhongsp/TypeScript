@@ -159,7 +159,6 @@ let prettySure: Object = 4;
 prettySure.toFixed(); // Error: Property 'toFixed' doesn't exist on type 'Object'.
 ```
 
-> Note: Avoid using `Object` in favor of the non-primitive `object` type as described in our [Do's and Don'ts](https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html#general-types) section.
 > 注意：应避免使用`Object`，而是使用非原始`object`类型，正如[Do's and Don'ts](./declaration-files/do-s-and-don-ts.html#general-types)里所讲的那样。
 
 当你只知道一部分数据的类型时，`any`类型也是有用的。
