@@ -240,7 +240,7 @@ function infiniteLoop(): never {
 
 # Object
 
-`object`表示非原始类型，也就是除`number`，`string`，`boolean`，`symbol`，`null`或`undefined`之外的类型。
+`object`表示非原始类型，也就是除`number`，`string`，`boolean`，`bigint`，`symbol`，`null`或`undefined`之外的类型。
 
 使用`object`类型，就可以更好的表示像`Object.create`这样的API。例如：
 
