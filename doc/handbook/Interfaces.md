@@ -255,13 +255,25 @@ mySearch = function(src: string, sub: string): boolean {
 函数的参数会逐个进行检查，要求对应位置上的参数类型是兼容的。
 如果你不想指定类型，TypeScript 的类型系统会推断出参数类型，因为函数直接赋值给了`SearchFunc`类型变量。
 函数的返回值类型是通过其返回值推断出来的（此例是`false`和`true`）。
-如果让这个函数返回数字或字符串，类型检查器会警告我们函数的返回值类型与`SearchFunc`接口中的定义不匹配。
 
 ```ts
 let mySearch: SearchFunc;
 mySearch = function(src, sub) {
   let result = src.search(sub);
   return result > -1;
+};
+```
+
+如果让这个函数返回数字或字符串，类型检查器会警告我们函数的返回值类型与`SearchFunc`接口中的定义不匹配。
+
+```ts
+let mySearch: SearchFunc;
+
+// error: Type '(src: string, sub: string) => string' is not assignable to type 'SearchFunc'.
+// Type 'string' is not assignable to type 'boolean'.
+mySearch = function(src, sub) {
+  let result = src.search(sub);
+  return "string";
 };
 ```
 
