@@ -6,7 +6,7 @@ TypeScript 2.6引入了新的类型检查选项，`--strictFunctionTypes`。`--s
 
 `--strictFunctionTypes`启用时，函数类型参数的检查是*抗变（contravariantly）*而非*双变（bivariantly）*的。关于变体 (variance) 对于函数类型意义的相关背景，请查看[协变（covariance）和抗变（contravariance）是什么？](https://www.stephanboyer.com/post/132/what-are-covariance-and-contravariance)。
 
-这一更严格的检查应用于除方法或构造函数声明以外的所有函数类型。方法被专门排除在外是为了确保带泛型的类和接口（如 Array<T>）总体上仍然保持协变。
+这一更严格的检查应用于除方法或构造函数声明以外的所有函数类型。方法被专门排除在外是为了确保带泛型的类和接口（如`Array<T>`）总体上仍然保持协变。
 
 考虑下面这个 Animal 是 Dog 和 Cat 的父类型的例子：
 
