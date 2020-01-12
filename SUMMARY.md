@@ -37,6 +37,7 @@
   * [实用工具类型](handbook/utility-types.md)
 * [如何书写声明文件](introduction/README.md)
   * [结构](introduction/library-structures.md)
+  * [test](introduction/test.md)
   * [\[规范\]\(./doc/handbook/declaration files/Do's and Don'ts.md\)](introduction/gui-fan-.dochandbookdeclaration-filesdos-and-donts.md.md)
   * [举例](introduction/by-example.md)
   * [深入](introduction/deep-dive.md)
