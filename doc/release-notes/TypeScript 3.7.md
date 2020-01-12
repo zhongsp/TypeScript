@@ -1,20 +1,4 @@
-* [Optional Chaining](#optional-chaining)
-* [Nullish Coalescing](#nullish-coalescing)
-* [Assertion Functions](#assertion-functions)
-* [Better Support for `never`-Returning Functions](#better-support-for-never-returning-functions)
-* [(More) Recursive Type Aliases](#more-recursive-type-aliases)
-* [`--declaration` and `--allowJs`](#--declaration-and---allowjs)
-* [The `useDefineForClassFields` Flag and The `declare` Property Modifier](#the-usedefineforclassfields-flag-and-the-declare-property-modifier)
-* [Build-Free Editing with Project References](#build-free-editing-with-project-references)
-* [Uncalled Function Checks](#uncalled-function-checks)
-* [`// @ts-nocheck` in TypeScript Files](#-ts-nocheck-in-typescript-files)
-* [Semicolon Formatter Option](#semicolon-formatter-option)
-* [Breaking Changes](#37-breaking-changes)
-	* [DOM Changes](#dom-changes)
-	* [Function Truthy Checks](#function-truthy-checks)
-	* [Local and Imported Type Declarations Now Conflict](#local-and-imported-type-declarations-now-conflict)
-    * [API Changes](#37-api-changes)
-
+# TypeScript 3.7
 
 ## 可选链（Optional Chining）
 
@@ -810,7 +794,7 @@ JavaScript 有一个自动分号插入（ASI，automatic semicolon insertion）�
 
 ### 类字段处理
 
-[正如上文提到的](#usedefineforclassfields-%e9%80%89%e9%a1%b9%e5%92%8c-declare-%e5%b1%9e%e6%80%a7%e4%bf%ae%e9%a5%b0%e7%ac%a6)，TypeScript 3.7 现在能够在 `.d.ts` 文件中编译出 `get`/`set`，这可能对 3.5 和更低版本的 TypeScript 使用者来说是破坏性变更。
+[正如上文提到的](#usedefineforclassfields-%e7%bc%96%e8%af%91%e9%80%89%e9%a1%b9%e5%92%8c-declare-%e5%b1%9e%e6%80%a7%e4%bf%ae%e9%a5%b0%e7%ac%a6)，TypeScript 3.7 现在能够在 `.d.ts` 文件中编译出 `get`/`set`，这可能对 3.5 和更低版本的 TypeScript 使用者来说是破坏性变更。
 TypeScript 3.6 的使用者不会受影响，因为该版本对这个功能已经进行了预兼容。
 
 `useDefineForClassFields` 选项虽然自身没有破坏性变更，但不排除以下情形：
@@ -818,7 +802,7 @@ TypeScript 3.6 的使用者不会受影响，因为该版本对这个功能已�
 - 在派生类中用属性声明覆盖了基类的访问器
 - 覆盖声明属性，但是没有初始值
 
-要了解全部的影响，请查看 [上面关于 `useDefineForClassFields` 的章节](#usedefineforclassfields-%e9%80%89%e9%a1%b9%e5%92%8c-declare-%e5%b1%9e%e6%80%a7%e4%bf%ae%e9%a5%b0%e7%ac%a6)。
+要了解全部的影响，请查看 [上面关于 `useDefineForClassFields` 的章节](#usedefineforclassfields-%e7%bc%96%e8%af%91%e9%80%89%e9%a1%b9%e5%92%8c-declare-%e5%b1%9e%e6%80%a7%e4%bf%ae%e9%a5%b0%e7%ac%a6)。
 
 ### 函数真值检查
 
