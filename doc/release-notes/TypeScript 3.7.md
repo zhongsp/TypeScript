@@ -1,6 +1,6 @@
 # TypeScript 3.7
 
-## 可选链（Optional Chining）
+## 可选链（Optional Chaining）
 
 [Playground](/play/#example/optional-chaining)
 
