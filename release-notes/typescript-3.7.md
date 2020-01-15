@@ -2,7 +2,7 @@
 
 ## 可选链（Optional Chaining）
 
-[Playground](/play/#example/optional-chaining)
+[Playground](http://www.typescriptlang.org/play/#example/optional-chaining)
 
 在我们的 issue 列表上，可选链是 [issue #16](https://github.com/microsoft/TypeScript/issues/16)。感受一下，从那之后 TypeScript 的 issue 列表中新增了 23,000 条 issues。
 
@@ -112,7 +112,7 @@ function barPercentage(foo?: { bar: number }) {
 
 ## 空值合并（Nullish Coalescing）
 
-[Playground](/play/#example/nullish-coalescing)
+[Playground](http://www.typescriptlang.org/play/#example/nullish-coalescing)
 
 _空值合并运算符_ 是另一个即将到来的 ECMAScript 特性（与可选链一起），我们的团队也参与了 TC39 的的讨论工作。
 
@@ -154,7 +154,7 @@ function initializeAudio() {
 
 ## 断言函数
 
-[Playground](/play/#example/assertion-functions)
+[Playground](http://www.typescriptlang.org/play/#example/assertion-functions)
 
 有一类特定的函数，用于在出现非预期结果时抛出一个错误。
 这样的函数叫做“断言”函数（Assertion Function）。
@@ -335,7 +335,7 @@ function dispatch(x: string | number): SomeType {
 
 ## （更加）递归的类型别名
 
-[Playground](/play/#example/recursive-type-references)
+[Playground](http://www.typescriptlang.org/play/#example/recursive-type-references)
 
 类型别名在“递归”引用方面一直存在局限性。
 原因是，类型别名必须能用它代表的东西来代替自己。
