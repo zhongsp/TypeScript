@@ -72,6 +72,7 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
   * [架构概述](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/wiki/Architectural-Overview.html)
   * [发展路线图](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/wiki/Roadmap.html)
 * [新增功能](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/release-notes/README.html)
+  * [TypeScript 3.7](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/release-notes/TypeScript%203.7.html)
   * [TypeScript 3.6](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/release-notes/TypeScript%203.6.html)
   * [TypeScript 3.5](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/release-notes/TypeScript%203.5.html)
   * [TypeScript 3.3](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/release-notes/TypeScript%203.3.html)
