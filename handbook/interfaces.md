@@ -170,6 +170,7 @@ let mySquare = createSquare({ width: 100, opacity: 0.5 } as SquareConfig);
 interface SquareConfig {
   color?: string;
   width?: number;
+  [propName: string]: any;
 }
 ```
 
