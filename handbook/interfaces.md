@@ -170,6 +170,7 @@ let mySquare = createSquare({ width: 100, opacity: 0.5 } as SquareConfig);
 interface SquareConfig {
   color?: string;
   width?: number;
+  [propName: string]: any;
 }
 ```
 
@@ -281,6 +282,7 @@ interface NotOkay {
 
 ```typescript
 interface NumberDictionary {
+  [index: string]: number;
   length: number; // 可以，length是number类型
   name: string; // 错误，`name`的类型与索引类型返回值的类型不匹配
 }
