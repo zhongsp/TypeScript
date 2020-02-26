@@ -2,7 +2,7 @@
 
 这篇指南的目的是教你如何书写高质量的TypeScript声明文件。
 
-在这篇指南里，我们假设你对TypeScript已经有了基本的了解。 如果没有，请先阅读[TypeScript手册](https://www.typescriptlang.org/docs/handbook/basic-types.html) 来了解一些基本知识，尤其是类型和命名空间部分。
+在这篇指南里，我们假设你对TypeScript已经有了基本的了解。 如果没有，请先阅读[TypeScript手册](../handbook/basic-types.md) 来了解一些基本知识，尤其是类型和命名空间部分。
 
 ## 章节
 
@@ -18,7 +18,7 @@
 
 ### 规范
 
-声明文件里有很多常见的错误是很容易避免的。 \[规范\]\(./Do's%20and%20Don'ts.md\)一节指出了常见的错误， 描述了如何发现它们， 与怎样去修复。 每个人都要阅读这个章节以了解如何避免常见错误。
+声明文件里有很多常见的错误是很容易避免的。 [规范](../doc/handbook/declaration%20files/Do's%20and%20Don'ts.md)一节指出了常见的错误， 描述了如何发现它们， 与怎样去修复。 每个人都要阅读这个章节以了解如何避免常见错误。
 
 ### 深入
 
@@ -26,7 +26,7 @@
 
 ### 模版
 
-在[模版](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/handbook/declaration%20files/Templates.md)一节里，你能找到一些声明文件，它们可以帮助你快速开始 当你在书写一个新声明文件的时候。 参考[结构](library-structures.md)这篇文档来找到应该使用哪个模版文件。
+在[模版](../doc/handbook/declaration%20files/Templates.md)一节里，你能找到一些声明文件，它们可以帮助你快速开始 当你在书写一个新声明文件的时候。 参考[结构](library-structures.md)这篇文档来找到应该使用哪个模版文件。
 
 ### 发布到npm
 
