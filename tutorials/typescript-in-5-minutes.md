@@ -9,7 +9,7 @@
 * 通过npm（Node.js包管理器）
 * 安装Visual Studio的TypeScript插件
 
-Visual Studio 2017和Visual Studio 2015 Update 3默认包含了TypeScript。 如果你的Visual Studio还没有安装TypeScript，你可以[下载](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/README.md#download-links)它。
+Visual Studio 2017和Visual Studio 2015 Update 3默认包含了TypeScript。 如果你的Visual Studio还没有安装TypeScript，你可以下载它。
 
 针对使用npm的用户：
 

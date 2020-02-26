@@ -4,7 +4,7 @@
 
 一般来讲，你_组织_声明文件的方式取决于库是如何被使用的。 在JavaScript中一个库有很多使用方式，这就需要你书写声明文件去匹配它们。 这篇指南涵盖了如何识别常见库的模式，和怎样书写符合相应模式的声明文件。
 
-针对每种主要的库的组织模式，在[模版](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/handbook/declaration%20files/Templates.md)一节都有对应的文件。 你可以利用它们帮助你快速上手。
+针对每种主要的库的组织模式，在[模版](../doc/handbook/declaration%20files/Templates.md)一节都有对应的文件。 你可以利用它们帮助你快速上手。
 
 ## 识别库的类型
 
@@ -65,7 +65,7 @@ window.createGreeting = function(s) {
 
 #### 全局库模版
 
-模版文件[`global.d.ts`](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/handbook/declaration%20files/templates/global.d.ts.md)定义了`myLib`库作为例子。 一定要阅读["防止命名冲突"补充说明](library-structures.md#preventing-name-conflicts)。
+模版文件[`global.d.ts`](../doc/handbook/declaration%20files/templates/global.d.ts.md)定义了`myLib`库作为例子。 一定要阅读["防止命名冲突"补充说明](library-structures.md#preventing-name-conflicts)。
 
 ### 模块化库
 
@@ -156,9 +156,9 @@ UMD库的文档里经常会包含通过`require`“在Node.js里使用”例子�
 
 #### 模版
 
-针对模块有三种可用的模块， [`module.d.ts`](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/handbook/declaration%20files/templates/module.d.ts.md), [`module-class.d.ts`](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/handbook/declaration%20files/templates/module-class.d.ts.md) and [`module-function.d.ts`](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/handbook/declaration%20files/templates/module-function.d.ts.md).
+针对模块有三种可用的模块， [`module.d.ts`](../doc/handbook/declaration%20files/templates/module.d.ts.md), [`module-class.d.ts`](../doc/handbook/declaration%20files/templates/module-class.d.ts.md) and [`module-function.d.ts`](../doc/handbook/declaration%20files/templates/module-function.d.ts.md).
 
-使用[`module-function.d.ts`](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/handbook/declaration%20files/templates/module-function.d.ts.md)，如果模块能够作为函数_调用_。
+使用[`module-function.d.ts`](../doc/handbook/declaration%20files/templates/module-function.d.ts.md)，如果模块能够作为函数_调用_。
 
 ```javascript
 var x = require("foo");
@@ -168,7 +168,7 @@ var y = x(42);
 
 一定要阅读[补充说明： “ES6模块调用签名的影响”](library-structures.md#the-impact-of-es6-on-module-call-signatures)
 
-使用[`module-class.d.ts`](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/handbook/declaration%20files/templates/module-class.d.ts.md)如果模块能够使用`new`来_构造_：
+使用[`module-class.d.ts`](../doc/handbook/declaration%20files/templates/module-class.d.ts.md)如果模块能够使用`new`来_构造_：
 
 ```javascript
 var x = require("bar");
@@ -178,7 +178,7 @@ var y = new x("hello");
 
 相同的[补充说明](library-structures.md#the-impact-of-es6-on-module-plugins)作用于这些模块。
 
-如果模块不能被调用或构造，使用[`module.d.ts`](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/handbook/declaration%20files/templates/module.d.ts.md)文件。
+如果模块不能被调用或构造，使用[`module.d.ts`](../doc/handbook/declaration%20files/templates/module.d.ts.md)文件。
 
 ### _模块插件_或_UMD插件_
 
@@ -188,7 +188,7 @@ var y = new x("hello");
 
 #### 模版
 
-使用[`module-plugin.d.ts`](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/handbook/declaration%20files/templates/module-plugin.d.ts.md)模版。
+使用[`module-plugin.d.ts`](../doc/handbook/declaration%20files/templates/module-plugin.d.ts.md)模版。
 
 ### _全局插件_
 
@@ -214,7 +214,7 @@ console.log(y.reverseAndSort());
 
 #### 模版
 
-使用[`global-plugin.d.ts`](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/handbook/declaration%20files/templates/global-plugin.d.ts.md)模版。
+使用[`global-plugin.d.ts`](../doc/handbook/declaration%20files/templates/global-plugin.d.ts.md)模版。
 
 ### _全局修改的模块_
 
@@ -243,7 +243,7 @@ console.log(y.reverseAndSort());
 
 #### 模版
 
-使用[`global-modifying-module.d.ts`](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/handbook/declaration%20files/templates/global-modifying-module.d.ts.md)模版。
+使用[`global-modifying-module.d.ts`](../doc/handbook/declaration%20files/templates/global-modifying-module.d.ts.md)模版。
 
 ## 使用依赖
 

@@ -144,7 +144,7 @@ let prettySure: Object = 4;
 prettySure.toFixed(); // Error: Property 'toFixed' doesn't exist on type 'Object'.
 ```
 
-> 注意：应避免使用`Object`，而是使用非原始`object`类型，正如[Do's and Don'ts](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/handbook/declaration-files/do-s-and-don-ts.html#general-types)里所讲的那样。
+> 注意：应避免使用`Object`，而是使用非原始`object`类型，正如[Do's and Don'ts](../doc/handbook/declaration%20files/Do's%20and%20Don'ts.md)里所讲的那样。
 
 当你只知道一部分数据的类型时，`any`类型也是有用的。 比如，你有一个数组，它包含了不同的类型的数据：
 
