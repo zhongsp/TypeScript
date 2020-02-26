@@ -20,5 +20,5 @@
 * [TypeScript 1.6](typescript-1.6.md)
 * [TypeScript 1.5](typescript-1.5.md)
 * [TypeScript 1.4](typescript-1.4.md)
-* [TypeScript 1.1](https://github.com/whinc/TypeScript/tree/427e94f074f7b5159f9b8e43c7148643db392263/doc/breaking-changes/TypeScript%201.1.md)
+* [TypeScript 1.1](typescript-1.1.md)
 
