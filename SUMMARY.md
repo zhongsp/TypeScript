@@ -39,7 +39,7 @@
   * [介绍](introduction/jie-shao.md)
   * [库结构](introduction/library-structures.md)
   * [举例](introduction/by-example.md)
-  * [最佳实践](introduction/gui-fan-.dochandbookdeclaration-filesdos-and-donts.md.md)
+  * [最佳实践](introduction/do-s-and-don-ts.md)
   * [深入](introduction/deep-dive.md)
   * [模板](introduction/mo-ban.md)
   * [发布](introduction/publishing.md)
