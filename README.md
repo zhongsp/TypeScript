@@ -103,7 +103,7 @@
   * [TypeScript 1.4](./release-notes/typescript-1.4.md)
   * [TypeScript 1.3](./release-notes/typescript-1.3.md)
   * [TypeScript 1.1](./release-notes/typescript-1.1.md)
-* [Breaking Changes](./breaking-changes/breaking-changes.md)
+* [Breaking Changes](./breaking-changes/README.md)
   * [TypeScript 3.6](./breaking-changes/typescript-3.6.md)
   * [TypeScript 3.5](./breaking-changes/typescript-3.5.md)
   * [TypeScript 3.4](./breaking-changes/typescript-3.4.md)
@@ -127,7 +127,7 @@
 
 **TypeScript手册官方英文版**
 
-* [TypeScript手册（英文版）](http://www.typescriptlang.org/Handbook)
+* [TypeScript手册（英文版）](http://www.typescriptlang.org/docs/home.html)
 
 **TypeScript语言规范**
 
