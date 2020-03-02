@@ -59,7 +59,7 @@
   * [模板](introduction/templates.md)
   * [发布](introduction/publishing.md)
   * [使用](introduction/consumption.md)
-* 工程配置
+* [工程配置](tsconfig.json/README.md)
   * [tsconfig.json](tsconfig.json/tsconfig.json.md)
   * [工程引用](tsconfig.json/project-references.md)
   * [NPM包的类型](tsconfig.json/typings-for-npm-packages.md)
