@@ -253,6 +253,7 @@ mySearch = function(src, sub) {
 
 ```typescript
 interface StringArray {
+  [index: number]: string;  
 }
 
 let myArray: StringArray;
