@@ -253,6 +253,7 @@ mySearch = function(src, sub) {
 
 ```typescript
 interface StringArray {
+  [index: number]: string;
 }
 
 let myArray: StringArray;
@@ -275,6 +276,8 @@ class Dog extends Animal {
 
 // 错误：使用数值型的字符串索引，有时会得到完全不同的Animal!
 interface NotOkay {
+  [x: number]: Animal;
+  [x: string]: Dog;
 }
 ```
 
