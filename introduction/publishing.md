@@ -76,10 +76,6 @@ _应该_使用`/// <reference types="..." />`代替
 * _不要_将声明拷贝到你的包里。
 * _应该_依赖于npm类型声明包，如果依赖包没包含它自己的声明的话。
 
-### 公布你的声明文件
-
-在发布声明文件包之后，确保在[DefinitelyTyped外部包列表](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/types-2.0/notNeededPackages.json)里面添加一条引用。 这可以让查找工具知道你的包提供了自己的声明文件。
-
 ## 发布到[@types](https://www.npmjs.com/~types)
 
 [@types](https://www.npmjs.com/~types)下面的包是从[DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)里自动发布的，通过[types-publisher工具](https://github.com/Microsoft/types-publisher)。 如果想让你的包发布为@types包，提交一个pull request到[https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)。 在这里查看详细信息[contribution guidelines page](http://definitelytyped.org/guides/contributing.html)。
