@@ -535,7 +535,7 @@ let {a, b}: {a: string, b: number} = o;
 
 #### 默认值
 
-默认值可以让你在属性为 undefined 时使用缺省值：
+我们可以为属性指定一个默认值，当属性值为`undefined`时，将使用该默认值：
 
 ```typescript
 function keepWholeObject(wholeObject: { a: string, b?: number }) {
