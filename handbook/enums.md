@@ -193,7 +193,7 @@ enum E {
 }
 ```
 
-can actually be passed around to functions
+可以传递给函数
 
 ```typescript
 function f(obj: { X: number }) {
