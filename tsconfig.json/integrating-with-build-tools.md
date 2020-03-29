@@ -1,6 +1,6 @@
 # 与其它构建工具整合
 
-Build tools
+构建工具
 
 * [Babel](integrating-with-build-tools.md#babel)
 * [Browserify](integrating-with-build-tools.md#browserify)
