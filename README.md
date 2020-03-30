@@ -133,4 +133,4 @@
 
 * [TypeScript语言规范](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)
 
-I'd love for you to contribute to the translation:)
+期待你为翻译做出贡献:)
