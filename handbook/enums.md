@@ -47,7 +47,7 @@ function respond(recipient: string, message: Response): void {
 respond("Princess Caroline", Response.Yes)
 ```
 
-数字枚举可以被混入到[计算过的和常量成员（如下所示）](enums.md#computed-and-constant-members)。 简短地说，不带初始化器的枚举或者被放在第一的位置，或者被放在使用了数字常量或其它常量初始化了的枚举后面。 换句话说，下面的情况是不被允许的：
+数字枚举可以被混入到[计算过的和常量成员（如下所示）](enums.md#computed-and-constant-members)。 简短地说，没有初始化器的成员要么在首位，要么必须在用数值常量或其他常量枚举成员初始化的数值枚举之后。 换句话说，下面的情况是不被允许的：
 
 ```typescript
 enum E {
