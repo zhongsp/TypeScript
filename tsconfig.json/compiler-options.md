@@ -26,6 +26,7 @@
 | `--generateCpuProfile` | `string` | `profile.cpuprofile` | 在指定目录生成CPU资源使用报告。若传入的是已创建的目录名，将在此目录下生成以时间戳命名的报告。 |
 | `--help` `-h` |  |  | 打印帮助信息。 |
 | `--importHelpers` | `string` |  | 从[`tslib`](https://www.npmjs.com/package/tslib)导入辅助工具函数（比如`__extends`，`__rest`等） |
+| `--importsNotUsedAsValues` | `string`  | `remove` | 用于设置针对于类型导入的代码生成和代码检查的行为。`"remove"`和`"preserve"`设置了是否对未使用的导入了模块副作用的导入语句生成相关代码，`"error"`则强制要求只用作类型的模块导入必须使用`import type`语句。
 | `--inlineSourceMap` | `boolean` | `false` | 生成单个sourcemaps文件，而不是将每sourcemaps生成不同的文件。 |
 | `--inlineSources` | `boolean` | `false` | 将代码与sourcemaps生成到一个文件中，要求同时设置了`--inlineSourceMap`或`--sourceMap`属性。 |
 | `--init` |  |  | 初始化TypeScript项目并创建一个`tsconfig.json`文件。 |
