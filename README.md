@@ -8,7 +8,7 @@
 
 :heavy_check_mark: TypeScript语言用于大规模应用的JavaScript开发。  :heavy_check_mark: TypeScript支持类型，是JavaScript的超集且可以编译成纯JavaScript代码。  :heavy_check_mark: TypeScript兼容所有浏览器，所有宿主环境，所有操作系统。  :heavy_check_mark: TypeScript是开源的。
 
-:book: [在GitBook网站上阅读本手册](https://app.gitbook.com/@zhongsp/s/typescript-handbook/) :new:
+<!-- :book: [在GitBook网站上阅读本手册](https://app.gitbook.com/@zhongsp/s/typescript-handbook/) :new: -->
 
 :link: [一大波新的快速开始指南：React，Angular，Nodejs，ASP.NET Core，React Native，Vue，Glimmer，WeChat，Dojo2，Knockout等](./doc/quick-start/README.md)
 
