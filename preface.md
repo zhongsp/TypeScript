@@ -124,3 +124,4 @@ TypeScript目前还在积极的开发完善之中，不断地会有新的特性�
 * [TypeScript on Github](https://github.com/Microsoft/TypeScript)
 * [TypeScript语言规范](https://github.com/microsoft/TypeScript/blob/master/doc/spec.md)
 * [本手册中文版Github地址](https://github.com/zhongsp/TypeScript)
+
