@@ -260,3 +260,26 @@ let strLength: number = (someValue as string).length;
 
 你可能已经注意到了，我们使用`let`关键字来代替大家所熟悉的JavaScript关键字`var`。 `let`是ES2015引入的关键字，它比`var`更加安全，因此被看做是声明变量的标准方式。 我们会在以后详细介绍它，很多常见的问题都可以通过使用`let`来解决，所以尽可能地使用`let`来代替`var`吧。
 
+## 关于 Number, String, Boolean, Symbol 和 Object
+
+我们很容易会认为 `Number`、 `String`、 `Boolean`、`Symbol` 以及 `Object` 这些类型和我们以上推荐的小写版本的类型是一样的。但这些类型不属于语言的基本类型，并且几乎在任何时候都不应该被用作一个类型：
+
+```typescript
+// @errors: 2339
+function reverse(s: String): String {
+  return s.split("").reverse().join("");
+}
+
+reverse("hello world");
+```
+
+相对地，我们应该使用 `number`、`string`、`boolean`、`object` 和 `symbol`
+
+```typescript
+function reverse(s: string): string {
+  return s.split("").reverse().join("");
+}
+
+reverse("hello world");
+```
+
