@@ -392,7 +392,7 @@ kitty.numLives--;
 
 ## 解构
 
-Another TypeScript已经可以解析其它 ECMAScript 2015 特性了。 完整列表请参见 [the article on the Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)。 本章，我们将给出一个简短的概述。
+TypeScript 包含的另一个 ECMAScript 2015 特性就是解构。完整列表请参见 [the article on the Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)。 本章，我们将给出一个简短的概述。
 
 ### 解构数组
 
@@ -412,14 +412,14 @@ first = input[0];
 second = input[1];
 ```
 
-解构作用于已声明的变量会更好：
+解构也可以作用于已声明的变量：
 
 ```typescript
 // swap variables
 [first, second] = [second, first];
 ```
 
-作用于函数参数：
+类似地，也可以作用于函数参数：
 
 ```typescript
 function f([first, second]: [number, number]) {
