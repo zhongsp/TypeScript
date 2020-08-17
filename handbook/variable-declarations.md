@@ -229,7 +229,7 @@ let a;
 
 关于_暂时性死区_的更多信息，查看这里[Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone_and_errors_with_let).
 
-### 重定义及屏蔽
+### 重声明及屏蔽
 
 我们提过使用`var`声明时，它不在乎你声明多少次；你只会得到1个。
 
