@@ -61,10 +61,10 @@ TypeScript 3.9通过[改变编译器和语言服务缓存文件查询的内部�
 
 尽管仍有优化的空间，我们希望当前的改变能够为每个人带来更流畅的体验。
 
-## `// @ts-expect-error` Comments
+## `// @ts-expect-error` 注释
 
-Imagine that we're writing a library in TypeScript and we're exporting some function called `doStuff` as part of our public API.
-The function's types declare that it takes two `string`s so that other TypeScript users can get type-checking errors, but it also does a runtime check (maybe only in development builds) to give JavaScript users a helpful error.
+设想一下，我们正在使用TypeScript编写一个代码库，它对外开放了一个公共函数`doStuff`。
+该函数的类型声明了它接受两个`string`类型的参数，因此其它TypeScript的用户能够看到类型检查的结果，但该函数还进行了运行时的检查以便JavaScript用户能够看到一个有帮助的错误。
 
 ```ts
 function doStuff(abc: string, xyz: string) {
@@ -75,8 +75,8 @@ function doStuff(abc: string, xyz: string) {
 }
 ```
 
-So TypeScript users will get a helpful red squiggle and an error message when they misuse this function, and JavaScript users will get an assertion error.
-We'd like to test this behavior, so we'll write a unit test.
+如果有人错误地使用了该函数，那么TypeScript用户能够看到红色的波浪线和错误提示，JavaScript用户会看到断言错误。
+然后，我们想编写一条单元测试来测试该行为。
 
 ```ts
 expect(() => {
@@ -84,42 +84,44 @@ expect(() => {
 }).toThrow();
 ```
 
-Unfortunately if our tests are written in TypeScript, TypeScript will give us an error!
+不巧的是，如果你使用TypeScript来编译单元测试，TypeScript会提示一个错误！
 
 ```ts
 doStuff(123, 456);
-//          ~~~
-// error: Type 'number' is not assignable to type 'string'.
+//      ~~~
+// 错误：类型'number'不能够赋值给类型'string'。
 ```
 
-That's why TypeScript 3.9 brings a new feature: `// @ts-expect-error` comments.
-When a line is prefixed with a `// @ts-expect-error` comment, TypeScript will suppress that error from being reported;
-but if there's no error, TypeScript will report that `// @ts-expect-error` wasn't necessary.
+这就是TypeScript 3.9添加了`// @ts-expect-error`注释的原因。
+当一行代码带有`// @ts-expect-error`注释时，TypeScript不会提示上例的错误；
+但如果该行代码没有错误，TypeScript会提示没有必要使用`// @ts-expect-error`。
 
-As a quick example, the following code is okay
+示例，以下的代码是正确的：
 
 ```ts
 // @ts-expect-error
 console.log(47 * "octopus");
 ```
 
-while the following code
+但是下面的代码：
 
 ```ts
 // @ts-expect-error
 console.log(1 + 1);
 ```
 
-results in the error
+会产生错误：
 
 ```
-Unused '@ts-expect-error' directive.
+未使用的 '@ts-expect-error' 指令。
 ```
 
-We'd like to extend a big thanks to [Josh Goldberg](https://github.com/JoshuaKGoldberg), the contributor who implemented this feature.
-For more information, you can take a look at [the `ts-expect-error` pull request](https://github.com/microsoft/TypeScript/pull/36014).
+非常感谢[Josh Goldberg](https://github.com/JoshuaKGoldberg)实现了这个功能。
+更多信息请参考[the `ts-expect-error` pull request](https://github.com/microsoft/TypeScript/pull/36014)。
 
-### `ts-ignore` or `ts-expect-error`?
+### `ts-ignore` 还是 `ts-expect-error`?
+
+某些情况下，`// @ts-expect-error`和`// @ts-ignore`是相似的，都能够阻止产生错误消息。
 
 In some ways `// @ts-expect-error` can act as a suppression comment, similar to `// @ts-ignore`.
 The difference is that `// @ts-ignore` will do nothing if the following line is error-free.
