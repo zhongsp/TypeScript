@@ -124,6 +124,41 @@ let colorName: string = Color[2];
 console.log(colorName);  // 显示'Green'因为上面代码里它的值是2
 ```
 
+## 未知
+
+当我们在写应用的时候可能会需要描述一个我们还不知道其类型的变量。这些值可以来自动态内容，例如从用户获得，或者我们想在我们的 API 中接收所有可能类型的值。在这些情况下，我们想要让编译器以及未来的用户知道这个变量可以是任意类型。这个时候我们会对它使用 `unknown` 类型。
+
+```typescript
+let notSure: unknown = 4;
+notSure = "maybe a string instead";
+
+// OK, definitely a boolean
+notSure = false;
+```
+
+如果你有一个 `unknwon` 类型的变量，你可以通过进行 `typeof` 、比较或者更高级的类型检查来将其的类型范围缩小，这些方法会在后续章节中进一步讨论：
+
+```typescript
+// @errors: 2322 2322 2322
+declare const maybe: unknown;
+// 'maybe' could be a string, object, boolean, undefined, or other types
+const aNumber: number = maybe;
+
+if (maybe === true) {
+  // TypeScript knows that maybe is a boolean now
+  const aBoolean: boolean = maybe;
+  // So, it cannot be a string
+  const aString: string = maybe;
+}
+
+if (typeof maybe === "string") {
+  // TypeScript knows that maybe is a string
+  const aString: string = maybe;
+  // So, it cannot be a boolean
+  const aBoolean: boolean = maybe;
+}
+```
+
 ## 任意值
 
 有时候，我们会想要为那些在编程阶段还不清楚类型的变量指定一个类型。 这些值可能来自于动态的内容，比如来自用户输入或第三方代码库。 这种情况下，我们不希望类型检查器对这些值进行检查而是直接让它们通过编译阶段的检查。 那么我们可以使用`any`类型来标记这些变量：
