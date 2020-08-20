@@ -62,6 +62,8 @@
   * [架构概述](wiki/architectural-overview.md)
   * [发展路线图](wiki/roadmap.md)
 * [新增功能](release-notes/README.md)
+  * [TypeScript 3.9](release-notes/typescript-3.9.md)
+  * [TypeScript 3.8](release-notes/typescript-3.8.md)
   * [TypeScript 3.7](release-notes/typescript-3.7.md)
   * [TypeScript 3.6](release-notes/typescript-3.6.md)
   * [TypeScript 3.5](release-notes/typescript-3.5.md)
