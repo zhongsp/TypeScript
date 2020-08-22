@@ -143,7 +143,7 @@ function buildName(firstName: string, lastName = "Smith") {
 }
 ```
 
-共享同样的类型`(firstName: string, lastName?: string) => string`。 默认参数的默认值消失了，只保留了它是一个可选参数的信息。
+共享同样的类型`(firstName: string, lastName?: string) => string`。 在函数类型中，默认参数的默认值不会显示，而只会显示它是一个可选参数。
 
 与普通可选参数不同的是，带默认值的参数不需要放在必须参数的后面。 如果带默认值的参数出现在必须参数前面，用户必须明确的传入`undefined`值来获得默认值。 例如，我们重写最后一个例子，让`firstName`是带默认值的参数：
 
@@ -243,7 +243,7 @@ alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 
 ### `this`参数
 
-不幸的是，`this.suits[pickedSuit]`的类型依旧为`any`。 这是因为`this`来自对象字面量里的函数表达式。 修改的方法是，提供一个显式的`this`参数。 `this`参数是个假的参数，它出现在参数列表的最前面：
+不幸的是，`this.suits[pickedSuit]`中的`this`的类型依旧为`any`。 这是因为`this`来自对象字面量里的函数表达式。 修改的方法是，提供一个显式的`this`参数。 `this`参数是个假的参数，它出现在参数列表的最前面：
 
 ```typescript
 function f(this: void) {
