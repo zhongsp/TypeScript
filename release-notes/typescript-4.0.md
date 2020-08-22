@@ -331,44 +331,44 @@ class Square {
 
 更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/379200).
 
-## Short-Circuiting Assignment Operators
+## 断路赋值运算符
 
-JavaScript, and a lot of other languages, support a set of operators called _compound assignment_ operators.
-Compound assignment operators apply an operator to two arguments, and then assign the result to the left side.
-You may have seen these before:
+JavaScript以及其它很多编程语言支持一些_复合赋值_运算符。
+复合赋值运算符作用于两个操作数，并将运算结果赋值给左操作数。
+你从前可能见到过以下代码：
 
 ```ts
-// Addition
+// 加
 // a = a + b
 a += b;
 
-// Subtraction
+// 减
 // a = a - b
 a -= b;
 
-// Multiplication
+// 乘
 // a = a * b
 a *= b;
 
-// Division
+// 除
 // a = a / b
 a /= b;
 
-// Exponentiation
+// 幂
 // a = a ** b
 a **= b;
 
-// Left Bit Shift
+// 左移位
 // a = a << b
 a <<= b;
 ```
 
-So many operators in JavaScript have a corresponding assignment operator!
-Up until recently, however, there were three notable exceptions: logical _and_ (`&&`), logical _or_ (`||`), and nullish coalescing (`??`).
+JavaScript中的许多运算符都具有一个对应的赋值运算符！
+目前为止，有三个值得注意的例外：逻辑_与_（`&&`），逻辑_或_（`||`）和逻辑_空值合并_（`??`）。
 
-That's why TypeScript 4.0 supports a new ECMAScript feature to add three new assignment operators: `&&=`, `||=`, and `??=`.
+这就是为什么TypeScript 4.0支持了一个ECMAScript的新特性，增加了三个新的赋值运算符`&&=`，`||=`和`??=`。
 
-These operators are great for substituting any example where a user might write code like the following:
+这三个运算符可以用于替换以下代码：
 
 ```ts
 a = a && b;
@@ -376,7 +376,7 @@ a = a || b;
 a = a ?? b;
 ```
 
-Or a similar `if` block like
+或者相似的`if`语句
 
 ```ts
 // could be 'a ||= b'
@@ -385,7 +385,7 @@ if (!a) {
 }
 ```
 
-There are even some patterns we've seen (or, uh, written ourselves) to lazily initialize values, only if they'll be needed.
+还有以下的惰性初始化值的例子：
 
 ```ts
 let values: string[];
@@ -395,10 +395,8 @@ let values: string[];
 (values ??= []).push("hello");
 ```
 
-(look, we're not proud of _all_ the code we write...)
-
-On the rare case that you use getters or setters with side-effects, it's worth noting that these operators only perform assignments if necessary.
-In that sense, not only is the right side of the operator "short-circuited" - the assignment itself is too.
+少数情况下当你使用带有副作用的存取器时，值得注意的是这些运算符只在必要时才执行赋值操作。
+也就是说，不仅是运算符右操作数会“短路”，整个赋值操作也会“短路”
 
 ```ts
 obj.prop ||= foo();
@@ -412,7 +410,7 @@ if (!obj.prop) {
 }
 ```
 
-[Try running the following example](https://www.typescriptlang.org/play?ts=Nightly#code/MYewdgzgLgBCBGArGBeGBvAsAKBnmA5gKawAOATiKQBQCUGO+TMokIANkQHTsgHUAiYlChFyMABYBDCDHIBXMANoBuHI2Z4A9FpgAlIqXZTgRGAFsiAQg2byJeeTAwAslKgSu5KWAAmIczoYAB4YAAYuAFY1XHwAXwAaWxgIEhgKKmoAfQA3KXYALhh4EA4iH3osWM1WCDKePkFUkTFJGTlFZRimOJw4mJwAM0VgKABLcBhB0qCqplr63n4BcjGCCVgIMd8zIjz2eXciXy7k+yhHZygFIhje7BwFzgblgBUJMdlwM3yAdykAJ6yBSQGAeMzNUTkU7YBCILgZUioOBIBGUJEAHwxUxmqnU2Ce3CWgnenzgYDMACo6pZxpYIJSOqDwSkSFCYXC0VQYFi0NMQHQVEA) to see how that differs from _always_ performing the assignment.
+[尝试运行这个例子](https://www.typescriptlang.org/play?ts=Nightly#code/MYewdgzgLgBCBGArGBeGBvAsAKBnmA5gKawAOATiKQBQCUGO+TMokIANkQHTsgHUAiYlChFyMABYBDCDHIBXMANoBuHI2Z4A9FpgAlIqXZTgRGAFsiAQg2byJeeTAwAslKgSu5KWAAmIczoYAB4YAAYuAFY1XHwAXwAaWxgIEhgKKmoAfQA3KXYALhh4EA4iH3osWM1WCDKePkFUkTFJGTlFZRimOJw4mJwAM0VgKABLcBhB0qCqplr63n4BcjGCCVgIMd8zIjz2eXciXy7k+yhHZygFIhje7BwFzgblgBUJMdlwM3yAdykAJ6yBSQGAeMzNUTkU7YBCILgZUioOBIBGUJEAHwxUxmqnU2Ce3CWgnenzgYDMACo6pZxpYIJSOqDwSkSFCYXC0VQYFi0NMQHQVEA)来查看与 _始终_执行赋值间的差别。
 
 ```ts twoslash
 const obj = {
@@ -439,10 +437,10 @@ console.log("This one *sometimes* runs the setter");
 obj.prop ||= foo();
 ```
 
-We'd like to extend a big thanks to community member [Wenlu Wang](https://github.com/Kingwl) for this contribution!
+非常感谢社区成员[Wenlu Wang](https://github.com/Kingwl)为该功能的付出！
 
-For more details, you can [take a look at the pull request here](https://github.com/microsoft/TypeScript/pull/37727).
-You can also [check out TC39's proposal repository for this feature](https://github.com/tc39/proposal-logical-assignment/).
+更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/37727).
+你还可以[查看该特性的TC39提案](https://github.com/tc39/proposal-logical-assignment/).
 
 ## `unknown` on `catch` Clause Bindings
 
