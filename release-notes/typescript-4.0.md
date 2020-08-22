@@ -268,18 +268,16 @@ function foo(x: [first: string, second: number]) {
 
 更多详情请参考[PT](https://github.com/microsoft/TypeScript/pull/38234)。
 
-## Class Property Inference from Constructors
+## 从构造函数中推断类属性
 
-TypeScript 4.0 can now use control flow analysis to determine the types of properties in classes when `noImplicitAny` is enabled.
+在TypeScript 4.0中，当启用了`noImplicitAny`时，编译器能够根据基于控制流的分析来确定类中属性的类型
 
-<!--prettier-ignore -->
 ```ts twoslash
 class Square {
-  // Previously both of these were any
-  area;
-// ^?
-  sideLength;
-// ^?
+  // 在旧版本中，以下两个属性均为any类型
+  area; // number
+  sideLength; // number
+
   constructor(sideLength: number) {
     this.sideLength = sideLength;
     this.area = sideLength ** 2;
@@ -287,14 +285,11 @@ class Square {
 }
 ```
 
-In cases where not all paths of a constructor assign to an instance member, the property is considered to potentially be `undefined`.
+如果没有在构造函数中的所有代码执行路径上为实例成员进行赋值，那么该属性会被认为可能为`undefined`类型。
 
-<!--prettier-ignore -->
 ```ts twoslash
-// @errors: 2532
 class Square {
-  sideLength;
-// ^?
+  sideLength; // number | undefined
 
   constructor(sideLength: number) {
     if (Math.random()) {
@@ -304,19 +299,21 @@ class Square {
 
   get area() {
     return this.sideLength ** 2;
+    //     ~~~~~~~~~~~~~~~
+    //     对象可能为'undefined'
   }
 }
 ```
 
-In cases where you know better (e.g. you have an `initialize` method of some sort), you'll still need an explicit type annotation along with a definite assignment assertion (`!`) if you're in `strictPropertyInitialization`.
+如果你清楚地知道属性类型（例如，类中存在类似于`initialize`的初始化方法），你仍需要明确地使用类型注解来指定类型，以及需要使用确切赋值断言（`!`）如果你启用了`strictPropertyInitialization`模式。
 
 ```ts twoslash
 class Square {
-  // definite assignment assertion
+  // 确切赋值断言
   //        v
   sideLength!: number;
   //         ^^^^^^^^
-  // type annotation
+  //         类型注解
 
   constructor(sideLength: number) {
     this.initialize(sideLength);
@@ -332,7 +329,7 @@ class Square {
 }
 ```
 
-For more details, [see the implementing pull request](https://github.com/microsoft/TypeScript/pull/379200).
+更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/379200).
 
 ## Short-Circuiting Assignment Operators
 
