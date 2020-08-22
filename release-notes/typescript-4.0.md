@@ -1,6 +1,6 @@
-## Variadic Tuple Types
+## 可变参元组类型
 
-Consider a function in JavaScript called `concat` that takes two array or tuple types and concatenates them together to make a new array.
+在JavaScript中有一个函数`concat`，它接受两个数组或元组并将它们连接在一起构成一个新数组。
 
 ```js
 function concat(arr1, arr2) {
@@ -8,7 +8,7 @@ function concat(arr1, arr2) {
 }
 ```
 
-Also consider `tail`, that takes an array or tuple, and returns all elements but the first.
+再假设有一个`tail`函数，它接受一个数组或元组并返回除首个元素外的所有元素。
 
 ```js
 function tail(arg) {
@@ -17,9 +17,9 @@ function tail(arg) {
 }
 ```
 
-How would we type either of these in TypeScript?
+那么，我们如何在TypeScript中为这两个函数添加类型？
 
-For `concat`, the only valid thing we could do in older versions of the language was to try and write some overloads.
+在旧版本的TypeScript中，对于`concat`函数我们能做的是编写一些函数重载签名。
 
 ```ts
 function concat(arr1: [], arr2: []): [];
@@ -31,10 +31,9 @@ function concat<A, B, C, D, E>(arr1: [A, B, C, D, E], arr2: []): [A, B, C, D, E]
 function concat<A, B, C, D, E, F>(arr1: [A, B, C, D, E, F], arr2: []): [A, B, C, D, E, F];)
 ```
 
-Uh...okay, that's...seven overloads for when the second array is always empty.
-Let's add some for when `arr2` has one argument.
+在保持第二个数组为空的情况下，我们已经编写了七个重载签名。
+接下来，让我们为`arr2`添加一个参数。
 
-<!-- prettier-ignore -->
 ```ts
 function concat<A2>(arr1: [], arr2: [A2]): [A2];
 function concat<A1, A2>(arr1: [A1], arr2: [A2]): [A1, A2];
@@ -45,26 +44,27 @@ function concat<A1, B1, C1, D1, E1, A2>(arr1: [A1, B1, C1, D1, E1], arr2: [A2]):
 function concat<A1, B1, C1, D1, E1, F1, A2>(arr1: [A1, B1, C1, D1, E1, F1], arr2: [A2]): [A1, B1, C1, D1, E1, F1, A2];
 ```
 
-We hope it's clear that this is getting unreasonable.
-Unfortunately, you'd also end up with the same sorts of issues typing a function like `tail`.
+这已经开始变得不合理了。
+不巧的是，在给`tail`函数添加类型时也会遇到同样的问题。
 
-This is another case of what we like to call "death by a thousand overloads", and it doesn't even solve the problem generally.
-It only gives correct types for as many overloads as we care to write.
-If we wanted to make a catch-all case, we'd need an overload like the following:
+在受尽了“重载的折磨”后，它依然没有完全解决我们的问题。
+它只能针对已编写的重载给出正确的类型。
+如果我们想要处理所有情况，则还需要提供一个如下的重载：
 
 ```ts
 function concat<T, U>(arr1: T[], arr2: U[]): Array<T | U>;
 ```
 
-But that signature doesn't encode anything about the lengths of the input, or the order of the elements, when using tuples.
+但是这个重载签名没有反映出输入的长度，以及元组元素的顺序。
 
-TypeScript 4.0 brings two fundamental changes, along with inference improvements, to make typing these possible.
+TypeScript 4.0带来了两项基础改动，还伴随着类型推断的改善，因此我们能够方便地添加类型。
 
-The first change is that spreads in tuple type syntax can now be generic.
-This means that we can represent higher-order operations on tuples and arrays even when we don't know the actual types we're operating over.
-When generic spreads are instantiated (or, replaced with a real type) in these tuple types, they can produce other sets of array and tuple types.
+第一个改动是展开元组类型的语法支持泛型。
+这就是说，我们能够表示在元组和数组上的高阶操作，尽管我们不清楚它们的具体类型。
+在实例化泛型展开时
+当在这类元组上进行泛型展开实例化（或者使用实际类型参数进行替换）时，它们能够产生另一组数组和元组类型。
 
-For example, that means we can type function like `tail`, without our "death by a thousand overloads" issue.
+例如，我们可以像下面这样给`tail`函数添加类型，避免了“重载的折磨”。
 
 ```ts twoslash
 function tail<T extends any[]>(arr: readonly [any, ...T]) {
@@ -76,41 +76,41 @@ const myTuple = [1, 2, 3, 4] as const;
 const myArray = ["hello", "world"];
 
 const r1 = tail(myTuple);
-//    ^?
+//    [2, 3, 4]
 
 const r2 = tail([...myTuple, ...myArray] as const);
-//    ^?
+//    [2, 3, 4, ...string[]]
 ```
 
-The second change is that rest elements can occur anywhere in a tuple - not just at the end!
+第二个改动是，剩余元素可以出现在元组中的任意位置上 - 不只是末尾位置！
 
 ```ts twoslash
 type Strings = [string, string];
 type Numbers = [number, number];
 
 type StrStrNumNumBool = [...Strings, ...Numbers, boolean];
-//   ^?
+//   [string, string, number, number, boolean]
 ```
 
-Previously, TypeScript would issue an error like the following:
+在以前，TypeScript会像下面这样产生一个错误：
 
 ```
-A rest element must be last in a tuple type.
+剩余元素必须出现在元组类型的末尾。
 ```
 
-But with TypeScript 4.0, this restriction is relaxed.
+但是在TypeScript 4.0中放开了这个限制。
 
-Note that in cases when we spread in a type without a known length, the resulting type becomes unbounded as well, and all the following elements factor into the resulting rest element type.
+注意，如果展开一个长度未知的类型，那么后面的所有元素都将被纳入到剩余元素类型。
 
 ```ts twoslash
 type Strings = [string, string];
 type Numbers = number[];
 
 type Unbounded = [...Strings, ...Numbers, boolean];
-//   ^?
+//   [string, string, ...(number | boolean)[]]
 ```
 
-By combining both of these behaviors together, we can write a single well-typed signature for `concat`:
+结合使用这两种行为，我们能够为`concat`函数编写一个良好的类型签名：
 
 ```ts twoslash
 type Arr = readonly any[];
@@ -120,12 +120,12 @@ function concat<T extends Arr, U extends Arr>(arr1: T, arr2: U): [...T, ...U] {
 }
 ```
 
-While that one signature is still a bit lengthy, it's just one signature that doesn't have to be repeated, and it gives predictable behavior on all arrays and tuples.
+虽然这个签名仍有点长，但是我们不再需要像重载那样重复多次，并且对于任何数组或元组它都能够给出期望的类型。
 
-This functionality on its own is great, but it shines in more sophisticated scenarios too.
-For example, consider a function to [partially apply arguments](https://en.wikipedia.org/wiki/Partial_application) called `partialCall`.
-`partialCall` takes a function - let's call it `f` - along with the initial few arguments that `f` expects.
-It then returns a new function that takes any other arguments that `f` still needs, and calls `f` when it receives them.
+该功能本身已经足够好了，但是它的强大更体现在一些复杂的场景中。
+例如，考虑有一个支持[部分参数应用](https://en.wikipedia.org/wiki/Partial_application)的函数`partialCall`。
+`partialCall`接受一个函数（例如叫作`f`），以及函数`f`需要的一些初始参数。
+它返回一个新的函数，该函数接受`f`需要的额外参数，并最终以初始参数和额外参数来调用`f`。
 
 ```js
 function partialCall(f, ...headArgs) {
@@ -133,7 +133,7 @@ function partialCall(f, ...headArgs) {
 }
 ```
 
-TypeScript 4.0 improves the inference process for rest parameters and rest tuple elements so that we can type this and have it "just work".
+TypeScript 4.0改进了剩余参数和剩余元组元素的类型推断，因此我们可以为这种使用场景添加类型。
 
 ```ts twoslash
 type Arr = readonly unknown[];
@@ -146,7 +146,7 @@ function partialCall<T extends Arr, U extends Arr, R>(
 }
 ```
 
-In this case, `partialCall` understands which parameters it can and can't initially take, and returns functions that appropriately accept and reject anything left over.
+此例中，`partialCall`知道能够接受哪些初始参数，并返回一个函数，它能够正确地选择接受或拒绝额外的参数。
 
 ```ts twoslash
 // @errors: 2345 2554 2554 2345
@@ -162,12 +162,16 @@ function partialCall<T extends Arr, U extends Arr, R>(
 const foo = (x: string, y: number, z: boolean) => {};
 
 const f1 = partialCall(foo, 100);
+//                          ~~~
+// Argument of type 'number' is not assignable to parameter of type 'string'.
 
 const f2 = partialCall(foo, "hello", 100, true, "oops");
+//                                              ~~~~~~
+// Expected 4 arguments, but got 5.(2554)
 
 // This works!
 const f3 = partialCall(foo, "hello");
-//    ^?
+//    (y: number, z: boolean) => void
 
 // What can we do with f3 now?
 
@@ -179,9 +183,9 @@ f3();
 f3(123, "hello");
 ```
 
-Variadic tuple types enable a lot of new exciting patterns, especially around function composition.
-We expect we may be able to leverage it to do a better job type-checking JavaScript's built-in `bind` method.
-A handful of other inference improvements and patterns also went into this, and if you're interested in learning more, you can take a look at [the pull request](https://github.com/microsoft/TypeScript/pull/39094) for variadic tuples.
+可变参元组类型支持了许多新的激动人心的模式，尤其是函数组合。
+我们期望能够通过它来为JavaScript内置的`bind`函数进行更好的类型检查。
+还有一些其它的类型推断改进以及模式引入进来，如果你想了解更多，请参考[PR](https://github.com/microsoft/TypeScript/pull/39094)。
 
 ## Labeled Tuple Elements
 
