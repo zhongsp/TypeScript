@@ -243,7 +243,7 @@ alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 
 ### `this`参数
 
-不幸的是，`this.suits[pickedSuit]`的类型依旧为`any`。 这是因为`this`来自对象字面量里的函数表达式。 修改的方法是，提供一个显式的`this`参数。 `this`参数是个假的参数，它出现在参数列表的最前面：
+不幸的是，`this.suits[pickedSuit]`中的`this`的类型依旧为`any`。 这是因为`this`来自对象字面量里的函数表达式。 修改的方法是，提供一个显式的`this`参数。 `this`参数是个假的参数，它出现在参数列表的最前面：
 
 ```typescript
 function f(this: void) {
