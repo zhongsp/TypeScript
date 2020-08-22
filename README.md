@@ -32,6 +32,7 @@
   * [接口](handbook/interfaces.md)
   * [类](handbook/classes.md)
   * [函数](handbook/functions.md)
+  * [字面量类型](handbook/literal-types.md)
   * [泛型](handbook/generics.md)
   * [枚举](handbook/enums.md)
   * [类型推论](handbook/type-inference.md)
