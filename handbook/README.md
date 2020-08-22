@@ -5,6 +5,7 @@
 * [接口](interfaces.md)
 * [类](classes.md)
 * [函数](functions.md)
+* [字面量类型](literal-types.md)
 * [泛型](generics.md)
 * [枚举](enums.md)
 * [类型推论](type-inference.md)
