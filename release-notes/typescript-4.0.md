@@ -442,16 +442,16 @@ obj.prop ||= foo();
 更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/37727).
 你还可以[查看该特性的TC39提案](https://github.com/tc39/proposal-logical-assignment/).
 
-## `unknown` on `catch` Clause Bindings
+## `catch`语句中的`unknown`类型
 
-Since the beginning days of TypeScript, `catch` clause variables have always been typed as `any`.
-This meant that TypeScript allowed you to do anything you wanted with them.
+在TypeScript的早期版本中，`catch`语句中的捕获变量总为`any`类型。
+这意味着你可以在捕获变量上执行任意的操作。
 
 ```ts twoslash
 try {
   // Do some work
 } catch (x) {
-  // x has type 'any' - have fun!
+  // x 类型为 'any'
   console.log(x.message);
   console.log(x.toUpperCase());
   x++;
@@ -459,15 +459,13 @@ try {
 }
 ```
 
-The above has some undesirable behavior if we're trying to prevent _more_ errors from happening in our error-handling code!
-Because these variables have the type `any` by default, they lack any type-safety which could have errored on invalid operations.
+上述代码可能导致错误处理语句中产生了_更多_的错误，因此该行为是不合理的。
+因为捕获变量默认为`any`类型，所以它不是类型安全的，你可以在上面执行非法操作。
 
-That's why TypeScript 4.0 now lets you specify the type of `catch` clause variables as `unknown` instead.
-`unknown` is safer than `any` because it reminds us that we need to perform some sorts of type-checks before operating on our values.
+TypeScript 4.0允许将`catch`语句中的捕获变量类型声明为`unknown`类型。
+`unknown`类型比`any`类型更加安全，因为它要求在使用之前必须进行类型检查。
 
-<!--prettier-ignore -->
 ```ts twoslash
-// @errors: 2571
 try {
   // ...
 } catch (e: unknown) {
@@ -481,10 +479,10 @@ try {
 }
 ```
 
-While the types of `catch` variables won't change by default, we might consider a new `--strict` mode flag in the future so that users can opt in to this behavior.
-In the meantime, it should be possible to write a lint rule to force `catch` variables to have an explicit annotation of either `: any` or `: unknown`.
+由于`catch`语句捕获变量的类型不会被默认地改变成`unknown`类型，因此我们考虑在未来添加一个新的`--strict`标记来有选择性地引入该行为。
+目前，我们可以通过使用代码静态检查工具来强制`catch`捕获变量使用了明确的类型注解`: any`或`: unknown`。
 
-For more details you can [peek at the changes for this feature](https://github.com/microsoft/TypeScript/pull/39015).
+更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/39015).
 
 ## Custom JSX Factories
 
