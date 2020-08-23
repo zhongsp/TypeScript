@@ -648,14 +648,14 @@ TypeScript 4.0对编辑器环境进行了一点小改动，它会自动引入你
 ![Configuring 'include package JSON auto imports'](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2020/08/configurePackageJsonAutoImports4-0.png)
 For more details, you can see the [proposal issue](https://github.com/microsoft/TypeScript/issues/37812) along with [the implementing pull request](https://github.com/microsoft/TypeScript/pull/38923).
 
-## Our New Website!
+## 我们的新网站
 
-[The TypeScript website](https://www.typescriptlang.org/) has recently been rewritten from the ground up and rolled out!
+最近，我们重写了[TypeScript官网](https://www.typescriptlang.org/)并且已经发布！
 
 ![A screenshot of the new TypeScript website](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2020/08/ts-web.png)
 
-[We already wrote a bit about our new site](https://devblogs.microsoft.com/typescript/announcing-the-new-typescript-website/), so you can read up more there; but it's worth mentioning that we're still looking to hear what you think!
-If you have questions, comments, or suggestions, you can [file them over on the website's issue tracker](https://github.com/microsoft/TypeScript-Website).
+[我们在这里介绍了关于新网站的一些信息](https://devblogs.microsoft.com/typescript/announcing-the-new-typescript-website/)；但仍期望用户给予更多的反馈！
+如果你有问题或建议，请到[这里提交Issue](https://github.com/microsoft/TypeScript-Website)。
 
 ## Breaking Changes
 
