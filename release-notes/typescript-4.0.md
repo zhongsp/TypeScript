@@ -484,15 +484,15 @@ try {
 
 更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/39015).
 
-## Custom JSX Factories
+## 自定义JSX工厂
 
-When using JSX, a [_fragment_](https://reactjs.org/docs/fragments.html) is a type of JSX element that allows us to return multiple child elements.
-When we first implemented fragments in TypeScript, we didn't have a great idea about how other libraries would utilize them.
-Nowadays most other libraries that encourage using JSX and support fragments have a similar API shape.
+在使用JSX时，[_fragment_](https://reactjs.org/docs/fragments.html)类型的JSX元素允许返回多个子元素。
+当TypeScript刚开始实现fragments时，我们不太清楚其它代码库该如何使用它们。
+最近越来越多的库开始使用JSX并支持与fragments结构相似的API。
 
-In TypeScript 4.0, users can customize the fragment factory through the new `jsxFragmentFactory` option.
+在TypeScript 4.0中，用户可以使用`jsxFragmentFactory`选项来自定义fragment工厂。
 
-As an example, the following `tsconfig.json` file tells TypeScript to transform JSX in a way compatible with React, but switches each factory invocation to `h` instead of `React.createElement`, and uses `Fragment` instead of `React.Fragment`.
+例如，下例的`tsconfig.json`文件告诉TypeScript使用与React兼容的方式来转换JSX，但使用`h`来代替`React.createElement`工厂，同时使用`Fragment`来代替`React.Fragment`。
 
 ```json5
 {
@@ -506,13 +506,11 @@ As an example, the following `tsconfig.json` file tells TypeScript to transform 
 }
 ```
 
-In cases where you need to have a different JSX factory on a per-file basis<!-- (maybe you like to ship React, Preact, and Inferno to give a blazing fast experience) -->, you can take advantage of the new `/** @jsxFrag */` pragma comment.
-For example, the following...
+如果针对每个文件具有不同的JSX工厂，你可以使用新的`/** @jsxFrag */`编译指令注释。
+示例：
 
 ```tsx twoslash
-// @noErrors
-// Note: these pragma comments need to be written
-// with a JSDoc-style multiline syntax to take effect.
+// 注意：这些编译指令注释必须使用JSDoc风格，否则不起作用
 
 /** @jsx h */
 /** @jsxFrag Fragment */
@@ -526,13 +524,10 @@ export const Header = (
 );
 ```
 
-...will get transformed to this output JavaScript...
+上述代码会转换为如下的JavaScript
 
 ```tsx twoslash
-// @noErrors
-// @showEmit
-// Note: these pragma comments need to be written
-// with a JSDoc-style multiline syntax to take effect.
+// 注意：这些编译指令注释必须使用JSDoc风格，否则不起作用
 
 /** @jsx h */
 /** @jsxFrag Fragment */
@@ -540,15 +535,17 @@ export const Header = (
 import { h, Fragment } from "preact";
 
 export const Header = (
-  <>
-    <h1>Welcome</h1>
-  </>
+  h(
+    Fragment,
+    null,
+    h("h1", null, "Welcome")
+  )
 );
 ```
 
-We'd like to extend a big thanks to community member [Noj Vek](https://github.com/nojvek) for sending this pull request and patiently working with our team on it.
+非常感谢社区成员[Noj Vek](https://github.com/nojvek)为该特性的付出。
 
-You can see that [the pull request](https://github.com/microsoft/TypeScript/pull/38720) for more details!
+更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/38720)
 
 ## Speed Improvements in `build` mode with `--noEmitOnError`
 
