@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/zhongsp/TypeScript.svg?branch=master)](https://travis-ci.org/zhongsp/TypeScript) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-<img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 4.0 RC (August 6, 2020)](https://devblogs.microsoft.com/typescript/announcing-typescript-4-0-rc/)
-<!-- | -->
-<!-- [版本发布说明](./release-notes/TypeScript%203.6.md) -->
+<img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 4.0 (August 20, 2020)](https://devblogs.microsoft.com/typescript/announcing-typescript-4-0/)
+|
+[版本发布说明](./release-notes/TypeScript%204.0.md)
 
 :heavy_check_mark: TypeScript语言用于大规模应用的JavaScript开发。  :heavy_check_mark: TypeScript支持类型，是JavaScript的超集且可以编译成纯JavaScript代码。  :heavy_check_mark: TypeScript兼容所有浏览器，所有宿主环境，所有操作系统。  :heavy_check_mark: TypeScript是开源的。
 
@@ -77,6 +77,7 @@
   * [架构概述](wiki/architectural-overview.md)
   * [发展路线图](wiki/roadmap.md)
 * [新增功能](release-notes/README.md)
+  * [TypeScript 4.0](release-notes/typescript-4.0.md)
   * [TypeScript 3.9](release-notes/typescript-3.9.md)
   * [TypeScript 3.8](release-notes/typescript-3.8.md)
   * [TypeScript 3.7](release-notes/typescript-3.7.md)
