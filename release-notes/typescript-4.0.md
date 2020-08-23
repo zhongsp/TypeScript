@@ -547,102 +547,103 @@ export const Header = (
 
 更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/38720)
 
-## Speed Improvements in `build` mode with `--noEmitOnError`
+## 对启用了`--noEmitOnError`的`build模式进行速度优化
 
-Previously, compiling a program after a previous compile with errors under `--incremental` would be extremely slow when using the `--noEmitOnError` flag.
-This is because none of the information from the last compilation would be cached in a `.tsbuildinfo` file based on the `--noEmitOnError` flag.
+在以前，当启用了`--noEmitOnError`编译选项时，如果在`--incremental`构建模式下的前一次构建出错了，那么接下来的构建会很慢。
+这是因为当启用了`--noEmitOnError`时，前一次失败构建的信息不会被缓存到`.tsbuildinfo`文件中。
 
-TypeScript 4.0 changes this which gives a great speed boost in these scenarios, and in turn improves `--build` mode scenarios (which imply both `--incremental` and `--noEmitOnError`).
+TypeScript 4.0对此做出了一些改变，极大地提升了这种情况下的编译速度，改善了应用`--build`模式的场景（包含`--incremental`和`--noEmitOnError`）。
 
-For details, [read up more on the pull request](https://github.com/microsoft/TypeScript/pull/38853).
+更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/38853)。
 
-## `--incremental` with `--noEmit`
+## `--incremental`和`--noEmit`
 
-TypeScript 4.0 allows us to use the `--noEmit` flag when while still leveraging `--incremental` compiles.
-This was previously not allowed, as `--incremental` needs to emit a `.tsbuildinfo` files; however, the use-case to enable faster incremental builds is important enough to enable for all users.
+TypeScript 4.0允许同时使用`--incremental`和`--noEmit`。
+这在之前是不允许的，因为`--incremental`需要生成`.tsbuildinfo`文件；
+然而，提供更快地增量构建对所有用户来讲都是十分重要的。
 
-For more details, you can [see the implementing pull request](https://github.com/microsoft/TypeScript/pull/39122).
+更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/39122)。
 
-## Editor Improvements
+## 编辑器改进
 
-The TypeScript compiler doesn't only power the editing experience for TypeScript itself in most major editors - it also powers the JavaScript experience in the Visual Studio family of editors and more.
-For that reason, much of our work focuses on improving editor scenarios - the place you spend most of your time as a developer.
+TypeScript编译器不但支持在大部分编辑器中编写TypeScript代码，还支持着在Visual Studio系列的编辑器中编写JavaScript代码。
+因此，我们主要工作之一是改善编辑器支持 - 这也是程序员花费了大量时间的地方。
 
-Using new TypeScript/JavaScript functionality in your editor will differ depending on your editor, but
+针对不同的编辑器，在使用TypeScript/JavaScript的新功能时可能会有所区别，但是
 
-- Visual Studio Code supports [selecting different versions of TypeScript](https://code.visualstudio.com/docs/typescript/typescript-compiling#_using-the-workspace-version-of-typescript). Alternatively, there's the [JavaScript/TypeScript Nightly Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-next) to stay on the bleeding edge (which is typically very stable).
-- Visual Studio 2017/2019 have [the SDK installers above] and [MSBuild installs](https://www.nuget.org/packages/Microsoft.TypeScript.MSBuild).
-- Sublime Text 3 supports [selecting different versions of TypeScript](https://github.com/microsoft/TypeScript-Sublime-Plugin#note-using-different-versions-of-typescript)
+- Visual Studio Code支持[选择不同的TypeScript版本](https://code.visualstudio.com/docs/typescript/typescript-compiling#_using-the-workspace-version-of-typescript)。或者，安装[JavaScript/TypeScript Nightly Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-next)插件来使用最新的版本。
+- Visual Studio 2017/2019提供了SDK安装包，以及[MSBuild安装包](https://www.nuget.org/packages/Microsoft.TypeScript.MSBuild)。
+- Sublime Text 3支持[选择不同的TypeScript版本](https://github.com/microsoft/TypeScript-Sublime-Plugin#note-using-different-versions-of-typescript)
 
-You can check out a partial [list of editors that have support for TypeScript](https://github.com/Microsoft/TypeScript/wiki/TypeScript-Editor-Support) to learn more about whether your favorite editor has support to use new versions.
+[这里是支持TypeScript的编辑器列表](https://github.com/Microsoft/TypeScript/wiki/TypeScript-Editor-Support)，到这里查看你喜爱的编译器是否支持最新版本的TypeScript。
 
-### Convert to Optional Chaining
+### 转换为可选链
 
-Optional chaining is a recent feature that's received a lot of love.
-That's why TypeScript 4.0 brings a new refactoring to convert common patterns to take advantage of [optional chaining](https://devblogs.microsoft.com/typescript/announcing-typescript-3-7/#optional-chaining) and [nullish coalescing](https://devblogs.microsoft.com/typescript/announcing-typescript-3-7/#nullish-coalescing)!
+可选链是一个较新的大家喜爱的特性。
+TypeScript 4.0带来了一个新的重构工具来转换常见的代码模式，以利用[可选链](https://devblogs.microsoft.com/typescript/announcing-typescript-3-7/#optional-chaining)和[空值合并](https://devblogs.microsoft.com/typescript/announcing-typescript-3-7/#nullish-coalescing)！
 
-![Converting `a && a.b.c && a.b.c.d.e.f()` to `a?.b.c?.d.e.f.()`](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2020/08/convertToOptionalChain-4-0.gif)
+![将`a && a.b.c && a.b.c.d.e.f()`转换为`a?.b.c?.d.e.f.()`](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2020/08/convertToOptionalChain-4-0.gif)
 
-Keep in mind that while this refactoring doesn't _perfectly_ capture the same behavior due to subtleties with truthiness/falsiness in JavaScript, we believe it should capture the intent for most use-cases, especially when TypeScript has more precise knowledge of your types.
+注意，虽然该项重构不能_完美地_捕获真实情况（由于JavaScript中较复杂的真值/假值关系），但是我们坚信它能够适用于大多数使用场景，尤其是在TypeScript清楚地知道代码类型信息的时候。
 
-For more details, [check out the pull request for this feature](https://github.com/microsoft/TypeScript/pull/39135).
+更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/39135)。
 
-### `/** @deprecated */` Support
+### `/** @deprecated */`支持
 
-TypeScript's editing support now recognizes when a declaration has been marked with a `/** @deprecated *` JSDoc comment.
-That information is surfaced in completion lists and as a suggestion diagnostic that editors can handle specially.
-In an editor like VS Code, deprecated values are typically displayed a strike-though style ~~like this~~.
+TypeScript现在能够识别代码中的`/** @deprecated *`JSDoc注释，并对编辑器提供支持。
+该信息会显示在自动补全列表中以及建议诊断信息，编辑器可以特殊处理它。
+在类似于VS Code的编辑器中，废弃的值会显示为删除线，例如~~like this~~。
 
 ![Some examples of deprecated declarations with strikethrough text in the editor](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2020/06/deprecated_4-0.png)
 
-This new functionality is available thanks to [Wenlu Wang](https://github.com/Kingwl).
-See [the pull request](https://github.com/microsoft/TypeScript/pull/38523) for more details.
+感谢[Wenlu Wang](https://github.com/Kingwl)为该特性的付出。
+更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/38523)。
 
-### Partial Semantic Mode at Startup
+### 启动时的局部语义模式
 
-We've heard a lot from users suffering from long startup times, especially on bigger projects.
-The culprit is usually a process called _program construction_.
-This is the process of starting with an initial set of root files, parsing them, finding their dependencies, parsing those dependencies, finding those dependencies' dependencies, and so on.
-The bigger your project is, the longer you'll have to wait before you can get basic editor operations like go-to-definition or quick info.
+我们从用户反馈得知在启动一个大的工程时需要很长的时间。
+罪魁祸首是一个叫作_程序构造_的处理过程。
+该处理是从一系列根文件开始解析并查找它们的依赖，然后再解析依赖，然后再解析依赖的依赖，以此类推。
+你的工程越大，你等待的时间就越长，在这之前你不能使用编辑器的诸如“跳转到定义”等功能。
 
-That's why we've been working on a new mode for editors to provide a _partial_ experience until the full language service experience has loaded up.
-The core idea is that editors can run a lightweight partial server that only looks at the current files that the editor has open.
+这就是为什么我们要提供一个新的编辑器模式，在语言服务被完全加载之前提供局部编辑体验。
+这里的主要想法是，编辑器可以运行一个轻量级的局部语言服务，它只关注编辑器当前打开的文件。
 
-It's hard to say precisely what sorts of improvements you'll see, but anecdotally, it used to take anywhere between _20 seconds to a minute_ before TypeScript would become fully responsive on the Visual Studio Code codebase.
-In contrast, **our new partial semantic mode seems to bring that delay down to just a few seconds**.
-As an example, in the following video, you can see two side-by-side editors with TypeScript 3.9 running on the left and TypeScript 4.0 running on the right.
+很难准确地形容能够获得多大的提升，但听说在Visual Studio Code项目中，以前需要等待_20秒到1分钟_的时间来完全加载语言服务。
+做为对比，**新的局部语义模式看起来能够将上述时间减少到几秒钟*。*
+示例，从下面的视频中，你可以看到左侧的TypeScript 3.9与右侧的TypeScript 4.0的对比。
 
 <video loop autoplay muted style="width:100%;height:100%;" src="https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2020/08/partialModeFast.mp4">
 </video>
 
-When restarting both editors on a particularly large codebase, the one with TypeScript 3.9 can't provide completions or quick info at all.
-On the other hand, the editor with TypeScript 4.0 can _immediately_ give us a rich experience in the current file we're editing, despite loading the full project in the background.
+当在编辑器中打开一个大型的代码仓库时，TypeScript 3.9根本无法提供代码补全以及信息提示。
+反过来，安装了TypeScript 4.0的编辑器能够在当前文件上_立即_提供丰富的编辑体验，尽管后台仍然在加载整个工程。
 
-Currently the only editor that supports this mode is [Visual Studio Code](http://code.visualstudio.com/) which has some UX improvements coming up in [Visual Studio Code Insiders](http://code.visualstudio.com/insiders).
-We recognize that this experience may still have room for polish in UX and functionality, and we have [a list of improvements](https://github.com/microsoft/TypeScript/issues/39035) in mind.
-We're looking for more feedback on what you think might be useful.
+目前，唯一一个支持该模块的编辑器是[Visual Studio Code](http://code.visualstudio.com/)，并且在[Visual Studio Code Insiders](http://code.visualstudio.com/insiders)版本中还带来了一些体验上的优化。
+我们发现该特性在用户体验和功能性上仍有优化空间，我们总结了一个[优化列表](https://github.com/microsoft/TypeScript/issues/39035)。
+我们也期待你的使用反馈。
 
-For more information, you can [see the original proposal](https://github.com/microsoft/TypeScript/issues/37713), [the implementing pull request](https://github.com/microsoft/TypeScript/pull/38561), along with [the follow-up meta issue](https://github.com/microsoft/TypeScript/issues/39035).
+更多详情请参考[原始的提议](https://github.com/microsoft/TypeScript/issues/37713)，[功能实现的PR](https://github.com/microsoft/TypeScript/pull/38561)，以及[后续的跟踪帖](https://github.com/microsoft/TypeScript/issues/39035).
 
-### Smarter Auto-Imports
+### 更智能的自动导入
 
-Auto-import is a fantastic feature that makes coding a lot easier; however, every time auto-import doesn't seem to work, it can throw users off a lot.
-One specific issue that we heard from users was that auto-imports didn't work on dependencies that were written in TypeScript - that is, until they wrote at least one explicit import somewhere else in their project.
+自动导入是个特别好的功能，它让编码更加容易；然而，每一次自动导入不好用的时候，它就会导致一部分用户流失。
+一个特殊的问题是，自动导入对于使用TypeScript编写的依赖不好用 - 也就是说，用户必须在工程中的某处明确地编写一个导入语句。
 
-Why would auto-imports work for `@types` packages, but not for packages that ship their own types?
-It turns out that auto-imports only work on packages your project _already_ includes.
-Because TypeScript has some quirky defaults that automatically add packages in `node_modules/@types` to your project, _those_ packages would be auto-imported.
-On the other hand, other packages were excluded because crawling through all your `node_modules` packages can be _really_ expensive.
+那么为什么自动导入在`@types`包上是好用的，但是对于自己编写的代码却不好用？
+这表明自动导入功能只适用于工程中已经引入的包。
+因为TypeScript会自动地将`node_modules/@types`下面的包引入进工程，_那些_包才会被自动导入。
+另一方面，其它的包会被排除，因为遍历`node_modules`下所有的包_相当_费时。
 
-All of this leads to a pretty lousy getting started experience for when you're trying to auto-import something that you've just installed but haven't used yet.
+这就导致了在自动导入一个刚刚安装完但还没有开始使用的包时具有相当差的体验。
 
-TypeScript 4.0 now does a little extra work in editor scenarios to include the packages you've listed in your `package.json`'s `dependencies` (and `peerDependencies`) fields.
-The information from these packages is only used to improve auto-imports, and doesn't change anything else like type-checking.
-This allows us to provide auto-imports for all of your dependencies that have types, without incurring the cost of a complete `node_modules` search.
+TypeScript 4.0对编辑器环境进行了一点小改动，它会自动引入你的工程下的`package.json`文件中`dependencies`（和`peerDependencies`）字段里列出的包。
+这些引入的包只用于改进自动导入功能，它们对类型检查等其它功能没有任何影响。
+这使得自动导入功能对于项目中所有带有类型的依赖项都是可用的，同时不必遍历`node_modules`。
 
-In the rare cases when your `package.json` lists more than ten typed dependencies that haven't been imported yet, this feature automatically disables itself to prevent slow project loading.
-To force the feature to work, or to disable it entirely, you should be able to configure your editor.
-For Visual Studio Code, this is the "Include Package JSON Auto Imports" (or `typescript.preferences.includePackageJsonAutoImports`) setting.
+少数情况下，若在`package.json`中列出了多于10个未导入的带有类型的依赖，那么该功能会被自动禁用以避免过慢的工程加载。
+若想要强制启用该功能，或完全禁用该功能，则需要配置你的编辑器。
+针对Visual Studio Code，对应到“Include Package JSON Auto Imports”配置（或者`typescript.preferences.includePackageJsonAutoImports`配置）。
 
 ![Configuring 'include package JSON auto imports'](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2020/08/configurePackageJsonAutoImports4-0.png)
 For more details, you can see the [proposal issue](https://github.com/microsoft/TypeScript/issues/37812) along with [the implementing pull request](https://github.com/microsoft/TypeScript/pull/38923).
