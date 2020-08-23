@@ -4,7 +4,7 @@
 
 <img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 4.0 (August 20, 2020)](https://devblogs.microsoft.com/typescript/announcing-typescript-4-0/)
 |
-[版本发布说明](./release-notes/TypeScript-4.0.md)
+[版本发布说明](./release-notes/typescript-4.0.md)
 
 :heavy_check_mark: TypeScript语言用于大规模应用的JavaScript开发。  :heavy_check_mark: TypeScript支持类型，是JavaScript的超集且可以编译成纯JavaScript代码。  :heavy_check_mark: TypeScript兼容所有浏览器，所有宿主环境，所有操作系统。  :heavy_check_mark: TypeScript是开源的。
 
