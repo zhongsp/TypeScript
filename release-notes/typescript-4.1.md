@@ -438,12 +438,12 @@ function screamLines(strs: string[]) {
 在 TypeScript 4.1 中，`paths`不必与`baseUrl`一起使用。
 它会一定程序上帮助解决上述的问题。
 
-## `checkJs` Implies `allowJs`
+## `checkJs` 默认启用 `allowJs`
 
-Previously if you were starting a checked JavaScript project, you had to set both `allowJs` and `checkJs`.
-This was a slightly annoying bit of friction in the experience, so `checkJs` now implies `allowJs` by default.
+从前，如果你想要对 JavaScript 工程执行类型检查，你需要同时启用`allowJs`和`checkJs`。
+这样的体验让人讨厌，因此现在`checkJs`会默认启用`allowJs`。
 
-[See more details at the pull request](https://github.com/microsoft/TypeScript/pull/40275).
+更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/40275)。
 
 ## React 17 JSX Factories
 
