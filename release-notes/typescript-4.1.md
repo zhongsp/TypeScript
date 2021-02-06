@@ -483,11 +483,11 @@ TypeScript 4.1 通过以下两个编译选项来支持 React 17 中的`jsx`和`j
 
 更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/39199)。
 
-## Editor Support for the JSDoc `@see` Tag
+## 在编辑器中支持 JSDoc `@see` 标签
 
-The JSDoc tag `@see` tag now has better support in editors for TypeScript and JavaScript.
-This allows you to use functionality like go-to-definition in a dotted name following the tag.
-For example, going to definition on `first` or `C` in the JSDoc comment just works in the following example:
+编辑器对 TypeScript 和 JavaScript 代码中的 JSDoc 标签`@see`有了更好的支持。
+它允许你使用像“跳转到定义”这样的功能。
+例如，在下例中的 JSDoc 里可以使用跳转到定义到`first`或`C`。
 
 ```ts
 // @filename: first.ts
@@ -502,7 +502,7 @@ import * as first from './first';
 function related() {}
 ```
 
-Thanks to frequent contributor [Wenlu Wang](https://github.com/Kingwl) [for implementing this](https://github.com/microsoft/TypeScript/pull/39760)!
+感谢贡献者[Wenlu Wang](https://github.com/Kingwl)[实现了这个功能](https://github.com/microsoft/TypeScript/pull/39760)！
 
 ## Breaking Changes
 
