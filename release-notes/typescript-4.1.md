@@ -445,16 +445,16 @@ function screamLines(strs: string[]) {
 
 更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/40275)。
 
-## React 17 JSX Factories
+## React 17 JSX 工厂
 
-TypeScript 4.1 supports React 17's upcoming `jsx` and `jsxs` factory functions through two new options for the `jsx` compiler option:
+TypeScript 4.1 通过以下两个编译选项来支持 React 17 中的`jsx`和`jsxs`工厂函数：
 
 -   `react-jsx`
 -   `react-jsxdev`
 
-These options are intended for production and development compiles respectively.
-Often, the options from one can extend from the other.
-For example, a `tsconfig.json` for production builds might look like the following:
+这两个编译选项分别用于生产环境和开发环境中。
+通常，编译选项之间可以继承。
+例如，用于生产环境的`tsconfig.json`如下：
 
 ```json tsconfig
 // ./src/tsconfig.json
@@ -469,7 +469,7 @@ For example, a `tsconfig.json` for production builds might look like the followi
 }
 ```
 
-and one for development builds might look like the following:
+另外一个用于开发环境的`tsconfig.json`如下：
 
 ```json tsconfig
 // ./src/tsconfig.dev.json
@@ -481,7 +481,7 @@ and one for development builds might look like the following:
 }
 ```
 
-For more information, [check out the corresponding PR](https://github.com/microsoft/TypeScript/pull/39199).
+更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/39199)。
 
 ## Editor Support for the JSDoc `@see` Tag
 
