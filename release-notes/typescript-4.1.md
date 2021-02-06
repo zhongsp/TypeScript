@@ -280,20 +280,19 @@ type KindlessCircle = RemoveKindField<Circle>;
 
 更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/40336)。
 
-## Recursive Conditional Types
+## 递归的有条件类型
 
-In JavaScript it's fairly common to see functions that can flatten and build up container types at arbitrary levels.
-For example, consider the `.then()` method on instances of `Promise`.
-`.then(...)` unwraps each promise until it finds a value that's not "promise-like", and passes that value to a callback.
-There's also a relatively new `flat` method on `Array`s that can take a depth of how deep to flatten.
+在 JavaScript 中较为常见的是，一个函数能够以任意的层级来展平（flatten）并构建容器类型。
+例如，可以拿`Promise`实例对象上的`.then()`方法来举例。
+`.then(...)`方法能够拆解每一个`Promise`，直到它找到一个非`Promise`的值，然后将该值传递给回调函数。
+`Array`上也存在一个相对较新的`flat`方法，它接收一个表示深度的参数，并以此来决定展平操作的层数。
 
-Expressing this in TypeScript's type system was, for all practical intents and purposes, not possible.
-While there were hacks to achieve this, the types ended up looking very unreasonable.
+在过去，我们无法使用 TypeScript 类型系统来表达上述例子。
+虽然也存在一些 hack，但基本上都不切合实际。
 
-That's why TypeScript 4.1 eases some restrictions on conditional types - so that they can model these patterns.
-In TypeScript 4.1, conditional types can now immediately reference themselves within their branches, making it easier to write recursive type aliases.
-
-For example, if we wanted to write a type to get the element types of nested arrays, we could write the following `deepFlatten` type.
+TypeScript 4.1 取消了对有条件类型的一些限制 - 因此它现在可以表达上述类型。
+在 TypeScript 4.1 中，允许在有条件类型的分支中立即引用该有条件类型自身，这就使得编写递归的类型别名变得更加容易。
+例如，我们想定义一个类型来获取嵌套数组中的元素类型，可以定义如下的`deepFlatten`类型。
 
 ```ts
 type ElementType<T> = T extends ReadonlyArray<infer U> ? ElementType<U> : T;
@@ -308,28 +307,28 @@ deepFlatten([[1], [2, 3]]);
 deepFlatten([[1], [[2]], [[[3]]]]);
 ```
 
-Similarly, in TypeScript 4.1 we can write an `Awaited` type to deeply unwrap `Promise`s.
+类似地，在 TypeScript 4.1 中我们可以定义`Awaited`类型来拆解`Promise`。
 
 ```ts
 type Awaited<T> = T extends PromiseLike<infer U> ? Awaited<U> : T;
 
-/// Like `promise.then(...)`, but more accurate in types.
+/// 类似于 `promise.then(...)`，但是类型更准确
 declare function customThen<T, U>(
     p: Promise<T>,
     onFulfilled: (value: Awaited<T>) => U
 ): Promise<Awaited<U>>;
 ```
 
-Keep in mind that while these recursive types are powerful, but they should be used responsibly and sparingly.
+一定要注意，虽然这些递归类型很强大，但要有节制地使用它。
 
-First off, these types can do a lot of work which means that they can increase type-checking time.
-Trying to model numbers in the Collatz conjecture or Fibonacci sequence might be fun, but don't ship that in `.d.ts` files on npm.
+首先，这些类型能做的更多，但也会增加类型检查的耗时。
+尝试为考拉兹猜想或斐波那契数列建模是一件有趣的事儿，但请不要在 npm 上发布带有它们的`.d.ts`文件。
 
-But apart from being computationally intensive, these types can hit an internal recursion depth limit on sufficiently-complex inputs.
-When that recursion limit is hit, that results in a compile-time error.
-In general, it's better not to use these types at all than to write something that fails on more realistic examples.
+除了计算量大之外，这些类型还可能会达到内置的递归深度限制。
+如果到达了递归深度限制，则会产生编译错误。
+通常来讲，最好不要去定义这样的类型。
 
-See more [at the implementation](https://github.com/microsoft/TypeScript/pull/40002).
+更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/40002).
 
 ## Checked Indexed Accesses (`--noUncheckedIndexedAccess`)
 
