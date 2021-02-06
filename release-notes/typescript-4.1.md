@@ -330,17 +330,17 @@ declare function customThen<T, U>(
 
 更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/40002).
 
-## Checked Indexed Accesses (`--noUncheckedIndexedAccess`)
+## 索引访问类型检查（`--noUncheckedIndexedAccess`）
 
-TypeScript has a feature called _index signatures_.
-These signatures are a way to signal to the type system that users can access arbitrarily-named properties.
+TypeScript 支持一个叫做*索引签名*的功能。
+索引签名用于告诉类型系统，用户可以访问任意名称的属性。
 
 ```ts twoslash
 interface Options {
     path: string;
     permissions: number;
 
-    // Extra properties are caught by this index signature.
+    // 额外的属性可以被这个签名捕获
     [propName: string]: string | number;
 }
 
@@ -348,32 +348,31 @@ function checkOptions(opts: Options) {
     opts.path; // string
     opts.permissions; // number
 
-    // These are all allowed too!
-    // They have the type 'string | number'.
+    // 以下都是允许的
+    // 它们的类型为 'string | number'
     opts.yadda.toString();
     opts['foo bar baz'].toString();
     opts[Math.random()].toString();
 }
 ```
 
-In the above example, `Options` has an index signature that says any accessed property that's not already listed should have the type `string | number`.
-This is often convenient for optimistic code that assumes you know what you're doing, but the truth is that most values in JavaScript do not support every potential property name.
-Most types will not, for example, have a value for a property key created by `Math.random()` like in the previous example.
-For many users, this behavior was undesirable, and felt like it wasn't leveraging the full strict-checking of `--strictNullChecks`.
+上例中，`Options`包含了索引签名，它表示在访问未直接列出的属性时得到的类型为`string | number`。
+这是一种乐观的做法，它假想我们非常清楚代码在做什么，但实际上 JavaScript 中的大部分值并不支持任意的属性名。
+例如，大多数类型并不包含属性名为`Math.random()`的值。
+对许多用户来讲，这不是期望的行为，就好像没有利用到`--strictNullChecks`提供的严格类型检查。
 
-That's why TypeScript 4.1 ships with a new flag called `--noUncheckedIndexedAccess`.
-Under this new mode, every property access (like `foo.bar`) or indexed access (like `foo["bar"]`) is considered potentially undefined.
-That means that in our last example, `opts.yadda` will have the type `string | number | undefined` as opposed to just `string | number`.
-If you need to access that property, you'll either have to check for its existence first or use a non-null assertion operator (the postfix `!` character).
+这就是 TypeScript 4.1 提供了`--noUncheckedIndexedAccess`编译选项的原因。
+在该新模式下，任何属性访问（例如`foo.bar`）或者索引访问（例如`foo["bar"]`）都会被认为可能为`undefined`。
+例如在上例中，`opts.yadda`的类型为`string | number | undefined`，而不是`string | number`。
+如果需要访问那个属性，你可以先检查属性是否存在或者使用非空断言运算符（`!`后缀字符）。
 
 ```ts twoslash
-// @errors: 2532
 // @noUncheckedIndexedAccess
 interface Options {
     path: string;
     permissions: number;
 
-    // Extra properties are caught by this index signature.
+    // 额外的属性可以被这个签名捕获
     [propName: string]: string | number;
 }
 // ---cut---
@@ -381,55 +380,53 @@ function checkOptions(opts: Options) {
     opts.path; // string
     opts.permissions; // number
 
-    // These are not allowed with noUncheckedIndexedAccess
+    // 在 noUncheckedIndexedAccess 下，以下操作不允许
     opts.yadda.toString();
     opts['foo bar baz'].toString();
     opts[Math.random()].toString();
 
-    // Checking if it's really there first.
+    // 首先检查是否存在
     if (opts.yadda) {
         console.log(opts.yadda.toString());
     }
 
-    // Basically saying "trust me I know what I'm doing"
-    // with the '!' non-null assertion operator.
+    // 使用 ! 非空断言，“我知道在做什么”
     opts.yadda!.toString();
 }
 ```
 
-One consequence of using `--noUncheckedIndexedAccess` is that indexing into an array is also more strictly checked, even in a bounds-checked loop.
+使用`--noUncheckedIndexedAccess`的一个结果是，通过索引访问数组元素时也会进行严格类型检查，就算是在遍历检查过边界的数组时。
 
 ```ts twoslash
-// @errors: 2532
 // @noUncheckedIndexedAccess
 function screamLines(strs: string[]) {
-    // This will have issues
+    // 下面会有问题
     for (let i = 0; i < strs.length; i++) {
         console.log(strs[i].toUpperCase());
     }
 }
 ```
 
-If you don't need the indexes, you can iterate over individual elements by using a `for`-`of` loop or a `forEach` call.
+如果你不需要使用索引，那么可以使用`for`-`of`循环或`forEach`来遍历。
 
 ```ts twoslash
 // @noUncheckedIndexedAccess
 function screamLines(strs: string[]) {
-    // This works fine
+    // 可以正常工作
     for (const str of strs) {
         console.log(str.toUpperCase());
     }
 
-    // This works fine
+    // 可以正常工作
     strs.forEach((str) => {
         console.log(str.toUpperCase());
     });
 }
 ```
 
-This flag can be handy for catching out-of-bounds errors, but it might be noisy for a lot of code, so it is not automatically enabled by the `--strict` flag; however, if this feature is interesting to you, you should feel free to try it and determine whether it makes sense for your team's codebase!
+这个选项虽可以用来捕获访问越界的错误，但对大多数代码来讲有些烦，因此它不会被`--strict`选项自动启用；然而，如果你对此选项感兴趣，可以尝试一下，看它是否适用于你的代码。
 
-You can learn more [at the implementing pull request](https://github.com/microsoft/TypeScript/pull/39560).
+更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/39560).
 
 ## `paths` without `baseUrl`
 
