@@ -186,9 +186,9 @@ type HELLO = EnthusiasticGreeting<'hello'>;
 
 更多详情，[查看原 PR](https://github.com/microsoft/TypeScript/pull/40336)以及[正在进行中的切换类型别名助手的 PR](https://github.com/microsoft/TypeScript/pull/40580).
 
-## Key Remapping in Mapped Types
+## 在映射类型中更改映射的键
 
-Just as a refresher, a mapped type can create new object types based on arbitrary keys
+让我们先回顾一下，映射类型可以使用任意的键来创建新的对象类型。
 
 ```ts
 type Options = {
@@ -205,28 +205,28 @@ type Options = {
 //   };
 ```
 
-or new object types based on other object types.
+或者，基于任意的对象类型来创建新的对象类型。
 
 ```ts
-/// 'Partial<T>' is the same as 'T', but with each property marked optional.
+/// 'Partial<T>' 等同于 'T'，只是把每个属性标记为可选的。
 type Partial<T> = {
     [K in keyof T]?: T[K];
 };
 ```
 
-Until now, mapped types could only produce new object types with keys that you provided them; however, lots of the time you want to be able to create new keys, or filter out keys, based on the inputs.
+到目前为止，映射类型只能使用提供给它的键来创建新的对象类型；然而，很多时候我们想要创建新的键，或者过滤掉某些键。
 
-That's why TypeScript 4.1 allows you to re-map keys in mapped types with a new `as` clause.
+这就是 TypeScript 4.1 允许更改映射类型中的键的原因。它使用了新的`as`语句。
 
 ```ts
 type MappedTypeWithNewKeys<T> = {
     [K in keyof T as NewKeyType]: T[K];
     //            ^^^^^^^^^^^^^
-    //            This is the new syntax!
+    //            这里是新的语法！
 };
 ```
 
-With this new `as` clause, you can leverage features like template literal types to easily create property names based off of old ones.
+通过`as`语句，你可以利用例如模版字面量类型，并基于原属性名来轻松地创建新属性名。
 
 ```ts twoslash
 type Getters<T> = {
@@ -240,14 +240,18 @@ interface Person {
 }
 
 type LazyPerson = Getters<Person>;
-//   ^?
+// type LazyPerson = {
+//     getName: () => string;
+//     getAge: () => number;
+//     getLocation: () => string;
+// }
 ```
 
-and you can even filter out keys by producing `never`.
-That means you don't have to use an extra `Omit` helper type in some cases.
+此外，你可以巧用`never`类型来过滤掉某些键。
+也就是说，在某些情况下你不必使用`Omit`工具类型。
 
 ```ts twoslash
-// Remove the 'kind' property
+// 删除 'kind' 属性
 type RemoveKindField<T> = {
     [K in keyof T as Exclude<K, 'kind'>]: T[K];
 };
@@ -258,10 +262,23 @@ interface Circle {
 }
 
 type KindlessCircle = RemoveKindField<Circle>;
-//   ^?
+
+type RemoveKindField<T> = {
+    [K in keyof T as Exclude<K, 'kind'>]: T[K];
+};
+
+interface Circle {
+    kind: 'circle';
+    radius: number;
+}
+
+type KindlessCircle = RemoveKindField<Circle>;
+// type KindlessCircle = {
+//     radius: number;
+// }
 ```
 
-For more information, take a look at [the original pull request over on GitHub](https://github.com/microsoft/TypeScript/pull/40336).
+更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/40336)。
 
 ## Recursive Conditional Types
 
