@@ -428,15 +428,15 @@ function screamLines(strs: string[]) {
 
 更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/39560).
 
-## `paths` without `baseUrl`
+## 不带 `baseUrl` 的 `paths`
 
-Using path-mapping is fairly common - often it's to have nicer imports, often it's to simulate monorepo linking behavior.
+路径映射的使用很常见 - 通常它用于优化导入语句，以及模拟在单一代码仓库中进行链接的行为。
 
-Unfortunately, specifying `paths` to enable path-mapping required also specifying an option called `baseUrl`, which allows bare specifier paths to be reached relative to the `baseUrl` too.
-This also often caused poor paths to be used by auto-imports.
+不幸的是，在使用`paths`时必须指定`baseUrl`，它允许裸路径描述符基于`baseUrl`进行解析。
+它会导致在自动导入时会使用较差的路径。
 
-In TypeScript 4.1, the `paths` option can be used without `baseUrl`.
-This helps avoid some of these issues.
+在 TypeScript 4.1 中，`paths`不必与`baseUrl`一起使用。
+它会一定程序上帮助解决上述的问题。
 
 ## `checkJs` Implies `allowJs`
 
