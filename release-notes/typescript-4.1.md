@@ -504,23 +504,23 @@ function related() {}
 
 感谢贡献者[Wenlu Wang](https://github.com/Kingwl)[实现了这个功能](https://github.com/microsoft/TypeScript/pull/39760)！
 
-## Breaking Changes
+## 破坏性改动
 
-### `lib.d.ts` Changes
+### `lib.d.ts` 更新
 
-`lib.d.ts` may have a set of changed APIs, potentially in part due to how the DOM types are automatically generated.
-One specific change is that `Reflect.enumerate` has been removed, as it was removed from ES2016.
+`lib.d.ts`包含一些 API 变动，在某种程度上是因为 DOM 类型是自动生成的。
+一个具体的变动是`Reflect.enumerate`被删除了，因为它在 ES2016 中被删除了。
 
-### `abstract` Members Can't Be Marked `async`
+### `abstract` 成员不能被标记为 `async`
 
-Members marked as `abstract` can no longer be marked as `async`.
-The fix here is to remove the `async` keyword, since callers are only concerned with the return type.
+`abstract`成员不再可以被标记为`async`。
+这可以通过删除`async`关键字来修复，因为调用者只关注返回值类型。
 
 ### `any`/`unknown` Are Propagated in Falsy Positions
 
-Previously, for an expression like `foo && somethingElse`, the type of `foo` was `any` or `unknown`, the type of the whole that expression would be the type of `somethingElse`.
+从前，对于表达式`foo && somethingElse`，若`foo`的类型为`any`或`unknown`，那么整个表达式的类型为`somethingElse`。
 
-For example, previously the type for `x` here was `{ someProp: string }`.
+例如，在以前此处的`x`的类型为`{ someProp: string }`。
 
 ```ts
 declare let foo: unknown;
@@ -529,10 +529,10 @@ declare let somethingElse: { someProp: string };
 let x = foo && somethingElse;
 ```
 
-However, in TypeScript 4.1, we are more careful about how we determine this type.
-Since nothing is known about the type on the left side of the `&&`, we propagate `any` and `unknown` outward instead of the type on the right side.
+然而，在 TypeScript 4.1 中，会更谨慎地确定该类型。
+由于不清楚`&&`左侧的类型，我们会传递`any`和`unknown`类型，而不是`&&`右侧的类型。
 
-The most common pattern we saw of this tended to be when checking compatibility with `boolean`s, especially in predicate functions.
+常见的模式是检查与`boolean`的兼容性，尤其是在谓词函数中。
 
 ```ts
 function isThing(x: any): boolean {
@@ -540,11 +540,11 @@ function isThing(x: any): boolean {
 }
 ```
 
-Often the appropriate fix is to switch from `foo && someExpression` to `!!foo && someExpression`.
+一种合适的修改是使用`!!foo && someExpression`来代替`foo && someExpression`。
 
-### `resolve`'s Parameters Are No Longer Optional in `Promise`s
+### `Promise`的`resolve`的参数不再是可选的
 
-When writing code like the following
+在编写如下的代码时
 
 ```ts
 new Promise((resolve) => {
@@ -555,7 +555,7 @@ new Promise((resolve) => {
 });
 ```
 
-You may get an error like the following:
+你可能会得到如下的错误：
 
 ```
   resolve()
@@ -564,9 +564,9 @@ error TS2554: Expected 1 arguments, but got 0.
   An argument for 'value' was not provided.
 ```
 
-This is because `resolve` no longer has an optional parameter, so by default, it must now be passed a value.
-Often this catches legitimate bugs with using `Promise`s.
-The typical fix is to pass it the correct argument, and sometimes to add an explicit type argument.
+这是因为`resolve`不再有可选参数，因此默认情况下，必须给它传值。
+它通常能够捕获`Promise`的 bug。
+典型的修复方法是传入正确的参数，以及添加明确的类型参数。
 
 ```ts
 new Promise<number>((resolve) => {
@@ -579,9 +579,9 @@ new Promise<number>((resolve) => {
 });
 ```
 
-However, sometimes `resolve()` really does need to be called without an argument.
-In these cases, we can give `Promise` an explicit `void` generic type argument (i.e. write it out as `Promise<void>`).
-This leverages new functionality in TypeScript 4.1 where a potentially-`void` trailing parameter can become optional.
+然而，有时`resolve()`确实需要不带参数来调用
+在这种情况下，我们可以给`Promise`传入明确的`void`泛型类型参数（例如，`Promise<void>`）。
+它利用了 TypeScript 4.1 中的一个新功能，一个潜在的`void`类型的末尾参数会变成可选参数。
 
 ```ts
 new Promise<void>((resolve) => {
@@ -593,14 +593,14 @@ new Promise<void>((resolve) => {
 });
 ```
 
-TypeScript 4.1 ships with a quick fix to help fix this break.
+TypeScript 4.1 提供了快速修复选项来解决该问题。
 
-### Conditional Spreads Create Optional Properties
+### 有条件展开会创建可选属性
 
-In JavaScript, object spreads (like `{ ...foo }`) don't operate over falsy values.
-So in code like `{ ...foo }`, `foo` will be skipped over if it's `null` or `undefined`.
+在 JavaScript 中，对象展开（例如，`{ ...foo }`）不会操作假值。
+因此，在`{ ...foo }`代码中，如果`foo`的值为`null`或`undefined`，则它会被略过。
 
-Many users take advantage of this to spread in properties "conditionally".
+很多人利用该性质来可选地展开属性。
 
 ```ts
 interface Person {
@@ -631,21 +631,22 @@ function copyOwner(pet?: Animal) {
 }
 ```
 
-Here, if `pet` is defined, the properties of `pet.owner` will be spread in - otherwise, no properties will be spread into the returned object.
+此处，如果`pet`定义了，那么`pet.owner`的属性会被展开 - 否则，不会有属性被展开到目标对象中。
 
+在之前，`copyOwner`的返回值类型为基于每个展开运算结果的联合类型：
 The return type of `copyOwner` was previously a union type based on each spread:
 
 ```
 { x: number } | { x: number, name: string, age: number, location: string }
 ```
 
-This modeled exactly how the operation would occur: if `pet` was defined, all the properties from `Person` would be present; otherwise, none of them would be defined on the result.
-It was an all-or-nothing operation.
+它精确地展示了操作是如何进行的：如果`pet`定义了，那么`Person`中的所有属性都存在；否则，在结果中不存在`Person`中的任何属性。
+它是一种要么全有要么全无的的操作。
 
-However, we've seen this pattern taken to the extreme, with hundreds of spreads in a single object, each spread potentially adding in hundreds or thousands of properties.
-It turns out that for various reasons, this ends up being extremely expensive, and usually for not much benefit.
+然而，我们发现这个模式被过度地使用了，在单一对象中存在数以百计的展开运算，每一个展开操作可能会添加成百上千的操作。
+结果就是这项操作可能非常耗时，并且用处不大。
 
-In TypeScript 4.1, the returned type sometimes uses all-optional properties.
+在 TypeScript 4.1 中，返回值类型有时会使用全部的可选类型。
 
 ```
 {
@@ -656,16 +657,16 @@ In TypeScript 4.1, the returned type sometimes uses all-optional properties.
 }
 ```
 
-This ends up performing better and generally displaying better too.
+这样的结果是有更好的性能以及更佳地展示。
 
-For more details, [see the original change](https://github.com/microsoft/TypeScript/pull/40778).
-While this behavior is not entirely consistent right now, we expect a future release will produce cleaner and more predictable results.
+更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/40778)。
+目前，该行为还不完全一致，我们期待在未来会有所改进。
 
 ### Unmatched parameters are no longer related
 
-TypeScript would previously relate parameters that didn't correspond to each other by relating them to the type `any`.
-With [changes in TypeScript 4.1](https://github.com/microsoft/TypeScript/pull/41308), the language now skips this process entirely.
-This means that some cases of assignability will now fail, but it also means that some cases of overload resolution can fail as well.
-For example, overload resolution on `util.promisify` in Node.js may select a different overload in TypeScript 4.1, sometimes causing new or different errors downstream.
+从前 TypeScript 在关联参数时，如果参数之间没有联系，则会将其关联为`any`类型。
+由于[TypeScript 4.1 的改动](https://github.com/microsoft/TypeScript/pull/41308)，TypeScript 会完全跳过这个过程。
+这意味着一些可赋值性检查会失败，同时也意味着重载解析可能会失败。
+例如，在解析 Node.js 中`util.promisify`函数的重载时可能会选择不同的重载签名，这可能会导致产生新的错误。
 
-As a workaround, you may be best using a type assertion to squelch errors.
+做为一个变通方法，你可能需要使用类型断言来消除错误。
