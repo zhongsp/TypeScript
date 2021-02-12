@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/zhongsp/TypeScript.svg?branch=master)](https://travis-ci.org/zhongsp/TypeScript) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
+🏮 祝所有开发者：牛年大吉！🏮
+
 <img src="./misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 4.1 (November 19, 2020)](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1/)
 |
 [版本发布说明](./release-notes/typescript-4.1.md)
