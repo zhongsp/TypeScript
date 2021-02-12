@@ -52,11 +52,11 @@
   * [变量声明](zh/reference/variable-declarations.md)
 * [如何书写声明文件](zh/declaration-files/README.md)
   * [介绍](zh/declaration-files/introduction.md)
-  * [库结构](zh/declaration-files/library-structures.md)
   * [举例](zh/declaration-files/by-example.md)
+  * [库结构](zh/declaration-files/library-structures.md)
+  * [模板](zh/declaration-files/templates.md)
   * [最佳实践](zh/declaration-files/do-s-and-don-ts.md)
   * [深入](zh/declaration-files/deep-dive.md)
-  * [模板](zh/declaration-files/templates.md)
   * [发布](zh/declaration-files/publishing.md)
   * [使用](zh/declaration-files/consumption.md)
 * JavaScript
