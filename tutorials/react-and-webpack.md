@@ -99,7 +99,7 @@ npm install --save-dev typescript ts-loader source-map-loader
 }
 ```
 
-你可以在[这里](../tsconfig.json/tsconfig.json.md)了解更多关于`tsconfig.json`文件的说明。
+你可以在[这里](../project-config/tsconfig.json.md)了解更多关于`tsconfig.json`文件的说明。
 
 ## 写些代码
 

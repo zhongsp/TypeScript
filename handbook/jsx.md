@@ -19,7 +19,7 @@ TypeScript具有三种JSX模式：`preserve`，`react`和`react-native`。 这�
 | `react` | `<div />` | `React.createElement("div")` | `.js` |
 | `react-native` | `<div />` | `<div />` | `.js` |
 
-你可以通过在命令行里使用`--jsx`标记或[tsconfig.json](../tsconfig.json/tsconfig.json.md)里的选项来指定模式。
+你可以通过在命令行里使用`--jsx`标记或[tsconfig.json](../project-config/tsconfig.json.md)里的选项来指定模式。
 
 > \*注意：当输出目标为`react JSX`时，你可以使用`--jsxFactory`指定JSX工厂函数（默认值为`React.createElement`）
 

@@ -82,7 +82,7 @@ function sayHello() {
 3. 显式列出了 `"files"` 而不是依据 `"excludes"`选项。
 4. 设置 `"compileOnSave": true`。
 
-当你写新代码时，设置 `"noImplicitAny"` 选项是个好主意 — 这可以确保你不会错写任何新的类型。 设置 `"compileOnSave"` 选项可以确保你在运行web程序前自动编译保存变更后的代码。 更多信息请参见 [the tsconfig.json documentation](../tsconfig.json/tsconfig.json.md)。
+当你写新代码时，设置 `"noImplicitAny"` 选项是个好主意 — 这可以确保你不会错写任何新的类型。 设置 `"compileOnSave"` 选项可以确保你在运行web程序前自动编译保存变更后的代码。 更多信息请参见 [the tsconfig.json documentation](../project-config/tsconfig.json.md)。
 
 ### 在视图中调用脚本
 

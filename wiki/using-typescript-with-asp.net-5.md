@@ -8,7 +8,7 @@
 
 ![&#x65B0;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x7A7A;&#x7684;&#x5DE5;&#x7A0B;](https://raw.githubusercontent.com/wiki/Microsoft/TypeScript/aspnet-screenshots/new-project.png)
 
-然后在工程根目录下添加一个`scripts`目录。 这就是我们将要添加TypeScript文件和[`tsconfig.json`](../tsconfig.json/tsconfig.json.md)文件来设置编译选项的地方。 请注意目录名和路径都必须这样才能正常工作。 添加`tsconfig.json`文件，右键点击`scripts`目录，选择`Add`，`New Item`。 在`Client-side`下，你能够找到它，如下所示。
+然后在工程根目录下添加一个`scripts`目录。 这就是我们将要添加TypeScript文件和[`tsconfig.json`](../project-config/tsconfig.json.md)文件来设置编译选项的地方。 请注意目录名和路径都必须这样才能正常工作。 添加`tsconfig.json`文件，右键点击`scripts`目录，选择`Add`，`New Item`。 在`Client-side`下，你能够找到它，如下所示。
 
 ![&#x5728; Visual Studio &#x91CC;&#x6DFB;&#x52A0;&apos;tsconfig.json&apos;&#x6587;&#x4EF6;](https://raw.githubusercontent.com/wiki/Microsoft/TypeScript/aspnet-screenshots/add-tsconfig.png)
 

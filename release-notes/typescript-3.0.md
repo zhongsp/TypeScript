@@ -6,7 +6,7 @@ TypeScript 3.0 引入了一个叫做工程引用的新概念。工程引用允�
 
 TypeScript 3.0 还引入了一种新的`tsc`模式，即`--build`标记，它与工程引用同时运用可以加速构建TypeScript。
 
-相关详情请阅读[工程引用手册](../tsconfig.json/project-references.md)。
+相关详情请阅读[工程引用手册](../project-config/project-references.md)。
 
 ## 剩余参数和展开表达式里的元组
 

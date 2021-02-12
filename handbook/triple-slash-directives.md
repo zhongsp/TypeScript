@@ -40,7 +40,7 @@
 
 对于那些在编译阶段生成的声明文件，编译器会自动地添加`/// <reference types="..." />`； _当且仅当_结果文件中使用了引用的包里的声明时才会在生成的声明文件里添加`/// <reference types="..." />`语句。
 
-若要在`.ts`文件里声明一个对`@types`包的依赖，使用`--types`命令行选项或在`tsconfig.json`里指定。 查看[在`tsconfig.json`里使用`@types`，`typeRoots`和`types`](../tsconfig.json/tsconfig.json.md#types-typeroots-and-types)了解详情。
+若要在`.ts`文件里声明一个对`@types`包的依赖，使用`--types`命令行选项或在`tsconfig.json`里指定。 查看[在`tsconfig.json`里使用`@types`，`typeRoots`和`types`](../project-config/tsconfig.json.md#types-typeroots-and-types)了解详情。
 
 ## `/// <reference no-default-lib="true"/>`
 

@@ -102,7 +102,7 @@ mkdir externals
 
 你可能会对`typings`目录下的`browser.d.ts`文件感到好奇，尤其因为我们将在浏览器里运行代码。 其实原因是这样的，当目标为浏览器的时候，一些包会生成不同的版本。 通常来讲，这些情况很少发生并且在这里我们不会遇到这种情况，所以我们可以忽略`browser.d.ts`。
 
-你可以在[这里](../tsconfig.json/tsconfig.json.md)查看更多关于`tsconfig.json`文件的信息
+你可以在[这里](../project-config/tsconfig.json.md)查看更多关于`tsconfig.json`文件的信息
 
 ## 写些代码
 
