@@ -1,3 +1,21 @@
+<!--
+TODO:
+
+1. Not clear why UMD is thrown in here.
+2. Give both commonjs and ES module examples.
+-->
+
+示例，当你想要处理如下的 JavaScriptr 的代码时：
+
+```ts
+const Greeter = require('super-greeter');
+
+const greeter = new Greeter();
+greeter.greet();
+```
+
+能够同时处理UMD导入和模块导入：
+
 ```ts
 // Type definitions for [~THE LIBRARY NAME~] [~OPTIONAL VERSION NUMBER~]
 // Project: [~THE PROJECT NAME~]
@@ -35,9 +53,9 @@ export = MyClass;
 
 /*~ Write your module's methods and properties in this class */
 declare class MyClass {
-    constructor(someParam?: string);
+    constructor(customGreeting?: string);
 
-    someProperty: string[];
+    greet: void;
 
     myMethod(opts: MyClass.MyClassMethodOptions): number;
 }

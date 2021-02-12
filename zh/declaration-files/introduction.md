@@ -1,38 +1,53 @@
-# 介绍
+声明文件一章的目的是教你如何编写高质量的 TypeScript 声明文件。
+我们假设你对 TypeScript 已经有了基本的了解。
 
-这篇指南的目的是教你如何书写高质量的TypeScript声明文件。
+如果没有，请先阅读[TypeScript 手册](../handbook/basic-types.md) 来了解一些基本知识，尤其是类型和模块的部分。
 
-在这篇指南里，我们假设你对TypeScript已经有了基本的了解。 如果没有，请先阅读[TypeScript手册](https://www.typescriptlang.org/docs/handbook/basic-types.html) 来了解一些基本知识，尤其是类型和命名空间部分。
-
-## 章节
+需要编写`.d.ts`文件的常见场景是为某个 npm 包添加类型信息。
+如果是这种情况，你可以直接阅读[Modules .d.ts](./templates/module.d.ts.md)
 
 这篇指南被分成了以下章节。
 
-### 结构
+## 示例
 
-[结构](Library%20Structures.md)一节将帮助你了解常见库的格式以及如何为每种格式书写正确的声明文件。 如果你在编辑一个已经存在的文件，那么你可能不需要阅读此章节。 如果你在书写新的声明文件，那么你必须阅读此章节以理解库的不同格式是如何影响声明文件的书写的。
+在编写声明文件时，我们经常遇到以下情况，那就是需要根据代码库提供的示例来编写声明文件。
+[示例](./by-example.md)一节展示了了许多常见的 API 模式，以及如何为它们编写声明文件。
+该指南面向的是 TypeScript 的初学者，这些人可能并不熟悉 TypeScript 语言的每个特性。
 
-### 举例
+## 结构
 
-很多时候，我们只能通过一些示例来了解第三方库是如何工作的，同时我们需要为这样的库书写声明文件。 [举例](By%20Example.md)一节展示了很多常见的API模式以及如何为它们书写声明文件。 这篇指南是针对TypeScript初学者的，它们可能还不了解TypeScript里的所有语言结构。
+[结构](./library-structures.md)一节将帮助你了解常见库的格式以及如何为每种格式书写正确的声明文件。
+如果你正在编辑一个已有文件，那么你可能不需要阅读此章节。
+如果你在编写新的声明文件，那么强烈建议阅读此章节以理解库的不同格式是如何影响声明文件的编写的。
 
-### 规范
+## 模版
 
-声明文件里有很多常见的错误是很容易避免的。 \[规范\]\(./Do's%20and%20Don'ts.md\)一节指出了常见的错误， 描述了如何发现它们， 与怎样去修复。 每个人都要阅读这个章节以了解如何避免常见错误。
+在[模版](./templates.md)一节里，你能找到一些声明文件，它们对于编写新的声明文件来讲会有所帮助。
+如果你已经了解了库的结构，那么可以阅读相应的模版文件：
 
-### 深入
+-   [global-modifying-module.d.ts](templates/global-modifying-module.d.ts.md)
+-   [global-plugin.d.ts](templates/global-plugin.d.ts.md)
+-   [global.d.ts](templates/global.d.ts.md)
+-   [module-class.d.ts](templates/module-class.d.ts.md)
+-   [module-function.d.ts](templates/module-function.d.ts.md)
+-   [module-plugin.d.ts](templates/module-plugin.d.ts.md)
+-   [module.d.ts](templates/module.d.ts.md)
 
-对于那些对声明文件底层工作机制感兴趣的老手们， [深入](Deep%20Dive.md)一节解释了很多高级书写声明文件的高级概念， 以及展示了如何利用这些概念来创建整洁和直观的声明文件。
+## 规范
 
-### 模版
+声明文件里有些常见错误是很容易就可以避免的。
+[规范](./do-s-and-don-ts.md)一节列出了常见的错误，并且描述了如何检测以及修复它们。
+每个人都应该阅读这个章节以了解如何避免常见错误。
 
-在[模版](Templates.md)一节里，你能找到一些声明文件，它们可以帮助你快速开始 当你在书写一个新声明文件的时候。 参考[结构](Library%20Structures.md)这篇文档来找到应该使用哪个模版文件。
+## 深入
 
-### 发布到npm
+针对那些对声明文件底层工作机制感兴趣的老手们，[深入](./deep-dive.md)一节解释了编写声明文件时的很多高级概念，
+并且展示了如何利用这些概念来创建整洁和直观的声明文件。
 
-[发布](Publishing.md)一节讲解了如何发布声明文件为npm包，及如何管理包的依赖。
+## 发布到 npm
 
-### 查找与安装声明文件
+[发布](./publishing.md)一节讲解了如何将声明文件发布为 npm 包，以及如何管理包的依赖。
 
-对于JavaScript库的使用者来讲，[使用](Consumption.md)一节提供了一些简单步骤来定位与安装相应的声明文件。
+## 查找与安装声明文件
 
+对于 JavaScript 库的使用者来讲，[使用](./consumption.md)一节提供了一些简单步骤来查找与安装相应的声明文件。
