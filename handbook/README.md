@@ -23,5 +23,5 @@
 * [Decorators](decorators.md)
 * [混入](mixins.md)
 * [三斜线指令](triple-slash-directives.md)
-* [JavaScript文件里的类型检查](type-checking-javascript-files.md)
+* [JavaScript文件里的类型检查](../javascript/type-checking-javascript-files.md)
 

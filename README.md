@@ -49,7 +49,7 @@
   * [Decorators](handbook/decorators.md)
   * [混入](handbook/mixins.md)
   * [三斜线指令](handbook/triple-slash-directives.md)
-  * [JavaScript文件里的类型检查](handbook/type-checking-javascript-files.md)
+  * [JavaScript文件里的类型检查](javascript/type-checking-javascript-files.md)
   * [实用工具类型](handbook/utility-types.md)
 * [如何书写声明文件](declaration-files/README.md)
   * [介绍](declaration-files/introduction.md)
