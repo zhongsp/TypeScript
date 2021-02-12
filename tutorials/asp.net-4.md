@@ -15,11 +15,11 @@
 3. 选择 **Visual C\#**
 4. 选择 **ASP.NET Web Application**
 
-   ![Create new ASP.NET project](../.gitbook/assets/new-asp-project.png)
+   ![Create new ASP.NET project](../assets/new-asp-project.png)
 
 5. 选择 **MVC**
 
-   取消复选 "Host in the cloud" 本指南将使用一个本地示例。 ![Use MVC template](../.gitbook/assets/new-asp-project-template.png)
+   取消复选 "Host in the cloud" 本指南将使用一个本地示例。 ![Use MVC template](../assets/new-asp-project-template.png)
 
 运行此应用以确保它能正常工作。
 
@@ -27,17 +27,17 @@
 
 下一步我们为 TypeScript 添加一个文件夹。
 
-![Create new folder](../.gitbook/assets/new-folder.png)
+![Create new folder](../assets/new-folder.png)
 
 将文件夹命名为 src。
 
-![src folder](../.gitbook/assets/src-folder.png)
+![src folder](../assets/src-folder.png)
 
 ### 添加 TypeScript 代码
 
 在 `src` 上右击并选择 **New Item**。 接着选择 **TypeScript File** 并将此文件命名为 `app.ts`。
 
-![New item](../.gitbook/assets/new-item.png)
+![New item](../assets/new-item.png)
 
 ### 添加示例代码
 
@@ -55,7 +55,7 @@ function sayHello() {
 
 右击项目并选择 **New Item**。 接着选择 **TypeScript Configuration File** 保持文件的默认名字为 `tsconfig.json`。
 
-![Create tsconfig.json](../.gitbook/assets/new-tsconfig.png)
+![Create tsconfig.json](../assets/new-tsconfig.png)
 
 将默认的 `tsconfig.json` 内容改为如下所示：
 
@@ -88,7 +88,7 @@ function sayHello() {
 
 1. 在 **Solution Explorer** 中, 打开 **Views** \| **Home** \| `Index.cshtml`。
 
-   ![Open Index.cshtml](../.gitbook/assets/open-index.png)
+   ![Open Index.cshtml](../assets/open-index.png)
 
 2. 修改代码如下：
 
@@ -109,7 +109,7 @@ function sayHello() {
 1. 运行项目。
 2. 在输入框中键入时，您应该看到一个消息：
 
-![Picture of running demo](../.gitbook/assets/running-demo.png)
+![Picture of running demo](../assets/running-demo.png)
 
 ### 调试
 
@@ -118,7 +118,7 @@ function sayHello() {
 3. 在 `return` 那一行上打一个断点。
 4. 在输入框中键入一些内容，确认TypeScript代码命中断点，观察它是否能正确地工作。
 
-![Demo paused on breakpoint](../.gitbook/assets/paused-demo.png)
+![Demo paused on breakpoint](../assets/paused-demo.png)
 
 这就是你需要知道的在ASP.NET中使用TypeScript的基本知识了。接下来，我们引入Angular，写一个简单的Angular程序示例。
 
@@ -131,13 +131,13 @@ function sayHello() {
 
    在project上右击, 选择 **Quick Install Package**。
 
-   ![Use PackageInstaller to install angular2](../.gitbook/assets/packageinstaller-angular2.png) ![Use PackageInstaller to install systemjs](../.gitbook/assets/packageinstaller-systemjs.png) ![Use PackageInstaller to install Typings](../.gitbook/assets/packageinstaller-typings.png)
+   ![Use PackageInstaller to install angular2](../assets/packageinstaller-angular2.png) ![Use PackageInstaller to install systemjs](../assets/packageinstaller-systemjs.png) ![Use PackageInstaller to install Typings](../assets/packageinstaller-typings.png)
 
 3. 用 PackageInstaller 安装 es6-shim 的类型文件。
 
    Angular 2 包含 es6-shim 以提供 Promise 支持, 但 TypeScript 还需要它的类型文件。 在 PackageInstaller 中, 选择 Typing 替换 npm 选项。接着键入 "es6-shim"：
 
-   ![Use PackageInstaller to install es6-shim typings](../.gitbook/assets/packageinstaller-es6-shim.png)
+   ![Use PackageInstaller to install es6-shim typings](../assets/packageinstaller-es6-shim.png)
 
 ### 更新 tsconfig.json
 

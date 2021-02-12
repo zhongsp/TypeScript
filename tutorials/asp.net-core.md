@@ -15,11 +15,11 @@
 3. 选择 **Visual C\#**
 4. 若使用VS2015，选择 **ASP.NET Web Application** &gt; **ASP.NET 5 Empty**，并且取消勾选“Host in the cloud”，因为我们要在本地运行。
 
-   ![&#x4F7F;&#x7528;&#x7A7A;&#x767D;&#x6A21;&#x7248;](../.gitbook/assets/new-asp-project-empty.png)
+   ![&#x4F7F;&#x7528;&#x7A7A;&#x767D;&#x6A21;&#x7248;](../assets/new-asp-project-empty.png)
 
 5. 若使用VS2017，选择 **ASP.NET Core Web Application \(.NET Core\)** &gt; **ASP.NET Core 1.1 Empty**。
 
-   ![&#x4F7F;&#x7528;&#x7A7A;&#x767D;&#x6A21;&#x7248;VS2017](../.gitbook/assets/new-asp-project-empty-17.PNG)
+   ![&#x4F7F;&#x7528;&#x7A7A;&#x767D;&#x6A21;&#x7248;VS2017](../assets/new-asp-project-empty-17.PNG)
 
 运行此应用以确保它能正常工作。
 
@@ -58,7 +58,7 @@ public void Configure(IApplicationBuilder app)
 
 打开 **Dependencies** &gt; **Manage NuGet Packages** &gt; **Browse**。搜索并安装`Microsoft.AspNetCore.StaticFiles` 1.1.2：
 
-![&#x5B89;&#x88C5;Microsoft.AspNetCore.StaticFiles](../.gitbook/assets/install-nuget-packages.png)
+![&#x5B89;&#x88C5;Microsoft.AspNetCore.StaticFiles](../assets/install-nuget-packages.png)
 
 如下替换掉`Startup.cs`里`Configure`的内容：
 
@@ -76,17 +76,17 @@ public void Configure(IApplicationBuilder app)
 
 下一步我们为 TypeScript 添加一个文件夹。
 
-![Create new folder](../.gitbook/assets/new-folder.png)
+![Create new folder](../assets/new-folder.png)
 
 将文件夹命名为 `scripts`。
 
-![scripts folder](../.gitbook/assets/scripts-folder.png)
+![scripts folder](../assets/scripts-folder.png)
 
 ### 添加 TypeScript 代码
 
 在`scripts`上右击并选择**New Item**。 接着选择**TypeScript File**（也可能 .NET Core 部分），并将此文件命名为`app.ts`。
 
-![New item](../.gitbook/assets/new-item.png)
+![New item](../assets/new-item.png)
 
 ### 添加示例代码
 
@@ -106,7 +106,7 @@ function sayHello() {
 
 我们先来告诉TypeScript怎样构建。 右击scripts文件夹并选择**New Item**。 接着选择**TypeScript Configuration File**，保持文件的默认名字为`tsconfig.json`。
 
-![Create tsconfig.json](../.gitbook/assets/new-tsconfig.png)
+![Create tsconfig.json](../assets/new-tsconfig.png)
 
 将默认的`tsconfig.json`内容改为如下所示：
 
@@ -177,7 +177,7 @@ gulp.task('default', function () {
 
 现在，右击`gulpfile.js`并选择**Task Runner Explorer**。 若'default'和'clean'任务没有显示输出内容的话，请刷新explorer：
 
-![Refresh Task Runner Explorer](../.gitbook/assets/task-runner-explorer.png)
+![Refresh Task Runner Explorer](../assets/task-runner-explorer.png)
 
 ### 编写HTML页
 
@@ -206,7 +206,7 @@ gulp.task('default', function () {
 1. 运行项目。
 2. 在输入框中键入时，您应该看到一个消息：
 
-![Picture of running demo](../.gitbook/assets/running-demo.png)
+![Picture of running demo](../assets/running-demo.png)
 
 ### 调试
 
@@ -215,7 +215,7 @@ gulp.task('default', function () {
 3. 在 `return` 那一行上打一个断点。
 4. 在输入框中键入一些内容，确认TypeScript代码命中断点，观察它是否能正确地工作。
 
-![Demo paused on breakpoint](../.gitbook/assets/paused-demo.png)
+![Demo paused on breakpoint](../assets/paused-demo.png)
 
 这就是你需要知道的在ASP.NET中使用TypeScript的基本知识了。 接下来，我们引入Angular，写一个简单的Angular程序示例。
 
