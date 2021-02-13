@@ -1,140 +1,204 @@
-# 库结构
+# 代码库结构
 
-## 概述
+一般来讲，*组织*声明文件的方式取决于代码库是如何被使用的。
+在 JavaScript 中一个代码库有很多使用方式，这就需要你书写声明文件去匹配它们。
+这篇指南涵盖了如何识别常见代码库的模式，以及怎样书写符合相应模式的声明文件。
 
-一般来讲，你_组织_声明文件的方式取决于库是如何被使用的。 在JavaScript中一个库有很多使用方式，这就需要你书写声明文件去匹配它们。 这篇指南涵盖了如何识别常见库的模式，和怎样书写符合相应模式的声明文件。
+针对代码库的每种主要的组织模式，在[模版](./templates.md)一节都有对应的文件。
+你可以利用它们帮助你快速上手。
 
-针对每种主要的库的组织模式，在[模版](../doc/handbook/declaration%20files/Templates.md)一节都有对应的文件。 你可以利用它们帮助你快速上手。
+## 识别代码库的类型
 
-## 识别库的类型
+首先，我们先看一下 TypeScript 声明文件能够表示的库的类型。
+这里会简单展示每种类型的代码库的使用方式，以及如何去书写，还有一些真实案例。
 
-首先，我们先看一下TypeScript声明文件能够表示的库的类型。 这里会简单展示每种类型的库的使用方式，如何去书写，还有一些真实案例。
+识别代码库的类型是书写声明文件的第一步。
+我们将会给出一些提示，关于怎样通过代码库的*使用方法*及其*源码*来识别库的类型。
+根据库的文档及组织结构的不同，在这两种方式中可能一个会比另外的一个简单一些。
+我们推荐你使用任意你喜欢的方式。
 
-识别库的类型是书写声明文件的第一步。 我们将会给出一些提示，关于怎样通过库的_使用方法_及其_源码_来识别库的类型。 根据库的文档及组织结构不同，这两种方式可能一个会比另外的那个简单一些。 我们推荐你使用任意你喜欢的方式。
+## 你应该寻找什么？
 
-### 全局库
+在为代码库编写声明文件时，你需要问自己以下几个问题。
 
-_全局_库是指能在全局命名空间下访问的（例如：不需要使用任何形式的`import`）。 许多库都是简单的暴露出一个或多个全局变量。 比如，如果你使用过[jQuery](https://jquery.com/)，`$`变量可以被够简单的引用：
+1. 如何获取代码库？
 
-```typescript
-$(() => { console.log('hello!'); } );
+    比如，是否只能够从 npm 或 CDN 获取。
+
+2. 如何导入代码库？
+
+    它是否添加了某个全局对象？它是否使用了`require`或`import`/`export`语句？
+
+## 针对不同类型的代码库的示例
+
+### 模块化代码库
+
+几乎所有的 Node.js 代码库都属于这一类。
+这类代码库只能工作在有模块加载器的环境下。
+比如，`express`只能在 Node.js 里工作，所以必须使用 CommonJS 的`require`函数加载。
+
+ECMAScript 2015（也就是 ES2015，ECMAScript 6 或 ES6），CommonJS 和 RequireJS 具有相似的*导入*一个*模块*的写法。
+例如，对于 JavaScript CommonJS （Node.js），写法如下：
+
+```js
+var fs = require('fs');
 ```
 
-你经常会在全局库的指南文档上看到如何在HTML里用脚本标签引用库：
+对于 TypeScript 或 ES6，`import`关键字也具有相同的作用：
 
-```markup
-<script src="http://a.great.cdn.for/someLib.js"></script>
+```ts
+import * as fs from 'fs';
 ```
 
-目前，大多数流行的全局访问型库实际上都以UMD库的形式进行书写（见后文）。 UMD库的文档很难与全局库文档两者之间难以区分。 在书写全局声明文件前，一定要确认一下库是否真的不是UMD。
+你通常会在模块化代码库的文档里看到如下说明：
 
-#### 从代码上识别全局库
-
-全局库的代码通常都十分简单。 一个全局的“Hello, world”库可能是这样的：
-
-```javascript
-function createGreeting(s) {
-    return "Hello, " + s;
-}
-```
-
-或这样：
-
-```javascript
-window.createGreeting = function(s) {
-    return "Hello, " + s;
-}
-```
-
-当你查看全局库的源代码时，你通常会看到：
-
-* 顶级的`var`语句或`function`声明
-* 一个或多个赋值语句到`window.someName`
-* 假设DOM原始值像`document`或`window`是存在的
-
-你_不会_看到：
-
-* 检查是否使用或如何使用模块加载器，比如`require`或`define`
-* CommonJS/Node.js风格的导入如`var fs = require("fs");`
-* `define(...)`调用
-* 文档里说明了如何去`require`或导入这个库
-
-#### 全局库的例子
-
-由于把一个全局库转变成UMD库是非常容易的，所以很少流行的库还再使用全局的风格。 然而，小型的且需要DOM（或_没有_依赖）的库可能还是全局类型的。
-
-#### 全局库模版
-
-模版文件[`global.d.ts`](../doc/handbook/declaration%20files/templates/global.d.ts.md)定义了`myLib`库作为例子。 一定要阅读["防止命名冲突"补充说明](library-structures.md#preventing-name-conflicts)。
-
-### 模块化库
-
-一些库只能工作在模块加载器的环境下。 比如，`express`只能在Node.js里工作，所以必须使用CommonJS的`require`函数加载。
-
-ECMAScript 2015（也就是ES2015，ECMAScript 6或ES6），CommonJS和RequireJS具有相似的_导入_一个_模块_的表示方法。 例如，对于JavaScript CommonJS （Node.js），有下面的代码
-
-```javascript
-var fs = require("fs");
-```
-
-对于TypeScript或ES6，`import`关键字也具有相同的作用：
-
-```typescript
-import fs = require("fs");
-```
-
-你通常会在模块化库的文档里看到如下说明：
-
-```javascript
+```js
 var someLib = require('someLib');
 ```
 
 或
 
-```javascript
+```js
 define(..., ['someLib'], function(someLib) {
 
 });
 ```
 
-与全局模块一样，你也可能会在UMD模块的文档里看到这些例子，因此要仔细查看源码和文档。
+与全局模块一样，你也可能会在 [UMD](#umd) 模块的文档里看到这些例子，因此要仔细查看源码和文档。
 
-#### 从代码上识别模块化库
+#### 从代码上识别模块化代码库
 
-模块库至少会包含下列具有代表性的条目之一：
+模块化代码库至少会包含以下代表性条目之一：
 
-* 无条件的调用`require`或`define`
-* 像`import * as a from 'b';` or `export c;`这样的声明
-* 赋值给`exports`或`module.exports`
+-   无条件的调用`require`或`define`
+-   像`import * as a from 'b';`或`export c;`这样的声明
+-   赋值给`exports`或`module.exports`
 
 它们极少包含：
 
-* 对`window`或`global`的赋值
+-   对`window`或`global`的赋值
 
-#### 模块化库的例子
+#### 模块化代码库的模版
 
-许多流行的Node.js库都是这种模块化的，例如[`express`](http://expressjs.com/)，[`gulp`](http://gulpjs.com/)和[`request`](https://github.com/request/request)。
+有以下四个模版可用：
 
-### _UMD_
+-   [`module.d.ts`](./templates/module.d.ts.md)
+-   [`module-class.d.ts`](./templates/module-class.d.ts.md)
+-   [`module-function.d.ts`](./templates/module-function.d.ts.md)
+-   [`module-plugin.d.ts`](./templates/module-plugin.d.ts.md)
 
-_UMD_模块是指那些既可以作为模块使用（通过导入）又可以作为全局（在没有模块加载器的环境里）使用的模块。 许多流行的库，比如[Moment.js](http://momentjs.com/)，就是这样的形式。 比如，在Node.js或RequireJS里，你可以这样写：
+你应该先阅读[`module.d.ts`](./templates/module.d.ts.md)以便从整体上了解它们的工作方式。
 
-```typescript
-import moment = require("moment");
+然后，若一个模块可以当作函数调用，则使用[`module-function.d.ts`](./templates/module-function.d.ts.md)。
+
+```js
+const x = require('foo');
+// Note: calling 'x' as a function
+const y = x(42);
+```
+
+如果一个模块可以使用`new`来构造，则使用[`module-class.d.ts`](./templates/module-class.d.ts.md)。
+
+```js
+var x = require('bar');
+// Note: using 'new' operator on the imported variable
+var y = new x('hello');
+```
+
+如果一个模块在导入后会更改其它的模块，则使用[`module-plugin.d.ts`](./templates/module-plugin.d.ts.md)。
+
+```js
+const jest = require('jest');
+require('jest-matchers-files');
+```
+
+### 全局代码库
+
+全局代码库可以通过全局作用域来访问（例如，不使用任何形式的`import`语句）。
+许多代码库只是简单地导出一个或多个供使用的全局变量。
+比如，如果你使用[jQuery](https://jquery.com/)，那么可以使用`$`变量来引用它。
+
+```ts
+$(() => {
+    console.log('hello!');
+});
+```
+
+你通常能够在文档里看到如何在 HTML 的 script 标签里引用代码库：
+
+```html
+<script src="http://a.great.cdn.for/someLib.js"></script>
+```
+
+目前，大多数流行的全局代码库都以 UMD 代码库发布。
+UMD 代码库与全局代码库很难通过文档来识别。
+在编写全局代码库的声明文件之前，确保代码库不是 UMD 代码库。
+
+#### 从代码来识别全局代码库
+
+通常，全局代码库的代码十分简单。
+一个全局的“Hello, world”代码库可以如下：
+
+```js
+function createGreeting(s) {
+    return 'Hello, ' + s;
+}
+```
+
+或者这样：
+
+```js
+window.createGreeting = function (s) {
+    return 'Hello, ' + s;
+};
+```
+
+在阅读全局代码库的代码时，你会看到：
+
+-   顶层的`var`语句或`function`声明
+-   一个或多个`window.someName`赋值语句
+-   假设 DOM 相关的原始值`document`或`window`存在
+
+你不会看到：
+
+-   检查或使用了模块加载器，如`require`或`define`
+-   CommonJS/Node.js 风格的导入语句，如`var fs = require("fs");`
+-   `define(...)`调用
+-   描述`require`或导入代码库的文档
+
+#### 全局代码库的示例
+
+由于将全局代码库转换为 UMD 代码库十分容易，因此很少有代码库仍然使用全局代码库风格。
+然而，小型的代码库以及需要使用 DOM 的代码库仍然可以是全局的。
+
+#### 全局代码库的模版
+
+模版文件[`global.d.ts`](../doc/handbook/declaration%20files/templates/global.d.ts.md)定义了`myLib`示例代码库。
+请务必阅读[脚注："防止命名冲突"](#es6-对模块调用签名的影响)。
+
+### UMD
+
+一个 UMD 模块既可以用作 ES 模块（使用导入语句），也可以用作全局变量（在缺少模块加载器的环境中使用）。
+许多流行的代码库，如[Moment.js](http://momentjs.com/)，都是使用这模式发布的。
+例如，在 Node.js 中或使用了 RequireJS 时，你可以这样使用：
+
+```ts
+import moment = require('moment');
 console.log(moment.format());
 ```
 
-然而在纯净的浏览器环境里你也可以这样写：
+在纯浏览器环境中，你可以这样使用：
 
-```javascript
+```js
 console.log(moment.format());
 ```
 
-#### 识别UMD库
+### 识别 UMD 代码库
 
-[UMD模块](https://github.com/umdjs/umd)会检查是否存在模块加载器环境。 这是非常形容观察到的模块，它们会像下面这样：
+[UMD 模块](https://github.com/umdjs/umd)会检查运行环境中是否存在模块加载器。
+这是一种常见模式，示例如下：
 
-```javascript
+```js
 (function (root, factory) {
     if (typeof define === "function" && define.amd) {
         define(["libName"], factory);
@@ -146,53 +210,22 @@ console.log(moment.format());
 }(this, function (b) {
 ```
 
-如果你在库的源码里看到了`typeof define`，`typeof window`，或`typeof module`这样的测试，尤其是在文件的顶端，那么它几乎就是一个UMD库。
+如果你看到代码库中存在类如`typeof define`，`typeof window`或`typeof module`的检测代码，尤其是在文件的顶端，那么它大概率是 UMD 代码库。
 
-UMD库的文档里经常会包含通过`require`“在Node.js里使用”例子， 和“在浏览器里使用”的例子，展示如何使用`<script>`标签去加载脚本。
+在 UMD 模块的文档中经常会提供在 Node.js 中结合`require`使用的示例，以及在浏览器中结合`<script>`标签使用的示例。
 
-#### UMD库的例子
+### UMD 代码库的示例
 
-大多数流行的库现在都能够被当成UMD包。 比如[jQuery](https://jquery.com/),[Moment.js](http://momentjs.com/),[lodash](https://lodash.com/)和许多其它的。
-
-#### 模版
-
-针对模块有三种可用的模块， [`module.d.ts`](../doc/handbook/declaration%20files/templates/module.d.ts.md), [`module-class.d.ts`](../doc/handbook/declaration%20files/templates/module-class.d.ts.md) and [`module-function.d.ts`](../doc/handbook/declaration%20files/templates/module-function.d.ts.md).
-
-使用[`module-function.d.ts`](../doc/handbook/declaration%20files/templates/module-function.d.ts.md)，如果模块能够作为函数_调用_。
-
-```javascript
-var x = require("foo");
-// Note: calling 'x' as a function
-var y = x(42);
-```
-
-一定要阅读[补充说明： “ES6模块调用签名的影响”](library-structures.md#the-impact-of-es6-on-module-call-signatures)
-
-使用[`module-class.d.ts`](../doc/handbook/declaration%20files/templates/module-class.d.ts.md)如果模块能够使用`new`来_构造_：
-
-```javascript
-var x = require("bar");
-// Note: using 'new' operator on the imported variable
-var y = new x("hello");
-```
-
-相同的[补充说明](library-structures.md#the-impact-of-es6-on-module-plugins)作用于这些模块。
-
-如果模块不能被调用或构造，使用[`module.d.ts`](../doc/handbook/declaration%20files/templates/module.d.ts.md)文件。
-
-### _模块插件_或_UMD插件_
-
-一个_模块插件_可以改变一个模块的结构（UMD或模块）。 例如，在Moment.js里，`moment-range`添加了新的`range`方法到`monent`对象。
-
-对于声明文件的目标，我们会写相同的代码不论被改变的模块是一个纯粹的模块还是UMD模块。
+大多数流行的代码库均提供了 UMD 格式的包。
+例如，[jQuery](https://jquery.com/)，[Moment.js](http://momentjs.com/)和[lodash](https://lodash.com/)等。
 
 #### 模版
 
-使用[`module-plugin.d.ts`](../doc/handbook/declaration%20files/templates/module-plugin.d.ts.md)模版。
+使用[`module-plugin.d.ts`](./templates/module-plugin.d.ts.md)模版。
 
-### _全局插件_
+### 全局插件
 
-一个_全局插件_是全局代码，它们会改变全局对象的结构。 对于_全局修改的模块_，在运行时存在冲突的可能。
+一个*全局插件*是全局代码，它们会改变全局对象的结构。 对于*全局修改的模块*，在运行时存在冲突的可能。
 
 比如，一些库往`Array.prototype`或`String.prototype`里添加新的方法。
 
@@ -203,7 +236,7 @@ var y = new x("hello");
 你会看到像下面这样的例子：
 
 ```javascript
-var x = "hello, world";
+var x = 'hello, world';
 // Creates new methods on built-in types
 console.log(x.startsWithHello());
 
@@ -216,9 +249,9 @@ console.log(y.reverseAndSort());
 
 使用[`global-plugin.d.ts`](../doc/handbook/declaration%20files/templates/global-plugin.d.ts.md)模版。
 
-### _全局修改的模块_
+### 全局修改的模块
 
-当一个_全局修改的模块_被导入的时候，它们会改变全局作用域里的值。 比如，存在一些库它们添加新的成员到`String.prototype`当导入它们的时候。 这种模式很危险，因为可能造成运行时的冲突， 但是我们仍然可以为它们书写声明文件。
+当一个*全局修改的模块*被导入的时候，它们会改变全局作用域里的值。 比如，存在一些库它们添加新的成员到`String.prototype`当导入它们的时候。 这种模式很危险，因为可能造成运行时的冲突， 但是我们仍然可以为它们书写声明文件。
 
 #### 识别全局修改的模块
 
@@ -228,11 +261,11 @@ console.log(y.reverseAndSort());
 
 ```javascript
 // 'require' call that doesn't use its return value
-var unused = require("magic-string-time");
+var unused = require('magic-string-time');
 /* or */
-require("magic-string-time");
+require('magic-string-time');
 
-var x = "hello, world";
+var x = 'hello, world';
 // Creates new methods on built-in types
 console.log(x.startsWithHello());
 
@@ -245,120 +278,97 @@ console.log(y.reverseAndSort());
 
 使用[`global-modifying-module.d.ts`](../doc/handbook/declaration%20files/templates/global-modifying-module.d.ts.md)模版。
 
-## 使用依赖
+## 利用依赖
 
-你的代码库可能有好几种类型的依赖。 这部分会介绍如何把它们导入声明文件。
+你的代码库可能会有若干种依赖。
+本节会介绍如何在声明文件中导入它们。
 
-### 依赖全局库
+### 对全局库的依赖
 
-如果你的库依赖于某个全局库，使用`/// <reference types="..." />`指令：
+如果你的代码库依赖于某个全局代码库，则使用`/// <reference types="..." />`指令：
 
-```typescript
+```ts
 /// <reference types="someLib" />
 
 function getThing(): someLib.thing;
 ```
 
-### 依赖模块
+### 对模块的依赖
 
-如果你的库依赖于模块，使用`import`语句：
+如果你的代码库依赖于某个模块，则使用`import`语句：
 
-```typescript
-import * as moment from "moment";
+```ts
+import * as moment from 'moment';
 
 function getThing(): moment;
 ```
 
-### 依赖UMD库
+### 对 UMD 模块的依赖
 
-#### 从全局库
+#### 全局代码库
 
-如果你的全局库依赖于某个UMD模块，使用`/// <reference types`指令：
+如果你的全局代码库依赖于某个 UMD 模块，则使用`/// <reference types`指令：
 
-```typescript
+```ts
 /// <reference types="moment" />
 
 function getThing(): moment;
 ```
 
-#### 从一个模块或UMD库
+#### ES 模块或 UMD 模块代码库
 
-如果你的模块或UMD库依赖于一个UMD库，使用`import`语句：
+如果你的模块或 UMD 代码库依赖于某个 UMD 代码库，则使用`import`语句：
 
-```typescript
+```ts
 import * as someLib from 'someLib';
 ```
 
-_不要_使用`/// <reference`指令去声明UMD库的依赖！
+不要使用`/// <reference`指令来声明对 UMD 代码库的依赖。
 
-## 补充说明
+## 脚注
 
 ### 防止命名冲突
 
-注意，在书写全局声明文件时，允许在全局作用域里定义很多类型。 我们十分不建义这样做，当一个工程里有许多声明文件时，它会导致无法处理的命名冲突。
+注意，虽说可以在全局作用域内定义许多类型。
+但我们强烈建议不要这样做，因为当一个工程中存在多个声明文件时，它可能会导致难以解决的命名冲突。
 
-一个简单的规则是使用库定义的全局变量名来声明命名空间类型。 比如，库定义了一个全局的值`cats`，你可以这样写
+可以遵循的一个简单规则是使用代码库提供的某个全局变量来声明拥有命名空间的类型。
+例如，如果代码库提供了全局变量`cats`，那么可以这样写：
 
-```typescript
+```ts
 declare namespace cats {
-    interface KittySettings { }
+    interface KittySettings {}
 }
 ```
 
-_不要_
+而不是：
 
-```typescript
+```ts
 // at top-level
-interface CatsKittySettings { }
+interface CatsKittySettings {}
 ```
 
-这样也保证了库在转换成UMD的时候没有任何的破坏式改变，对于声明文件用户来说。
+这样做会保证代码库可以被转换成 UMD 模块，且不会影响声明文件的使用者。
 
-### ES6模块插件的影响
+### ES6 对模块插件的影响
 
-一些插件添加或修改已存在的顶层模块的导出部分。 当然这在CommonJS和其它加载器里是允许的，ES模块被当作是不可改变的因此这种模式就不可行了。 因为TypeScript是能不预知加载器类型的，所以没没在编译时保证，但是开发者如果要转到ES6模块加载器上应该注意这一点。
+一些插件会对已有模块的顶层导出进行添加或修改。
+这在 CommonJS 以及其它模块加载器里是合法的，但 ES6 模块是不可改变的，因此该模式是不可行的。
+因为，TypeScript 是模块加载器无关的，所以在编译时不会对该行为加以限制，但是开发者若想要转换到 ES6 模块加载器则需要注意这一点。
 
-### ES6模块调用签名的影响
+### ES6 对模块调用签名的影响
 
-很多流行库，比如Express，暴露出自己作为可以调用的函数。 比如，典型的Express使用方法如下：
+许多代码库，如 Express，将自身导出为可调用的函数。
+例如，Express 的典型用法如下：
 
-```typescript
-import exp = require("express");
+```ts
+import exp = require('express');
 var app = exp();
 ```
 
-在ES6模块加载器里，顶层的对象（这里以`exp`导入）只能具有属性； 顶层的模块对象_永远不能_被调用。 十分常见的解决方法是定义一个`default`导出到一个可调用的/可构造的对象； 一会模块加载器助手工具能够自己探测到这种情况并且使用`default`导出来替换顶层对象。
+在 ES6 模块加载器中，顶层对象（此例中就`exp`）只能拥有属性；
+顶层的模块对象永远不能够被调用。
 
-### 代码库文件结构
-
-声明文件的结构应该与代码文件结构保持一致。 一个库可能由多个模块构成，比如
-
-```text
-myLib
-  +---- index.js
-  +---- foo.js
-  +---- bar
-         +---- index.js
-         +---- baz.js
-```
-
-它们可以被这样导入
-
-```javascript
-var a = require("myLib");
-var b = require("myLib/foo");
-var c = require("myLib/bar");
-var d = require("myLib/bar/baz");
-```
-
-声明应该这样写
-
-```text
-@types/myLib
-  +---- index.d.ts
-  +---- foo.d.ts
-  +---- bar
-         +---- index.d.ts
-         +---- baz.d.ts
-```
-
+最常见的解决方案是为可调用的/可构造的对象定义一个`default`导出；
+有些模块加载器会自动检测这种情况并且将顶层对象替换为`default`导出。
+如果在 tsconfig.json 里启用了[`"esModuleInterop": true`](/tsconfig/#esModuleInterop)，那么 Typescript 会自动为你处理。

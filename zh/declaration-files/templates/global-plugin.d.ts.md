@@ -59,7 +59,7 @@ var x = require('foo');
 var y = x(42);
 ```
 
-请务必阅读[脚注："ES6 对模块调用签名的影响"](#es6-对模块调用签名的影响)
+请务必阅读[脚注："ES6 对模块调用签名的影响"](#es6-对模块调用签名的影响)。
 
 如果一个模块可以使用`new`来构造，则使用[`module-class.d.ts`](./templates/module-class.d.ts.md)。
 
