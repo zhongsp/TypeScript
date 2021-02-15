@@ -356,5 +356,4 @@ obj.moveBy(5, 5);
 ## 操作字符串的类型
 
 为了便于操作模版字符串字面量，TypeScript 引入了一些能够操作字符串的类型。
-更多详情，请阅读[模版字面量类型](/docs/handbook/2/template-literal-types.html#uppercasestringtype)。
-（TODO）
+更多详情，请阅读[模版字面量类型](../handbook-v2/type-manipulation/template-literal-types.md#固有字符串操作类型)。
