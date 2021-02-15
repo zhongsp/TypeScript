@@ -50,6 +50,8 @@
   * [类型兼容性](zh/reference/type-compatibility.md)
   * [类型推论](zh/reference/type-inference.md)
   * [变量声明](zh/reference/variable-declarations.md)
+* 手册（v2）
+  * [模版字面量类型](zh/handbook-v2/type-manipulation/template-literal-types.md)
 * [如何书写声明文件](zh/declaration-files/README.md)
   * [介绍](zh/declaration-files/introduction.md)
   * [举例](zh/declaration-files/by-example.md)

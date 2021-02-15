@@ -1,3 +1,7 @@
+# 模版字面量类型
+
+> 从 TypeScript 4.1 开始支持
+
 模版字面量类型以[字符串字面量类型](../../handbook/literal-types.md)为基础，且可以扩展为多个字符串类型的联合类型。
 
 其语法与 [JavaScript 中的模版字面量](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)是一致的，但是是用在类型的位置。
