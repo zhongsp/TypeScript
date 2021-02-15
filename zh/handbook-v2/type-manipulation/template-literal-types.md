@@ -2,10 +2,10 @@
 
 > 从 TypeScript 4.1 开始支持
 
-模版字面量类型以[字符串字面量类型](../../handbook/literal-types.md)为基础，且可以扩展为多个字符串类型的联合类型。
+模版字面量类型以[字符串字面量类型](../../handbook/literal-types.md)为基础，且可以展开为多个字符串类型的联合类型。
 
-其语法与 [JavaScript 中的模版字面量](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)是一致的，但是是用在类型的位置。
-当与某个具体的字面量类型一起使用时，模版字面量会将内容连接从而生成一个新的字符串字面量类型。
+其语法与 [JavaScript 中的模版字面量](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)是一致的，但是是用在类型的位置上。
+当与某个具体的字面量类型一起使用时，模版字面量会将文本连接从而生成一个新的字符串字面量类型。
 
 ```ts
 type World = 'world';
@@ -14,7 +14,7 @@ type Greeting = `hello ${World}`;
 //   'hello world'
 ```
 
-如果在替换字符串的位置是联合类型，那么结果类型是由每个联合成员构成的字符串字面量的集合：
+如果在替换字符串的位置是联合类型，那么结果类型是由每个联合类型成员构成的字符串字面量的集合：
 
 ```ts
 type EmailLocaleIDs = 'welcome_email' | 'email_heading';
@@ -24,7 +24,7 @@ type AllLocaleIDs = `${EmailLocaleIDs | FooterLocaleIDs}_id`;
 // "welcome_email_id" | "email_heading_id" | "footer_title_id" | "footer_sendoff_id"
 ```
 
-多个替换字符串的位置上的联合类型会进行交叉相乘：
+多个替换字符串的位置上的多个联合类型会进行交叉相乘：
 
 ```ts
 type EmailLocaleIDs = 'welcome_email' | 'email_heading';
@@ -48,10 +48,10 @@ type LocaleMessageIDs = `${Lang}_${AllLocaleIDs}`;
 
 ### 类型中的字符串联合类型
 
-模版字面量的强大之处在于它能够基于给定字符串来创建新的字符串。
+模版字面量的强大之处在于它能够基于给定的字符串来创建新的字符串。
 
-例如，JavaScript 中的一个常见模式是基于对象现有的属性来扩展它。
-下面我们定义一个函数类型`on`，它用来监听值的变化。
+例如，JavaScript 中有一个常见的模式是基于对象的现有属性来扩展它。
+下面我们定义一个函数类型`on`，它用于监听值的变化。
 
 ```ts
 declare function makeWatchedObject(obj: any): any;
@@ -112,10 +112,10 @@ person.on('frstNameChanged', () => {});
 
 ### 模版字面量类型推断
 
-注意，上例中没有使用原属性值的类型，回调函数仍使用`any`类型。
+注意，上例中没有使用原属性值的类型，在回调函数中仍使用`any`类型。
 模版字面量类型能够从替换字符串的位置推断出类型。
 
-下面，我们将上例修改成更通用的类型，它会从`eventName`字符串来推断出属性名。
+下面，我们将上例修改成泛型，它会从`eventName`字符串来推断出属性名。
 
 ```ts
 type PropEventSource<Type> = {
@@ -151,16 +151,16 @@ person.on('ageChanged', (newAge) => {
 这里，我们将`on`改为泛型方法。
 
 当用户使用字符串`"firstNameChanged'`来调用时，TypeScript 会尝试推断`K`的类型。
-为此，TypeScript 尝试将`K`与`"Changed"`之前的部分进行匹配，并且推断出字符串`"firstName"`。
+为此，TypeScript 尝试将`Key`与`"Changed"`之前的部分进行匹配，并且推断出字符串`"firstName"`。
 当 TypeScript 推断出了类型后，`on`方法就能够获取`firstName`属性的类型，即`string`类型。
 相似的，当使用`"ageChanged"`调用时，TypeScript 能够知道`age`属性的类型是`number`。
 
 类型推断可以以多种方式组合，例如拆解字符串然后以其它方式重新构造字符串。
 
-## 固有字符串操作类型
+## 操作固有字符串的类型
 
-为了便于字符串操作，TypeScript 提供了一系列操作字符串的类型。
-这些类型内置在了编译器中，以便提高性能。
+为了方便字符串操作，TypeScript 提供了一系列操作字符串的类型。
+这些类型内置于编译器之中，以便提高性能。
 它们不存在于 TypeScript 提供的`.d.ts`文件中。
 
 ### `Uppercase<StringType>`
