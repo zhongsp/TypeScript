@@ -12,7 +12,7 @@
 
 :new::new::new:
 
-<img src="./zh/misc/ts-intro.png" alt="TypeScript入门与实战" width="200px" height="200px" style="vertical-align: bottom;">  `ISBN 9787111669722`
+<a href="https://github.com/zhongsp/TypeScript/issues/310"><img src="./zh/misc/ts-intro.png" alt="TypeScript入门与实战" width="200px" height="200px" style="vertical-align: bottom;"></a>  `ISBN 9787111669722`
 
 各位朋友们，本人近期出版了[《TypeScript入门与实战》](https://github.com/zhongsp/TypeScript/issues/310)一书。在该书中，尝试着尽可能完整地介绍TypeScript语言的基础知识，并结合了一些本人的使用经验和体会。它主要面向的是TypeScript语言的初级和中级使用者。
 
