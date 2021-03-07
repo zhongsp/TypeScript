@@ -53,32 +53,32 @@ TypeScript 4.2 的内部实现更加智能了。
 
 更多详情，请参考[PR：改进保留类型别名的联合](https://github.com/microsoft/TypeScript/pull/42149)，以及[PR：保留间接的类型别名](https://github.com/microsoft/TypeScript/pull/42284)。
 
-## Leading/Middle Rest Elements in Tuple Types
+## 元组类型中前导的/中间的剩余元素
 
-In TypeScript, tuple types are meant to model arrays with specific lengths and element types.
+在 TypeScript 中，元组类型用于表示固定长度和元素类型的数组。
 
 ```ts
-// A tuple that stores a pair of numbers
+// 存储了一对数字的元组
 let a: [number, number] = [1, 2];
 
-// A tuple that stores a string, a number, and a boolean
+// 存储了一个string，一个number和一个boolean的元组
 let b: [string, number, boolean] = ['hello', 42, true];
 ```
 
-Over time, TypeScript's tuple types have become more and more sophisticated, since they're also used to model things like parameter lists in JavaScript.
-As a result, they can have optional elements and rest elements, and can even have labels for tooling and readability.
+随着时间的推移，TypeScript 中的元组类型变得越来越复杂，因为它们也被用来表示像 JavaScript 中的参数列表类型。
+结果就是，它可能包含可选元素和剩余元素，以及用于工具和提高可读性的标签。
 
-```ts twoslash
-// A tuple that has either one or two strings.
+```ts
+// 包含一个或两个元素的元组。
 let c: [string, string?] = ['hello'];
 c = ['hello', 'world'];
 
-// A labeled tuple that has either one or two strings.
+// 包含一个或两个元素的标签元组。
 let d: [first: string, second?: string] = ['hello'];
 d = ['hello', 'world'];
 
-// A tuple with a *rest element* - holds at least 2 strings at the front,
-// and any number of booleans at the back.
+// 包含剩余元素的元组 - 至少前两个元素是字符串，
+// 以及后面的任意数量的布尔元素。
 let e: [string, string, ...boolean[]];
 
 e = ['hello', 'world'];
@@ -86,12 +86,12 @@ e = ['hello', 'world', false];
 e = ['hello', 'world', true, false, true];
 ```
 
-In TypeScript 4.2, rest elements specifically been expanded in how they can be used.
-In prior versions, TypeScript only allowed `...rest` elements at the very last position of a tuple type.
+在 TypeScript 4.2 中，剩余元素会按它们的使用方式进行展开。
+在之前的版本中，TypeScript 只允许 `...rest` 元素位于元组的末尾。
 
-However, now rest elements can occur _anywhere_ within a tuple - with only a few restrictions.
+但现在，剩余元素可以出现在元组中的任意位置 - 但有一点限制。
 
-```ts twoslash
+```ts
 let foo: [...string[], number];
 
 foo = [123];
@@ -105,11 +105,10 @@ bar = [true, 'some text', false];
 bar = [true, 'some', 'separated', 'text', false];
 ```
 
-The only restriction is that a rest element can be placed anywhere in a tuple, so long as it's not followed by another optional element or rest element.
-In other words, only one rest element per tuple, and no optional elements after rest elements.
+唯一的限制是，剩余元素之后不能出现可选元素或其它剩余元素。
+换句话说，一个元组中只允许有一个剩余元素，并且剩余元素之后不能有可选元素。
 
 ```ts twoslash
-// @errors: 1265 1266
 interface Clown {
     /*...*/
 }
@@ -118,13 +117,15 @@ interface Joker {
 }
 
 let StealersWheel: [...Clown[], 'me', ...Joker[]];
+//                                    ~~~~~~~~~~ 错误
 
 let StringsAndMaybeBoolean: [...string[], boolean?];
+//                                        ~~~~~~~~ 错误
 ```
 
-These non-trailing rest elements can be used to model functions that take any number of leading arguments, followed by a few fixed ones.
+这些不在结尾的剩余元素能够用来描述，可接收任意数量的前导参数加上固定数量的结尾参数的函数。
 
-```ts twoslash
+```ts
 declare function doStuff(
     ...args: [...names: string[], shouldCapitalize: boolean]
 ): void;
@@ -133,10 +134,10 @@ doStuff(/*shouldCapitalize:*/ false);
 doStuff('fee', 'fi', 'fo', 'fum', /*shouldCapitalize:*/ true);
 ```
 
-Even though JavaScript doesn't have any syntax to model leading rest parameters, we were still able to declare `doStuff` as a function that takes leading arguments by declaring the `...args` rest parameter with _a tuple type that uses a leading rest element_.
-This can help model lots of existing JavaScript out there!
+尽管 JavaScript 中没有声明前导剩余参数的语法，但我们仍可以将 `doStuff` 函数的参数声明为带有前导剩余元素 `...args` 的元组类型。
+使用这种方式可以帮助我们描述许多的 JavaScript 代码！
 
-For more details, [see the original pull request](https://github.com/microsoft/TypeScript/pull/41544).
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/41544)。
 
 ## Stricter Checks For The `in` Operator
 
