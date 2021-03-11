@@ -139,19 +139,20 @@ doStuff('fee', 'fi', 'fo', 'fum', /*shouldCapitalize:*/ true);
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/41544)。
 
-## Stricter Checks For The `in` Operator
+## 更严格的 `in` 运算符检查
 
-In JavaScript, it is a runtime error to use a non-object type on the right side of the `in` operator.
-TypeScript 4.2 ensures this can be caught at design-time.
+在 JavaScript 中，如果 `in` 运算符的右操作数是非对象类型，那么会产生运行时错误。
+TypeScript 4.2 确保了该错误能够在编译时被捕获。
 
 ```ts twoslash
-// @errors: 2361
 'foo' in 42;
+// The right-hand side of an 'in' expression must not be a primitive.
 ```
 
-This check is fairly conservative for the most part, so if you have received an error about this, it is likely an issue in the code.
+这个检查在大多数情况下是相当保守的，如果你看到提示了这个错误，那么代码中很可能真的有问题。
 
-A big thanks to our external contributor [Jonas Hübotter](https://github.com/jonhue) for [their pull request](https://github.com/microsoft/TypeScript/pull/41928)!
+
+非常感谢外部贡献者 [Jonas Hübotter](https://github.com/jonhue) 的 [PR](https://github.com/microsoft/TypeScript/pull/41928)！
 
 ## `--noPropertyAccessFromIndexSignature`
 
