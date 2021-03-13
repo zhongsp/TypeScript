@@ -151,16 +151,15 @@ TypeScript 4.2 确保了该错误能够在编译时被捕获。
 
 这个检查在大多数情况下是相当保守的，如果你看到提示了这个错误，那么代码中很可能真的有问题。
 
-
 非常感谢外部贡献者 [Jonas Hübotter](https://github.com/jonhue) 的 [PR](https://github.com/microsoft/TypeScript/pull/41928)！
 
 ## `--noPropertyAccessFromIndexSignature`
 
-Back when TypeScript first introduced index signatures, you could only get properties declared by them with "bracketed" element access syntax like `person["name"]`.
+在 TypeScript 刚开始支持索引签名时，它只允许使用方括号语法来访问索引签名中定义的元素，例如 `person["name"]`。
 
-```ts twoslash
+```ts
 interface SomeType {
-    /** This is an index signature. */
+    /** 这是索引签名 */
     [propName: string]: any;
 }
 
@@ -169,22 +168,22 @@ function doStuff(value: SomeType) {
 }
 ```
 
-This ended up being cumbersome in situations where we need to work with objects that have arbitrary properties.
-For example, imagine an API where it's common to misspell a property name by adding an extra `s` character at the end.
+这就导致了在处理带有任意属性的对象时变得烦锁。
+例如，假设有一个容易出现拼写错误的 API，容易出现在属性名的末尾位置多写一个字母 `s` 的错误。
 
-```ts twoslash
+```ts
 interface Options {
-    /** File patterns to be excluded. */
+    /** 要排除的文件模式。 */
     exclude?: string[];
 
     /**
-     * It handles any extra properties that we haven't declared as type 'any'.
+     * 这会将其余所有未声明的属性定义为 'any' 类型。
      */
     [x: string]: any;
 }
 
 function processOptions(opts: Options) {
-    // Notice we're *intentionally* accessing `excludes`, not `exclude`
+    // 注意，我们想要访问 `excludes` 而不是 `exclude`
     if (opts.excludes) {
         console.error(
             'The option `excludes` is not valid. Did you mean `exclude`?'
@@ -193,18 +192,18 @@ function processOptions(opts: Options) {
 }
 ```
 
-To make these types of situations easier, a while back, TypeScript made it possible to use "dotted" property access syntax like `person.name` when a type had a string index signature.
-This also made it easier to transition existing JavaScript code over to TypeScript.
+为了便于处理以上情况，在从前的时候，TypeScript 允许使用点语法来访问通过字符串索引签名定义的属性。
+这会让从 JavaScript 代码到 TypeScript 代码的迁移工作变得容易。
 
-However, loosening the restriction also meant that misspelling an explicitly declared property became much easier.
+然而，放宽限制同样意味着更容易出现属性名拼写错误。
 
-```ts twoslash
+```ts
 interface Options {
-    /** File patterns to be excluded. */
+    /** 要排除的文件模式。 */
     exclude?: string[];
 
     /**
-     * It handles any extra properties that we haven't declared as type 'any'.
+     * 这会将其余所有未声明的属性定义为 'any' 类型。
      */
     [x: string]: any;
 }
@@ -212,22 +211,22 @@ interface Options {
 function processOptions(opts: Options) {
     // ...
 
-    // Notice we're *accidentally* accessing `excludes` this time.
-    // Oops! Totally valid.
+    // 注意，我们不小心访问了错误的 `excludes`。
+    // 但是！这是合法的！
     for (const excludePattern of opts.excludes) {
         // ...
     }
 }
 ```
 
-In some cases, users would prefer to explicitly opt into the index signature - they would prefer to get an error message when a dotted property access doesn't correspond to a specific property declaration.
+在某些情况下，用户会想要选择使用索引签名 - 在使用点号语法进行属性访问时，如果访问了没有明确定义的属性，就得到一个错误。
 
-That's why TypeScript introduces a new flag called `--noPropertyAccessFromIndexSignature`.
-Under this mode, you'll be opted in to TypeScript's older behavior that issues an error.
-This new setting is not under the `strict` family of flags, since we believe users will find it more useful on certain codebases than others.
+这就是为什么 TypeScript 引入了一个新的 `--noPropertyAccessFromIndexSignature` 编译选项。
+在该模式下，你可以有选择的启用 TypeScript 之前的行为，即在上述使用场景中产生错误。
+该编译选项不属于 `strict` 编译选项集合的一员，因为我们知道该功能只适用于部分用户。
 
-You can understand this feature in more detail by reading up on the corresponding [pull request](https://github.com/microsoft/TypeScript/pull/40171/).
-We'd also like to extend a big thanks to [Wenlu Wang](https://github.com/Kingwl) who sent us this pull request!
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/40171/)。
+我们同时要感谢 [Wenlu Wang](https://github.com/Kingwl) 为该功能的付出！
 
 ## `abstract` Construct Signatures
 
