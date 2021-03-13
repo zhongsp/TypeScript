@@ -228,17 +228,17 @@ function processOptions(opts: Options) {
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/40171/)。
 我们同时要感谢 [Wenlu Wang](https://github.com/Kingwl) 为该功能的付出！
 
-## `abstract` Construct Signatures
+## `abstract` 构造签名
 
-TypeScript allows us to mark a class as _abstract_.
-This tells TypeScript that the class is only meant to be extended from, and that certain members need to be filled in by any subclass to actually create an instance.
+TypeScript 允许将一个类标记为 _abstract_。
+这相当于告诉 TypeScript 这个类只是用于继承，并且有些成员需要在子类中实现，以便能够真正地创建出实例。
 
 ```ts twoslash
-// @errors: 2511
 abstract class Shape {
     abstract getArea(): number;
 }
 
+// 不能创建抽象类的实例
 new Shape();
 
 class Square extends Shape {
@@ -254,59 +254,59 @@ class Square extends Shape {
     }
 }
 
-// Works fine.
+// 没问题
 new Square(42);
 ```
 
-To make sure this restriction in `new`-ing up `abstract` classes is consistently applied, you can't assign an `abstract` class to anything that expects a construct signature.
+为了能够确保一贯的对 `new` 一个 `abstract` 类进行限制，不允许将 `abstract` 类赋值给接收构造签名的值。
 
 ```ts twoslash
-// @errors: 2322
 abstract class Shape {
     abstract getArea(): number;
 }
-// ---cut---
+
 interface HasArea {
     getArea(): number;
 }
 
+// 不能将抽象构造函数类型赋值给非抽象构造函数类型。
 let Ctor: new () => HasArea = Shape;
 ```
 
-This does the right thing in case we intend to run code like `new Ctor`, but it's overly-restrictive in case we want to write a subclass of `Ctor`.
+如果有代码调用了 `new Ctor`，那么上述的行为是正确的，但若想要编写 `Ctor` 的子类，就会出现过度限制的情况。
 
-````ts
-// @errors: 2345
+```ts
 abstract class Shape {
-  abstract getArea(): number;
+    abstract getArea(): number;
 }
 
 interface HasArea {
-  getArea(): number;
+    getArea(): number;
 }
 
 function makeSubclassWithArea(Ctor: new () => HasArea) {
-  return class extends Ctor {
-    getArea() {
-      return 42
-    }
-  };
+    return class extends Ctor {
+        getArea() {
+            return 42;
+        }
+    };
 }
 
-let MyShape = makeSubclassWithArea(Shape);```
+// 不能将抽象构造函数类型赋值给非抽象构造函数类型。
+let MyShape = makeSubclassWithArea(Shape);
+```
 
-It also doesn't work well with built-in helper types like `InstanceType`.
+对于内置的工具类型`InstanceType`来讲，它也不是工作得很好。
 
 ```ts
-// Error!
-// Type 'typeof Shape' does not satisfy the constraint 'new (...args: any) => any'.
-//   Cannot assign an abstract constructor type to a non-abstract constructor type.
+// 错误！
+// 不能将抽象构造函数类型赋值给非抽象构造函数类型。
 type MyInstance = InstanceType<typeof Shape>;
-````
+```
 
-That's why TypeScript 4.2 allows you to specify an `abstract` modifier on constructor signatures.
+这就是为什么 TypeScript 4.2 允许在构造签名上指定 `abstract` 修饰符。
 
-```ts twoslash {5}
+```ts
 abstract class Shape {
   abstract getArea(): number;
 }
@@ -319,13 +319,13 @@ interface HasArea {
 let Ctor: abstract new () => HasArea = Shape;
 ```
 
-Adding the `abstract` modifier to a construct signature signals that you can pass in `abstract` constructors.
-It doesn't stop you from passing in other classes/constructor functions that are "concrete" - it really just signals that there's no intent to run the constructor directly, so it's safe to pass in either class type.
+在构造签名上添加 `abstract` 修饰符表示可以传入一个 `abstract` 构造函数。
+它不会阻止你传入其它具体的类/构造函数 - 它只是想表达不会直接调用这个构造函数，因此可以安全地传入任意一种类类型。
 
-This feature allows us to write _mixin factories_ in a way that supports abstract classes.
-For example, in the following code snippet, we're able to use the mixin function `withStyles` with the `abstract` class `SuperClass`.
+这个特性允许我们编写支持抽象类的*混入工厂函数*。
+例如，在下例中，我们可以同时使用混入函数 `withStyles` 和 `abstract` 类 `SuperClass`。
 
-```ts twoslash
+```ts
 abstract class SuperClass {
     abstract someMethod(): void;
     badda() {}
@@ -349,10 +349,10 @@ class SubClass extends withStyles(SuperClass) {
 }
 ```
 
-Note that `withStyles` is demonstrating a specific rule, where a class (like `StyledClass`) that extends a value that's generic and bounded by an abstract constructor (like `Ctor`) has to also be declared `abstract`.
-This is because there's no way to know if a class with _more_ abstract members was passed in, and so it's impossible to know whether the subclass implements all the abstract members.
+注意，`withStyles` 展示了一个特殊的规则，若一个类（`StyledClass`）继承了被抽象构造函数所约束的泛型值，那么这个类也需要被声明为 `abstract`。
+由于无法知道传入的类是否拥有更多的抽象成员，因此也无法知道子类是否实现了所有的抽象成员。
 
-You can read up more on abstract construct signatures [on its pull request](https://github.com/microsoft/TypeScript/pull/36392).
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/36392)。
 
 ## Understanding Your Project Structure With `--explainFiles`
 
