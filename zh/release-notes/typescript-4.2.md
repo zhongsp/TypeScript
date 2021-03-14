@@ -513,6 +513,7 @@ sortOfArrayish = numberKeys;
 
 ![一个未被声明的 `foo` 函数被调用了，使用快速修复](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2021/01/addMissingFunction-4.2.gif)
 
+<!--
 ## Breaking Changes
 
 We always strive to minimize breaking changes in a release.
@@ -671,3 +672,4 @@ const baz = `hello ${yourName}`;
 TypeScript has a `visitNode` function that takes a `lift` function.
 `lift` now expects a `readonly Node[]` instead of a `NodeArray<Node>`.
 This is technically an API breaking change which you can read more on [here](https://github.com/microsoft/TypeScript/pull/42000).
+-->
