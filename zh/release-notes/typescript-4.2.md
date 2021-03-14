@@ -354,31 +354,31 @@ class SubClass extends withStyles(SuperClass) {
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/36392)。
 
-## Understanding Your Project Structure With `--explainFiles`
+## 使用 `--explainFiles` 来理解工程的结构
 
-A surprisingly common scenario for TypeScript users is to ask "why is TypeScript including this file?".
-Inferring the files of your program turns out to be a complicated process, and so there are lots of reasons why a specific combination of `lib.d.ts` got used, why certain files in `node_modules` are getting included, and why certain files are being included even though we thought specifying `exclude` would keep them out.
+TypeScript 用户时常会问“为什么 TypeScript 包含了这个文件？”。
+推断程序中所包含的文件是个很复杂的过程，比如有很多原因会导致使用了 `lib.d.ts` 文件的组合，会导致 `node_modules` 中的文件被包含进来，会导致有些已经 `exclude` 的文件被包含进来。
 
-That's why TypeScript now provides an `--explainFiles` flag.
+这就是 TypeScript 提供 `--explainFiles` 的原因。
 
 ```sh
 tsc --explainFiles
 ```
 
-When using this option, the TypeScript compiler will give some very verbose output about why a file ended up in your program.
-To read it more easily, you can forward the output to a file, or pipe it to a program that can easily view it.
+在使用了该选项时，TypeScript 编译器会输出非常详细的信息来说明某个文件被包含进工程的原因。
+为了更易理解，我们可以把输出结果存到文件里，或者通过管道使用其它命令来查看它。
 
 ```sh
-# Forward output to a text file
+# 将输出保存到文件
 tsc --explainFiles > expanation.txt
 
-# Pipe output to a utility program like `less`, or an editor like VS Code
+# 将输出传递给工具程序 `less`，或编辑器 VS Code
 tsc --explainFiles | less
 
 tsc --explainFiles | code -
 ```
 
-Typically, the output will start out by listing out reasons for including `lib.d.ts` files, then for local files, and then `node_modules` files.
+通常，输出结果首先会给列出包含 `lib.d.ts` 文件的原因，然后是本地文件，再然后是 `node_modules` 文件。
 
 ```
 TS_Compiler_Directory/4.2.2/lib/lib.es5.d.ts
@@ -404,10 +404,10 @@ foo.ts
   Matched by include pattern '**/*' in 'tsconfig.json'
 ```
 
-Right now, we make no guarantees about the output format - it might change over time.
-On that note, we're interested in improving this format if you have any suggestions!
+目前，TypeScript 不保证输出文件的格式 - 它在将来可能会改变。
+关于这一点，我们也打算改进输出文件格式，请给出你的建议！
 
-For more information, [check out the original pull request](https://github.com/microsoft/TypeScript/pull/40011)!
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/40011)！
 
 ## Improved Uncalled Function Checks in Logical Expressions
 
