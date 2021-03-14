@@ -409,11 +409,11 @@ foo.ts
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/40011)！
 
-## Improved Uncalled Function Checks in Logical Expressions
+## 改进逻辑表达式中的未被调用函数检查
 
-Thanks to further improvements from [Alex Tarasyuk](https://github.com/a-tarasyuk), TypeScript's uncalled function checks now apply within `&&` and `||` expressions.
+感谢 [Alex Tarasyuk](https://github.com/a-tarasyuk) 提供的持续改进，TypeScript 中的未调用函数检查现在也作用于 `&&` 和 `||` 表达式。
 
-Under `--strictNullChecks`, the following code will now error.
+在 `--strictNullChecks` 模式下，下面的代码会产生错误。
 
 ```ts
 function shouldDisplayElement(element: Element) {
@@ -424,12 +424,12 @@ function shouldDisplayElement(element: Element) {
 function getVisibleItems(elements: Element[]) {
     return elements.filter((e) => shouldDisplayElement && e.children.length);
     //                          ~~~~~~~~~~~~~~~~~~~~
-    // This condition will always return true since the function is always defined.
-    // Did you mean to call it instead.
+    // 该条件表达式永远返回 true，因为函数永远是定义了的。
+    // 你是否想要调用它？
 }
 ```
 
-For more details, [check out the pull request here](https://github.com/microsoft/TypeScript/issues/40197).
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/issues/40197)。
 
 ## Destructured Variables Can Be Explicitly Marked as Unused
 
