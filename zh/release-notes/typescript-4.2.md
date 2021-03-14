@@ -507,11 +507,11 @@ sortOfArrayish = numberKeys;
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/41921)。
 
-## Declare Missing Helper Function
+## 声明缺失的函数
 
-Thanks to [a community pull request](https://github.com/microsoft/TypeScript/pull/41215) from [Alexander Tarasyuk](https://github.com/a-tarasyuk), we now have a quick fix for declaring new functions and methods based on the call-site!
+感谢 [Alexander Tarasyuk](https://github.com/a-tarasyuk) 提交的 [PR](https://github.com/microsoft/TypeScript/pull/41215)，TypeScript 支持了一个新的快速修复功能，那就是根据调用方来生成新的函数和方法声明！
 
-![An un-declared function `foo` being called, with a quick fix scaffolding out the new contents of the file](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2021/01/addMissingFunction-4.2.gif)
+![一个未被声明的 `foo` 函数被调用了，使用快速修复](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2021/01/addMissingFunction-4.2.gif)
 
 ## Breaking Changes
 
