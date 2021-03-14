@@ -431,18 +431,18 @@ function getVisibleItems(elements: Element[]) {
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/issues/40197)。
 
-## Destructured Variables Can Be Explicitly Marked as Unused
+## 解构出来的变量可以被明确地标记为未使用的
 
-Thanks to another pull request from [Alex Tarasyuk](https://github.com/a-tarasyuk), you can now mark destructured variables as unused by prefixing them with an underscore (the `_` character).
+感谢 [Alex Tarasyuk](https://github.com/a-tarasyuk) 提供的另一个 PR，你可以使用下划线（`_` 字符）将解构变量标记为未使用的。
 
 ```ts
 let [_first, second] = getValues();
 ```
 
-Previously, if `_first` was never used later on, TypeScript would issue an error under `noUnusedLocals`.
-Now, TypeScript will recognize that `_first` was intentionally named with an underscore because there was no intent to use it.
+在之前，如果 `_first` 未被使用，那么在启用了 `noUnusedLocals` 时 TypeScript 会产生一个错误。
+现在，TypeScript 会识别出使用了下划线的 `_first` 变量是有意的未使用的变量。
 
-For more details, take a look at [the full change](https://github.com/microsoft/TypeScript/pull/41378).
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/41378)。
 
 ## Relaxed Rules Between Optional Properties and String Index Signatures
 
