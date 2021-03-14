@@ -444,11 +444,11 @@ let [_first, second] = getValues();
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/41378)。
 
-## Relaxed Rules Between Optional Properties and String Index Signatures
+## 放宽了在可选属性和字符串索引签名间的限制
 
-String index signatures are a way of typing dictionary-like objects, where you want to allow access with arbitrary keys:
+字符串索引签名可用于为类似于字典的对象添加类型，它表示允许使用任意的键来访问对象：
 
-```ts twoslash
+```ts
 const movieWatchCount: { [key: string]: number } = {};
 
 function watchMovie(title: string) {
@@ -456,10 +456,10 @@ function watchMovie(title: string) {
 }
 ```
 
-Of course, for any movie title not yet in the dictionary, `movieWatchCount[title]` will be `undefined` (TypeScript 4.1 added the option [`--noUncheckedIndexedAccess`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-1.html#checked-indexed-accesses---nouncheckedindexedaccess) to include `undefined` when reading from an index signature like this).
-Even though it's clear that there must be some strings not present in `movieWatchCount`, previous versions of TypeScript treated optional object properties as unassignable to otherwise compatible index signatures, due to the presence of `undefined`.
+当然了，对于不在字典中的电影名而言 `movieWatchCount[title]` 的值为 `undefined`。（TypeScript 4.1 增加了 [`--noUncheckedIndexedAccess`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-1.html#checked-indexed-accesses---nouncheckedindexedaccess) 选项，在访问索引签名时会增加 `undefined` 值。）
+即便一定会有 `movieWatchCount` 中不存在的属性，但在之前的版本中，由于 `undefined` 值的存在，TypeScript 会将可选对象属性视为不可以赋值给兼容的索引签名。
 
-```ts twoslash
+```ts
 type WesAndersonWatchCount = {
     'Fantastic Mr. Fox'?: number;
     'The Royal Tenenbaums'?: number;
@@ -469,17 +469,17 @@ type WesAndersonWatchCount = {
 
 declare const wesAndersonWatchCount: WesAndersonWatchCount;
 const movieWatchCount: { [key: string]: number } = wesAndersonWatchCount;
-//    ~~~~~~~~~~~~~~~ error!
-// Type 'WesAndersonWatchCount' is not assignable to type '{ [key: string]: number; }'.
-//    Property '"Fantastic Mr. Fox"' is incompatible with index signature.
-//      Type 'number | undefined' is not assignable to type 'number'.
-//        Type 'undefined' is not assignable to type 'number'. (2322)
+//    ~~~~~~~~~~~~~~~ 错误！
+// 类型 'WesAndersonWatchCount' 不允许赋值给类型 '{ [key: string]: number; }'。
+//    属性 '"Fantastic Mr. Fox"' 与索引签名不兼容。
+//      类型 'number | undefined' 不允许赋值给类型 'number'。
+//        类型 'undefined' 不允许赋值给类型 'number'。 (2322)
 ```
 
-TypeScript 4.2 allows this assignment. However, it does _not_ allow the assignment of non-optional properties with `undefined` in their types, nor does it allow writing `undefined` to a specific key:
+TypeScript 4.2 允许这样赋值。
+但是不允许使用带有 `undefined` 类型的非可选属性进行赋值，也不允许将 `undefined` 值直接赋值给某个属性：
 
-```ts twoslash
-// @errors: 2322
+```ts
 type BatmanWatchCount = {
     'Batman Begins': number | undefined;
     'The Dark Knight': number | undefined;
@@ -488,25 +488,24 @@ type BatmanWatchCount = {
 
 declare const batmanWatchCount: BatmanWatchCount;
 
-// Still an error in TypeScript 4.2.
+// 在 TypeScript 4.2 中仍是错误。
 const movieWatchCount: { [key: string]: number } = batmanWatchCount;
 
-// Still an error in TypeScript 4.2.
-// Index signatures don't implicitly allow explicit `undefined`.
+// 在 TypeScript 4.2 中仍是错误。
+// 索引签名不允许显式地赋值 `undefined`。
 movieWatchCount["It's the Great Pumpkin, Charlie Brown"] = undefined;
 ```
 
-The new rule also does not apply to number index signatures, since they are assumed to be array-like and dense:
+这条新规则不适用于数字索引签名，因为它们被当成是类数组的并且是稠密的：
 
-```ts twoslash
-// @errors: 2322
+```ts
 declare let sortOfArrayish: { [key: number]: string };
 declare let numberKeys: { 42?: string };
 
 sortOfArrayish = numberKeys;
 ```
 
-You can get a better sense of this change [by reading up on the original PR](https://github.com/microsoft/TypeScript/pull/41921).
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/41921)。
 
 ## Declare Missing Helper Function
 
