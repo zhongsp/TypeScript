@@ -149,6 +149,6 @@
 
 **TypeScript语言规范**
 
-* [TypeScript语言规范](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md)
+* [TypeScript语言规范](https://github.com/microsoft/TypeScript/blob/master/doc/spec-ARCHIVED.md)
 
 期待你为翻译做出贡献:)
