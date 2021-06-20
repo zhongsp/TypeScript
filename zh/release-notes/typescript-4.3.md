@@ -146,12 +146,12 @@ interface Thing {
 
 更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/42425)。
 
-## `override` and the `--noImplicitOverride` Flag
+## `override` 和 `--noImplicitOverride` 标记
 
-When extending classes in JavaScript, the language makes it super easy (pun intended) to override methods - but unfortunately, there are some mistakes that you can run into.
+当在 JavaScript 中去继承一个类时，覆写方法十分容易 - 但不幸的是可能会犯一些错误。
 
-One big one is missing renames.
-For example, take the following classes:
+其中一个就是会导致丢失重命名。
+例如：
 
 ```ts
 class SomeComponent {
@@ -173,8 +173,8 @@ class SpecializedComponent extends SomeComponent {
 }
 ```
 
-`SpecializedComponent` subclasses `SomeComponent`, and overrides the `show` and `hide` methods.
-What happens if someone decides to rip out `show` and `hide` and replace them with a single method?
+`SpecializedComponent` 是 `SomeComponent` 的子类，并且覆写了 `show` 和 `hide` 方法。
+猜一猜，如果有人想要将 `show` 和 `hide` 方法删除并用单个方法代替会发生什么？
 
 ```diff
  class SomeComponent {
@@ -198,12 +198,12 @@ What happens if someone decides to rip out `show` and `hide` and replace them wi
  }
 ```
 
-_Oh no!_
-Our `SpecializedComponent` didn't get updated.
-Now it's just adding these two useless `show` and `hide` methods that probably won't get called.
+_哦，不！_
+`SpecializedComponent` 中的方法没有被更新。
+而是变为添加了两个没用的 `show` 和 `hide` 方法，它们可能都没有被调用。
 
-Part of the issue here is that a user can't make it clear whether they meant to add a new method, or to override an existing one.
-That's why TypeScript 4.3 adds the `override` keyword.
+此处的部分问题在于我们不清楚这里是想添加新的方法，还是想覆写已有的方法。
+因此，TypeScript 4.3 增加了 `override` 关键字。
 
 ```ts
 class SpecializedComponent extends SomeComponent {
@@ -216,11 +216,9 @@ class SpecializedComponent extends SomeComponent {
 }
 ```
 
-When a method is marked with `override`, TypeScript will always make sure that a method with the same name exists in a the base class.
+当一个方法被标记为 `override`，TypeScript 会确保在基类中存在同名的方法。
 
-```ts twoslash
-// @noImplicitOverride
-// @errors: 4113
+```ts
 class SomeComponent {
     setVisible(value: boolean) {
         // ...
@@ -228,14 +226,15 @@ class SomeComponent {
 }
 class SpecializedComponent extends SomeComponent {
     override show() {
-
+        //   ~~~~
+        //   错误
     }
 }
 ```
 
-This is a big improvement, but it doesn't help if you _forget_ to write `override` on a method - and that's a big mistake users can run into also.
+这是一项重大改进，但如果*忘记*在方法前添加 `override` 则不会起作用 - 这也是人们常犯的错误。
 
-For example, you might accidentally "trample over" a method that exists in a base class without realizing it.
+例如，可能会不小心覆写了基类中的方法，并且还没有意识到。
 
 ```ts
 class Base {
@@ -245,21 +244,20 @@ class Base {
 }
 
 class Derived extends Base {
-    // Oops! We weren't trying to override here,
-    // we just needed to write a local helper method.
+    // 不是真正想覆写基类中的方法，
+    // 只是想编写一个本地的帮助方法
     someHelperMethod() {
         // ...
     }
 }
 ```
 
-That's why TypeScript 4.3 _also_ provides a new `--noImplicitOverride` flag.
-When this option is turned on, it becomes an error to override any method from a superclass unless you explicitly use an `override` keyword.
-In that last example, TypeScript would error under `--noImplicitOverride`, and give us a clue that we probably need to rename our method inside of `Derived`.
+因此，TypeScript 4.3 中还增加了一个 `--noImplicitOverride` 选项。
+当启用了该选项，如果覆写了父类中的方法但没有添加 `override` 关键字，则会产生错误。
+在上例中，如果启用了 `--noImplicitOverride`，则 TypeScript 会报错，并提示我们需要重命名 `Derived` 中的方法。
 
-We'd like to extend our thanks to our community for the implementation here.
-The work for these items was implemented in [a pull request](https://github.com/microsoft/TypeScript/pull/39669) by [Wenlu Wang](https://github.com/Kingwl), though an earlier pull request implementing only the `override` keyword by [Paul Cody Johnston](https://github.com/pcj) served as a basis for direction and discussion.
-We extend our gratitude for putting in the time for these features.
+感谢开发者社区的贡献。
+该功能是在[这个 PR](https://github.com/microsoft/TypeScript/pull/39669)中由[Wenlu Wang](https://github.com/Kingwl)实现，一个更早的 `override` 实现是由[Paul Cody Johnston](https://github.com/pcj)完成。
 
 ## Template String Type Improvements
 
