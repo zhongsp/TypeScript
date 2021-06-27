@@ -135,7 +135,7 @@ function makeThing(): Thing {
 ```ts
 // Now valid!
 interface Thing {
-    get size(): number
+    get size(): number;
     set size(value: number | string | boolean);
 }
 ```
@@ -259,55 +259,55 @@ class Derived extends Base {
 感谢开发者社区的贡献。
 该功能是在[这个 PR](https://github.com/microsoft/TypeScript/pull/39669)中由[Wenlu Wang](https://github.com/Kingwl)实现，一个更早的 `override` 实现是由[Paul Cody Johnston](https://github.com/pcj)完成。
 
-## Template String Type Improvements
+## 模版字符串类型改进
 
-In recent versions, TypeScript introduced a new type construct: template string types.
-These are types that either construct new string-like types by concatenating...
+在近期的版本中，TypeScript 引入了一种新类型，即：模版字符串类型。
+它可以通过连接操作来构造类字符串类型：
 
 ```ts
 type Color = 'red' | 'blue';
 type Quantity = 'one' | 'two';
 
 type SeussFish = `${Quantity | Color} fish`;
-// same as
+// 等同于
 //   type SeussFish = "one fish" | "two fish"
 //                  | "red fish" | "blue fish";
 ```
 
-...or match patterns of other string-like types.
+或者与其它类字符串类型进行模式匹配。
 
 ```ts
 declare let s1: `${number}-${number}-${number}`;
 declare let s2: `1-2-3`;
 
-// Works!
+// 正确
 s1 = s2;
 ```
 
-The first change we made is just in when TypeScript will infer a template string type.
-When a template string is _contextually typed_ by a string-literal-like type (i.e. when TypeScript sees we're passing a template string to something that takes a literal type) it will try to give that expression a template type.
+我们做的首个改动是 TypeScript 应该在何时去推断模版字符串类型。
+当一个模版字符串的类型是由类字符串字面量类型进行的按上下文归类（比如，TypeScript 识别出将模版字符串传递给字面量类型时），它会得到模版字符串类型。
 
 ```ts
 function bar(s: string): `hello ${string}` {
-    // Previously an error, now works!
+    // 之前会产生错误，但现在没有问题
     return `hello ${s}`;
 }
 ```
 
-This also kicks in when inferring types, and the type parameter `extends string`
+在类型推断和 `extends string` 的类型参数上也会起作用。
 
 ```ts
 declare let s: string;
 declare function f<T extends string>(x: T): T;
 
-// Previously: string
-// Now       : `hello-${string}`
+// 以前：string
+// 现在：`hello-${string}`
 let x2 = f(`hello ${s}`);
 ```
 
-The second major change here is that TypeScript can now better-relate, and _infer between_, different template string types.
+另一个主要的改动是 TypeScript 会更好地进行类型关联，并在不同的模版字符串之间进行推断。
 
-To see this, take the following example code:
+示例如下：
 
 ```ts
 declare let s1: `${number}-${number}-${number}`;
@@ -318,12 +318,12 @@ s1 = s2;
 s1 = s3;
 ```
 
-When checking against a string literal type like on `s2`, TypeScript could match against the string contents and figure out that `s2` was compatible with `s1` in the first assignment;
-however, as soon as it saw another template string, it just gave up.
-As a result, assignments like `s3` to `s1` just didn't work.
+在检查字符串字面量类型时，例如 `s2`，TypeScript 可以匹配字符串的内容并计算出在第一个赋值语句中 `s2` 与 `s1` 兼容。
+然而，当再次遇到模版字符串类型时，则会直接放弃进行匹配。
+结果就是，像 `s3` 到 `s1` 的赋值语句会出错。
 
-TypeScript now actually does the work to prove whether or not each part of a template string can successfully match.
-You can now mix and match template strings with different substitutions and TypeScript will do a good job to figure out whether they're really compatible.
+现在，TypeScript 会去判断是否模版字符串的每一部分都能够成功匹配。
+你现在可以混合并使用不同的替换字符串来匹配模版字符串，TypeScript 能够更好地计算出它们是否兼容。
 
 ```ts
 declare let s1: `${number}-${number}-${number}`;
@@ -333,7 +333,7 @@ declare let s4: `1-${number}-3`;
 declare let s5: `1-2-${number}`;
 declare let s6: `${number}-2-${number}`;
 
-// Now *all of these* work!
+// 下列均无问题
 s1 = s2;
 s1 = s3;
 s1 = s4;
@@ -341,8 +341,8 @@ s1 = s5;
 s1 = s6;
 ```
 
-In doing this work, we were also sure to add better inference capabilities.
-You can see an example of these in action:
+在这项改进之后，TypeScript 提供了更好的推断能力。
+示例如下：
 
 ```ts
 declare function foo<V extends string>(arg: `*${V}*`): V;
@@ -358,7 +358,7 @@ function test<T extends string>(s: string, n: number, b: boolean, t: T) {
 }
 ```
 
-For more information, see [the original pull request on leveraging contextual types](https://github.com/microsoft/TypeScript/pull/43376), along with [the pull request that improved inference and checking between template types](https://github.com/microsoft/TypeScript/pull/43361).
+更多详情，请参考[PR：利用按上下文归类](https://github.com/microsoft/TypeScript/pull/43376)，以及[PR：改进模版字符串类型的类型推断和检查](https://github.com/microsoft/TypeScript/pull/43361)。
 
 ## ECMAScript `#private` Class Elements
 
