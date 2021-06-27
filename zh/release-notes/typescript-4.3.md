@@ -360,10 +360,10 @@ function test<T extends string>(s: string, n: number, b: boolean, t: T) {
 
 更多详情，请参考[PR：利用按上下文归类](https://github.com/microsoft/TypeScript/pull/43376)，以及[PR：改进模版字符串类型的类型推断和检查](https://github.com/microsoft/TypeScript/pull/43361)。
 
-## ECMAScript `#private` Class Elements
+## ECMAScript `#private` 的类成员
 
-TypeScript 4.3 expands which elements in a class can be given `#private` `#names` to make them truly private at run-time.
-In addition to properties, methods and accessors can also be given private names.
+TypeScript 4.3 扩大了在类中可被声明为 `#private` `#names` 的成员的范围，使得它们在运行时成为真正的私有的。
+除属性外，方法和存取器也可进行私有命名。
 
 ```ts
 class Foo {
@@ -376,8 +376,8 @@ class Foo {
     }
 
     publicMethod() {
-        // These work.
-        // We can access private-named members inside this class.
+        // 可以使用
+        // 可以在类内部访问私有命名成员。
         this.#someMethod();
         return this.#someValue;
     }
@@ -385,18 +385,16 @@ class Foo {
 
 new Foo().#someMethod();
 //        ~~~~~~~~~~~
-// error!
-// Property '#someMethod' is not accessible
-// outside class 'Foo' because it has a private identifier.
+// 错误!
+// 属性 '#someMethod' 无法在类 'Foo' 外访问，因为它是私有的。
 
 new Foo().#someValue;
 //        ~~~~~~~~~~
-// error!
-// Property '#someValue' is not accessible
-// outside class 'Foo' because it has a private identifier.
+// 错误!
+// 属性 '#someValue' 无法在类 'Foo' 外访问，因为它是私有的。
 ```
 
-Even more broadly, static members can now also have private names.
+更为广泛地，静态成员也可以有私有命名。
 
 ```ts
 class Foo {
@@ -407,13 +405,12 @@ class Foo {
 
 Foo.#someMethod();
 //  ~~~~~~~~~~~
-// error!
-// Property '#someMethod' is not accessible
-// outside class 'Foo' because it has a private identifier.
+// 错误!
+// 属性 '#someMethod' 无法在类 'Foo' 外访问，因为它是私有的。
 ```
 
-This feature was authored [in a pull request](https://github.com/microsoft/TypeScript/pull/42458) from our friends at Bloomberg - written by [Titian Cernicova-Dragomir](https://github.com/dragomirtitian)and [Kubilay Kahveci](https://github.com/mkubilayk), with support and expertise from [Joey Watts](https://github.com/joeywatts), [Rob Palmer](https://github.com/robpalme), and [Tim McClure](https://github.com/tim-mc).
-We'd like to extend our thanks to all of them!
+该功能是由 Bloomberg 的朋友开发的：[PR](https://github.com/microsoft/TypeScript/pull/42458) - 由 [Titian Cernicova-Dragomir](https://github.com/dragomirtitian) 和 [Kubilay Kahveci](https://github.com/mkubilayk) 开发，并得到了 [Joey Watts](https://github.com/joeywatts)，[Rob Palmer](https://github.com/robpalme) 和 [Tim McClure](https://github.com/tim-mc) 的帮助支持。
+感谢他们！
 
 ## `ConstructorParameters` Works on Abstract Classes
 
