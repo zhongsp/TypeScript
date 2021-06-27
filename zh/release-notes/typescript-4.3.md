@@ -412,9 +412,9 @@ Foo.#someMethod();
 该功能是由 Bloomberg 的朋友开发的：[PR](https://github.com/microsoft/TypeScript/pull/42458) - 由 [Titian Cernicova-Dragomir](https://github.com/dragomirtitian) 和 [Kubilay Kahveci](https://github.com/mkubilayk) 开发，并得到了 [Joey Watts](https://github.com/joeywatts)，[Rob Palmer](https://github.com/robpalme) 和 [Tim McClure](https://github.com/tim-mc) 的帮助支持。
 感谢他们！
 
-## `ConstructorParameters` Works on Abstract Classes
+## `ConstructorParameters` 可用于抽象类
 
-In TypeScript 4.3, the `ConstructorParameters` type helper now works on `abstract` classes.
+在 TypeScript 4.3 中，`ConstructorParameters`工具类型可以用在 `abstract` 类上。
 
 ```ts
 abstract class C {
@@ -423,23 +423,23 @@ abstract class C {
     }
 }
 
-// Has the type '[a: string, b: number]'.
+// 类型为 '[a: string, b: number]'
 type CParams = ConstructorParameters<typeof C>;
 ```
 
-This is thanks to work done in TypeScript 4.2, where construct signatures can be marked as abstract:
+这多亏了 TypeScript 4.2 支持了声明抽象的构造签名：
 
 ```ts
 type MyConstructorOf<T> = {
     new (...args: any[]): T;
 };
 
-// or using the shorthand syntax:
+// 或使用简写形式：
 
 type MyConstructorOf<T> = abstract new (...args: any[]) => T;
 ```
 
-You can [see the change in more detail on GitHub](https://github.com/microsoft/TypeScript/pull/43380).
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/43380)。
 
 ## Contextual Narrowing for Generics
 
