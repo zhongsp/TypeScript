@@ -441,139 +441,135 @@ type MyConstructorOf<T> = abstract new (...args: any[]) => T;
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/43380)。
 
-## Contextual Narrowing for Generics
+## 按上下文细化泛型类型
 
-TypeScript 4.3 now includes some slightly smarter type-narrowing logic on generic values.
-This allows TypeScript to accept more patterns, and sometimes even catch mistakes.
+TypeScript 4.3 能够更智能地对泛型进行类型细化。
+这让 TypeScript 能够支持更多模式，甚至有时还能够发现错误。
 
-For some motivation, let's say we're trying to write a function called `makeUnique`.
-It'll take a `Set` or an `Array` of elements, and if it's given an `Array`, it'll sort that `Array` remove duplicates according to some comparison function.
-After all that, it will return the original collection.
+设想有这样的场景，我们想要编写一个 `makeUnique` 函数。
+它接受一个 `Set` 或 `Array`，如果接收的是 `Array`，则对数组进行排序并去除重复的元素。
+最后返回初始的集合。
 
 ```ts
 function makeUnique<T>(
-    collection: Set<T> | T[],
-    comparer: (x: T, y: T) => number
+  collection: Set<T> | T[],
+  comparer: (x: T, y: T) => number
 ): Set<T> | T[] {
-    // Early bail-out if we have a Set.
-    // We assume the elements are already unique.
-    if (collection instanceof Set) {
-        return collection;
-    }
-
-    // Sort the array, then remove consecutive duplicates.
-    collection.sort(comparer);
-    for (let i = 0; i < collection.length; i++) {
-        let j = i;
-        while (
-            j < collection.length &&
-            comparer(collection[i], collection[j + 1]) === 0
-        ) {
-            j++;
-        }
-        collection.splice(i + 1, j - i);
-    }
+  // 假设元素已经是唯一的
+  if (collection instanceof Set) {
     return collection;
+  }
+
+  // 排序，然后去重
+  collection.sort(comparer);
+  for (let i = 0; i < collection.length; i++) {
+    let j = i;
+    while (
+      j < collection.length &&
+      comparer(collection[i], collection[j + 1]) === 0
+    ) {
+      j++;
+    }
+    collection.splice(i + 1, j - i);
+  }
+  return collection;
 }
 ```
 
-Let's leave questions about this function's implementation aside, and assume it arose from the requirements of a broader application.
-Something that you might notice is that the signature doesn't capture the original type of `collection`.
-We can do that by adding a type parameter called `C` in place of where we've written `Set<T> | T[]`.
+暂且不谈该函数的具体实现，假设它就是某应用中的一个需求。
+我们可能会注意到，函数签名没能捕获到 `collection` 的初始类型。
+我们可以定义一个类型参数 `C`，并用它代替 `Set<T> | T[]`。
 
 ```diff
 - function makeUnique<T>(collection: Set<T> | T[], comparer: (x: T, y: T) => number): Set<T> | T[]
 + function makeUnique<T, C extends Set<T> | T[]>(collection: C, comparer: (x: T, y: T) => number): C
 ```
 
-In TypeScript 4.2 and earlier, you'd end up with a bunch of errors as soon as you tried this.
+在 TypeScript 4.2 以及之前的版本中，如果这样做的话会产生很多错误。
 
 ```ts
 function makeUnique<T, C extends Set<T> | T[]>(
-    collection: C,
-    comparer: (x: T, y: T) => number
+  collection: C,
+  comparer: (x: T, y: T) => number
 ): C {
-    // Early bail-out if we have a Set.
-    // We assume the elements are already unique.
-    if (collection instanceof Set) {
-        return collection;
-    }
-
-    // Sort the array, then remove consecutive duplicates.
-    collection.sort(comparer);
-    //         ~~~~
-    // error: Property 'sort' does not exist on type 'C'.
-    for (let i = 0; i < collection.length; i++) {
-        //                             ~~~~~~
-        // error: Property 'length' does not exist on type 'C'.
-        let j = i;
-        while (
-            j < collection.length &&
-            comparer(collection[i], collection[j + 1]) === 0
-        ) {
-            //                    ~~~~~~
-            // error: Property 'length' does not exist on type 'C'.
-            //                                       ~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~
-            // error: Element implicitly has an 'any' type because expression of type 'number'
-            //        can't be used to index type 'Set<T> | T[]'.
-            j++;
-        }
-        collection.splice(i + 1, j - i);
-        //         ~~~~~~
-        // error: Property 'splice' does not exist on type 'C'.
-    }
+  // 假设元素已经是唯一的
+  if (collection instanceof Set) {
     return collection;
+  }
+
+  // 排序，然后去重
+  collection.sort(comparer);
+  //         ~~~~
+  // 错误：属性 'sort' 不存在于类型 'C' 上。
+  for (let i = 0; i < collection.length; i++) {
+    //                           ~~~~~~
+    // 错误: 属性 'length' 不存在于类型 'C' 上。
+    let j = i;
+    while (
+      j < collection.length &&
+      comparer(collection[i], collection[j + 1]) === 0
+    ) {
+      //             ~~~~~~
+      // 错误: 属性 'length' 不存在于类型 'C' 上。
+      //       ~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~
+      // 错误: 元素具有隐式的 'any' 类型，因为 'number' 类型的表达式不能用来索引 'Set<T> | T[]' 类型。
+      j++;
+    }
+    collection.splice(i + 1, j - i);
+    //         ~~~~~~
+    // 错误: 属性 'splice' 不存在于类型 'C' 上。
+  }
+  return collection;
 }
 ```
 
-Ew, errors!
-Why is TypeScript being so mean to us?
+全是错误！
+为何 TypeScript 要对我们如此刻薄？
 
-The issue is that when we perform our `collection instanceof Set` check, we're expecting that to act as a type guard that narrows the type from `Set<T> | T[]` to `Set<T>` and `T[]` depending on the branch we're in;
-however, we're not dealing with a `Set<T> | T[]`, we're trying to narrow the generic value `collection`, whose type is `C`.
+问题在于进行 `collection instanceof Set` 检查时，我们期望它能够成为类型守卫，并根据条件将 `Set<T> | T[]` 类型细化为 `Set<T>` 和 `T[]` 类型；
+然而，实际上 TypeScript 没有对 `Set<T> | T[]` 进行处理，而是去细化泛型值 `collection`，其类型为 `C`。
 
-It's a very subtle distinction, but it makes a difference.
-TypeScript can't just grab the constraint of `C` (which is `Set<T> | T[]`) and narrow that.
-If TypeScript _did_ try to narrow from `Set<T> | T[]`, it would forget that `collection` is also a `C` in each branch because there's no easy way to preserve that information.
-If hypothetically TypeScript tried that approach, it would break the above example in a different way.
-At the return positions, where the function expects values with the type `C`, we would instead get a `Set<T>` and a `T[]` in each branch, which TypeScript would reject.
+虽是细微的差别，但结果却不同。
+TypeScript 不会去读取 `C` 的泛型约束（即 `Set<T> | T[]`）并细化它。
+如果要让 TypeScript 由 `Set<T> | T[]` 进行类型细化，它就会忘记在每个分支中 `collection` 的类型为 `C`，因为没有比较好的办法去保留这些信息。
+假设 TypeScript 真这样做了，那么上例也会有其它的错误。
+在函数返回的位置期望得到一个 `C` 类型的值，但从每个分支中得到的却是`Set<T>` 和 `T[]`，因此 TypeScript 会拒绝编译。
 
 ```ts
 function makeUnique<T>(
-    collection: Set<T> | T[],
-    comparer: (x: T, y: T) => number
+  collection: Set<T> | T[],
+  comparer: (x: T, y: T) => number
 ): Set<T> | T[] {
-    // Early bail-out if we have a Set.
-    // We assume the elements are already unique.
-    if (collection instanceof Set) {
-        return collection;
-        //     ~~~~~~~~~~
-        // error: Type 'Set<T>' is not assignable to type 'C'.
-        //          'Set<T>' is assignable to the constraint of type 'C', but
-        //          'C' could be instantiated with a different subtype of constraint 'Set<T> | T[]'.
-    }
-
-    // ...
-
+  // 假设元素已经是唯一的
+  if (collection instanceof Set) {
     return collection;
     //     ~~~~~~~~~~
-    // error: Type 'T[]' is not assignable to type 'C'.
-    //          'T[]' is assignable to the constraint of type 'C', but
-    //          'C' could be instantiated with a different subtype of constraint 'Set<T> | T[]'.
+    // 错误：类型 'Set<T>' 不能赋值给类型 'C'。
+    //          'Set<T>' 可以赋值给 'C' 的类型约束，但是
+    //          'C' 可能使用 'Set<T> | T[]' 的不同子类型进行实例化。
+  }
+
+  // ...
+
+  return collection;
+  //     ~~~~~~~~~~
+  // 错误：类型 'T[]' 不能赋值给类型 'C'。
+  //          'T[]' 可以赋值给 'C' 的类型约束，但是
+  //          'C' 可能使用 'Set<T> | T[]' 的不同子类型进行实例化。
 }
 ```
 
-So how does TypeScript 4.3 change things?
-Well, basically in a few key places when writing code, all the type system really cares about is the constraint of a type.
-For example, when we write `collection.length`, TypeScript doesn't care about the fact that `collection` has the type `C`, it only cares about the properties available, which are determined by the constraint `T[] | Set<T>`.
+TypeScript 4.3 是怎么做的？
+在一些关键的位置，类型系统会去查看类型的约束。
+例如，在遇到 `collection.length` 时，TypeScript 不去关心 `collection` 的类型为 `C`，而是会去查看可访问的属性，而这些是由 `T[] | Set<T>` 泛型约束决定的。
 
-In cases like this, TypeScript will grab the narrowed type of the constraint because that will give you the data you care about;
-however, in any other case, we'll just try to narrow the original generic type (and often end up with the original generic type).
+在类似的地方，TypeScript 会获取由泛型约束细化出的类型，因为它包含了用户关心的信息；
+而在其它的一些地方，TypeScript 会去细化初始的泛型类型（但结果通常也是该泛型类型）。
 
-In other words, based on how you use a generic value, TypeScript will narrow it a little differently.
-The end result is that the entire above example compiles with no type-checking errors.
+换句话说，根据泛型值的使用方式，TypeScript 的处理方式会稍有不同。
+最终结果就是，上例中的代码不会产生编译错误。
 
-For more details, you can [look at the original pull request on GitHub](https://github.com/microsoft/TypeScript/pull/43183).
+更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/43183)。
 
 ## Always-Truthy Promise Checks
 
