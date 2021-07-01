@@ -571,29 +571,29 @@ TypeScript 4.3 是怎么做的？
 
 更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/43183)。
 
-## Always-Truthy Promise Checks
+## 检查总是为真的 Promise
 
-Under `strictNullChecks`, checking whether a `Promise` is "truthy" in a conditional will trigger an error.
+在 `strictNullChecks` 模式下，在条件语句中检查 `Promise` 是否真时会产生错误。
 
 ```ts
 async function foo(): Promise<boolean> {
-    return false;
+  return false;
 }
 
 async function bar(): Promise<string> {
-    if (foo()) {
-        //  ~~~~~
-        // Error!
-        // This condition will always return true since
-        // this 'Promise<boolean>' appears to always be defined.
-        // Did you forget to use 'await'?
-        return 'true';
-    }
-    return 'false';
+  if (foo()) {
+    //  ~~~~~
+    // Error!
+    // This condition will always return true since
+    // this 'Promise<boolean>' appears to always be defined.
+    // Did you forget to use 'await'?
+    return 'true';
+  }
+  return 'false';
 }
 ```
 
-[This change](https://github.com/microsoft/TypeScript/pull/39175) was contributed by [Jack Works](https://github.com/Jack-Works), and we extend our thanks to them!
+[这项改动](https://github.com/microsoft/TypeScript/pull/39175)是由[Jack Works](https://github.com/Jack-Works)实现。
 
 ## `static` Index Signatures
 
