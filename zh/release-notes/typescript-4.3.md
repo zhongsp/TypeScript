@@ -732,110 +732,15 @@ function plantCarrot(seed: Seed) {
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/41877)！
 
-## Go-to-Definition on Non-JavaScript File Paths
+## 在非 JavaScript 文件上的跳转到定义
 
-Many loaders allow users to include assets in their applications using JavaScript imports.
-They'll typically be written as something like `import "./styles.css"` or the like.
+许多加载器允许用户在 JavaScript 的导入语句中导入资源文件。
+例如典型的 `import "./styles.css"` 语句。
 
-Up until now, TypeScript's editor functionality wouldn't even attempt to read this file, so go-to-definition would typically fail.
-At best, go-to-definition would jump to a declaration like `declare module "*.css"` if it could find something along those lines.
+目前为止，TypeScript 的编辑器功能不会去尝试读取这些文件，因此“跳转到定义”会失败。
+在最好的情况下，“跳转到定义”会跳转到类似 `declare module "*.css"` 这样的声明语句上，如果它能够找到的话。
 
-TypeScript's language service now tries to jump to the correct file when you perform a go-to-definition on relative file paths, even if they're not JavaScript or TypeScript files!
-Try it out with imports to CSS, SVGs, PNGs, font files, Vue files, and more.
+现在，在执行“跳转到定义”命令时，TypeScript 的语言服务会尝试跳转到正确的文件，即使它们不是 JavaScript 或 TypeScript 文件！
+在 CSS，SVGs，PNGs，字体文件，Vue 文件等的导入语句上尝试一下吧。
 
-For more information, you can check out [the implementing pull request](https://github.com/microsoft/TypeScript/pull/42539).
-
-## Breaking Changes
-
-### `lib.d.ts` Changes
-
-As with every TypeScript version, declarations for `lib.d.ts` (especially the declarations generated for web contexts), have changed.
-In this release, we leveraged [Mozilla's browser-compat-data](https://github.com/mdn/browser-compat-data) to remove APIs that no browser implements.
-While it is unlike that you are using them, APIs such as `Account`, `AssertionOptions`, `RTCStatsEventInit`, `MSGestureEvent`, `DeviceLightEvent`, `MSPointerEvent`, `ServiceWorkerMessageEvent`, and `WebAuthentication` have all been removed from `lib.d.ts`.
-This is discussed [in some detail here](https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/991).
-
-https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/991
-
-### Errors on Always-Truthy Promise Checks
-
-Under `strictNullChecks`, using a `Promise` that always appears to be defined within a condition check is now considered an error.
-
-```ts
-declare var p: Promise<number>;
-
-if (p) {
-    //  ~
-    // Error!
-    // This condition will always return true since
-    // this 'Promise<number>' appears to always be defined.
-    //
-    // Did you forget to use 'await'?
-}
-```
-
-For more details, [see the original change](https://github.com/microsoft/TypeScript/pull/39175).
-
-### Union Enums Cannot Be Compared to Arbitrary Numbers
-
-Certain `enum`s are considered _union `enum`s_ when their members are either automatically filled in, or trivially written.
-In those cases, an enum can recall each value that it potentially represents.
-
-In TypeScript 4.3, if a value with a union `enum` type is compared with a numeric literal that it could never be equal to, then the type-checker will issue an error.
-
-```ts
-enum E {
-    A = 0,
-    B = 1,
-}
-
-function doSomething(x: E) {
-    // Error! This condition will always return 'false' since the types 'E' and '-1' have no overlap.
-    if (x === -1) {
-        // ...
-    }
-}
-```
-
-As a workaround, you can re-write an annotation to include the appropriate literal type.
-
-```ts
-enum E {
-    A = 0,
-    B = 1,
-}
-
-// Include -1 in the type, if we're really certain that -1 can come through.
-function doSomething(x: E | -1) {
-    if (x === -1) {
-        // ...
-    }
-}
-```
-
-You can also use a type-assertion on the value.
-
-```ts
-enum E {
-    A = 0,
-    B = 1,
-}
-
-function doSomething(x: E) {
-    // Use a type asertion on 'x' because we know we're not actually just dealing with values from 'E'.
-    if ((x as number) === -1) {
-        // ...
-    }
-}
-```
-
-Alternatively, you can re-declare your enum to have a non-trivial initializer so that any number is both assignable and comparable to that enum. This may be useful if the intent is for the enum to specify a few well-known values.
-
-```ts
-enum E {
-    // the leading + on 0 opts TypeScript out of inferring a union enum.
-    A = +0,
-    B = 1,
-}
-```
-
-For more details, [see the original change](https://github.com/microsoft/TypeScript/pull/42472)
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/42539)。
