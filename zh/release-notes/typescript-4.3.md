@@ -676,35 +676,35 @@ TypeScript 4.3 中，作为 `--incremental` 构建组分部分的 `.tsbuildinfo`
 [这项改进](https://github.com/microsoft/TypeScript/pull/42960) 是由 [Tobias Koppers](https://github.com/sokra) 开启，并在 [PR](https://github.com/microsoft/TypeScript/pull/43314) 里完成。
 感谢他们！
 
-## Import Statement Completions
+## 导入语句的补全
 
-One of the biggest pain-points users run into with import and export statements in JavaScript is the order - specifically that imports are written as
+在 JavaScript 中，关于导入导出语句的一大痛点是其排序问题 - 尤其是导入语句的写法如下：
 
 ```ts
 import { func } from './module.js';
 ```
 
-instead of
+而非
 
 ```ts
 from "./module.js" import { func };
 ```
 
-This causes some pain when writing out a full import statement from scratch because auto-complete wasn't able to work correctly.
-For example, if you start writing something like `import {`, TypeScript has no idea what module you're planning on importing from, so it couldn't provide any scoped-down completions.
+这导致了在书写完整的导入语句时很难受，因为自动补全无法工作。
+例如，你输入了 `import {` ，TypeScript 不知道你要从哪个模块里导入，因此它不能提供补全信息。
 
-To alleviate this, we've leveraged the power of auto-imports!
-Auto-imports already deal with the issue of not being able to narrow down completions from a specific module - their whole point is to provide every possible export and automatically insert an import statement at the top of your file.
+为缓解该问题，我们可以利用自动导入功能！
+自动导入能够提供每个可能导出并在文件顶端插入一条导入语句。
 
-So when you now start writing an `import` statement that doesn't have a path, we'll provide you with a list of possible imports.
-When you commit a completion, we'll complete the full import statement, including the path that you were going to write.
+因此当你输入 `import` 语句并没提供一个路径时，TypeScript 会提供一个可能的导入列表。
+当你确认了一个补全，TypeScript 会补全完整的导入语句，它包含了你要输入的路径。
 
 ![Import statement completions](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2021/05/auto-import-statement-4-3.gif)
 
-This work requires editors that specifically support the feature.
-You'll be able to try this out by using the latest [Insiders versions of Visual Studio Code](https://code.visualstudio.com/insiders/).
+该功能需要编辑器的支持。
+你可以在 [Insiders 版本的 Visual Studio Code](https://code.visualstudio.com/insiders/) 中进行尝试。
 
-For more information, take a look at [the implementing pull request](https://github.com/microsoft/TypeScript/pull/43149)!
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/43149)！
 
 ## Editor Support for `@link` Tags
 
