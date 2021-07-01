@@ -647,19 +647,19 @@ class Foo {
 }
 ```
 
-## `.tsbuildinfo` Size Improvements
+## `.tsbuildinfo` 文件大小改善
 
-In TypeScript 4.3, `.tsbuildinfo` files that are generated as part of `--incremental` builds should be significantly smaller.
-This is thanks to several optimizations in the internal format, creating tables with numeric identifiers to be used throughout the file instead of repeating full paths and similar information.
-This work was spear-headed by [Tobias Koppers](https://github.com/sokra) in [their pull request](https://github.com/microsoft/TypeScript/pull/43079), serving as inspiration for [the ensuing pull request](https://github.com/microsoft/TypeScript/pull/43155) and [further optimizations](https://github.com/microsoft/TypeScript/pull/43695).
+TypeScript 4.3 中，作为 `--incremental` 构建组分部分的 `.tsbuildinfo` 文件会变得非常小。
+这得益于一些内部格式的优化，使用以数值标识的查找表来替代重复多次的完整路径以及类似的信息。
+这项工作的灵感源自于 [Tobias Koppers](https://github.com/sokra) 的 [PR](https://github.com/microsoft/TypeScript/pull/43079)，而后在 [PR](https://github.com/microsoft/TypeScript/pull/43155) 中实现，并在 [PR](https://github.com/microsoft/TypeScript/pull/43695) 中进行优化。
 
-We have seen significant reductions of `.tsbuildinfo` file sizes including
+我们观察到了 `.tsbuildinfo` 文件有如下的变化：
 
--   1MB to 411 KB
--   14.9MB to 1MB
--   1345MB to 467MB
+- 1MB 到 411 KB
+- 14.9MB 到 1MB
+- 1345MB 到 467MB
 
-Needless to say, these sorts of savings in size translate to slightly faster build times as well.
+不用说，缩小文件的尺寸会稍微加快构建速度。
 
 ## Lazier Calculations in `--incremental` and `--watch` Compilations
 
