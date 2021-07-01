@@ -706,12 +706,12 @@ from "./module.js" import { func };
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/43149)！
 
-## Editor Support for `@link` Tags
+## 编辑器对 `@link` 标签的支持
 
-TypeScript can now understand `@link` tags, and will try to resolve declarations that they link to.
-What this means is that you'll be able to hover over names within `@link` tags and get quick information, or use commands like go-to-definition or find-all-references.
+TypeScript 现在能够理解 `@link` 标签，并会解析它指向的声明。
+也就是说，你将鼠标悬停在 `@link` 标签上会得到一个快速提示，或者使用“跳转到定义”或“查找全部引用”命令。
 
-For example, you'll be able to go-to-definition on `bar` in `@link bar` in the example below and a TypeScript-supported editor will jump to `bar`'s function declaration.
+例如，在支持 TypeScript 的编辑器中你可以在 `@link bar`中的 `bar` 上使用跳转到定义，它会跳转到 `bar` 的函数声明。
 
 ```ts
 /**
@@ -724,13 +724,13 @@ function harvestCarrot(carrot: Carrot) {}
  * @param seed Make sure it's a carrot seed!
  */
 function plantCarrot(seed: Seed) {
-    // TODO: some gardening
+  // TODO: some gardening
 }
 ```
 
 ![Jumping to definition and requesting quick info on a `@link` tag for ](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2021/05/link-tag-4-3.gif)
 
-For more information, see [the pull request on GitHub](https://github.com/microsoft/TypeScript/pull/41877)!
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/41877)！
 
 ## Go-to-Definition on Non-JavaScript File Paths
 
