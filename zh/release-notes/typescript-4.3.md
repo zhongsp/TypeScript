@@ -661,20 +661,20 @@ TypeScript 4.3 中，作为 `--incremental` 构建组分部分的 `.tsbuildinfo`
 
 不用说，缩小文件的尺寸会稍微加快构建速度。
 
-## Lazier Calculations in `--incremental` and `--watch` Compilations
+## 在 `--incremental` 和 `--watch` 中进行惰性计算
 
-One of the issues with `--incremental` and `--watch` modes are that while they make later compilations go faster, the initial compilation can be a bit slower - in some cases, significantly slower.
-This is because these modes have to perform a bunch of book-keeping, computing information about the current project, and sometimes saving that data in a `.tsbuildinfo` file for later builds.
+`--incremental` 和 `--watch` 模式的一个问题是虽然它会加快后续的编译速度，但是首次编译很慢 - 有时会非常地慢。
+这是因为在该模式下需要保存和计算当前工程的一些信息，有时还需要将这些信息写入 `.tsbuildinfo` 文件，以备后续之用。
 
-That's why on top of `.tsbuildinfo` size improvements, TypeScript 4.3 also ships some changes to `--incremental` and `--watch` modes that make the first build of a project with these flags just as fast as an ordinary build!
-To do this, much of the information that would ordinarily be computed up-front is instead done on an on-demand basis for later builds.
-While this can add some overhead to a subsequent build, TypeScript's `--incremental` and `--watch` functionality will still typically operate on a much smaller set of files, and any needed information will be saved afterwards.
-In a sense, `--incremental` and `--watch` builds will "warm up" and get faster at compiling files once you've updated them a few times.
+因此， TypeScript 4.3 也对 `--incremental` 和 `--watch` 进行了首次构建时的优化，让它可以和普通构建一样快。
+为了达到目的，大部分信息会进行按需计算，而不是和往常一样全部一次性计算。
+虽然这会加重后续构建的负担，但是 TypeScript 的 `--incremental` 和 `--watch` 功能会智能地处理一小部分文件，并保存住会对后续构建有用的信息。
+这就好比，`--incremental` 和 `--watch` 构建会进行“预热”，并能够在多次修改文件后加速构建。
 
-In a repository with 3000 files, **this reduced initial build times to almost a third**!
+在一个包含了 3000 个文件的仓库中， **这能节约大概三分之一的构建时间**！
 
-[This work was started](https://github.com/microsoft/TypeScript/pull/42960) by [Tobias Koppers](https://github.com/sokra), whose work ensued in [the resulting final change](https://github.com/microsoft/TypeScript/pull/43314) for this functionality.
-We'd like to extend a great thanks to Tobias for helping us find these opportunities for improvements!
+[这项改进](https://github.com/microsoft/TypeScript/pull/42960) 是由 [Tobias Koppers](https://github.com/sokra) 开启，并在 [PR](https://github.com/microsoft/TypeScript/pull/43314) 里完成。
+感谢他们！
 
 ## Import Statement Completions
 
