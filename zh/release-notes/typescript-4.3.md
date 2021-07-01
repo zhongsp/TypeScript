@@ -595,57 +595,55 @@ async function bar(): Promise<string> {
 
 [这项改动](https://github.com/microsoft/TypeScript/pull/39175)是由[Jack Works](https://github.com/Jack-Works)实现。
 
-## `static` Index Signatures
+## `static` 索引签名
 
-Index signatures allow us set more properties on a value than a type explicitly declares.
+与明确的类型声明相比，索引签名允许我们在一个值上设置更多的属性。
 
 ```ts
 class Foo {
-    hello = 'hello';
-    world = 1234;
+  hello = 'hello';
+  world = 1234;
 
-    // This is an index signature:
-    [propName: string]: string | number | undefined;
+  // 索引签名：
+  [propName: string]: string | number | undefined;
 }
 
 let instance = new Foo();
 
-// Valid assigment
+// 没问题
 instance['whatever'] = 42;
 
-// Has type 'string | number | undefined'.
+// 类型为 'string | number | undefined'
 let x = instance['something'];
 ```
 
-Up until now, an index signature could only be declared on the instance side of a class.
-Thanks to [a pull request](https://github.com/microsoft/TypeScript/pull/37797) from [Wenlu Wang](https://github.com/microsoft/TypeScript/pull/37797), index signatures can now be declared as `static`.
+目前为止，索引签名只允许在类的实例类型上进行设置。
+感谢 [Wenlu Wang](https://github.com/microsoft/TypeScript/pull/37797) 的 [PR](https://github.com/microsoft/TypeScript/pull/37797)，现在索引签名也可以声明为 `static`。
 
 ```ts
 class Foo {
-    static hello = 'hello';
-    static world = 1234;
+  static hello = 'hello';
+  static world = 1234;
 
-    static [propName: string]: string | number | undefined;
+  static [propName: string]: string | number | undefined;
 }
 
-// Valid.
+// 没问题
 Foo['whatever'] = 42;
 
-// Has type 'string | number | undefined'
+// 类型为 'string | number | undefined'
 let x = Foo['something'];
 ```
-
-The same sorts of rules apply for index signatures on the static side of a class as they do for the instance side - namely, that every other static property has to be compatible with the index signature.
+类静态类型上的索引签名检查规则与类实例类型上的索引签名的检查规则是相同的，即每个静态属性必须与静态索引签名类型兼容。
 
 ```ts
 class Foo {
-    static prop = true;
-    //     ~~~~
-    // Error! Property 'prop' of type 'boolean'
-    // is not assignable to string index type
-    // 'string | number | undefined'.
+  static prop = true;
+  //     ~~~~
+  // 错误！'boolean' 类型的属性 'prop' 不能赋值给字符串索引类型
+  // 'string | number | undefined'.
 
-    static [propName: string]: string | number | undefined;
+  static [propName: string]: string | number | undefined;
 }
 ```
 
