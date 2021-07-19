@@ -317,7 +317,7 @@ myArray[2] = "Mallory"; // error!
 
 ### 实现接口
 
-与 C\#或 Java 里接口的基本作用一样，TypeScript 也能够用它来明确的强制一个类去符合某种契约。
+与 C\# 或 Java 里接口的基本作用一样，TypeScript 也能够用它来明确的强制一个类去符合某种契约。
 
 ```typescript
 interface ClockInterface {
@@ -465,7 +465,7 @@ square.penWidth = 5.0;
 
 先前我们提过，接口能够描述 JavaScript 里丰富的类型。 因为 JavaScript 其动态灵活的特点，有时你会希望一个对象可以同时具有上面提到的多种类型。
 
-一个例子就是，一个对象可以同时做为函数和对象使用，并带有额外的属性。
+一个例子就是，一个对象可以同时作为函数和对象使用，并带有额外的属性。
 
 ```typescript
 interface Counter {

@@ -17,7 +17,7 @@
 
    ![&#x4F7F;&#x7528;&#x7A7A;&#x767D;&#x6A21;&#x7248;](../assets/images/tutorials/aspnet/new-asp-project-empty.png)
 
-5. 若使用VS2017，选择 **ASP.NET Core Web Application \(.NET Core\)** &gt; **ASP.NET Core 1.1 Empty**。
+5. 若使用VS2017，选择 **ASP.NET Core Web Application (.NET Core)** &gt; **ASP.NET Core 1.1 Empty**。
 
    ![&#x4F7F;&#x7528;&#x7A7A;&#x767D;&#x6A21;&#x7248;VS2017](../assets/images/tutorials/aspnet/new-asp-project-empty-17.PNG)
 
