@@ -214,7 +214,7 @@ let pickedCard = cardPicker();
 alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 ```
 
-可以看到`createCardPicker`是个函数，并且它又返回了一个函数。 如果我们尝试运行这个程序，会发现它并没有弹出对话框而是报错了。 因为`createCardPicker`返回的函数里的`this`被设置成了`window`而不是`deck`对象。 因为我们只是独立的调用了`cardPicker()`。 顶级的非方法式调用会将`this`视为`window`。 （注意：在严格模式下，`this`为`undefined`而不是`window`）。
+可以看到`createCardPicker`是个函数，并且它又返回了一个函数。 如果我们尝试运行这个程序，会发现它并没有弹出对话框而是报错了。 因为`createCardPicker`返回的函数里的`this`被设置成了`window`而不是`deck`对象。 因为我们只是独立地调用了`cardPicker()`。 顶级的非方法式调用会将`this`视为`window`。 （注意：在严格模式下，`this`为`undefined`而不是`window`）。
 
 为了解决这个问题，我们可以在函数被返回时就绑好正确的`this`。 这样的话，无论之后怎么使用它，都会引用绑定的‘deck’对象。 我们需要改变函数表达式来使用ECMAScript 6箭头语法。 箭头函数能保存函数创建时的`this`值，而不是调用时的值：
 
