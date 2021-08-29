@@ -128,37 +128,35 @@ function f(x: string | number | boolean) {
 这个功能能让很多直观的 JavaScript 代码在 TypeScript 里也好用，而不会妨碍我们。
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/44730)！
 
-## Symbol and Template String Pattern Index Signatures
+## Symbol 以及模版字符串索引签名
 
-TypeScript lets us describe objects where every property has to have a certain type using _index signatures_.
-This allows us to use these objects as dictionary-like types, where we can use string keys to index into them with square brackets.
+TypeScript 支持使用*索引签名*来为对象的每个属性定义类型。
+这样我们就可以将对象当作字典类型来使用，把字符串放在方括号里来进行索引。
 
-For example, we can write a type with an index signature that takes `string` keys and maps to `boolean` values.
-If we try to assign anything other than a `boolean` value, we'll get an error.
+例如，可以编写由 `string` 类型的键映射到 `boolean` 值的类型。
+如果我们给它赋予 `boolean` 类型以外的值会报错。
 
 ```ts twoslash
-// @errors: 2322
 interface BooleanDictionary {
     [key: string]: boolean;
 }
 
 declare let myDict: BooleanDictionary;
 
-// Valid to assign boolean values
+// 允许赋予 boolean 类型的值
 myDict['foo'] = true;
 myDict['bar'] = false;
 
-// Error, "oops" isn't a boolean
+// 错误
 myDict['baz'] = 'oops';
 ```
 
-While [a `Map` might be a better data structure here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) (specifically, a `Map<string, boolean>`), JavaScript objects are often more convenient to use or just happen to be what we're given to work with.
+虽说在这里 [`Map` 可能是更适合的数据结构](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)（具体的说是 `Map<string, boolean>`），但 JavaScript 对象通常更方便或者正是我们要操作的目标。
 
-Similarly, `Array<T>` already defines a `number` index signature that lets us insert/retrieve values of type `T`.
+相似地，`Array<T>` 已经定义了 `number` 索引签名，我们可以插入和获取 `T` 类型的值。
 
 ```ts
-// @errors: 2322
-// This is part of TypeScript's definition of the built-in Array type.
+// 这是 TypeScript 内置的部分 Array 类型
 interface Array<T> {
     [index: number]: T;
 
@@ -167,24 +165,23 @@ interface Array<T> {
 
 let arr = new Array<string>();
 
-// Valid
+// 没问题
 arr[0] = 'hello!';
 
-// Error, expecting a 'string' value here
+// 错误，期待一个 'string' 值
 arr[1] = 123;
 ```
 
-Index signatures are very useful to express lots of code out in the wild;
-however, until now they've been limited to `string` and `number` keys (and `string` index signatures have an intentional quirk where they can accept `number` keys since they'll be coerced to strings anyway).
-That means that TypeScript didn't allow indexing objects with `symbol` keys.
-TypeScript also couldn't model an index signature of some _subset_ of `string` keys - for example, an index signature which describes just properties whose names start with the text `data-`.
+索引签名是一种非常有用的表达方式。
+然而，直到现在它们只能使用 `string` 和 `number` 类型的键（`string` 索引签名存在一个有意为之的怪异行为，它们可以接受 `number` 类型的键，因为 `number` 会被转换为字符串）。
+这意味着 TypeScript 不允许使用 `symbol` 类型的键来索引对象。
+TypeScript 也无法表示由一部分 `string` 类型的键组成的索引签名 - 例如，对象属性名是以 `data-` 字符串开头的索引签名。
 
-TypeScript 4.4 addresses these limitations, and allows index signatures for `symbol`s and template string patterns.
+TypeScript 4.4 解决了这个问题，允许 `symbol` 索引签名以及模版字符串。
 
-For example, TypeScript now allows us to declare a type that can be keyed on arbitrary `symbol`s.
+例如，TypeScript 允许声明一个接受任意 `symbol` 值作为键的对象类型。
 
 ```ts twoslash
-// @errors: 2322
 interface Colors {
     [sym: symbol]: number;
 }
@@ -195,20 +192,20 @@ const blue = Symbol('blue');
 
 let colors: Colors = {};
 
-// Assignment of a number is allowed
+// 没问题
 colors[red] = 255;
 let redVal = colors[red];
-//  ^?
+//  ^ number
 
 colors[blue] = 'da ba dee';
+// 错误：'string' 不能赋值给 'number'
 ```
 
-Similarly, we can write an index signature with template string pattern type.
-One use of this might be to exempt properties starting with `data-` from TypeScript's excess property checking.
-When we pass an object literal to something with an expected type, TypeScript will look for excess properties that weren't declared in the expected type.
+相似地，可以定义带有模版字符串的索引签名。
+一个场景是用来免除对以 `data-` 开头的属性名执行的 TypeScript 额外属性检查。
+当传递一个对象字面量给目标类型时，TypeScript 会检查是否存在相比于目标类型的额外属性。
 
 ```ts
-// @errors: 2322
 interface Options {
     width?: number;
     height?: number;
@@ -222,7 +219,7 @@ let a: Options = {
 };
 
 interface OptionsWithDataProps extends Options {
-    // Permit any property starting with 'data-'.
+    // 允许以 'data-' 开头的属性
     [optName: `data-${string}`]: unknown;
 }
 
@@ -231,27 +228,26 @@ let b: OptionsWithDataProps = {
     height: 100,
     'data-blah': true,
 
-    // Fails for a property which is not known, nor
-    // starts with 'data-'
+    // 使用未知属性会报错，不包括以 'data-' 开始的属性
     'unknown-property': true,
 };
 ```
 
-A final note on index signatures is that they now permit union types, as long as they're a union of infinite-domain primitive types - specifically:
+最后，索引签名现在支持联合类型，只要它们是无限域原始类型的联合 - 尤其是：
 
 -   `string`
 -   `number`
 -   `symbol`
--   template string patterns (e.g. `` `hello-${string}` ``)
+-   模版字符串（例如 `` `hello-${string}` ``）
 
-An index signature whose argument is a union of these types will de-sugar into several different index signatures.
+带有以上类型的联合的索引签名会展开为不同的索引签名。
 
 ```ts
 interface Data {
     [optName: string | symbol]: any;
 }
 
-// Equivalent to
+// 等同于
 
 interface Data {
     [optName: string]: any;
@@ -259,7 +255,7 @@ interface Data {
 }
 ```
 
-For more details, [read up on the pull request](https://github.com/microsoft/TypeScript/pull/44512)
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/44512)。
 
 ## Defaulting to the `unknown` Type in Catch Variables (`--useUnknownInCatchVariables`)
 
