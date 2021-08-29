@@ -1,133 +1,132 @@
-## Control Flow Analysis of Aliased Conditions and Discriminants
+## 针对条件表达式和判别式的别名引用进行控制流分析
 
-In JavaScript, we often have to probe a value in different ways, and do something different once we know more about its type.
-TypeScript understands these checks and calls them _type guards_.
-Instead of having to convince TypeScript of a variable's type whenever we use it, the type-checker leverages something called _control flow analysis_ to see if we've used a type guard before a given piece of code.
+在 JavaScript 中，总会用多种方式对某个值进行检查，然后根据不同类型的值执行不同的操作。
+TypeScript 能够理解这些检查，并将它们称作为*类型守卫*。
+我们不需要在变量的每一个使用位置上都指明类型，TypeScript 的类型检查器能够利用*基于控制流的分析*技术来检查是否在前面使用了类型守卫。
 
-For example, we can write something like
+例如，可以这样写
 
 ```ts twoslash
 function foo(arg: unknown) {
-  if (typeof arg === "string") {
-    console.log(arg.toUpperCase());
-    //           ^?
-  }
+    if (typeof arg === 'string') {
+        console.log(arg.toUpperCase());
+        //           ^?
+    }
 }
 ```
 
-In this example, we checked whether `arg` was a `string`.
-TypeScript recognized the `typeof arg === "string"` check, which it considered a type guard, and knew that `arg` was a `string` inside the body of the `if` block.
-That let us access `string` methods like `toUpperCase()` without getting an error.
+这个例子中，我们检查 `arg` 是否为 `string` 类型。
+TypeScript 识别出了 `typeof arg === "string"` 检查，它被当作是一个类型守卫，并且知道在 `if` 分支内 `arg` 的类型为 `string`。
+这样就可以正常地访问 `string` 类型上的方法，例如 `toUpperCase()`。
 
-However, what would happen if we moved the condition out to a constant called `argIsString`?
+但如果我们将条件表达式提取到一个名为 `argIsString` 的常量会发生什么？
 
 ```ts
-// In TS 4.3 and below
+// 在 TS 4.3 及以下版本
 
 function foo(arg: unknown) {
-  const argIsString = typeof arg === "string";
-  if (argIsString) {
-    console.log(arg.toUpperCase());
-    //              ~~~~~~~~~~~
-    // Error! Property 'toUpperCase' does not exist on type 'unknown'.
-  }
+    const argIsString = typeof arg === 'string';
+    if (argIsString) {
+        console.log(arg.toUpperCase());
+        //              ~~~~~~~~~~~
+        // 错误！'unknown' 类型上不存在 'toUpperCase' 属性。
+    }
 }
 ```
 
-In previous versions of TypeScript, this would be an error - even though `argIsString` was assigned the value of a type guard, TypeScript simply lost that information.
-That's unfortunate since we might want to re-use the same check in several places.
-To get around that, users often have to repeat themselves or use type assertions (a.k.a. casts).
+在之前版本的 TypeScript 中，这样做会产生错误 - 就算 `argIsString` 的值为类型守卫，TypeScript 也会丢掉这个信息。
+这不是想要的结果，因为我们可能想要在不同的地方重用这个检查。
+为了绕过这个问题，通常需要重复多次代码或使用类型断言。
 
-In TypeScript 4.4, that is no longer the case.
-The above example works with no errors!
-When TypeScript sees that we are testing a constant value, it will do a little bit of extra work to see if it contains a type guard.
-If that type guard operates on a `const`, a `readonly` property, or an un-modified parameter, then TypeScript is able to narrow that value appropriately.
+在 TypeScript 4.4 中，情况有所改变。
+上面的例子不再产生错误！
+当 TypeScript 看到我们在检查一个常量时，会额外检查它是否包含类型守卫。
+如果那个类型守卫操作的是 `const` 常量，某个 `readonly` 属性或某个未修改的参数，那么 TypeScript 能够对该值进行类型细化。
 
-Different sorts of type guard conditions are preserved - not just `typeof` checks.
-For example, checks on discriminated unions work like a charm.
+不同种类的类型守卫都支持，不只是 `typeof` 类型守卫。
+例如，对于可辨识联合类型同样适用。
 
 ```ts twoslash
 type Shape =
-  | { kind: "circle"; radius: number }
-  | { kind: "square"; sideLength: number };
+    | { kind: 'circle'; radius: number }
+    | { kind: 'square'; sideLength: number };
 
 function area(shape: Shape): number {
-  const isCircle = shape.kind === "circle";
-  if (isCircle) {
-    // We know we have a circle here!
-    return Math.PI * shape.radius ** 2;
-  } else {
-    // We know we're left with a square here!
-    return shape.sideLength ** 2;
-  }
+    const isCircle = shape.kind === 'circle';
+    if (isCircle) {
+        // 知道此处为 circle
+        return Math.PI * shape.radius ** 2;
+    } else {
+        // 知道此处为 square
+        return shape.sideLength ** 2;
+    }
 }
 ```
 
-Analysis on discriminants in 4.4 also goes a little bit deeper - we can now extract out discriminants and TypeScript can narrow the original object.
+在 TypeScript 4.4 版本中对判别式的分析又进了一层 - 现在可以提取出判别式然后细化原来的对象类型。
 
 ```ts twoslash
 type Shape =
-  | { kind: "circle"; radius: number }
-  | { kind: "square"; sideLength: number };
+    | { kind: 'circle'; radius: number }
+    | { kind: 'square'; sideLength: number };
 
 function area(shape: Shape): number {
-  // Extract out the 'kind' field first.
-  const { kind } = shape;
+    // Extract out the 'kind' field first.
+    const { kind } = shape;
 
-  if (kind === "circle") {
-    // We know we have a circle here!
-    return Math.PI * shape.radius ** 2;
-  } else {
-    // We know we're left with a square here!
-    return shape.sideLength ** 2;
-  }
+    if (kind === 'circle') {
+        // We know we have a circle here!
+        return Math.PI * shape.radius ** 2;
+    } else {
+        // We know we're left with a square here!
+        return shape.sideLength ** 2;
+    }
 }
 ```
 
-As another example, here's a function that checks whether two of its inputs have contents.
+另一个例子，该函数会检查它的两个参数是否有内容。
 
 ```ts twoslash
 function doSomeChecks(
-  inputA: string | undefined,
-  inputB: string | undefined,
-  shouldDoExtraWork: boolean
+    inputA: string | undefined,
+    inputB: string | undefined,
+    shouldDoExtraWork: boolean
 ) {
-  const mustDoWork = inputA && inputB && shouldDoExtraWork;
-  if (mustDoWork) {
-    // We can access 'string' properties on both 'inputA' and 'inputB'!
-    const upperA = inputA.toUpperCase();
-    const upperB = inputB.toUpperCase();
-    // ...
-  }
+    const mustDoWork = inputA && inputB && shouldDoExtraWork;
+    if (mustDoWork) {
+        // We can access 'string' properties on both 'inputA' and 'inputB'!
+        const upperA = inputA.toUpperCase();
+        const upperB = inputB.toUpperCase();
+        // ...
+    }
 }
 ```
 
-TypeScript can understand that both `inputA` and `inputB` are both present if `mustDoWork` is `true`.
-That means we don't have to write a non-null assertion like `inputA!` to convince TypeScript that `inputA` isn't `undefined`.
+TypeScript 知道如果 `mustDoWork` 为 `true` 那么 `inputA` 和 `inputB` 都存在。
+也就是说不需要编写像 `inputA!` 这样的非空断言的代码来告诉 TypeScript `inputA` 不为 `undefined`。
 
-One neat feature here is that this analysis works transitively.
-TypeScript will hop through constants to understand what sorts of checks you've already performed.
+一个好的性质是该分析同时具有可传递性。
+TypeScript 可以通过这些常量来理解在它们背后执行的检查。
 
-<!-- prettier-ignore -->
 ```ts twoslash
 function f(x: string | number | boolean) {
-  const isString = typeof x === "string";
-  const isNumber = typeof x === "number";
-  const isStringOrNumber = isString || isNumber;
-  if (isStringOrNumber) {
-    x;
-//  ^?
-  } else {
-    x;
-//  ^?
-  }
+    const isString = typeof x === 'string';
+    const isNumber = typeof x === 'number';
+    const isStringOrNumber = isString || isNumber;
+    if (isStringOrNumber) {
+        x;
+        //  ^?
+    } else {
+        x;
+        //  ^?
+    }
 }
 ```
 
-Note that there's a cutoff - TypeScript doesn't go arbitrarily deep when checking these conditions, but its analysis is deep enough for most checks.
+注意这里会有一个截点 - TypeScript 并不是毫无限制地去追溯检查这些条件表达式，但对于大多数使用场景而言已经足够了。
 
-This feature should make a lot of intuitive JavaScript code "just work" in TypeScript without it getting in your way.
-For more details, [check out the implementation on GitHub](https://github.com/microsoft/TypeScript/pull/44730)!
+这个功能能让很多直观的 JavaScript 代码在 TypeScript 里也好用，而不会妨碍我们。
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/44730)！
 
 ## Symbol and Template String Pattern Index Signatures
 
@@ -140,17 +139,17 @@ If we try to assign anything other than a `boolean` value, we'll get an error.
 ```ts twoslash
 // @errors: 2322
 interface BooleanDictionary {
-  [key: string]: boolean;
+    [key: string]: boolean;
 }
 
 declare let myDict: BooleanDictionary;
 
 // Valid to assign boolean values
-myDict["foo"] = true;
-myDict["bar"] = false;
+myDict['foo'] = true;
+myDict['bar'] = false;
 
 // Error, "oops" isn't a boolean
-myDict["baz"] = "oops";
+myDict['baz'] = 'oops';
 ```
 
 While [a `Map` might be a better data structure here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) (specifically, a `Map<string, boolean>`), JavaScript objects are often more convenient to use or just happen to be what we're given to work with.
@@ -161,15 +160,15 @@ Similarly, `Array<T>` already defines a `number` index signature that lets us in
 // @errors: 2322
 // This is part of TypeScript's definition of the built-in Array type.
 interface Array<T> {
-  [index: number]: T;
+    [index: number]: T;
 
-  // ...
+    // ...
 }
 
 let arr = new Array<string>();
 
 // Valid
-arr[0] = "hello!";
+arr[0] = 'hello!';
 
 // Error, expecting a 'string' value here
 arr[1] = 123;
@@ -187,12 +186,12 @@ For example, TypeScript now allows us to declare a type that can be keyed on arb
 ```ts twoslash
 // @errors: 2322
 interface Colors {
-  [sym: symbol]: number;
+    [sym: symbol]: number;
 }
 
-const red = Symbol("red");
-const green = Symbol("green");
-const blue = Symbol("blue");
+const red = Symbol('red');
+const green = Symbol('green');
+const blue = Symbol('blue');
 
 let colors: Colors = {};
 
@@ -201,7 +200,7 @@ colors[red] = 255;
 let redVal = colors[red];
 //  ^?
 
-colors[blue] = "da ba dee";
+colors[blue] = 'da ba dee';
 ```
 
 Similarly, we can write an index signature with template string pattern type.
@@ -219,7 +218,7 @@ let a: Options = {
     width: 100,
     height: 100,
 
-    "data-blah": true,
+    'data-blah': true,
 };
 
 interface OptionsWithDataProps extends Options {
@@ -230,33 +229,33 @@ interface OptionsWithDataProps extends Options {
 let b: OptionsWithDataProps = {
     width: 100,
     height: 100,
-    "data-blah": true,
+    'data-blah': true,
 
     // Fails for a property which is not known, nor
     // starts with 'data-'
-    "unknown-property": true,
+    'unknown-property': true,
 };
 ```
 
 A final note on index signatures is that they now permit union types, as long as they're a union of infinite-domain primitive types - specifically:
 
-- `string`
-- `number`
-- `symbol`
-- template string patterns (e.g. `` `hello-${string}` ``)
+-   `string`
+-   `number`
+-   `symbol`
+-   template string patterns (e.g. `` `hello-${string}` ``)
 
 An index signature whose argument is a union of these types will de-sugar into several different index signatures.
 
 ```ts
 interface Data {
-  [optName: string | symbol]: any;
+    [optName: string | symbol]: any;
 }
 
 // Equivalent to
 
 interface Data {
-  [optName: string]: any;
-  [optName: symbol]: any;
+    [optName: string]: any;
+    [optName: symbol]: any;
 }
 ```
 
@@ -269,12 +268,12 @@ Because of this, TypeScript historically typed catch clause variables as `any`, 
 
 ```ts
 try {
-  // Who knows what this might throw...
-  executeSomeThirdPartyCode();
+    // Who knows what this might throw...
+    executeSomeThirdPartyCode();
 } catch (err) {
-  // err: any
-  console.error(err.message); // Allowed, because 'any'
-  err.thisWillProbablyFail(); // Allowed, because 'any' :(
+    // err: any
+    console.error(err.message); // Allowed, because 'any'
+    err.thisWillProbablyFail(); // Allowed, because 'any' :(
 }
 ```
 
@@ -290,17 +289,17 @@ This flag changes the default type of `catch` clause variables from `any` to `un
 declare function executeSomeThirdPartyCode(): void;
 // ---cut---
 try {
-  executeSomeThirdPartyCode();
+    executeSomeThirdPartyCode();
 } catch (err) {
-  // err: unknown
+    // err: unknown
 
-  // Error! Property 'message' does not exist on type 'unknown'.
-  console.error(err.message);
-
-  // Works! We can narrow 'err' from 'unknown' to 'Error'.
-  if (err instanceof Error) {
+    // Error! Property 'message' does not exist on type 'unknown'.
     console.error(err.message);
-  }
+
+    // Works! We can narrow 'err' from 'unknown' to 'Error'.
+    if (err instanceof Error) {
+        console.error(err.message);
+    }
 }
 ```
 
@@ -338,8 +337,8 @@ For example,
 
 ```ts
 interface Person {
-  name: string;
-  age?: number;
+    name: string;
+    age?: number;
 }
 ```
 
@@ -347,8 +346,8 @@ was considered equivalent to
 
 ```ts
 interface Person {
-  name: string;
-  age?: number | undefined;
+    name: string;
+    age?: number | undefined;
 }
 ```
 
@@ -356,8 +355,8 @@ What this meant is that a user could explicitly write `undefined` in place of `a
 
 ```ts
 const p: Person = {
-  name: "Daniel",
-  age: undefined, // This is okay by default.
+    name: 'Daniel',
+    age: undefined, // This is okay by default.
 };
 ```
 
@@ -372,14 +371,14 @@ In TypeScript 4.4, the new flag `--exactOptionalPropertyTypes` specifies that op
 // @exactOptionalPropertyTypes
 // @errors: 2322
 interface Person {
-  name: string;
-  age?: number;
+    name: string;
+    age?: number;
 }
 // ---cut---
 // With 'exactOptionalPropertyTypes' on:
 const p: Person = {
-  name: "Daniel",
-  age: undefined, // Error! undefined isn't a number
+    name: 'Daniel',
+    age: undefined, // Error! undefined isn't a number
 };
 ```
 
@@ -571,9 +570,9 @@ Specifically, in the following example, when calling `fooModule.foo()`, the `foo
 ```ts
 // Imagine this is our imported module, and it has an export named 'foo'.
 let fooModule = {
-  foo() {
-    console.log(this);
-  },
+    foo() {
+        console.log(this);
+    },
 };
 
 fooModule.foo();
@@ -585,9 +584,9 @@ That's why TypeScript 4.4 intentionally discards the `this` value when calling i
 ```ts
 // Imagine this is our imported module, and it has an export named 'foo'.
 let fooModule = {
-  foo() {
-    console.log(this);
-  },
+    foo() {
+        console.log(this);
+    },
 };
 
 // Notice we're actually calling '(0, fooModule.foo)' now, which is subtly different.
@@ -618,16 +617,16 @@ That meant that while this code would correctly receive an error...
 
 ```ts
 async function foo(): Promise<boolean> {
-  return false;
+    return false;
 }
 
 async function bar(): Promise<string> {
-  const fooResult = foo();
-  if (fooResult) {
-    // <- error! :D
-    return "true";
-  }
-  return "false";
+    const fooResult = foo();
+    if (fooResult) {
+        // <- error! :D
+        return 'true';
+    }
+    return 'false';
 }
 ```
 
@@ -635,15 +634,15 @@ async function bar(): Promise<string> {
 
 ```ts
 async function foo(): Promise<boolean> {
-  return false;
+    return false;
 }
 
 async function bar(): Promise<string> {
-  if (foo()) {
-    // <- no error :(
-    return "true";
-  }
-  return "false";
+    if (foo()) {
+        // <- no error :(
+        return 'true';
+    }
+    return 'false';
 }
 ```
 
@@ -656,9 +655,9 @@ The following code is now an error because abstract properties may not have init
 
 ```ts
 abstract class C {
-  abstract prop = 1;
-  //       ~~~~
-  // Property 'prop' cannot have an initializer because it is marked abstract.
+    abstract prop = 1;
+    //       ~~~~
+    // Property 'prop' cannot have an initializer because it is marked abstract.
 }
 ```
 
@@ -666,6 +665,6 @@ Instead, you may only specify a type for the property:
 
 ```ts
 abstract class C {
-  abstract prop: number;
+    abstract prop: number;
 }
 ```
