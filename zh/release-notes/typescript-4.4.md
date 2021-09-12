@@ -499,12 +499,12 @@ TypeScript 4.4 优化了为超大输出文件生成 source map 的速度。
 
 感谢 [David Michon](https://github.com/dmichon-msft) 提供了这项[简洁的优化](https://github.com/microsoft/TypeScript/pull/44031)。
 
-### Faster `--force` Builds
+### 更快的 `--force` 构建
 
-When using `--build` mode on project references, TypeScript has to perform up-to-date checks to determine which files need to be rebuilt.
-When performing a `--force` build, however, that information is irrelevant since every project dependency will be rebuilt from scratch.
-In TypeScript 4.4, `--force` builds avoid those unnecessary steps and start a full build.
-See more about the change [here](https://github.com/microsoft/TypeScript/pull/43666).
+当在工程引用上使用了 `--build` 模式时，TypeScript 必须执行“是否更新检查”来确定是否需要重新构建。
+在进行 `--force` 构建时，该检查是无关的，因为每个工程依赖都要被重新构建。
+在 TypeScript 4.4 里，`--force` 会避免执行无用的步骤并进行完整的构建。
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/43666)。
 
 ## Spelling Suggestions for JavaScript
 
