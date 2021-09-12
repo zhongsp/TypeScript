@@ -478,11 +478,11 @@ TypeScript 经常需要对文件路径进行“标准化”操作来得到统一
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/44173) 以及 [PR](https://github.com/microsoft/TypeScript/pull/44100)。
 
-### Faster Path Mapping
+### 更快地路径映射
 
-TypeScript now caches the way it constructs path-mappings (using the `paths` option in `tsconfig.json`).
-For projects with several hundred mappings, the reduction is significant.
-You can see more [on the change itself](https://github.com/microsoft/TypeScript/pull/44078).
+TypeScript 现在会缓存构造的路径映射（通过 `tsconfig.json` 里的 `paths`）。
+对于拥有数百个路径映射的工程来讲效果十分明显。
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/44078)。
 
 ### Faster Incremental Builds with `--strict`
 
