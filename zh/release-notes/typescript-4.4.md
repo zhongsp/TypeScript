@@ -468,15 +468,15 @@ TypeScript 现在会缓存下内部符号是否可以在不同上下文中被访
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/43973)。
 
-### Faster Path Normalization
+### 更快地标准化路径
 
-TypeScript often has to do several types of "normalization" on file paths to get them into a consistent format that the compiler can use everywhere.
-This involves things like replacing backslashes with slashes, or removing intermediate `/./` and `/../` segments of paths.
-When TypeScript has to operates over millions of these paths, these operations end up being a bit slow.
-In TypeScript 4.4, paths first undergo quick checks to see whether they need any normalization in the first place.
-These improvements together reduce project load time by 5-10% on bigger projects, and significantly more in massive projects that we've tested internally.
+TypeScript 经常需要对文件路径进行“标准化”操作来得到统一的格式，以便编译器能够随处使用它。
+它包括将反斜线替换成正斜线，或者删除路径中间的 `/./` 和 `/../` 片段。
+当 TypeScript 需要处理成千上万的路径时，这个操作就会很慢。
+在 TypeScript 4.4 里会先对路径进行快速检查，判断它们是否需要进行标准化。
+这些改进能够减少 5-10% 的工程加载时间，对于大型工程来讲效果会更加明显。
 
-For more details, you can [view the PR for path segment normalization](https://github.com/microsoft/TypeScript/pull/44173) along with [the PR for slash normalization](https://github.com/microsoft/TypeScript/pull/44100).
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/44173) 以及 [PR](https://github.com/microsoft/TypeScript/pull/44100)。
 
 ### Faster Path Mapping
 
