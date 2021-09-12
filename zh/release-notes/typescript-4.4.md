@@ -316,20 +316,20 @@ Property 'stack' does not exist on type 'unknown'.
 declare function executeSomeThirdPartyCode(): void;
 
 try {
-  executeSomeThirdPartyCode();
+    executeSomeThirdPartyCode();
 } catch (err: any) {
-  console.error(err.message); // Works again!
+    console.error(err.message); // Works again!
 }
 ```
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/41013)。
 
-## Exact Optional Property Types (`--exactOptionalPropertyTypes`)
+## 确切的可选属性类型 (`--exactOptionalPropertyTypes`)
 
-In JavaScript, reading a _missing_ property on an object produces the value `undefined`.
-It's also possible to _have_ an actual property with the value `undefined`.
-A lot of code in JavaScript tends to treat these situations the same way, and so initially TypeScript just interpreted every optional property as if a user had written `undefined` in the type.
-For example,
+在 JavaScript 中，读取对象上某个不存在的属性会得到 `undefined` 值。
+与此同时，某个已有属性的值也允许为 `undefined` 值。
+有许多 JavaScript 代码都会对这些情况一视同仁，因此最初 TypeScript 将可选属性视为添加了 `undefined` 类型。
+例如，
 
 ```ts
 interface Person {
@@ -338,7 +338,7 @@ interface Person {
 }
 ```
 
-was considered equivalent to
+等同于：
 
 ```ts
 interface Person {
@@ -347,7 +347,7 @@ interface Person {
 }
 ```
 
-What this meant is that a user could explicitly write `undefined` in place of `age`.
+这意味着用户可以给 `age` 明确地指定 `undefined` 值。
 
 ```ts
 const p: Person = {
@@ -356,33 +356,31 @@ const p: Person = {
 };
 ```
 
-So by default, TypeScript doesn't distinguish between a present property with the value `undefined` and a missing property.
-While this works most of the time, not all code in JavaScript makes the same assumptions.
-Functions and operators like `Object.assign`, `Object.keys`, object spread (`{ ...obj }`), and `for`-`in` loops behave differently depending on whether or not a property actually exists on an object.
-In the case of our `Person` example, this could potentially lead to runtime errors if the `age` property was observed in a context where its presence was important.
+因此默认情况下，TypeScript 不区分带有 `undefined` 类型的属性和不存在的属性。
+虽说这在大部分情况下是没问题的，但并非所有的 JavaScript 代码都如此。
+像是 `Object.assign`，`Object.keys`，对象展开（`{ ...obj }`）和 `for`-`in` 循环这样的函数和运算符会区别对待属性是否存在于对象之上。
+在 `Person` 例子中，如果 `age` 属性的存在与否是至关重要的，那么就可能会导致运行时错误。
 
-In TypeScript 4.4, the new flag `--exactOptionalPropertyTypes` specifies that optional property types should be interpreted exactly as written, meaning that `| undefined` is not added to the type:
+在 TypeScript 4.4 中，新的 `--exactOptionalPropertyTypes` 标记指明了可选属性的确切表示方式，即不自动添加 `| undefined` 类型：
 
 ```ts twoslash
-// @exactOptionalPropertyTypes
-// @errors: 2322
 interface Person {
     name: string;
     age?: number;
 }
-// ---cut---
-// With 'exactOptionalPropertyTypes' on:
+
+// 启用 'exactOptionalPropertyTypes'
 const p: Person = {
     name: 'Daniel',
-    age: undefined, // Error! undefined isn't a number
+    age: undefined, // 错误！undefined 不是一个成员
 };
 ```
 
-This flag is **not** part of the `--strict` family and needs to be turned on explicitly if you'd like this behavior.
-It also requires `--strictNullChecks` to be enabled as well.
-We've been making updates to DefinitelyTyped and other definitions to try to make the transition as straightforward as possible, but you may encounter some friction with this depending on how your code is structured.
+该标记**不是** `--strict` 标记家族的一员，需要显式地开启。
+该标记要求同时启用 `--strictNullChecks` 标记。
+我们已经更新了 DefinitelyTyped 以及其它的声明定义来帮助进行平稳地过渡，但你仍可能遇到一些问题，这取决于代码的结构。
 
-For more information, you can [take a look at the implementing pull request here](https://github.com/microsoft/TypeScript/pull/43947).
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/43947)。
 
 ## `static` Blocks in Classes
 
