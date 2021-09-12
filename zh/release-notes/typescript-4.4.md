@@ -533,22 +533,24 @@ TypeScript 4.4 支持了*内嵌提示*特性，它能帮助显示参数名和返
 若你想尝试该特性，需确保安装了[稳定版](https://code.visualstudio.com/updates/v1_59)或 [insiders](https://code.visualstudio.com/insiders/) 版本的编辑器。
 你也可以在 Visual Studio Code 的设置里修改何时何地显示内嵌提示。
 
-## Auto-Imports Show True Paths in Completion Lists
+## 自动导入的补全列表里显示真正的路径
 
-When editors like Visual Studio Code show a completion list, completions which include auto-imports are displayed with a path to the given module;
-however, this path usually isn't what TypeScript ends up placing in a module specifier.
-The path is usually something relative to the _workspace_, meaning that if you're importing from a package like `moment`, you'll often see a path like `node_modules/moment`.
+当 Visual Studio Code 显示补全列表时，包含自动导入在内的补全列表里会显示指向模块的路径；
+然而，该路径通常不是 TypeScript 最终替换进来的模块描述符。
+该路径通常是相对于 _workspace_ 的，如果你导入了 `moment` 包，你大概会看到 `node_modules/moment` 这样的路径 。
 
 ![A completion list containing unwieldy paths containing 'node_modules'. For example, the label for 'calendarFormat' is 'node_modules/moment/moment' instead of 'moment'.](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2021/08/completion-import-labels-pre-4-4.png)
 
-These paths end up being unwieldy and often misleading, especially given that the path that actually gets inserted into your file needs to consider Node's `node_modules` resolution, path mappings, symlinks, and re-exports.
+这些路径很难处理且容易产生误导，尤其是插入的路径同时需要考虑 Node.js 的 `node_modules` 解析，路径映射，符号链接以及重新导出等。
 
-That's why with TypeScript 4.4, the completion item label now shows the _actual_ module path that will be used for the import!
+这就是为什么 TypeScript 4.4 中的补全列表会显示真正的导入模块路径。
 
 ![A completion list containing clean paths with no intermediate 'node_modules'. For example, the label for 'calendarFormat' is 'moment' instead of 'node_modules/moment/moment'.](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2021/08/completion-import-labels-4-4.png)
 
-Since this calculation can be expensive, completion lists containing many auto-imports may fill in the final module specifiers in batches as you type more characters. It's possible that you'll still sometimes see the old workspace-relative path labels; however, as your editing experience "warms up", they should get replaced with the actual path after another keystroke or two.
+由于该计算可能很昂贵，当补全列表包含许多条目时最终的模块描述符会在你输入更多的字符时显示出来。
+你仍可能看到基于 workspace 的相对路径；然而，当编辑器“预热”后，再多输入几个字符它们会被替换为真正的路径。
 
+<!--
 ## Breaking Changes
 
 ### `lib.d.ts` Changes for TypeScript 4.4
@@ -662,3 +664,4 @@ abstract class C {
     abstract prop: number;
 }
 ```
+-->
