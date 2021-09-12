@@ -520,18 +520,18 @@ TypeScript 为在 Visual Studio 和 Visual Studio Code 等编辑器中的 JavaSc
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/44271)！
 
-## Inlay Hints
+## 内嵌提示（Inlay Hints）
 
-TypeScript 4.4 provides support for _inlay hints_ which can help display useful information like parameter names and return types in your code.
-You can think of it as a sort of friendly "ghost text".
+TypeScript 4.4 支持了*内嵌提示*特性，它能帮助显示参数名和返回值类型等信息。
+可将其视为一种友好的“ghost text”。
 
 ![A preview of inlay hints in Visual Studio Code](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2021/08/inlayHints-4.4-rc-ghd.png)
 
-This feature was built by [Wenlu Wang](https://github.com/Kingwl) whose [pull request](https://github.com/microsoft/TypeScript/pull/42089) has more details.
+该特性由 [Wenlu Wang](https://github.com/Kingwl) 的 [PR](https://github.com/microsoft/TypeScript/pull/42089) 所实现。
 
-Wenlu also contributed [the integration for inlay hints in Visual Studio Code](https://github.com/microsoft/vscode/pull/113412) which has shipped as [part of the July 2021 (1.59) release](https://code.visualstudio.com/updates/v1_59#_typescript-44).
-If you'd like to try inlay hints out, make sure you're using a recent [stable](https://code.visualstudio.com/updates/v1_59) or [insiders](https://code.visualstudio.com/insiders/) version of the editor.
-You can also modify when and where inlay hints get displayed in Visual Studio Code's settings.
+他也在 [Visual Studio Code 里进行了集成](https://github.com/microsoft/vscode/pull/113412) 并在 [July 2021 (1.59) 发布](https://code.visualstudio.com/updates/v1_59#_typescript-44)。
+若你想尝试该特性，需确保安装了[稳定版](https://code.visualstudio.com/updates/v1_59)或 [insiders](https://code.visualstudio.com/insiders/) 版本的编辑器。
+你也可以在 Visual Studio Code 的设置里修改何时何地显示内嵌提示。
 
 ## Auto-Imports Show True Paths in Completion Lists
 
