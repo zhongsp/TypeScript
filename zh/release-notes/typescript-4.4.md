@@ -382,17 +382,17 @@ const p: Person = {
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/43947)。
 
-## `static` Blocks in Classes
+## 类中的 `static` 语句块
 
-TypeScript 4.4 brings support for [`static` blocks in classes](https://github.com/tc39/proposal-class-static-block#ecmascript-class-static-initialization-blocks), an upcoming ECMAScript feature that can help you write more-complex initialization code for static members.
+TypeScript 4.4 支持了 [类中的 `static` 语句块](https://github.com/tc39/proposal-class-static-block#ecmascript-class-static-initialization-blocks)，一个即将到来的 ECMAScript 特性，它能够帮助编写复杂的静态成员初始化代码。
 
-```ts twoslash
+```ts
 declare function someCondition(): boolean
-// ---cut---
+
 class Foo {
     static count = 0;
 
-    // This is a static block:
+    // 静态语句块：
     static {
         if (someCondition()) {
             Foo.count++;
@@ -401,12 +401,12 @@ class Foo {
 }
 ```
 
-These static blocks allow you to write a sequence of statements with their own scope that can access private fields within the containing class.
-That means that we can write initialization code with all the capabilities of writing statements, no leakage of variables, and full access to our class's internals.
+在静态语句块中允许编写一系列语句，它们可以访问类中的私有字段。
+也就是说在初始化代码中能够编写语句，不会暴露变量，并且可以完全访问类的内部信息。
 
-```ts twoslash
+```ts
 declare function loadLastInstances(): any[]
-// ---cut---
+
 class Foo {
     static #count = 0;
 
@@ -424,11 +424,11 @@ class Foo {
 }
 ```
 
-Without `static` blocks, writing the code above was possible, but often involved several different types of hacks that had to compromise in some way.
+若不使用 `static` 语句块也能够编写上述代码，只不过需要使用一些折中的 hack 手段。
 
-Note that a class can have multiple `static` blocks, and they're run in the same order in which they're written.
+一个类可以有多个 `static` 语句块，它们的运行顺序与编写顺序一致。
 
-```ts twoslash
+```ts
 // Prints:
 //    1
 //    2
@@ -447,8 +447,8 @@ class Foo {
 }
 ```
 
-We'd like to extend our thanks to [Wenlu Wang](https://github.com/Kingwl) for TypeScript's implementation of this feature.
-For more details, you can [see that pull request here](https://github.com/microsoft/TypeScript/pull/43370).
+感谢 [Wenlu Wang](https://github.com/Kingwl) 为 TypeScript 添加了该支持。
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/43370)。
 
 ## `tsc --help` Updates and Improvements
 
