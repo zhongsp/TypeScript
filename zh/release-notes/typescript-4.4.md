@@ -459,14 +459,14 @@ TypeScript 的 `--help` 选项完全更新了！
 
 更多详情请参考 [Issue](https://github.com/microsoft/TypeScript/issues/44074)。
 
-## Performance Improvements
+## 性能优化
 
-### Faster Declaration Emit
+### 更快地生成声明文件
 
-TypeScript now caches whether internal symbols are accessible in different contexts, along with how specific types should be printed.
-These changes can improve TypeScript's general performance in code with fairly complex types, and is especially observed when emitting `.d.ts` files under the `--declaration` flag.
+TypeScript 现在会缓存下内部符号是否可以在不同上下文中被访问，以及如何显示指定的类型。
+这些改变能够改进 TypeScript 处理复杂类型时的性能，尤其是在使用了 `--declaration` 标记来生成 `.d.ts` 文件的时候。
 
-[See more details here](https://github.com/microsoft/TypeScript/pull/43973).
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/43973)。
 
 ### Faster Path Normalization
 
