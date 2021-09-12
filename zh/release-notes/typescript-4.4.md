@@ -259,31 +259,32 @@ interface Data {
 
 ## Defaulting to the `unknown` Type in Catch Variables (`--useUnknownInCatchVariables`)
 
-In JavaScript, any type of value can be thrown with `throw` and caught in a `catch` clause.
-Because of this, TypeScript historically typed catch clause variables as `any`, and would not allow any other type annotation:
+## 异常捕获变量的类型默认为 `unknown` （`--useUnknownInCatchVariables`）
+
+在 JavaScript 中，允许使用 `throw` 语句抛出任意类型的值，并在 `catch` 语句中捕获它。
+因此，TypeScript 从前会将异常捕获变量的类型设置为 `any` 类型，并且不允许指定其它的类型注解:
 
 ```ts
 try {
-    // Who knows what this might throw...
+    // 谁知道它会抛出什么东西
     executeSomeThirdPartyCode();
 } catch (err) {
     // err: any
-    console.error(err.message); // Allowed, because 'any'
-    err.thisWillProbablyFail(); // Allowed, because 'any' :(
+    console.error(err.message); // 可以，因为类型为 'any'
+    err.thisWillProbablyFail(); // 可以，因为类型为 'any' :(
 }
 ```
 
-Once TypeScript added the `unknown` type, it became clear that `unknown` was a better choice than `any` in `catch` clause variables for users who want the highest degree of correctness and type-safety, since it narrows better and forces us to test against arbitrary values.
-Eventually TypeScript 4.0 allowed users to specify an explicit type annotation of `unknown` (or `any`) on each `catch` clause variable so that we could opt into stricter types on a case-by-case basis;
-however, for some, manually specifying `: unknown` on every `catch` clause was a chore.
+当 TypeScript 引入了 `unknown` 类型后，对于追求高度准确性和类型安全的用户来讲在 `catch` 语句的捕获变量处使用 `unknown` 成为了比 `any` 类型更好的选择，因为它强制我们去检测要使用的值。
+后来，TypeScript 4.0 允许用户在 `catch` 语句中明确地指定 `unknown`（或 `any`）类型，这样就可以根据情况有选择一使用更严格的类型检查；
+然而，在每一处 `catch` 语句里手动指定 `: unknown` 是一件繁琐的事情。
 
-That's why TypeScript 4.4 introduces a new flag called `--useUnknownInCatchVariables`.
-This flag changes the default type of `catch` clause variables from `any` to `unknown`.
+因此，TypeScript 4.4 引入了一个新的标记 `--useUnknownInCatchVariables`。
+它将 `catch` 语句捕获变量的默认类型由 `any` 改为 `unknown`。
 
-```ts twoslash
-// @errors: 2571
+```ts
 declare function executeSomeThirdPartyCode(): void;
-// ---cut---
+
 try {
     executeSomeThirdPartyCode();
 } catch (err) {
@@ -299,9 +300,9 @@ try {
 }
 ```
 
-This flag is enabled under the `--strict` family of options.
-That means that if you check your code using `--strict`, this option will automatically be turned on.
-You may end up with errors in TypeScript 4.4 such as
+这个标记属性于 `--strict` 标记家族的一员。
+也就是说如果你启用了 `--strict`，那么该标记也自动启用了。
+在 TypeScript 4.4 中，你可能会看到如下的错误：
 
 ```
 Property 'message' does not exist on type 'unknown'.
@@ -309,12 +310,11 @@ Property 'name' does not exist on type 'unknown'.
 Property 'stack' does not exist on type 'unknown'.
 ```
 
-In cases where we don't want to deal with an `unknown` variable in a `catch` clause, we can always add an explicit `: any` annotation so that we can opt _out_ of stricter types.
+如果我们不想处理 `catch` 语句中 `unknown` 类型的捕获变量，那么可以明确使用 `: any` 类型注解，这样就会关闭严格类型检查。
 
-<!-- prettier-ignore -->
 ```ts twoslash
 declare function executeSomeThirdPartyCode(): void;
-// ---cut---
+
 try {
   executeSomeThirdPartyCode();
 } catch (err: any) {
@@ -322,7 +322,7 @@ try {
 }
 ```
 
-For more information, take a look at [the implementing pull request](https://github.com/microsoft/TypeScript/pull/41013).
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/41013)。
 
 ## Exact Optional Property Types (`--exactOptionalPropertyTypes`)
 
