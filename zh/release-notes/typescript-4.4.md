@@ -450,14 +450,14 @@ class Foo {
 感谢 [Wenlu Wang](https://github.com/Kingwl) 为 TypeScript 添加了该支持。
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/43370)。
 
-## `tsc --help` Updates and Improvements
+## `tsc --help` 更新与优化
 
-TypeScript's `--help` option has gotten a refresh!
-Thanks to work in part by [Song Gao](https://github.com/ShuiRuTian), we've brought in changes to [update the descriptions of our compiler options](https://github.com/microsoft/TypeScript/pull/44409) and [restyle the `--help` menu](https://github.com/microsoft/TypeScript/pull/44157) with colors and other visual separation.
+TypeScript 的 `--help` 选项完全更新了！
+感谢 [Song Gao](https://github.com/ShuiRuTian)，我们[更新了编译选项的描述](https://github.com/microsoft/TypeScript/pull/44409)和 [`--help` 菜单的配色样式](https://github.com/microsoft/TypeScript/pull/44157)。
 
 ![The new TypeScript `--help` menu where the output is bucketed into several different areas](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2021/08/tsc-help-ps-wt-4-4.png)
 
-You can read more on [the original proposal thread](https://github.com/microsoft/TypeScript/issues/44074).
+更多详情请参考 [Issue](https://github.com/microsoft/TypeScript/issues/44074)。
 
 ## Performance Improvements
 
