@@ -506,19 +506,19 @@ TypeScript 4.4 优化了为超大输出文件生成 source map 的速度。
 在 TypeScript 4.4 里，`--force` 会避免执行无用的步骤并进行完整的构建。
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/43666)。
 
-## Spelling Suggestions for JavaScript
+## JavaScript 中的拼写建议
 
-TypeScript powers the JavaScript editing experience in editors like Visual Studio and Visual Studio Code.
-Most of the time, TypeScript tries to stay out of the way in JavaScript files;
-however, TypeScript often has a lot of information to make confident suggestions, and ways of surfacing suggestions that aren't _too_ invasive.
+TypeScript 为在 Visual Studio 和 Visual Studio Code 等编辑器中的 JavaScript 编写体验赋能。
+大多数情况下，在处理 JavaScript 文件时，TypeScript 会置身事外；
+然而，TypeScript 经常能够提供有理有据的建议且不过分地侵入其中。
 
-That's why TypeScript now issues spelling suggestions in plain JavaScript files - ones without `// @ts-check` or in a project with `checkJs` turned off.
-These are the same _"Did you mean...?"_ suggestions that TypeScript files already have, and now they're available in _all_ JavaScript files in some form.
+这就是为什么 TypeScript 会为 JavaScript 文件提供拼写建议 - 不带有 `// @ts-check` 的 文件或者关闭了 `checkJs` 选项的工程。
+即，TypeScript 文件中已有的 _"Did you mean...?"_ 建议，现在它们也作用于 JavaScript 文件。
 
-These spelling suggestions can provide a subtle clue that your code is wrong.
-We managed to find a few bugs in existing code while testing this feature!
+这些拼写建议也暗示了代码中可能存在错误。
+我们在测试该特性时已经发现了已有代码中的一些错误！
 
-For more details on this new feature, [take a look at the pull request](https://github.com/microsoft/TypeScript/pull/44271)!
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/44271)！
 
 ## Inlay Hints
 
