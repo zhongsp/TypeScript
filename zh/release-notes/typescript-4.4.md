@@ -484,13 +484,13 @@ TypeScript 现在会缓存构造的路径映射（通过 `tsconfig.json` 里的 
 对于拥有数百个路径映射的工程来讲效果十分明显。
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/44078)。
 
-### Faster Incremental Builds with `--strict`
+### 更快地增量构建与 `--strict`
 
-In what was effectively a bug, TypeScript would end up redoing type-checking work under `--incremental` compilations if `--strict` was on.
-This led to many builds being just as slow as if `--incremental` was turned off.
-TypeScript 4.4 fixes this, though the change has also been back-ported to TypeScript 4.3.
+这曾是一个缺陷，在 `--incremental` 模式下，如果启用了 `--strict` 则 TypeScript 会重新进行类型检查。
+这导致了不管是否开启了 `--incremental` 构建速度都挺慢。
+TypeScript 4.4 修复了这个问题，该修复也应用到了 TypeScript 4.3 里。
 
-See more [here](https://github.com/microsoft/TypeScript/pull/44394).
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/44394)。
 
 ### Faster Source Map Generation for Big Outputs
 
