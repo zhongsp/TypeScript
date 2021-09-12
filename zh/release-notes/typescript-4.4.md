@@ -492,12 +492,12 @@ TypeScript 4.4 修复了这个问题，该修复也应用到了 TypeScript 4.3 �
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/44394)。
 
-### Faster Source Map Generation for Big Outputs
+### 针对大型输出更快地生成 Source Map
 
-TypeScript 4.4 adds an optimization for source map generation on extremely large output files.
-When building an older version of the TypeScript compiler, this results in around an 8% reduction in emit time.
+TypeScript 4.4 优化了为超大输出文件生成 source map 的速度。
+在构建旧版本的 TypeScript 编译器时，结果显示节省了 8% 的生成时间。
 
-We'd like to extend our thanks to [David Michon](https://github.com/dmichon-msft) who provided a [simple and clean change](https://github.com/microsoft/TypeScript/pull/44031) to enable this performance win.
+感谢 [David Michon](https://github.com/dmichon-msft) 提供了这项[简洁的优化](https://github.com/microsoft/TypeScript/pull/44031)。
 
 ### Faster `--force` Builds
 
