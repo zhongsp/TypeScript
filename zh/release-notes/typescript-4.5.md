@@ -352,20 +352,20 @@ TypeScript 在所有操作系统上使用了 Node.js `realPathSync` 函数的系
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/44966)。
 
-### Snippet Completions for JSX Attributes
+### JSX Attributes 的代码片段自动补全
 
-TypeScript 4.5 brings _snippet completions_ for JSX attributes.
-When writing out an attribute in a JSX tag, TypeScript will already provide suggestions for those attributes;
-but with snippet completions, they can remove a little bit of extra typing by adding an initializer and putting your cursor in the right place.
+TypeScript 4.5 为 JSX 属性提供了*代码片段自动补全*功能。
+当在 JSX 标签上输入属性时，TypeScript 已经能够提供提供建议；
+但对于代码片段自动补全来讲，它们会删除部分已经输入的字符来添加一个初始化器并将光标放到正确的位置。
 
 ![Snippet completions for JSX attributes. For a string property, quotes are automatically added. For a numeric properties, braces are added.](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2021/10/jsx-attributes-snippets-4-5.gif)
 
-TypeScript will typically use the type of an attribute to figure out what kind of initializer to insert, but you can customize this behavior in Visual Studio Code.
+TypeScript 通常会使用属性的类型来判断插入哪种初始化器，但你可以在 Visual Studio Code 中自定义该行为。
 
 ![Settings in VS Code for JSX attribute completions](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2021/10/jsx-snippet-settings-4-5.png)
 
-Keep in mind, this feature will only work in newer versions of Visual Studio Code, so you might have to use an Insiders build to get this working.
-For more information, [read up on the original pull request](https://github.com/microsoft/TypeScript/pull/45903)
+注意，该功能只在新版本的 Visual Studio Code 中支持，因此你可能需要使用 Insiders 版本。
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/45903)。
 
 ### Better Editor Support for Unresolved Types
 
