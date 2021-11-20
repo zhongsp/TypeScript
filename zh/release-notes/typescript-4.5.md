@@ -232,9 +232,9 @@ import { someFunc, BaseType } from "./some-module.js";
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/44619)。
 
-### `type` Modifiers on Import Names
+### 在导入名称前使用 `type` 修饰符
 
-As mentioned above, [`preserveValueImports`](/tsconfig#preserveValueImports) and [`isolatedModules`](/tsconfig#isolatedModules) have special requirements so that there's no ambiguity for build tools whether it's safe to drop type imports.
+上面提到，[`preserveValueImports`](/tsconfig#preserveValueImports) 和 [`isolatedModules`](/tsconfig#isolatedModules) 结合使用时有额外的要求，这是为了让构建工具能够明确知道是否可以省略导入语句。
 
 ```ts
 // Which of these is a value that should be preserved? tsc knows, but `ts.transpileModule`,
@@ -245,8 +245,8 @@ import { someFunc, BaseType } from "./some-module.js";
 // when 'preserveValueImports' and 'isolatedModules' are both enabled.
 ```
 
-When these options are combined, we need a way to signal when an import can be legitimately dropped.
-TypeScript already has something for this with `import type`:
+当同时使用了这些选项时，需要有一种方式来表示导入语句是否可以被合法地丢弃。
+TypeScript 已经有类似的功能，即 `import type`：
 
 ```ts
 import type { BaseType } from "./some-module.js";
@@ -257,8 +257,8 @@ export class Thing implements BaseType {
 }
 ```
 
-This works, but it would be nice to avoid two import statements for the same module.
-That's part of why TypeScript 4.5 allows a `type` modifier on individual named imports, so that you can mix and match as needed.
+这是有效的，但还可以提供更好的方式来避免使用两条导入语句从相同的模块中导入。
+因此，TypeScript 4.5 允许在每个命名导入前使用 `type` 修饰符，你可以按需混合使用它们。
 
 ```ts
 import { someFunc, type BaseType } from "./some-module.js";
@@ -270,7 +270,7 @@ export class Thing implements BaseType {
 }
 ```
 
-In the above example, `BaseType` is always guaranteed to be erased and `someFunc` will be preserved under [`preserveValueImports`](/tsconfig#preserveValueImports), leaving us with the following code:
+上例中，在 [`preserveValueImports`](/tsconfig#preserveValueImports) 模式下，能够确定 `BaseType` 可以被删除，同时 `someFunc` 应该被保留，于是就会生成如下代码：
 
 ```js
 import { someFunc } from "./some-module.js";
@@ -282,7 +282,7 @@ export class Thing {
 }
 ```
 
-For more information, see [the changes on GitHub](https://github.com/microsoft/TypeScript/pull/45998).
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/45998)。
 
 ### Private Field Presence Checks
 
