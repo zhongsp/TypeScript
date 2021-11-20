@@ -311,26 +311,27 @@ class Person {
 
 感谢来自 Bloomberg 的朋友提交的 [PR](https://github.com/microsoft/TypeScript/pull/44648)：[Ashley Claymore](https://github.com/acutmore)，[Titian Cernicova-Dragomir](https://github.com/dragomirtitian)，[Kubilay Kahveci](https://github.com/mkubilayk)，和 [Rob Palmer](https://github.com/robpalme)！
 
-### Import Assertions
+### 导入断言
 
-TypeScript 4.5 supports an ECMAScript proposal for _import assertions_.
-This is a syntax used by runtimes to make sure that an import has an expected format.
+TypeScript 4.5 支持了 ECMAScript Proposal 中的 *导入断言*。
+该语法会被运行时所使用来检查导入是否为期望的格式。
 
 ```ts
 import obj from "./something.json" assert { type: "json" };
 ```
 
-The contents of these assertions are not checked by TypeScript since they're host-specific, and are simply left alone so that browsers and runtimes can handle them (and possibly error).
+TypeScript 不会检查这些断言，因为它们依赖于宿主环境。
+TypeScript 会保留原样，稍后让浏览器或者运行时来处理它们（也可能会出错）。
 
 ```ts
-// TypeScript is fine with this.
-// But your browser? Probably not.
+// TypeScript 允许
+// 但浏览器可能不允许
 import obj from "./something.json" assert {
     type: "fluffy bunny"
 };
 ```
 
-Dynamic `import()` calls can also use import assertions through a second argument.
+动态的 `import()` 调用可以通过第二个参数来使用导入断言。
 
 ```ts
 const obj = await import("./something.json", {
@@ -338,9 +339,9 @@ const obj = await import("./something.json", {
 });
 ```
 
-The expected type of that second argument is defined by a new type called `ImportCallOptions`, and currently only accepts an `assert` property.
+第二个参数的类型为 `ImportCallOptions`，并且目前它只接受一个 `assert` 属性。
 
-We'd like to thank [Wenlu Wang](https://github.com/Kingwl/) for [implementing this feature](https://github.com/microsoft/TypeScript/pull/40698)!
+感谢 [Wenlu Wang](https://github.com/Kingwl/) 实现了 [这个功能](https://github.com/microsoft/TypeScript/pull/40698)！
 
 ### Faster Load Time with `realPathSync.native`
 
