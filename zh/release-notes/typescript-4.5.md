@@ -343,14 +343,14 @@ const obj = await import("./something.json", {
 
 感谢 [Wenlu Wang](https://github.com/Kingwl/) 实现了 [这个功能](https://github.com/microsoft/TypeScript/pull/40698)！
 
-### Faster Load Time with `realPathSync.native`
+### 使用 `realPathSync.native` 获得更快的加载速度
 
-TypeScript now leverages a system-native implementation of the Node.js `realPathSync` function on all operating systems.
+TypeScript 在所有操作系统上使用了 Node.js `realPathSync` 函数的系统原生实现。
 
-Previously this function was only used on Linux, but in TypeScript 4.5 it has been adopted to operating systems that are typically case-insensitive, like Windows and MacOS.
-On certain codebases, this change sped up project loading by 5-13% (depending on the host operating system).
+以前，这个函数只在 Linux 上使用了，但在 TypeScript 4.5 中，在大小写不敏感的操作系统上，如 Windows 和 MacOS，也被采用了。
+对于一些代码库来讲这个改动会提升 5 ~ 13% 的加载速度（和操作系统有关）。
 
-For more information, see [the original change here](https://github.com/microsoft/TypeScript/pull/44966), along with [the 4.5-specific changes here](https://github.com/microsoft/TypeScript/pull/44966).
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/44966)。
 
 ### Snippet Completions for JSX Attributes
 
