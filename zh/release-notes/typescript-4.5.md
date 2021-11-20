@@ -178,10 +178,10 @@ type GetCharsHelper<S, Acc> = S extends `${infer Char}${infer Rest}`
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/45711)。
 
-### Disabling Import Elision
+### 禁用导入省略
 
-There are some cases where TypeScript can't detect that you're using an import.
-For example, take the following code:
+在某些情况下，TypeScript 无法检测导入是否被使用。
+例如，考虑下面的代码：
 
 ```ts
 import { Animal } from "./animal.js";
@@ -189,9 +189,9 @@ import { Animal } from "./animal.js";
 eval("console.log(new Animal().isDangerous())");
 ```
 
-By default, TypeScript always removes this import because it appears to be unused.
-In TypeScript 4.5, you can enable a new flag called [`preserveValueImports`](/tsconfig#preserveValueImports) to prevent TypeScript from stripping out any imported values from your JavaScript outputs.
-Good reasons to use `eval` are few and far between, but something very similar to this happens in Svelte:
+默认情况下，TypeScript 会删除上面的导入语句，因为它看上去没有被使用。
+在 TypeScript 4.5 里，你可以启用新的标记 [`preserveValueImports`](/tsconfig#preserveValueImports) 来阻止 TypeScript 从生成的 JavaScript 代码里删除导入的值。
+虽说应该使用 `eval` 的理由不多，但在 Svelte 框架里有相似的情况：
 
 ```html
 <!-- A .svelte File -->
@@ -202,7 +202,7 @@ Good reasons to use `eval` are few and far between, but something very similar t
 <button on:click="{someFunc}">Click me!</button>
 ```
 
-along with in Vue.js, using its `<script setup>` feature:
+同样在 Vue.js 中，使用 `<script setup>` 功能：
 
 ```html
 <!-- A .vue File -->
@@ -213,12 +213,11 @@ along with in Vue.js, using its `<script setup>` feature:
 <button @click="someFunc">Click me!</button>
 ```
 
-These frameworks generate some code based on markup outside of their `<script>` tags, but TypeScript _only_ sees code within the `<script>` tags.
-That means TypeScript will automatically drop the import of `someFunc`, and the above code won't be runnable!
-With TypeScript 4.5, you can use [`preserveValueImports`](/tsconfig#preserveValueImports) to avoid these situations.
+这些框架会根据 `<script>` 标签外的标记来生成代码，但 TypeScript *仅仅*会考虑 `<script>` 标签内的代码。
+也就是说 TypeScript 会自动删除对 `someFunc` 的导入，因此上面的代码无法运行！
+使用 TypeScript 4.5，你可以通过 [`preserveValueImports`](/tsconfig#preserveValueImports) 来避免发生这种情况。
 
-Note that this flag has a special requirement when combined with [--isolatedModules`](/tsconfig#isolatedModules): imported
-types _must_ be marked as type-only because compilers that process single files at a time have no way of knowing whether imports are values that appear unused, or a type that must be removed in order to avoid a runtime crash.
+当该标记和 [--isolatedModules`](/tsconfig#isolatedModules) 一起使用时有个额外要求：导入的类型*必须*被标记为 type-only，因为编译器一次处理一个文件，无法知道是否导入了未被使用的值，或是导入了必须要被删除的类型以防运行时崩溃。
 
 ```ts
 // Which of these is a value that should be preserved? tsc knows, but `ts.transpileModule`,
@@ -229,9 +228,9 @@ import { someFunc, BaseType } from "./some-module.js";
 // when 'preserveValueImports' and 'isolatedModules' are both enabled.
 ```
 
-That makes another TypeScript 4.5 feature, [`type` modifiers on import names](#type-on-import-names), especially important.
+这催生了另一个 TypeScript 4.5 的功能，[导入语句中的 `type` 修饰符](#type-on-import-names)，它尤其重要。
 
-For more information, [see the pull request here](https://github.com/microsoft/TypeScript/pull/44619).
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/44619)。
 
 ### `type` Modifiers on Import Names
 
