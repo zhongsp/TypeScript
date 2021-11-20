@@ -104,11 +104,11 @@ export function handler(r: Success | Error) {
 
 ### `module es2022`
 
-Thanks to [Kagami S. Rosylight](https://github.com/saschanaz), TypeScript now supports a new `module` setting: `es2022`.
-The main feature in [`module es2022`](/tsconfig#module) is top-level `await`, meaning you can use `await` outside of `async` functions.
-This was already supported in `--module esnext` (and now [`--module nodenext`](/tsconfig#target)), but `es2022` is the first stable target for this feature.
+感谢 [Kagami S. Rosylight](https://github.com/saschanaz)，TypeScript 现在支持了一个新的 `module` 设置：`es2022`。
+[`module es2022`](/tsconfig#module) 的主要功能是支持顶层的 `await`，即可以在 `async` 函数外部使用 `await`。
+该功能在 `--module esnext` 里已经被支持了（现在又增加了 [`--module nodenext`](/tsconfig#target)），但 `es2022` 是支持该功能的首个稳定版本。
 
-You can [read up more on this change here](https://github.com/microsoft/TypeScript/pull/44656).
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/44656)。
 
 ### Tail-Recursion Elimination on Conditional Types
 
