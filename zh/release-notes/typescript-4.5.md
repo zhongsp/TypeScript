@@ -367,7 +367,7 @@ TypeScript 通常会使用属性的类型来判断插入哪种初始化器，但
 注意，该功能只在新版本的 Visual Studio Code 中支持，因此你可能需要使用 Insiders 版本。
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/45903)。
 
-### 更好的针对未解决类型的编辑器支持
+### 为未解决类型提供更好的编辑器支持
 
 在某些情况下，编辑器会使用一个轻量级的“部分”语义模式 - 比如编辑器正在等待加载完整的工程，又或者是 [GitHub 的基于 web 的编辑器](https://docs.github.com/en/codespaces/developing-in-codespaces/web-based-editor)。
 
