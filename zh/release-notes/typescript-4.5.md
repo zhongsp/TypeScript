@@ -284,10 +284,10 @@ export class Thing {
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/45998)。
 
-### Private Field Presence Checks
+### 私有字段存在性检查
 
-TypeScript 4.5 supports an ECMAScript proposal for checking whether an object has a private field on it.
-You can now write a class with a `#private` field member and see whether another object has the same field by using the `in` operator.
+TypeScript 4.5 支持了检查对象上是否存在某私有字段的 ECMAScript Proposal。
+现在，你可以编写带有 `#private` 字段成员的类，然后使用 `in` 运算符检查另一个对象是否包含相同的字段。
 
 ```ts
 class Person {
@@ -305,11 +305,11 @@ class Person {
 }
 ```
 
-One interesting aspect of this feature is that the check `#name in other` implies that `other` must have been constructed as a `Person`, since there's no other way that field could be present.
-This is actually one of the key features of the proposal, and it's why the proposal is named "ergonomic brand checks" - because private fields often act as a "brand" to guard against objects that aren't instances of their class.
-As such, TypeScript is able to appropriately narrow the type of `other` on each check, until it ends up with the type `Person`.
+该功能一个有趣的地方是，`#name in other` 隐含了 `other` 必须是使用 `Person` 构造的，因为只有在这种情况下才可能存在该字段。
+这是该提议中关键的功能之一，同时也是为什么这项提议叫作 “ergonomic brand checks” 的原因 - 因为私有字段通常作为一种“商标”来区分不同类的实例。
+因此，TypeScript 能够在每次检查中细化 `other`类型，直到细化为 `Person` 类型。
 
-We'd like to extend a big thanks to our friends at Bloomberg [who contributed this pull request](https://github.com/microsoft/TypeScript/pull/44648): [Ashley Claymore](https://github.com/acutmore), [Titian Cernicova-Dragomir](https://github.com/dragomirtitian), [Kubilay Kahveci](https://github.com/mkubilayk), and [Rob Palmer](https://github.com/robpalme)!
+感谢来自 Bloomberg 的朋友提交的 [PR](https://github.com/microsoft/TypeScript/pull/44648)：[Ashley Claymore](https://github.com/acutmore)，[Titian Cernicova-Dragomir](https://github.com/dragomirtitian)，[Kubilay Kahveci](https://github.com/mkubilayk)，和 [Rob Palmer](https://github.com/robpalme)！
 
 ### Import Assertions
 
