@@ -1,3 +1,5 @@
+# TypeScript 4.3
+
 ## 拆分属性的写入类型
 
 在 JavaScript 中，API 经常需要对传入的值进行转换，然后再保存。
