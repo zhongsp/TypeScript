@@ -34,10 +34,10 @@ TypeScript 4.5 引入了覆盖特定内置 `lib` 的方式，它与 `@types/` �
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/45771)。
 
-## The `Awaited` Type and `Promise` Improvements
+## 改进 `Awaited` 类型和 `Promise`
 
-TypeScript 4.5 introduces a new utility type called the `Awaited` type.
-This type is meant to model operations like `await` in `async` functions, or the `.then()` method on `Promise`s - specifically, the way that they recursively unwrap `Promise`s.
+TypeScript 4.5 引入了一个新的 `Awaited` 类型。
+该类型用于描述 `async` 函数中的 `await` 操作，或者 `Promise` 上的 `.then()` 方法 - 尤其是递归地解开 `Promise` 的行为。
 
 ```ts
 // A = string
@@ -50,9 +50,9 @@ type B = Awaited<Promise<Promise<number>>>;
 type C = Awaited<boolean | Promise<number>>;
 ```
 
-The `Awaited` type can be helpful for modeling existing APIs, including JavaScript built-ins like `Promise.all`, `Promise.race`, etc.
-In fact, some of the problems around inference with `Promise.all` served as motivations for `Awaited`.
-Here's an example that fails in TypeScript 4.4 and earlier.
+`Awaited` 有助于描述现有 API，比如 JavaScript 内置的 `Promise.all`，`Promise.race` 等等。
+实际上，正是涉及 `Promise.all` 的类型推断问题促进了 `Awaited` 类型的产生。
+例如，下例中的代码在 TypeScript 4.4 及之前的版本中会失败。
 
 ```ts
 declare function MaybePromise<T>(value: T): T | Promise<T> | PromiseLike<T>;
@@ -60,20 +60,20 @@ declare function MaybePromise<T>(value: T): T | Promise<T> | PromiseLike<T>;
 async function doSomething(): Promise<[number, number]> {
   const result = await Promise.all([MaybePromise(100), MaybePromise(200)]);
 
-  // Error!
+  // 错误！
   //
   //    [number | Promise<100>, number | Promise<200>]
   //
-  // is not assignable to type
+  // 不能赋值给类型
   //
   //    [number, number]
   return result;
 }
 ```
 
-Now `Promise.all` leverages combines certain features with `Awaited` to give much better inference results, and the above example works.
+现在，`Promise.all` 结合并利用 `Awaited` 来提供更好的类型推断结果，同时上例中的代码也不再有错误。
 
-For more information, you [can read about this change on GitHub](https://github.com/microsoft/TypeScript/pull/45350).
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/45350)。
 
 ### Template String Types as Discriminants
 
