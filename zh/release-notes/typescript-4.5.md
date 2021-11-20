@@ -34,7 +34,7 @@ TypeScript 4.5 引入了覆盖特定内置 `lib` 的方式，它与 `@types/` �
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/45771)。
 
-## 改进 `Awaited` 类型和 `Promise`
+### 改进 `Awaited` 类型和 `Promise`
 
 TypeScript 4.5 引入了一个新的 `Awaited` 类型。
 该类型用于描述 `async` 函数中的 `await` 操作，或者 `Promise` 上的 `.then()` 方法 - 尤其是递归地解开 `Promise` 的行为。
@@ -75,11 +75,11 @@ async function doSomething(): Promise<[number, number]> {
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/45350)。
 
-### Template String Types as Discriminants
+### 模版字符串类型作为判别式属性
 
-TypeScript 4.5 now can narrow values that have template string types, and also recognizes template string types as discriminants.
+TypeScript 4.5 可以对模版字符串类型的值进行细化，同时可以识别模版字符串类型的判别式属性。
 
-As an example, the following used to fail, but now successfully type-checks in TypeScript 4.5.
+例如，下面的代码在以前会出错，但在 TypeScript 4.5 里没有错误。
 
 ```ts
 export interface Success {
@@ -94,13 +94,13 @@ export interface Error {
 
 export function handler(r: Success | Error) {
   if (r.type === 'HttpSuccess') {
-    // 'r' has type 'Success'
+    // 'r' 的类型为 'Success'
     let token = r.body;
   }
 }
 ```
 
-For more information, [see the change that enables this feature](https://github.com/microsoft/TypeScript/pull/46137).
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/46137)。
 
 ### `module es2022`
 
