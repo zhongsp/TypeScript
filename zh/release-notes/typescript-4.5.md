@@ -367,28 +367,29 @@ TypeScript 通常会使用属性的类型来判断插入哪种初始化器，但
 注意，该功能只在新版本的 Visual Studio Code 中支持，因此你可能需要使用 Insiders 版本。
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/45903)。
 
-### Better Editor Support for Unresolved Types
+### 更好的针对未解决类型的编辑器支持
 
-In some cases, editors will leverage a lightweight "partial" semantic mode - either while the editor is waiting for the full project to load, or in contexts like [GitHub's web-based editor](https://docs.github.com/en/codespaces/developing-in-codespaces/web-based-editor).
+在某些情况下，编辑器会使用一个轻量级的“部分”语义模式 - 比如编辑器正在等待加载完整的工程，又或者是 [GitHub 的基于 web 的编辑器](https://docs.github.com/en/codespaces/developing-in-codespaces/web-based-editor)。
 
-In older versions of TypeScript, if the language service couldn't find a type, it would just print `any`.
+在旧版本 TypeScript 中，如果语言服务无法找到一个类型，它会输出 `any`。
 
 ![Hovering over a signature where `Buffer` isn't found, TypeScript replaces it with `any`.](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2021/10/quick-info-unresolved-4-4.png)
 
-In the above example, `Buffer` wasn't found, so TypeScript replaced it with `any` in _quick info_.
-In TypeScript 4.5, TypeScript will try its best to preserve what you wrote.
+上例中，没有找到 `Buffer`，因此 TypeScript 在 *quick info* 里显示了 `any`。
+在 TypeScript 4.5 中，TypeScript 会尽可能保留你编写的代码。
 
 ![Hovering over a signature where `Buffer` isn't found, it continues to use the name `Buffer`.](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2021/10/quick-info-unresolved-4-5.png)
 
-However, if you hover over `Buffer` itself, you'll get a hint that TypeScript couldn't find `Buffer`.
+然而，当你将鼠标停在 `Buffer` 上时，你会看到 TypeScript 无法找到 `Buffer` 的提示。
 
 ![TypeScript displays `type Buffer = /* unresolved */ any;`](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2021/10/quick-info-unresolved-on-type-4-5.png)
 
-Altogether, this provides a smoother experience when TypeScript doesn't have the full program available.
-Keep in mind, you'll always get an error in regular scenarios to tell you when a type isn't found.
+总之，在 TypeScript 还没有读取整个工程的时候，它提供了更加平滑的体验。
+注意，在其它正常情况下，当无法找到某个类型时总会产生错误。
 
-For more information, [see the implementation here](https://github.com/microsoft/TypeScript/pull/45976).
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/45976)。
 
+<!--
 ### Breaking Changes
 
 #### `lib.d.ts` Changes
@@ -405,3 +406,4 @@ however, given many intentional design decisions around `Awaited` to avoid break
 
 It's an easy mistake to accidentally forget about the `compilerOptions` section in a `tsconfig.json`.
 To help catch this mistake, in TypeScript 4.5, it is an error to add a top-level field which matches any of the available options in `compilerOptions` _without_ having also defined `compilerOptions` in that `tsconfig.json`.
+-->
