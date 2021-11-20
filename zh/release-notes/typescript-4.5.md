@@ -93,7 +93,7 @@ export interface Error {
 }
 
 export function handler(r: Success | Error) {
-  if (r.type === 'HttpSuccess') {
+  if (r.type === "HttpSuccess") {
     // 'r' 的类型为 'Success'
     let token = r.body;
   }
@@ -110,10 +110,10 @@ export function handler(r: Success | Error) {
 
 更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/44656)。
 
-### Tail-Recursion Elimination on Conditional Types
+### 在条件类型上消除尾递归
 
-TypeScript often needs to gracefully fail when it detects possibly infinite recursion, or any type expansions that can take a long time and affect your editor experience.
-As a result, TypeScript has heuristics to make sure it doesn't go off the rails when trying to pick apart an infinitely-deep type, or working with types that generate a lot of intermediate results.
+当 TypeScript 检测到了以下情况时通常需要优雅地失败，比如无限递归、极其耗时以至影响编辑器使用体验的类型展开操作。
+因此，TypeScript 会使用试探式的方法来确保它在试图拆分一个无限层级的类型时或操作将生成大量中间结果的类型时不会偏离轨道。
 
 ```ts
 type InfiniteBox<T> = { item: InfiniteBox<T> };
@@ -124,9 +124,9 @@ type Unpack<T> = T extends { item: infer U } ? Unpack<U> : T;
 type Test = Unpack<InfiniteBox<number>>;
 ```
 
-The above example is intentionally simple and useless, but there are plenty of types that are actually useful, and unfortunately trigger our heuristics.
-As an example, the following `TrimLeft` type removes spaces from the beginning of a string-like type.
-If given a string type that has a space at the beginning, it immediately feeds the remainder of the string back into `TrimLeft`.
+上例是有意写成简单且没用的类型，但是存在大量有用的类型恰巧会触发试探。
+作为示例，下面的 `TrimLeft` 类型会从字符串类型的开头删除空白。
+若给定一个在开头位置有一个空格的字符串类型，它会直接将空格后面的字符串再传入 `TrimLeft`。
 
 ```ts
 type TrimLeft<T extends string> = T extends ` ${infer Rest}`
@@ -134,10 +134,10 @@ type TrimLeft<T extends string> = T extends ` ${infer Rest}`
   : T;
 
 // Test = "hello" | "world"
-type Test = TrimLeft<'   hello' | ' world'>;
+type Test = TrimLeft<"   hello" | " world">;
 ```
 
-This type can be useful, but if a string has 50 leading spaces, you'll get an error.
+这个类型也许有用，但如果字符串起始位置有 50 个空格，就会产生错误。
 
 ```ts
 type TrimLeft<T extends string> = T extends ` ${infer Rest}`
@@ -145,21 +145,21 @@ type TrimLeft<T extends string> = T extends ` ${infer Rest}`
   : T;
 
 // error: Type instantiation is excessively deep and possibly infinite.
-type Test = TrimLeft<'                                                oops'>;
+type Test = TrimLeft<"                                                oops">;
 ```
 
-That's unfortunate, because these kinds of types tend to be extremely useful in modeling operations on strings - for example, parsers for URL routers.
-To make matters worse, a more useful type typically creates more type instantiations, and in turn has even more limitations on input length.
+这很讨厌，因为这种类型在表示字符串操作时很有用 - 例如，URL 路由解析器。
+更差的是，越有用的类型越会创建更多的实例化类型，结果就是对输入参数会有限制。
 
-But there's a saving grace: `TrimLeft` is written in a way that is _tail-recursive_ in one branch.
-When it calls itself again, it immediately returns the result and doesn't do anything with it.
-Because these types don't need to create any intermediate results, they can be implemented more quickly and in a way that avoids triggering many of type recursion heuristics that are built into TypeScript.
+但也有一个可取之处：`TrimLeft` 在一个分支中使用了*尾递归*的方式编写。
+当它再次调用自己时，是直接返回了结果并且不存在后续操作。
+由于这些类型不需要创建中间结果，因此可以被更快地实现并且可以避免触发 TypeScript 内置的类型递归试探。
 
-That's why TypeScript 4.5 performs some tail-recursion elimination on conditional types.
-As long as one branch of a conditional type is simply another conditional type, TypeScript can avoid intermediate instantiations.
-There are still heuristics to ensure that these types don't go off the rails, but they are much more generous.
+这就是 TypeScript 4.5 在条件类型上删除尾递归的原因。
+只要是条件类型的某个分支为另一个条件类型，TypeScript 就不会去生成中间类型。
+虽说仍然会进行一些试探来确保类型没有偏离方向，但已无伤大雅。
 
-Keep in mind, the following type _won't_ be optimized, since it uses the result of a conditional type by adding it to a union.
+注意，下面的类型*不会*被优化，因为它使用了包含条件类型的联合类型。
 
 ```ts
 type GetChars<S> = S extends `${infer Char}${infer Rest}`
@@ -167,7 +167,7 @@ type GetChars<S> = S extends `${infer Char}${infer Rest}`
   : never;
 ```
 
-If you would like to make it tail-recursive, you can introduce a helper that takes an "accumulator" type parameter, just like with tail-recursive functions.
+如果你想将它改成尾递归，可以引入帮助类型来接收一个累加类型的参数，就如同尾递归函数一样。
 
 ```ts
 type GetChars<S> = GetCharsHelper<S, never>;
@@ -176,7 +176,7 @@ type GetCharsHelper<S, Acc> = S extends `${infer Char}${infer Rest}`
   : Acc;
 ```
 
-You can read up more on the implementation [here](https://github.com/microsoft/TypeScript/pull/45711).
+更多详情，请参考 [PR](https://github.com/microsoft/TypeScript/pull/45711)。
 
 ### Disabling Import Elision
 
@@ -184,9 +184,9 @@ There are some cases where TypeScript can't detect that you're using an import.
 For example, take the following code:
 
 ```ts
-import { Animal } from './animal.js';
+import { Animal } from "./animal.js";
 
-eval('console.log(new Animal().isDangerous())');
+eval("console.log(new Animal().isDangerous())");
 ```
 
 By default, TypeScript always removes this import because it appears to be unused.
@@ -196,7 +196,7 @@ Good reasons to use `eval` are few and far between, but something very similar t
 ```html
 <!-- A .svelte File -->
 <script>
-  import { someFunc } from './some-module.js';
+  import { someFunc } from "./some-module.js";
 </script>
 
 <button on:click="{someFunc}">Click me!</button>
@@ -207,7 +207,7 @@ along with in Vue.js, using its `<script setup>` feature:
 ```html
 <!-- A .vue File -->
 <script setup>
-  import { someFunc } from './some-module.js';
+  import { someFunc } from "./some-module.js";
 </script>
 
 <button @click="someFunc">Click me!</button>
@@ -223,7 +223,7 @@ types _must_ be marked as type-only because compilers that process single files 
 ```ts
 // Which of these is a value that should be preserved? tsc knows, but `ts.transpileModule`,
 // ts-loader, esbuild, etc. don't, so `isolatedModules` gives an error.
-import { someFunc, BaseType } from './some-module.js';
+import { someFunc, BaseType } from "./some-module.js";
 //                 ^^^^^^^^
 // Error: 'BaseType' is a type and must be imported using a type-only import
 // when 'preserveValueImports' and 'isolatedModules' are both enabled.
@@ -240,7 +240,7 @@ As mentioned above, [`preserveValueImports`](/tsconfig#preserveValueImports) and
 ```ts
 // Which of these is a value that should be preserved? tsc knows, but `ts.transpileModule`,
 // ts-loader, esbuild, etc. don't, so `isolatedModules` issues an error.
-import { someFunc, BaseType } from './some-module.js';
+import { someFunc, BaseType } from "./some-module.js";
 //                 ^^^^^^^^
 // Error: 'BaseType' is a type and must be imported using a type-only import
 // when 'preserveValueImports' and 'isolatedModules' are both enabled.
@@ -250,8 +250,8 @@ When these options are combined, we need a way to signal when an import can be l
 TypeScript already has something for this with `import type`:
 
 ```ts
-import type { BaseType } from './some-module.js';
-import { someFunc } from './some-module.js';
+import type { BaseType } from "./some-module.js";
+import { someFunc } from "./some-module.js";
 
 export class Thing implements BaseType {
   // ...
@@ -274,7 +274,7 @@ export class Thing implements BaseType {
 In the above example, `BaseType` is always guaranteed to be erased and `someFunc` will be preserved under [`preserveValueImports`](/tsconfig#preserveValueImports), leaving us with the following code:
 
 ```js
-import { someFunc } from './some-module.js';
+import { someFunc } from "./some-module.js";
 
 export class Thing {
   someMethod() {
