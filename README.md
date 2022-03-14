@@ -2,6 +2,16 @@
 
 [![Build Status](https://travis-ci.org/zhongsp/TypeScript.svg?branch=master)](https://travis-ci.org/zhongsp/TypeScript) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
+## 上新！
+
+之前有许多小伙伴提出希望能将该手册发布为**Book**，
+近来该项目又持续不断地有新的朋友关注，
+因此现将所有文档整理发布为**图书**样式。希望大家能够喜欢!
+
+线上阅读地址：[http://zhongsp.github.io/TypeScript](http://zhongsp.github.io/TypeScript)
+
+---
+
 🏮 祝所有开发者：牛年大吉！🏮
 
 <img src="./zh/misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 4.5 (November 17th, 2021)](https://devblogs.microsoft.com/typescript/announcing-typescript-4-5/)
