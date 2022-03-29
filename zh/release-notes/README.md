@@ -1,5 +1,13 @@
 # 新增功能
 
+* [TypeScript 4.6](typescript-4.6.md)
+* [TypeScript 4.5](typescript-4.5.md)
+* [TypeScript 4.4](typescript-4.4.md)
+* [TypeScript 4.3](typescript-4.3.md)
+* [TypeScript 4.2](typescript-4.2.md)
+* [TypeScript 4.1](typescript-4.1.md)
+* [TypeScript 4.0](typescript-4.0.md)
+* [TypeScript 3.9](typescript-3.9.md)
 * [TypeScript 3.8](typescript-3.8.md)
 * [TypeScript 3.7](typescript-3.7.md)
 * [TypeScript 3.6](typescript-3.6.md)
