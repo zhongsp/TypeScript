@@ -87,4 +87,85 @@ function processAction(action: Action) {
 
 更多详情请查看 [PR](https://github.com/microsoft/TypeScript/pull/46266)。
 
+### 改进的递归深度检查
+
+TypeScript 要面对一些有趣的挑战，因为它是构建在结构化类型系统之上，同时又支持了泛型。
+
+在结构化类型系统中，对象类型的兼容性是由对象包含的成员决定的。
+
+```ts
+interface Source {
+    prop: string;
+}
+
+interface Target {
+    prop: number;
+}
+
+function check(source: Source, target: Target) {
+    target = source;
+    // error!
+    // Type 'Source' is not assignable to type 'Target'.
+    //   Types of property 'prop' are incompatible.
+    //     Type 'string' is not assignable to type 'number'.
+}
+```
+
+`Source` 与 `Target` 的兼容性取决于它们的*属性*是否可以执行赋值操作。
+此例中是指 `prop` 属性。
+
+当引入了泛型后，有一些难题需要解决。
+例如，下例中的 `Source<string>` 是否可以赋值给 `Target<number>`？
+
+```ts
+interface Source<T> {
+    prop: Source<Source<T>>;
+}
+
+interface Target<T> {
+    prop: Target<Target<T>>;
+}
+
+function check(source: Source<string>, target: Target<number>) {
+    target = source;
+}
+```
+
+要想回答这个问题，TypeScript 需要检查 `prop` 的类型是否兼容。
+这又要回答另一个问题：`Source<Source<string>>` 是否能够赋值给 `Target<Target<number>>`？
+要想回答这个问题，TypeScript 需要检查 `prop` 的类型是否与那些类型兼容，
+结果就是还要检查 `Source<Source<Source<string>>>` 是否能够赋值给 `Target<Target<Target<number>>>`？
+继续发展下去，就会注意到类型会进行无限展开。
+
+TypeScript 使用了启发式的算法 - 当一个类型达到特定的检查深度时，它表现出了将会进行无限展开，
+那么就认为它*可能*是兼容的。
+通常情况下这是没问题的，但是也可能出现漏报的情况。
+
+```ts
+interface Foo<T> {
+    prop: T;
+}
+
+declare let x: Foo<Foo<Foo<Foo<Foo<Foo<string>>>>>>;
+declare let y: Foo<Foo<Foo<Foo<Foo<string>>>>>;
+
+x = y;
+```
+
+通过人眼观察我们知道上例中的 `x` 和 `y` 是不兼容的。
+虽然类型的嵌套层次很深，但人家就是这样声明的。
+启发式算法要处理的是在探测类型过程中生成的深层次嵌套类型，而非程序员明确手写出的类型。
+
+TypeScript 4.6 现在能够区分出这类情况，并且对上例进行正确的错误提示。
+此外，由于不再担心会对明确书写的类型进行误报，
+TypeScript 能够更容易地判断类型的无限展开，
+并且降低了类型兼容性检查的成本。
+因此，像 DefinitelyTyped 上的 `redux-immutable` 、 `react-lazylog` 和 `yup`
+代码库，对它们的类型检查时间降低了 50%。
+
+你可能已经体验过这个改动了，因为它被挑选合并到了 TypeScript 4.5.3 中，
+但它仍然是 TypeScript 4.6 中值得关注的一个特性。
+更多详情请阅读 [PR](https://github.com/microsoft/TypeScript/pull/46599)。
+
+
 WIP.. https://devblogs.microsoft.com/typescript/announcing-typescript-4-6/
