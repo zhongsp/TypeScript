@@ -346,3 +346,16 @@ function container() {
 但是我们很想听听在大家的 JavaScript 工作流中使用该特性的反馈。
 你可以在 Visual Studio Code 安装 [TypeScript 和 JavaScript Nightly 扩展](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-next) 来提前体验，
 并阅读 [PR1](https://github.com/microsoft/TypeScript/pull/47067) 和 [PR1](https://github.com/microsoft/TypeScript/pull/47075)。
+
+### TypeScript Trace 分析器
+
+有人偶尔会遇到创建和比较类型时很耗时的情况。
+TypeScript 提供了一个 [`--generateTrace`](https://github.com/microsoft/TypeScript/wiki/Performance#performance-tracing) 选项来帮助识别耗时的类型，
+或者帮助诊断 TypeScript 编译器中的问题。
+虽说由 `--generateTrace` 生成的信息是非常有帮助的（尤其是在 TypeScript 4.6 的改进后），
+但是阅读这些 trace 信息是比较难的。
+
+近期，我们发布了 [@typescript/analyze-trace](https://www.npmjs.com/package/@typescript/analyze-trace) 工具来帮助阅读这些信息。
+虽说我们不认为每个人都需要使用 `analyze-trace`，但是我们认为它会为遇到了 [TypeScript 构建性能](https://github.com/microsoft/TypeScript/wiki/Performance)问题的团队提供帮助。
+
+更多详情请查看 [repo](https://github.com/microsoft/typescript-analyze-trace)。
