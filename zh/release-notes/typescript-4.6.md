@@ -244,4 +244,15 @@ f1("b", "hello");
 
 更多详情请阅读 [PR](https://github.com/microsoft/TypeScript/pull/47190)。
 
+### --target es2022
+
+TypeScript 的 `--target` 编译选项现在支持使用 `es2022`。
+这意味着像类字段这样的特性能够稳定地在输出结果中保留。
+这也意味着像 [Arrays 的上 at() 和 Object.hasOwn 方法](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn)
+或者 [new Error 时的 `cause` 选项](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/Error#rethrowing_an_error_with_a_cause)
+可以通过设置新的 `--target` 或者 `--lib es2022` 来使用。
+
+感谢 [Kagami Sascha Rosylight (saschanaz)](https://github.com/saschanaz) 的[实现](https://github.com/microsoft/TypeScript/pull/46291)。
+
+
 WIP.. https://devblogs.microsoft.com/typescript/announcing-typescript-4-6/
