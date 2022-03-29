@@ -254,5 +254,23 @@ TypeScript 的 `--target` 编译选项现在支持使用 `es2022`。
 
 感谢 [Kagami Sascha Rosylight (saschanaz)](https://github.com/saschanaz) 的[实现](https://github.com/microsoft/TypeScript/pull/46291)。
 
+### 删除 react-jsx 中不必要的参数
+
+在以前，当使用 `--jsx react-jsx` 来编译如下的代码时
+
+```ts
+export const el = <div>foo</div>;
+```
+
+TypeScript 会生成如下的 JavaScript 代码：
+
+```ts
+import { jsx as _jsx } from "react/jsx-runtime";
+export const el = _jsx("div", { children: "foo" }, void 0);
+```
+
+末尾的 `void 0` 参数是没用的，删掉它会减小打包的体积。
+
+感谢 [https://github.com/a-tarasyuk](https://github.com/a-tarasyuk) 的 [PR](https://github.com/microsoft/TypeScript/pull/47467)，TypeScript 4.6 会删除 `void 0` 参数。
 
 WIP.. https://devblogs.microsoft.com/typescript/announcing-typescript-4-6/
