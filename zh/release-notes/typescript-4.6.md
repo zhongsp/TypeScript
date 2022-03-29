@@ -210,4 +210,38 @@ TypeScript 4.6 改进了这个情况，因此在启用 `processRecord` 时不再
 
 更多详情请阅读 [PR](https://github.com/microsoft/TypeScript/pull/47109)。
 
+### 对因变参数的控制流分析
+
+函数签名可以声明为剩余参数且其类型可以为可辨识联合元组类型。
+
+```ts
+function func(...args: ["str", string] | ["num", number]) {
+    // ...
+}
+```
+
+这意味着 `func` 的实际参数完全依赖于第一个实际参数。
+若第一个参数为字符串 `"str"` 时，则第二个参数为 `string` 类型。
+若第一个参数为字符串 `"num"` 时，则第二个参数为 `number` 类型。
+
+像这样 TypeScript 是由签名来推断函数类型时，TypeScript 能够根据依赖的参数来细化类型。
+
+```ts
+type Func = (...args: ["a", number] | ["b", string]) => void;
+
+const f1: Func = (kind, payload) => {
+    if (kind === "a") {
+        payload.toFixed();  // 'payload' narrowed to 'number'
+    }
+    if (kind === "b") {
+        payload.toUpperCase();  // 'payload' narrowed to 'string'
+    }
+};
+
+f1("a", 42);
+f1("b", "hello");
+```
+
+更多详情请阅读 [PR](https://github.com/microsoft/TypeScript/pull/47190)。
+
 WIP.. https://devblogs.microsoft.com/typescript/announcing-typescript-4-6/
