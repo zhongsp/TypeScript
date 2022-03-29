@@ -308,3 +308,41 @@ TypeScript 现在会给出建议，如果函数签名中的参数名与 JSDoc �
 ![example](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2022/02/jsdoc-comment-suggestions-4-6.png)
 
 该[改动](https://github.com/microsoft/TypeScript/pull/47257)是由 [Alexander Tarasyuk](https://github.com/a-tarasyuk) 提供的！
+
+### JavaScript 中更多的语法和绑定错误提示
+
+TypeScript 将更多的语法和绑定错误检查应用到了 JavaScript 文件上。
+如果你在 Visual Studio 或 Visual Studio Code 这样的编辑器中打开 JavaScript 文件时就会看到这些新的错误提示，
+或者当你使用 TypeScript 编译器来处理 JavaScript 文件时 - 即便你没有打开 `checkJs` 或者添加 `// @ts-check` 注释。
+
+做为例子，如果在 JavaScript 文件中的同一个作用域中有两个同名的 `const` 声明，
+那么 TypeScript 会报告一个错误。
+
+```js
+const foo = 1234;
+//    ~~~
+// error: Cannot redeclare block-scoped variable 'foo'.
+
+// ...
+
+const foo = 5678;
+//    ~~~
+// error: Cannot redeclare block-scoped variable 'foo'.
+```
+
+另外一个例子，TypeScript 会报告修饰符是否被正确地使用了。
+
+```js
+function container() {
+    export function foo() {
+//  ~~~~~~
+// error: Modifiers cannot appear here.
+
+    }
+}
+```
+
+这些检查可以通过在文件顶端添加 `// @ts-nocheck` 注释来禁用，
+但是我们很想听听在大家的 JavaScript 工作流中使用该特性的反馈。
+你可以在 Visual Studio Code 安装 [TypeScript 和 JavaScript Nightly 扩展](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-next) 来提前体验，
+并阅读 [PR1](https://github.com/microsoft/TypeScript/pull/47067) 和 [PR1](https://github.com/microsoft/TypeScript/pull/47075)。
