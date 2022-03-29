@@ -273,4 +273,38 @@ export const el = _jsx("div", { children: "foo" }, void 0);
 
 感谢 [https://github.com/a-tarasyuk](https://github.com/a-tarasyuk) 的 [PR](https://github.com/microsoft/TypeScript/pull/47467)，TypeScript 4.6 会删除 `void 0` 参数。
 
-WIP.. https://devblogs.microsoft.com/typescript/announcing-typescript-4-6/
+### JSDoc 命名建议
+
+在 JSDoc 里，你可以用 `@param` 标签来文档化参数。
+
+```js
+/**
+ * @param x The first operand
+ * @param y The second operand
+ */
+function add(x, y) {
+    return x + y;
+}
+```
+
+但是，如果这些注释已经过时了会发生什么？就比如，我们将 `x` 和 `y` 重命名为 `a` 和 `b`？
+
+```js
+/**
+ * @param x {number} The first operand
+ * @param y {number} The second operand
+ */
+function add(a, b) {
+    return a + b;
+}
+```
+
+在之前 TypeScript 仅会在对 JavaScript 文件执行类型检查时报告这个问题 - 通过
+使用 `checkJs` 选项，或者在文件顶端添加 `// @ts-check` 注释。
+
+现在，你能够在编译器中的 TypeScript 文件上看到类似的提示！
+TypeScript 现在会给出建议，如果函数签名中的参数名与 JSDoc 中的参数名不一致。
+
+![example](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2022/02/jsdoc-comment-suggestions-4-6.png)
+
+该[改动](https://github.com/microsoft/TypeScript/pull/47257)是由 [Alexander Tarasyuk](https://github.com/a-tarasyuk) 提供的！
