@@ -167,5 +167,47 @@ TypeScript 能够更容易地判断类型的无限展开，
 但它仍然是 TypeScript 4.6 中值得关注的一个特性。
 更多详情请阅读 [PR](https://github.com/microsoft/TypeScript/pull/46599)。
 
+### 索引访问类型推断改进
+
+TypeScript 现在能够正确地推断通过索引访问到另一个映射对象类型的类型。
+
+```ts
+interface TypeMap {
+    "number": number;
+    "string": string;
+    "boolean": boolean;
+}
+
+type UnionRecord<P extends keyof TypeMap> = { [K in P]:
+    {
+        kind: K;
+        v: TypeMap[K];
+        f: (p: TypeMap[K]) => void;
+    }
+}[P];
+
+function processRecord<K extends keyof TypeMap>(record: UnionRecord<K>) {
+    record.f(record.v);
+}
+
+// 这个调用之前是有问题的，但现在没有问题
+processRecord({
+    kind: "string",
+    v: "hello!",
+
+    // 'val' 之前会隐式地获得类型 'string | number | boolean'，
+    // 但现在会正确地推断为类型 'string'。
+    f: val => {
+        console.log(val.toUpperCase());
+    }
+})
+```
+
+该模式已经被支持了并允许 TypeScript 判断 `record.f(record.v)` 调用是合理的，
+但是在以前，`processRecord` 调用中对 `val` 的类型推断并不好。
+
+TypeScript 4.6 改进了这个情况，因此在启用 `processRecord` 时不再需要使用类型断言。
+
+更多详情请阅读 [PR](https://github.com/microsoft/TypeScript/pull/47109)。
 
 WIP.. https://devblogs.microsoft.com/typescript/announcing-typescript-4-6/
