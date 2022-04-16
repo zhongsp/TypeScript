@@ -16,7 +16,7 @@
 让我们首先创建一个叫做`my-app`的新工程：
 
 ```text
-npx create-react-app my-app --typescript
+npx create-react-app my-app --template typescript
 ```
 
 [react-scripts-ts](https://www.npmjs.com/package/react-scripts-ts)是一系列适配器，它利用标准的create-react-app工程管道并把TypeScript混入进来。
