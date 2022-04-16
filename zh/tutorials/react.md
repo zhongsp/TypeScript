@@ -11,20 +11,12 @@
 
 这里假设你已经在使用[Node.js](https://nodejs.org/)和[npm](https://www.npmjs.com/)。 并且已经了解了[React的基础知识](https://reactjs.org/docs/hello-world.html)。
 
-## 安装create-react-app
-
-我们之所以使用create-react-app是因为它能够为React工程设置一些有效的工具和权威的默认参数。 它仅仅是一个用来搭建React工程的命令行工具而已。
-
-```text
-npm install -g create-react-app
-```
-
 ## 创建新工程
 
 让我们首先创建一个叫做`my-app`的新工程：
 
 ```text
-create-react-app my-app --scripts-version=react-scripts-ts
+npx create-react-app my-app --template typescript
 ```
 
 [react-scripts-ts](https://www.npmjs.com/package/react-scripts-ts)是一系列适配器，它利用标准的create-react-app工程管道并把TypeScript混入进来。
