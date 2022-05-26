@@ -107,3 +107,149 @@ TypeScript 还支持了两个新的声明文件扩展名：`.d.mts` 和 `.d.cts`
 当 TypeScript 为 `.mts` 和 `.cts` 生成声明文件时，相应的扩展名为 `.d.mts` 和 `.d.cts`。
 
 这些扩展名的使用完全是可选的，但通常是有帮助的，不论它们是不是你工作流中的一部分。
+
+### CommonJS 互操作性
+
+Node.js 允许 ESM 导入 CommonJS 模块，就如同它们是带有默认导出的 ESM。
+
+```ts
+// ./foo.cts
+export function helper() {
+    console.log("hello world!");
+}
+
+// ./bar.mts
+import foo from "./foo.cjs";
+
+// prints "hello world!"
+foo.helper();
+```
+
+在某些情况下，Node.js 会综合和合成 CommonJS 模块里的命名导出，这提供了便利。
+此时，ESM 既可以使用“命名空间风格”的导入（例如，`import * as foo from "..."`），
+也可以使用命名导入（例如，`import { helper } from "..."`）。
+
+```ts
+// ./foo.cts
+export function helper() {
+    console.log("hello world!");
+}
+
+// ./bar.mts
+import { helper } from "./foo.cjs";
+
+// prints "hello world!"
+helper();
+```
+
+有时候 TypeScript 不知道命名导入是否会被综合合并，但如果 TypeScript 能够通过确定地 CommonJS 模块导入了解到该信息，那么就会提示错误。
+
+关于互操作性 TypeScript 特有的注意点是如下的语法：
+
+```ts
+import foo = require("foo");
+```
+
+在 CommonJS 模块中，它可以归结为 `require()` 调用，
+在 ESM 里，它会导入 [createRequire](https://nodejs.org/api/module.html#module_module_createrequire_filename) 来完成同样的事情。
+对于像浏览器这样的平台（不支持 `require()`）它的可移植性较差，但对互操作性是有帮助的。
+你可以这样改写：
+
+```ts
+// ./foo.cts
+export function helper() {
+    console.log("hello world!");
+}
+
+// ./bar.mts
+import foo = require("./foo.cjs");
+
+foo.helper()
+```
+
+最后，值得注意的是在 CJS 模块里导入 ESM 的唯一方法是使用动态 `import()` 调用。
+这也许是一个挑战，但也是目前 Node.js 的行为。
+
+更多详情，请阅读[这里](https://nodejs.org/api/esm.html#esm_interoperability_with_commonjs)。
+
+### package.json 中的 `exports`, `imports` 以及自引用
+
+Node.js 在 `package.json` 支持了一个新的字段 [`exports`](https://nodejs.org/api/packages.html#packages_exports) 来定义入口位置。
+它比在 `package.json` 里定义 `"main"` 更强大，它能控制将包里的哪些部分公开给使用者。
+
+下例的 `package.json` 支持对 CommonJS 和 ESM 使用不同的入口位置：
+
+```json
+// package.json
+{
+    "name": "my-package",
+    "type": "module",
+    "exports": {
+        ".": {
+            // Entry-point for `import "my-package"` in ESM
+            "import": "./esm/index.js",
+
+            // Entry-point for `require("my-package") in CJS
+            "require": "./commonjs/index.cjs",
+        },
+    },
+
+    // CJS fall-back for older versions of Node.js
+    "main": "./commonjs/index.cjs",
+}
+```
+
+关于该特性的更多详情请阅读[这里](https://nodejs.org/api/packages.html)。
+下面我们主要关注 TypeScript 是如何支持它的。
+
+在以前 TypeScript 会先查找 `"main"` 字段，然后再查找其对应的声明文件。
+例如，如果 `"main"` 指向了 `./lib/index.js`，
+TypeScript 会查找名为 `./lib/index.d.ts` 的文件。
+代码包作者可以使用 `"types"` 字段来控制该行为（例如，`"types": "./types/index.d.ts"`）。
+
+新的实现的工作方式与[导入条件](https://nodejs.org/api/packages.html)相似。
+默认地，TypeScript 使用与**导入条件**相同的规则 -
+对于 ESM 里的 `import` 语句，它会查找 `import` 字段；
+对于 CommonJS 模块里的 `import` 语句，它会查找 `require` 字段。
+如果找到了文件，则去查找对应的声明文件。
+如果你想将声明文件指向其它位置，则可以添加一个 `"types"` 导入条件。
+
+```json
+// package.json
+{
+    "name": "my-package",
+    "type": "module",
+    "exports": {
+        ".": {
+            // Entry-point for `import "my-package"` in ESM
+            "import": {
+                // Where TypeScript will look.
+                "types": "./types/esm/index.d.ts",
+
+                // Where Node.js will look.
+                "default": "./esm/index.js"
+            },
+            // Entry-point for `require("my-package") in CJS
+            "require": {
+                // Where TypeScript will look.
+                "types": "./types/commonjs/index.d.cts",
+
+                // Where Node.js will look.
+                "default": "./commonjs/index.cjs"
+            },
+        }
+    },
+
+    // Fall-back for older versions of TypeScript
+    "types": "./types/index.d.ts",
+
+    // CJS fall-back for older versions of Node.js
+    "main": "./commonjs/index.cjs"
+}
+```
+
+**注意**，`"types"` 条件在 `"exports"` 中需要被放在开始的位置。
+
+TypeScript 也支持 `package.json` 里的 [`"imports"`](https://nodejs.org/api/packages.html#packages_imports) 字段，它与查找声明文件的工作方式类似。
+此外，还支持一个[包引用它自己](https://nodejs.org/api/packages.html#packages_self_referencing_a_package_using_its_name)。
+这些特性通常不需要设置，但是是支持的。
