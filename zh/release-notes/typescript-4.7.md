@@ -89,3 +89,21 @@ helper();
 
 还需要注意的是该行为同样适用于 `.d.ts` 文件。
 当 TypeScript 在一个 package 里找到了 `.d.ts` 文件，它会基于这个 package 来解析 `.d.ts` 文件。
+
+### 新的文件扩展名
+
+`package.json` 文件里的 `type` 字段让我们可以继续使用 `.ts` 和 `.js` 文件扩展名；
+然而，你可能偶尔需要编写与 `type` 设置不符的文件。
+你也可能更喜欢明确地表达意图。
+
+为此，Node.js 支持了两个文件扩展名：`.mjs` 和 `.cjs`。
+`.mjs` 文件总是使用 ESM，而 `.cjs` 则总是使用 CommonJS 模块，
+它们分别会生成 `.mjs` 和`.cjs` 文件。
+
+正因此，TypeScript 也支持了两个新的文件扩展名：`.mts` 和 `.cts`。
+当 TypeScript 生成 JavaScript 文件时，将生成 `.mjs` 和`.cjs`。
+
+TypeScript 还支持了两个新的声明文件扩展名：`.d.mts` 和 `.d.cts`。
+当 TypeScript 为 `.mts` 和 `.cts` 生成声明文件时，相应的扩展名为 `.d.mts` 和 `.d.cts`。
+
+这些扩展名的使用完全是可选的，但通常是有帮助的，不论它们是不是你工作流中的一部分。
