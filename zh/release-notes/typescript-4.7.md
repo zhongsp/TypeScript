@@ -330,3 +330,51 @@ class C {
 在 TypeScript 4.7 里，`--strictPropertyInitialization` 会提示错误说 `[key]` 属性在构造函数里没有被赋值。
 
 感谢 [Oleksandr Tarasiuk](https://github.com/a-tarasyuk) 提交的[代码](https://github.com/microsoft/TypeScript/pull/45974)。
+
+## 改进对象和方法里的函数类型推断
+
+TypeScript 4.7 可以对数组和对象里的函数进行更精细的类型推断。
+它们可以像普通参数那样将类型从左向右进行传递。
+
+```ts
+declare function f<T>(arg: {
+    produce: (n: string) => T,
+    consume: (x: T) => void }
+): void;
+
+// Works
+f({
+    produce: () => "hello",
+    consume: x => x.toLowerCase()
+});
+
+// Works
+f({
+    produce: (n: string) => n,
+    consume: x => x.toLowerCase(),
+});
+
+// Was an error, now works.
+f({
+    produce: n => n,
+    consume: x => x.toLowerCase(),
+});
+
+// Was an error, now works.
+f({
+    produce: function () { return "hello"; },
+    consume: x => x.toLowerCase(),
+});
+
+// Was an error, now works.
+f({
+    produce() { return "hello" },
+    consume: x => x.toLowerCase(),
+});
+```
+
+之所以有些类型推断之前会失败是因为，若要知道 `produce` 函数的类型则需要在找到合适的类型 `T` 之前间接地获得 `arg` 的类型。
+（译者注：这些之前失败的情况均是需要进行按上下文件归类的场景，即需要先知道 `arg` 的类型，才能确定 `produce` 的类型；如果不需要执行按上下文归类就能确定 `produce` 的类型则没有问题。）
+TypeScript 现在会收集与泛型参数 `T` 的类型推断相关的函数，然后进行惰性地类型推断。
+
+更多详情请阅读[这里](https://github.com/microsoft/TypeScript/pull/48538)。
