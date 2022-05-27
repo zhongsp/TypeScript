@@ -442,3 +442,61 @@ const errorMap = new ErrorMap();
 其它种类的签名会被丢弃，因为 TypeScript 认为它们不会被使用到。
 
 更多详情请阅读[这里](https://github.com/microsoft/TypeScript/pull/47607)。
+
+## `infer` 类型参数上的 `extends` 约束
+
+有条件类型有点儿像一个进阶功能。
+它允许我们匹配并依据类型结构进行推断，然后作出某种决定。
+例如，编写一个有条件类型，它返回元组类型的第一个元素如果它类似 `string` 类型的话。
+
+```ts
+type FirstIfString<T> =
+    T extends [infer S, ...unknown[]]
+        ? S extends string ? S : never
+        : never;
+
+ // string
+type A = FirstIfString<[string, number, number]>;
+
+// "hello"
+type B = FirstIfString<["hello", number, number]>;
+
+// "hello" | "world"
+type C = FirstIfString<["hello" | "world", boolean]>;
+
+// never
+type D = FirstIfString<[boolean, number, string]>;
+```
+
+`FirstIfString` 匹配至少有一个元素的元组类型，将元组第一个元素的类型提取到 `S`。
+然后检查 `S` 与 `string` 是否兼容，如果是就返回它。
+
+可以注意到我们必须使用两个有条件类型来实现它。
+我们也可以这样定义 `FirstIfString`：
+
+```ts
+type FirstIfString<T> =
+    T extends [string, ...unknown[]]
+        // Grab the first type out of `T`
+        ? T[0]
+        : never;
+```
+
+它可以工作但要更多的“手动”操作且不够形象。
+我们不是进行类型模式匹配并给首个元素命名，而是使用 `T[0]` 来提取 `T` 的第 `0` 个元素。
+如果我们处理的是比元组类型复杂得多的类型就会变得棘手，因此 `infer` 可以让事情变得简单。
+
+使用嵌套的条件来推断类型再去匹配推断出的类型是很常见的。
+为了省去那一层嵌套，TypeScript 4.7 允许在 `infer` 上应用约束。
+
+```ts
+type FirstIfString<T> =
+    T extends [infer S extends string, ...unknown[]]
+        ? S
+        : never;
+```
+
+通过这种方式，在 TypeScript 去匹配 `S` 时，它也会保证 `S` 是 `string` 类型。
+如果 `S` 不是 `string` 就是进入到 `false` 分支，此例中为 `never`。
+
+更多详情请阅读[这里](https://github.com/microsoft/TypeScript/pull/48112)。
