@@ -378,3 +378,67 @@ f({
 TypeScript 现在会收集与泛型参数 `T` 的类型推断相关的函数，然后进行惰性地类型推断。
 
 更多详情请阅读[这里](https://github.com/microsoft/TypeScript/pull/48538)。
+
+## 实例化表达式
+
+我们偶尔可能会觉得某个函数过于通用了。
+例如有一个 `makeBox` 函数。
+
+```ts
+interface Box<T> {
+    value: T;
+}
+
+function makeBox<T>(value: T) {
+    return { value };
+}
+```
+
+假如我们想要定义一组更具体的可以收纳*扳手*和*锤子*的 `Box` 函数。
+为此，我们将 `makeBox` 函数包装进另一个函数，或者明确地定义一个 `makeBox` 的类型别名。
+
+```ts
+function makeHammerBox(hammer: Hammer) {
+    return makeBox(hammer);
+}
+
+// 或者
+
+const makeWrenchBox: (wrench: Wrench) => Box<Wrench> = makeBox;
+```
+
+这样可以工作，但有些浪费且笨重。
+理想情况下，我们可以在替换泛型参数的时候直接声明 `makeBox` 的别名。
+
+TypeScript 4.7 支持了该特性！
+我们现在可以直接为函数和构造函数传入类型参数。
+
+```ts
+const makeHammerBox = makeBox<Hammer>;
+const makeWrenchBox = makeBox<Wrench>;
+```
+
+这样我们可以让 `makeBox` 只接受更具体的类型并拒绝其它类型。
+
+```ts
+const makeStringBox = makeBox<string>;
+
+// TypeScript 会提示错误
+makeStringBox(42);
+```
+
+这对构造函数也生效，例如 `Array`，`Map` 和 `Set`。
+
+```ts
+// 类型为 `new () => Map<string, Error>`
+const ErrorMap = Map<string, Error>;
+
+// 类型为 `Map<string, Error>`
+const errorMap = new ErrorMap();
+```
+
+当函数或构造函数接收了一个类型参数，它会生成一个新的类型并保持所有签名使用了兼容的类型参数列表，
+将形式类型参数替换成给定的实际类型参数。
+其它种类的签名会被丢弃，因为 TypeScript 认为它们不会被使用到。
+
+更多详情请阅读[这里](https://github.com/microsoft/TypeScript/pull/47607)。
