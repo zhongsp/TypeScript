@@ -283,3 +283,50 @@ TypeScript 的规则则是如果一个文件里存在 `import` 或 `export` 语�
 与此同时，使用 `"legacy"` 选项会回退到以前的行为，仅通过查找 `import` 和 `export` 语句来决定是否为模块。
 
 更多详情请阅读[PR](https://github.com/microsoft/TypeScript/pull/47495)。
+
+## `[]` 语法元素访问的控制流分析
+
+在 TypeScript 4.7 里，当索引键值是字面量类型和 `unique symbol` 类型时会细化访问元素的类型。
+例如，有如下代码：
+
+```ts
+const key = Symbol();
+
+const numberOrString = Math.random() < 0.5 ? 42 : "hello";
+
+const obj = {
+    [key]: numberOrString,
+};
+
+if (typeof obj[key] === "string") {
+    let str = obj[key].toUpperCase();
+}
+```
+
+在之前，TypeScript 不会处理涉及 `obj[key]` 的类型守卫，也就不知道 `obj[key]` 的类型是 `string`。
+它会将 `obj[key]` 当作 `string | number` 类型，因此调用 `toUpperCase()` 会产生错误。
+
+TypeScript 4.7 能够知道 `obj[key]` 的类型为 `string`。
+
+这意味着在 `--strictPropertyInitialization` 模式下，TypeScript 能够正确地检查*计算属性*是否被初始化。
+
+```ts
+// 'key' has type 'unique symbol'
+const key = Symbol();
+
+class C {
+    [key]: string;
+
+    constructor(str: string) {
+        // oops, forgot to set 'this[key]'
+    }
+
+    screamString() {
+        return this[key].toUpperCase();
+    }
+}
+```
+
+在 TypeScript 4.7 里，`--strictPropertyInitialization` 会提示错误说 `[key]` 属性在构造函数里没有被赋值。
+
+感谢 [Oleksandr Tarasiuk](https://github.com/a-tarasyuk) 提交的[代码](https://github.com/microsoft/TypeScript/pull/45974)。
