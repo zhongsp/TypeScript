@@ -252,3 +252,34 @@ TypeScript 会查找名为 `./lib/index.d.ts` 的文件。
 TypeScript 也支持 `package.json` 里的 [`"imports"`](https://nodejs.org/api/packages.html#packages_imports) 字段，它与查找声明文件的工作方式类似。
 此外，还支持[一个包引用它自己](https://nodejs.org/api/packages.html#packages_self_referencing_a_package_using_its_name)。
 这些特性通常不特殊设置，但是是支持的。
+
+## 设置模块检测策略
+
+在 JavaScript 中引入模块带来的一个问题是让“Script”代码和新的模块代码之间的界限变得模糊。
+（译者注：对于任意一段 JavaScript 代码，它的类型只能为 “Script” 或 “Module” 两者之一，它们是 ECMAScript 语言规范中定义的术语。）
+模块中的 JavaScript 存在些许不同的执行方式和作用域规则，因此工具们需要确定每个文件的执行方式。
+例如，Node.js 要求模块入口脚本是一个 `.mjs` 文件，或者它有一个邻近的 `package.json` 文件且带有 `"type": "module"`。
+TypeScript 的规则则是如果一个文件里存在 `import` 或 `export` 语句，那么它是模块文件；
+反之会把 `.ts` 和 `.js` 文件当作是 “Script” 文件，它们存在于**全局作用域**。
+
+这与 Node.js 中对 `package.json` 的处理行为不同，因为 `package.json` 可以改变文件的类型；又或者是在 `--jsx react-jsx` 模式下一个 JSX 文件显式地导入了 JSX 工厂函数。
+它也与当下的期望不符，因为大多数的 TypeScript 代码是基于模块来编写的。
+
+以上就是 TypeScript 4.7 引入了 `moduleDetection. moduleDetection` 选项的原因。
+它接受三个值：
+
+1. `"auto"`，默认值
+1. `"legacy"`，行为与 TypeScript 4.6 和以前的版本相同
+1. `"force"`
+
+在 `"auto"` 模式下，TypeScript 不会检测 `import` 和 `export` 语句，但它仍会检测：
+
+* 若启用了 `--module nodenext` / `--module node16`，那么 `package.json` 里的 `"type"` 字段是否为 `"module"`，以及
+* 若启用了 `--jsx react-jsx`，那么当前文件是否为 JSX 文件。
+
+在这些情况下，我们想将每个文件都当作模块。
+`"force"` 选项能够保证每个非声明文件都被当成模块文件，不论 `module`，`moduleResoluton` 和 `jsx` 是如何设置的。
+
+与此同时，使用 `"legacy"` 选项会回退到以前的行为，仅通过查找 `import` 和 `export` 语句来决定是否为模块。
+
+更多详情请阅读[PR](https://github.com/microsoft/TypeScript/pull/47495)。
