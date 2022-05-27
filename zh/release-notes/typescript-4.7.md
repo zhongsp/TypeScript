@@ -500,3 +500,133 @@ type FirstIfString<T> =
 如果 `S` 不是 `string` 就是进入到 `false` 分支，此例中为 `never`。
 
 更多详情请阅读[这里](https://github.com/microsoft/TypeScript/pull/48112)。
+
+## 可选的类型参数变型注释
+
+先看一下如下的类型。
+
+```ts
+interface Animal {
+    animalStuff: any;
+}
+
+interface Dog extends Animal {
+    dogStuff: any;
+}
+
+// ...
+
+type Getter<T> = () => T;
+
+type Setter<T> = (value: T) => void;
+```
+
+假设有两个不同的 `Getter` 实例。
+要想知道这两个 `Getter` 实例是否可以相互替换完全依赖于类型 `T`。
+例如要知道 `Getter<Dog> → Getter<Animal>` 是否允许，则需要检查 `Dog → Animal` 是否允许。
+因为对 `T` 与 `Getter<T>` 的判断是相同“方向”的，我们称 `Getter` 是*协变*的。
+相反的，判断 `Setter<Dog> → Setter<Animal>` 是否允许，需要检查 `Animal → Dog` 是否允许。
+这种在方向上的“翻转”有点像数学里判断 $−x < −y$ 等同于判断 $y < x$。
+当我们需要像这样翻转方向来比较 `T` 时，我们称 `Setter` 对于 `T` 是*逆变*的。
+
+在 TypeScript 4.7 里，我们可以明确地声明类型参数上的变型关系。
+
+因此，现在如果想在 `Getter` 上明确地声明对于 `T` 的协变关系则可以使用 `out` 修饰符。
+
+```ts
+type Getter<out T> = () => T;
+```
+
+相似的，如果想要明确地声明 `Setter` 对于 `T` 是逆变关系则可以指定 `in` 修饰符。
+
+```ts
+type Setter<in T> = (value: T) => void;
+```
+
+使用 `out` 和 `in` 的原因是类型参数的变型关系依赖于它们被用在*输出*的位置还是*输入*的位置。
+若不思考变型关系，你也可以只关注 `T` 是被用在输出还是输入位置上。
+
+当然也有同时使用 `out` 和 `in` 的时候。
+
+```ts
+interface State<in out T> {
+    get: () => T;
+    set: (value: T) => void;
+}
+```
+
+当 `T` 被同时用在输入和输出的位置上时就成为了*不变*关系。
+两个不同的 `State<T>` 不允许互换使用，除非两者的 `T` 是相同的。
+换句话说，`State<Dog>` 和 `State<Animal>` 不能互换使用。
+
+从技术上讲，在纯粹的结构化类型系统里，类型参数和它们的变型关系不太重要 -
+我们只需要将类型参数替换为实际类型，然后再比较相匹配的类型成员之间是否兼容。
+那么如果 TypeScript 使用结构化类型系统为什么我们要在意类型参数的变型呢？
+还有为什么我们会想要为它们添加类型注释呢？
+
+其中一个原因是可以让读者能够明确地知道类型参数是如何被使用的。
+对于十分复杂的类型来讲，可能很难确定一个类型参数是用于输入或者输出再或者两者兼有。
+如果我们忘了说明类型参数是如何被使用的，TypeScript 也会提示我们。
+举个例子，如果忘了在 `State` 上添加 `in` 和 `out` 就会产生错误。
+
+```ts
+interface State<out T> {
+    //          ~~~~~
+    // error!
+    // Type 'State<sub-T>' is not assignable to type 'State<super-T>' as implied by variance annotation.
+    //   Types of property 'set' are incompatible.
+    //     Type '(value: sub-T) => void' is not assignable to type '(value: super-T) => void'.
+    //       Types of parameters 'value' and 'value' are incompatible.
+    //         Type 'super-T' is not assignable to type 'sub-T'.
+    get: () => T;
+    set: (value: T) => void;
+}
+```
+
+另一个原因则有关精度和速度。
+TypeScript 已经在尝试推断类型参数的变型并做为一项优化。
+这样做可以快速对大型的结构化类型进行类型检查。
+提前计算变型省去了深入结构内部进行兼容性检查的步骤，
+仅比较类型参数相比于一次又一次地比较完整的类型结构会快得多。
+但经常也会出现这个计算十分耗时，并且在计算时产生了环，从而无法得到准确的变型关系。
+
+```ts
+type Foo<T> = {
+    x: T;
+    f: Bar<T>;
+}
+
+type Bar<U> = (x: Baz<U[]>) => void;
+
+type Baz<V> = {
+    value: Foo<V[]>;
+}
+
+declare let foo1: Foo<unknown>;
+declare let foo2: Foo<string>;
+
+foo1 = foo2;  // Should be an error but isn't ❌
+foo2 = foo1;  // Error - correct ✅
+```
+
+提供明确的类型注解能够加快对环状类型的解析速度，有利于提高准确度。
+例如，将上例的 `T` 设置为逆变可以帮助阻止有问题的赋值运算。
+
+```ts
+- type Foo<T> = {
++ type Foo<in out T> = {
+      x: T;
+      f: Bar<T>;
+  }
+```
+
+我们并不推荐为所有的类型参数都添加变型注解；
+例如，我们是能够（但不推荐）将变型设置为更严格的关系（即便实际上不需要），
+因此 TypeScript 不会阻止你将类型参数设置为不变，就算它们实际上是协变的、逆变的或者是分离的。
+因此，如果你选择添加明确的变型标记，我们推荐要经过深思熟虑后准确地使用它们。
+
+但如果你操作的是深层次的递归类型，尤其是作为代码库作者，那么你可能会对使用这些注解来让用户获利感兴趣。
+这些注解能够帮助提高准确性和类型检查速度，甚至可以增强代码编辑的体验。
+可以通过实验来确定变型计算是否为类型检查时间的瓶颈，例如使用像 [analyze-trace](https://github.com/microsoft/typescript-analyze-trace) 这样的工具。
+
+更多详情请阅读[这里](https://github.com/microsoft/TypeScript/pull/48240)。
