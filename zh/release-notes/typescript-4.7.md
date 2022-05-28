@@ -630,3 +630,30 @@ foo2 = foo1;  // Error - correct ✅
 可以通过实验来确定变型计算是否为类型检查时间的瓶颈，例如使用像 [analyze-trace](https://github.com/microsoft/typescript-analyze-trace) 这样的工具。
 
 更多详情请阅读[这里](https://github.com/microsoft/TypeScript/pull/48240)。
+
+## 使用 `moduleSuffixes` 自定义解析策略
+
+TypeScript 4.7 支持了 `moduleSuffixes` 选项来自定义模块说明符的查找方式。
+
+```ts
+{
+    "compilerOptions": {
+        "moduleSuffixes": [".ios", ".native", ""]
+    }
+}
+```
+
+对于上述配置，如果有如下的导入语句：
+
+```ts
+import * as foo from "./foo";
+```
+
+它会尝试查找文件 `./foo.ios.ts`，`./foo.native.ts` 最后是 `./foo.ts`。
+
+注意 `moduleSuffixes` 末尾的空字符串 `""` 是必须的，只有这样 TypeScript 才会去查找 `./foo.ts`。
+也就是说，`moduleSuffixes` 的默认值是 `[""]`。
+
+这个功能对于 React Native 工程是很有用的，因为对于不同的目标平台会有不同的 `tsconfig.json` 和 `moduleSuffixes`。
+
+这个[功能](https://github.com/microsoft/TypeScript/pull/48189)是由 [Adam Foxman](https://github.com/afoxman) 贡献的！
