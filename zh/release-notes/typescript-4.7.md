@@ -657,3 +657,59 @@ import * as foo from "./foo";
 这个功能对于 React Native 工程是很有用的，因为对于不同的目标平台会有不同的 `tsconfig.json` 和 `moduleSuffixes`。
 
 这个[功能](https://github.com/microsoft/TypeScript/pull/48189)是由 [Adam Foxman](https://github.com/afoxman) 贡献的！
+
+## resolution-mode
+
+Node.js 的 ECMAScript 解析规则是根据当前文件所属的模式以及使用的语法来决定如何解析导入；
+然而，在 ECMAScript 模块里引用 CommonJS 模块也是很常用的，或者反过来。
+
+TypeScript 允许使用 `/// <reference types="..." />` 指令。
+
+```ts
+/// <reference types="pkg" resolution-mode="require" />
+
+// or
+
+/// <reference types="pkg" resolution-mode="import" />
+```
+
+此外，在 Nightly 版本的 TypeScript 里，`import type` 可以指定导入断言来达到同样的目的。
+
+```ts
+// Resolve `pkg` as if we were importing with a `require()`
+import type { TypeFromRequire } from "pkg" assert {
+    "resolution-mode": "require"
+};
+
+// Resolve `pkg` as if we were importing with an `import`
+import type { TypeFromImport } from "pkg" assert {
+    "resolution-mode": "import"
+};
+
+export interface MergedType extends TypeFromRequire, TypeFromImport {}
+```
+
+这些断言也可以用在 `import()` 类型上。
+
+```ts
+export type TypeFromRequire =
+    import("pkg", { assert: { "resolution-mode": "require" } }).TypeFromRequire;
+
+export type TypeFromImport =
+    import("pkg", { assert: { "resolution-mode": "import" } }).TypeFromImport;
+
+export interface MergedType extends TypeFromRequire, TypeFromImport {}
+```
+
+`import type` 和 `import()` 语法仅在 [Nightly 版本](https://www.typescriptlang.org/docs/handbook/nightly-builds.html)里支持 `resolution-mode`。
+你可能会看到如下的错误：
+
+```txt
+Resolution mode assertions are unstable.
+Use nightly TypeScript to silence this error.
+Try updating with 'npm install -D typescript@next'.
+```
+
+如果你在 TypeScript 的 Nightly 版本中使用了该功能，别忘了可以[提供反馈](https://github.com/microsoft/TypeScript/issues/49055)。
+
+更多详情请查看 [PR: 引用指令](https://github.com/microsoft/TypeScript/pull/47732)和[PR: 类型导入断言](https://github.com/microsoft/TypeScript/pull/47807)。
