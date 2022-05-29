@@ -730,3 +730,63 @@ TypeScript 4.7 支持了一个实验性的编辑器功能叫作 *Go To Source De
 Visual Studio Code 也不会提示哪些结果是通过猜测得到的，但我们正在实现它。
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/issues/49003)。
+
+## 分组整理导入语句
+
+TypeScript 为 JavaScript 和 TypeScript 提供了叫做 “Organize Imports” （整理导入语句）编辑器功能。
+可是，它的行为有点简单粗暴，它直接排序所有的导入语句。
+
+例如，在如下的代码上使用 “Organize Imports”：
+
+```ts
+// local code
+import * as bbb from "./bbb";
+import * as ccc from "./ccc";
+import * as aaa from "./aaa";
+
+// built-ins
+import * as path from "path";
+import * as child_process from "child_process"
+import * as fs from "fs";
+
+// some code...
+```
+
+你会得到：
+
+```ts
+// local code
+import * as child_process from "child_process";
+import * as fs from "fs";
+// built-ins
+import * as path from "path";
+import * as aaa from "./aaa";
+import * as bbb from "./bbb";
+import * as ccc from "./ccc";
+
+
+// some code...
+```
+
+这不是我们想要的。
+尽管导入语句已经按它们的路径排序了，并且注释和折行被保留了，
+但仍不是我们期望的。
+
+TypeScript 4.7 在 “Organize Imports” 时会考虑分组。
+再次在上例代码上执行 “Organize Imports” 会得到期望的结果：
+
+```ts
+// local code
+import * as aaa from "./aaa";
+import * as bbb from "./bbb";
+import * as ccc from "./ccc";
+
+// built-ins
+import * as child_process from "child_process";
+import * as fs from "fs";
+import * as path from "path";
+
+// some code...
+```
+
+感谢 [Minh Quy](https://github.com/MQuy) 的 [PR](https://github.com/microsoft/TypeScript/pull/48330)。
