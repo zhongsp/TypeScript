@@ -14,9 +14,9 @@
 
 🏮 祝所有开发者：牛年大吉！🏮
 
-<img src="./zh/misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 4.6 (February 28th, 2022)](https://devblogs.microsoft.com/typescript/announcing-typescript-4-6/)
+<img src="./zh/misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;">  [TypeScript 4.7 (2022年5月24日)](https://devblogs.microsoft.com/typescript/announcing-typescript-4-7/)
 |
-[版本发布说明](zh/release-notes/typescript-4.6.md)
+[版本发布说明](zh/release-notes/typescript-4.7.md)
 
 :heavy_check_mark: TypeScript语言用于大规模应用的JavaScript开发。  :heavy_check_mark: TypeScript支持类型，是JavaScript的超集且可以编译成纯JavaScript代码。  :heavy_check_mark: TypeScript兼容所有浏览器，所有宿主环境，所有操作系统。  :heavy_check_mark: TypeScript是开源的。
 
@@ -101,6 +101,7 @@
   * [架构概述](zh/wiki/architectural-overview.md)
   * [发展路线图](zh/wiki/roadmap.md)
 * [新增功能](zh/release-notes/README.md)
+  * [TypeScript 4.7](zh/release-notes/typescript-4.7.md)
   * [TypeScript 4.6](zh/release-notes/typescript-4.6.md)
   * [TypeScript 4.5](zh/release-notes/typescript-4.5.md)
   * [TypeScript 4.4](zh/release-notes/typescript-4.4.md)
