@@ -713,3 +713,20 @@ Try updating with 'npm install -D typescript@next'.
 如果你在 TypeScript 的 Nightly 版本中使用了该功能，别忘了可以[提供反馈](https://github.com/microsoft/TypeScript/issues/49055)。
 
 更多详情请查看 [PR: 引用指令](https://github.com/microsoft/TypeScript/pull/47732)和[PR: 类型导入断言](https://github.com/microsoft/TypeScript/pull/47807)。
+
+## 跳转到在源码中的定义
+
+TypeScript 4.7 支持了一个实验性的编辑器功能叫作 *Go To Source Definition* （跳转到在源码中的定义）。
+它和 *Go To Definition* （跳转到定义）相似，但不是跳转到声明文件中。
+而是查找相应的*实现*文件（比如 `.js` 或 `.ts` 文件），并且在那里查找定义 -
+即便这些文件总是会被声明文件 `.d.ts` 所遮蔽。
+
+当你想查看导入的三方库的函数实现而不是 `.d.ts` 声明文件时是很便利的。
+
+你可以在最新版本的 Visual Studio Code 里试用该功能。
+但该功能还是预览版，存在一些已知的限制。
+在某些情况下 TypeScript 使用启发式的方法来猜测函数定义的代码在哪个 `.js` 文件中，
+因此结果可能不太精确。
+Visual Studio Code 也不会提示哪些结果是通过猜测得到的，但我们正在实现它。
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/issues/49003)。
