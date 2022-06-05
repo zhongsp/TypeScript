@@ -49,7 +49,7 @@
   * [接口](zh/handbook/interfaces.md)
   * [函数](zh/handbook/functions.md)
   * [字面量类型](zh/handbook/literal-types.md)
-  * _@todo 联合类型和交叉类型_
+  * [联合类型和交叉类型](zh/handbook/unions-and-intersections.md)
   * [类](zh/handbook/classes.md)
   * [枚举](zh/handbook/enums.md)
   * [泛型](zh/handbook/generics.md)
