@@ -1,25 +1,16 @@
----
-title: Unions and Intersection Types
-layout: docs
-permalink: /docs/handbook/unions-and-intersections.html
-oneline: How to use unions and intersection types in TypeScript
-handbook: "true"
-deprecated_by: /docs/handbook/2/everyday-types.html#union-types
-# prettier-ignore
-deprecation_redirects: [
-  discriminating-unions, /docs/handbook/2/narrowing.html#discriminated-unions
-]
----
+# 联合类型和交叉类型
 
-So far, the handbook has covered types which are atomic objects.
-However, as you model more types you find yourself looking for tools which let you compose or combine existing types instead of creating them from scratch.
+## 介绍
 
-Intersection and Union types are one of the ways in which you can compose types.
+到目前为止，手册已经涵盖了原子对象的类型。
+但是，随着对更多类型进行建模，你会发现自己正在寻找可以组合现有类型的工具，而不是从头开始创建它们。
 
-## Union Types
+交叉类型和联合类型是组合类型的方式之一。
 
-Occasionally, you'll run into a library that expects a parameter to be either a `number` or a `string`.
-For instance, take the following function:
+## 联合类型
+
+有时，你会遇到一个库，期望一个参数是 "数字 "或 "字符串"。
+作为
 
 ```ts twoslash
 /**
@@ -40,23 +31,23 @@ function padLeft(value: string, padding: any) {
 padLeft("Hello world", 4); // returns "    Hello world"
 ```
 
-The problem with `padLeft` in the above example is that its `padding` parameter is typed as `any`.
-That means that we can call it with an argument that's neither a `number` nor a `string`, but TypeScript will be okay with it.
+在上面的例子中，`padLeft`的问题在于其`padding`参数的类型为`any`。
+这意味着我们可以用`number`和`string`之外的参数类型来调用它，而TypeScript也能接受。
 
 ```ts twoslash
 declare function padLeft(value: string, padding: any): string;
 // ---cut---
-// passes at compile time, fails at runtime.
+// 编译时通过但是运行时失败。
 let indentedString = padLeft("Hello world", true);
 ```
 
-In traditional object-oriented code, we might abstract over the two types by creating a hierarchy of types.
-While this is much more explicit, it's also a little bit overkill.
-One of the nice things about the original version of `padLeft` was that we were able to just pass in primitives.
-That meant that usage was simple and concise.
-This new approach also wouldn't help if we were just trying to use a function that already exists elsewhere.
+在传统的面向对象编程中，我们会通过创建一个具有层状结构的类型来抽象这两个类型。
+虽然这更明确，但也有点矫枉过正。
+`padLeft`的原始版本的一个好处是，我们可以直接传递基本元素。
+这意味着用法简单而简洁。
+而且如果我们只是想使用一个已经存在于其他地方的函数，这种新方法也无济于事。
 
-Instead of `any`, we can use a _union type_ for the `padding` parameter:
+为了取代`any`，我们可以为`padding`参数使用 _元组类型_：
 
 ```ts twoslash
 // @errors: 2345
@@ -72,12 +63,12 @@ function padLeft(value: string, padding: string | number) {
 let indentedString = padLeft("Hello world", true);
 ```
 
-A union type describes a value that can be one of several types.
-We use the vertical bar (`|`) to separate each type, so `number | string | boolean` is the type of a value that can be a `number`, a `string`, or a `boolean`.
+一个联合类型表示一个值的类型可以是几个类型中的一个。
+我们用竖线（`|`）来分隔不同类型，所以`number | string | boolean`是一个可以是`number`、`string`或`boolean`的值的类型。
 
-## Unions with Common Fields
+## 具有公共字段的联合
 
-If we have a value that is a union type, we can only access members that are common to all types in the union.
+如果我们有一个联合类型的值，则只能访问联合中所有类型共有的成员。
 
 ```ts twoslash
 // @errors: 2339
@@ -97,19 +88,19 @@ declare function getSmallPet(): Fish | Bird;
 let pet = getSmallPet();
 pet.layEggs();
 
-// Only available in one of the two possible types
+// 只有两种可能类型中的一种可用
 pet.swim();
 ```
 
-Union types can be a bit tricky here, but it just takes a bit of intuition to get used to.
-If a value has the type `A | B`, we only know for _certain_ that it has members that both `A` _and_ `B` have.
-In this example, `Bird` has a member named `fly`.
-We can't be sure whether a variable typed as `Bird | Fish` has a `fly` method.
-If the variable is really a `Fish` at runtime, then calling `pet.fly()` will fail.
+联合类型在这里可能有点棘手，但它只是需要一点直觉来适应。
+如果一个值的类型是`A | B`，我们只能 _确定_ 它有`A` _和_ `B`都有的成员。
+在这个例子中，`Bird`有一个名为`fly`的成员。
+我们不能确定一个类型为`Bird | Fish`的变量是否有一个`fly`方法。
+如果该变量在运行时确实是`Fish`，那么调用`pet.fly()`将会失败。
 
-## Discriminating Unions
+## 可区分联合
 
-A common technique for working with unions is to have a single field which uses literal types which you can use to let TypeScript narrow down the possible current type. For example, we're going to create a union of three types which have a single shared field.
+使用联合的一种常用技术是使用字面量类型的单个字段，您可以使用该字段来缩小 TypeScript 可能的当前类型。例如，我们将创建一个包含三种类型的联合，这些类型具有一个共享字段。
 
 ```ts
 type NetworkLoadingState = {
@@ -130,8 +121,7 @@ type NetworkSuccessState = {
   };
 };
 
-// Create a type which represents only one of the above types
-// but you aren't sure which it is yet.
+// 创建一个只代表上述类型之一的类型，但你还不确定它是哪个。
 type NetworkState =
   | NetworkLoadingState
   | NetworkFailedState
@@ -168,7 +158,7 @@ type NetworkState =
 
 </style>
 
-All of the above types have a field named `state`, and then they also have their own fields:
+上述类型都以一个名为`state`的字段，然后它们也有自己的字段。
 
 <table class='tg' width="100%">
   <tbody>
@@ -190,9 +180,9 @@ All of the above types have a field named `state`, and then they also have their
     </tbody>
 </table>
 
-Given the `state` field is common in every type inside `NetworkState` - it is safe for your code to access without an existence check.
+鉴于`state`字段在`NetworkState`的每个类型中都是通用的--你的代码无需存在检查即可安全访问。
 
-With `state` as a literal type, you can compare the value of `state` to the equivalent string and TypeScript will know which type is currently being used.
+有了`state`这个字面类型，你可以将`state`的值与相应的字符串进行比较，TypeScript就会知道当前使用的是哪个类型。
 
 <table class='tg' width="100%">
   <tbody>
@@ -209,7 +199,7 @@ With `state` as a literal type, you can compare the value of `state` to the equi
     </tbody>
 </table>
 
-In this case, you can use a `switch` statement to narrow down which type is represented at runtime:
+在这个例子中，你可以使用`switch`语句来缩小在运行时代表哪种类型：
 
 ```ts twoslash
 // @errors: 2339
@@ -237,21 +227,17 @@ type NetworkState =
   | NetworkSuccessState;
 
 function logger(state: NetworkState): string {
-  // Right now TypeScript does not know which of the three
-  // potential types state could be.
+  // 现在，TypeScript不知道state是三种可能类型中的哪一种。
 
-  // Trying to access a property which isn't shared
-  // across all types will raise an error
+  // 试图访问一个不是所有类型都共享的属性将引发一个错误
   state.code;
 
-  // By switching on state, TypeScript can narrow the union
-  // down in code flow analysis
+  // 通过选择state，TypeScript可以在代码流分析中缩小联合的范围
   switch (state.state) {
     case "loading":
       return "Downloading...";
     case "failed":
-      // The type must be NetworkFailedState here,
-      // so accessing the `code` field is safe
+      // 这里的类型一定是NetworkFailedState，所以访问`code`字段是安全的。
       return `Error ${state.code} downloading`;
     case "success":
       return `Downloaded ${state.response.title} - ${state.response.summary}`;
@@ -259,10 +245,10 @@ function logger(state: NetworkState): string {
 }
 ```
 
-## Union Exhaustiveness checking
+## 联合的穷尽性检查
 
-We would like the compiler to tell us when we don't cover all variants of the discriminated union.
-For example, if we add `NetworkFromCachedState` to `NetworkState`, we need to update `logger` as well:
+我们希望编译器能在我们没能覆盖可区分联合的所有变体时告诉我们。
+比如，如果我们添加`NetworkFromCachedState`到`NetworkState`，我们也需要更新`logger`：
 
 ```ts twoslash
 // @errors: 2366
@@ -301,8 +287,8 @@ function logger(s: NetworkState) {
 }
 ```
 
-There are two ways to do this.
-The first is to turn on [`strictNullChecks`](/tsconfig#strictNullChecks) and specify a return type:
+这里有两种方法实现。
+第一种方法是打开[`strictNullChecks`](/tsconfig#strictNullChecks)并指定返回类型：
 
 ```ts twoslash
 // @errors: 2366
@@ -330,11 +316,11 @@ function logger(s: NetworkState): string {
 }
 ```
 
-Because the `switch` is no longer exhaustive, TypeScript is aware that the function could sometimes return `undefined`.
-If you have an explicit return type `string`, then you will get an error that the return type is actually `string | undefined`.
-However, this method is quite subtle and, besides, [`strictNullChecks`](/tsconfig#strictNullChecks) does not always work with old code.
+因为`switch`不再是详尽的，TypeScript知道函数有时可能会返回`undefined`。
+如果你有一个明确的返回类型`string`，那么你会得到一个错误，返回类型实际上是`string | undefined`。
+然而，这种方法是相当微妙的，此外，[`strictNullChecks`](/tsconfig#strictNullChecks)并不总是对旧代码起作用。
 
-The second method uses the `never` type that the compiler uses to check for exhaustiveness:
+第二种方法是使用编译器用来检查穷尽性的`never`类型：
 
 ```ts twoslash
 // @errors: 2345
@@ -367,19 +353,19 @@ function logger(s: NetworkState): string {
 }
 ```
 
-Here, `assertNever` checks that `s` is of type `never` &mdash; the type that's left after all other cases have been removed.
-If you forget a case, then `s` will have a real type and you will get a type error.
-This method requires you to define an extra function, but it's much more obvious when you forget it because the error message includes the missing type name.
+在这里，`assertNever`检查`s`是否属于`never`类型&mdash;即所有其他情况都被移除后剩下的类型。
+如果你忘记了这个情况，那么`s`将会有一个实际的类型，而你将会得到一个类型错误。
+这个方法需要你定义一个额外的函数，但是当你忘记的时候就更明显了，因为错误信息中包括了丢失的类型名称。
 
-## Intersection Types
+## 交叉类型
 
-Intersection types are closely related to union types, but they are used very differently.
-An intersection type combines multiple types into one.
-This allows you to add together existing types to get a single type that has all the features you need.
-For example, `Person & Serializable & Loggable` is a type which is all of `Person` _and_ `Serializable` _and_ `Loggable`.
-That means an object of this type will have all members of all three types.
+交叉类型与联合类型密切相关，但它们的使用方式非常不同。
+交叉类型将多个类型合并为一个。
+这允许你把现有的类型加在一起，得到一个具有你需要的所有功能的单个类型。
+例如，`Person & Serializable & Loggable`是一种类型，它是`Person`、`Serializable`_和_`Loggable`的全部。
+这意味着这种类型的对象将拥有这三种类型的所有成员。
 
-For example, if you had networking requests with consistent error handling then you could separate out the error handling into its own type which is merged with types which correspond to a single response type.
+例如，如果你有具有一致的错误处理的网络请求，那么你可以将错误处理分离到它自己的类型中，与对应于单个响应类型的类型合并。
 
 ```ts twoslash
 interface ErrorHandling {
@@ -395,8 +381,7 @@ interface ArtistsData {
   artists: { name: string }[];
 }
 
-// These interfaces are composed to have
-// consistent error handling, and their own data.
+// 这些接口被组合后拥有一致的错误处理，和它们自己的数据
 
 type ArtworksResponse = ArtworksData & ErrorHandling;
 type ArtistsResponse = ArtistsData & ErrorHandling;
