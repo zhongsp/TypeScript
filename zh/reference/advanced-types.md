@@ -1040,7 +1040,9 @@ type T43 = NonFunctionProperties<Part>;  // { id: number, name: string, subparts
 **例子**
 
 ```typescript
-type ElementType<T> = T extends any[] ? ElementType<T[number]> : T;  // Error
+// 在 TypeScript 4.1 之前的版本会报错。
+// TypeScript 4.1 改进了对递归的有条件类型的支持，详情参考 4.1 版本发布说明
+type ElementType<T> = T extends any[] ? ElementType<T[number]> : T;
 ```
 
 #### 有条件类型中的类型推断
