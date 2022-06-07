@@ -9,8 +9,8 @@
 
 ## 联合类型
 
-有时，你会遇到一个库，期望一个参数是 "数字 "或 "字符串"。
-作为
+有时，你会遇到一个库，它期望一个参数是 `number` 或 `string` 。
+例如下面的函数：
 
 ```ts twoslash
 /**
@@ -128,76 +128,20 @@ type NetworkState =
   | NetworkSuccessState;
 ```
 
-<style type="text/css">
-.markdown table.tg  {
-  border-collapse:collapse;
-  width: 100%;
-  text-align: center;
-  display: table;
-}
-
-.tg th {
-  border-bottom: 1px solid black;
-  padding: 8px;
-  padding-bottom: 0;
-}
-
-.tg tbody, .tg tr {
-  width: 100%;
-}
-
-.tg .highlight {
-  background-color: #F3F3F3;
-}
-
-@media (prefers-color-scheme: dark) {
-  .tg .highlight {
-    background-color: #424242;
-  }
-}
-
-</style>
-
 上述类型都以一个名为`state`的字段，然后它们也有自己的字段。
 
-<table class='tg' width="100%">
-  <tbody>
-    <tr>
-      <th><code>NetworkLoadingState</code></th>
-      <th><code>NetworkFailedState</code></th>
-      <th><code>NetworkSuccessState</code></th>
-    </tr>
-    <tr class='highlight'>
-      <td>state</td>
-      <td>state</td>
-      <td>state</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>code</td>
-      <td>response</td>
-    </tr>
-    </tbody>
-</table>
+| NetworkLoadingState | NetworkFailedState | NetworkSuccessState |
+| ------------------- | ------------------ | ------------------- |
+| state               | state              | state               |
+|                     | code               | response            |
 
 鉴于`state`字段在`NetworkState`的每个类型中都是通用的--你的代码无需存在检查即可安全访问。
 
 有了`state`这个字面类型，你可以将`state`的值与相应的字符串进行比较，TypeScript就会知道当前使用的是哪个类型。
 
-<table class='tg' width="100%">
-  <tbody>
-    <tr>
-      <th><code>NetworkLoadingState</code></th>
-      <th><code>NetworkFailedState</code></th>
-      <th><code>NetworkSuccessState</code></th>
-    </tr>
-    <tr>
-      <td><code>"loading"</code></td>
-      <td><code>"failed"</code></td>
-      <td><code>"success"</code></td>
-    </tr>
-    </tbody>
-</table>
+| NetworkLoadingState | NetworkFailedState | NetworkSuccessState |
+| ------------------- | ------------------ | ------------------- |
+| "loading"           | "failed"           | "success"           |
 
 在这个例子中，你可以使用`switch`语句来缩小在运行时代表哪种类型：
 
