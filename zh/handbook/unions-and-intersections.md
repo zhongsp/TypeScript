@@ -47,7 +47,7 @@ let indentedString = padLeft("Hello world", true);
 这意味着用法简单而简洁。
 而且如果我们只是想使用一个已经存在于其他地方的函数，这种新方法也无济于事。
 
-为了取代`any`，我们可以为`padding`参数使用 _元组类型_：
+为了取代`any`，我们可以为`padding`参数使用 _联合类型_：
 
 ```ts twoslash
 // @errors: 2345
