@@ -84,3 +84,41 @@ function throwIfNullable<T>(value: T): NonNullable<T> {
 就该改进本身而言可能是一个很小的变化 - 但它却实实在在地修复了在过去几年中报告的大量问题。
 
 更多详情，请参考[这里](https://github.com/microsoft/TypeScript/pull/49119)。
+
+## 改进模版字符串类型中 `infer` 类型的类型推断
+
+近期，TypeScript 支持了在有条件类型中的 `infer` 类型变量上添加 `extends` 约束。
+
+```ts
+// 提取元组类型中的第一个元素，若其能够赋值给 'number'，
+// 返回 'never' 若无这样的元素。
+type TryGetNumberIfFirst<T> =
+    T extends [infer U extends number, ...unknown[]] ? U : never;
+```
+
+若 `infer` 类型出现在模版字符串类型中且被原始类型所约束，则 TypeScript 会尝试将其解析为字面量类型。
+
+```ts
+// SomeNum 以前是 'number'；现在是 '100'。
+type SomeNum = "100" extends `${infer U extends number}` ? U : never;
+
+// SomeBigInt 以前是 'bigint'；现在是 '100n'。
+type SomeBigInt = "100" extends `${infer U extends bigint}` ? U : never;
+
+// SomeBool 以前是 'boolean'；现在是 'true'。
+type SomeBool = "true" extends `${infer U extends boolean}` ? U : never;
+```
+
+现在它能更好地表达代码库在运行时的行为，提供更准确的类型。
+
+要注意的一点是当 TypeScript 解析这些字面量类型时会使用贪心策略，尽可能多地提取原始类型；
+然后再回头检查解析出的原始类型是否匹配字符串的内容。
+也就是说，TypeScript 检查从字符串到原始类型再到字符串是否匹配。
+如果发现字符串前后对不上了，那么回退到基本的原始类型。
+
+```ts
+// JustNumber 为 `number` 因为 TypeScript 解析 出 `"1.0"`，但 `String(Number("1.0"))` 为 `"1"` 不匹配。
+type JustNumber = "1.0" extends `${infer T extends number}` ? T : never; 
+```
+
+更多详情请参考[这里](https://github.com/microsoft/TypeScript/pull/48094)。
