@@ -225,3 +225,12 @@ TypeScript 4.8 能够在 inode 系统上处理这些情况，新建 watcher 对�
 
 非常感谢 [Marc Celani](https://github.com/MarcCelani-at) 和他的团队的贡献。
 更多详情请参考[这里](https://github.com/microsoft/TypeScript/pull/48997)。
+
+## 查找所有引用性能优化
+
+在编辑器中执行“查找所有引用”时，TypeScript 现在能够更智能地聚合引用。
+在 TypeScript 自己的代码库中去搜索一个广泛使用的标识符时能够减少 20% 时间。
+
+更多详情请参考[这里](https://github.com/microsoft/TypeScript/pull/49581)。
+
+
