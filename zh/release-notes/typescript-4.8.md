@@ -134,3 +134,30 @@ TypeScript 4.8 优化了使用 `--watch` 和 `--incremental` 时的速度，以�
 在 TypeScript 代码库中我们也看到了相似的结果。
 
 更多详情请参考[这里](https://github.com/microsoft/TypeScript/pull/48784)。
+
+## 比较对象和数组字面量时报错
+
+在许多语言中，`==` 操作符在对象上比较的是“值”。
+例如，在 Python 语言中想检查列表是否为空时可以使用 `==` 检查该值是否与空列表相等。
+
+```py
+if people_at_home == []:
+    print("that's where she lies, broken inside. </3")
+```
+
+在 JavaScript 里却不是这样，使用 `==` 和 `===` 比较对象和数组时比较的是引用。
+我们确信这会让 JavaScript 程序员搬起石头砸自己脚，且最坏的情况是在生产环境中存在 bug。
+因此，TypeScript 现在不允许如下的代码：
+
+```ts
+let peopleAtHome = [];
+
+if (peopleAtHome === []) {
+//  ~~~~~~~~~~~~~~~~~~~
+// This condition will always return 'false' since JavaScript compares objects by reference, not value.
+    console.log("that's where she lies, broken inside. </3")
+}
+```
+
+非常感谢[Jack Works](https://github.com/Jack-Works)的贡献。
+更多详情请参考[这里](https://github.com/microsoft/TypeScript/pull/45978)。
