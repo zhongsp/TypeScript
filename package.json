@@ -27,6 +27,6 @@
   "homepage": "https://github.com/zhongsp/TypeScript",
   "devDependencies": {
     "glob": "7.1.3",
-    "markdownlint": "0.11.0"
+    "markdownlint": "0.26.2"
   }
 }
