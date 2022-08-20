@@ -205,3 +205,23 @@ let [x, y, z] = f();
 如果你想回到之前的行为，可以提供明确的类型参数。
 
 更多详情请参考[这里](https://github.com/microsoft/TypeScript/pull/49086)。
+
+## 修复文件监视（尤其是在 `git checkout` 之间）
+
+长久以来 TypeScript 中存在一个 bug，它对在编辑器中使用 `--watch` 模式监视文件改动处理的不好。
+它有时表现为错误提示不准确，需要重启 `tsc` 或 VS Code 才行。
+这在 Unix 系统上常发生，例如用 vim 保存了一个文件或切换了 git 的分支。
+
+这是因为错误地假设了 Node.js 在不同文件系统下处理文件重命名的方式。
+Linux 和 macOS 使用 [inodes](https://en.wikipedia.org/wiki/Inode)，
+[Node.js 监视的是 inodes 的变化而非文件路径](https://nodejs.org/api/fs.html#inodes)。
+因此，当 Node.js 返回了 [watcher 对象](https://nodejs.org/api/fs.html#class-fsfswatcher)，
+根据平台和文件系统的不同，它即可能监视文件路径也可能是 inode。
+
+为了高效，TypeScript 尝试重用 watcher 对象，如果它检测到文件路径仍存在于磁盘上。
+这里就产生了问题，因为即使给定路径上的文件仍然存在，但它可能是全新创建的文件，inode 已经发生了变化。
+TypeScript 重用了 watcher 对象而非重新创建一个 watcher 对象，因此可能监视了一个完全不相关的文件。
+TypeScript 4.8 能够在 inode 系统上处理这些情况，新建 watcher 对象。
+
+非常感谢 [Marc Celani](https://github.com/MarcCelani-at) 和他的团队的贡献。
+更多详情请参考[这里](https://github.com/microsoft/TypeScript/pull/48997)。
