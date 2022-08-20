@@ -122,3 +122,15 @@ type JustNumber = "1.0" extends `${infer T extends number}` ? T : never;
 ```
 
 更多详情请参考[这里](https://github.com/microsoft/TypeScript/pull/48094)。
+
+## `--build`, `--watch`, 和 `--incremental` 的性能优化
+
+TypeScript 4.8 优化了使用 `--watch` 和 `--incremental` 时的速度，以及使用 `--build` 构建工程引用时的速度。
+例如，现在在 `--watch` 模式下 TypeScript 不会去更新未改动文件的时间戳，
+这使得重新构建更快，避免与其它监视 TypeScript 输出文件的构建工具之间产生干扰。
+此外，TypeScript 也能够重用 `--build`, `--watch` 和 `--incremental` 之间的信息。
+
+这些优化有多大效果？在一个相当大的代码库上，对于简单常用的操作有 10%-25% 的改进，对于无改动操作的场景节省了 40% 的时间。
+在 TypeScript 代码库中我们也看到了相似的结果。
+
+更多详情请参考[这里](https://github.com/microsoft/TypeScript/pull/48784)。
