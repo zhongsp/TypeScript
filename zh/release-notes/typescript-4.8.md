@@ -161,3 +161,47 @@ if (peopleAtHome === []) {
 
 非常感谢[Jack Works](https://github.com/Jack-Works)的贡献。
 更多详情请参考[这里](https://github.com/microsoft/TypeScript/pull/45978)。
+
+## 改进从绑定模式中进行类型推断
+
+在某些情况下，TypeScript 会从绑定模式中获取类型来帮助类型推断。
+
+```ts
+declare function chooseRandomly<T>(x: T, y: T): T;
+
+let [a, b, c] = chooseRandomly([42, true, "hi!"], [0, false, "bye!"]);
+//   ^  ^  ^
+//   |  |  |
+//   |  |  string
+//   |  |
+//   |  boolean
+//   |
+//   number
+```
+
+当 `chooseRandomly` 需要确定 `T` 的类型时，它主要检查 `[42, true, "hi!"]` 和 `[0, false, "bye!"]`;
+但 TypeScript 还需要确定这两个类型是 `Array<number | boolean | string>`
+还是 `[number, boolean, string]`。
+为此，它会检查当前类型推断候选列表中是否存在元组类型。
+当 TypeScript 看到了绑定模式 `[a, b, c]`，它创建了类型 `[any, any, any]`，
+该类型会被加入到 `T` 的候选列表（作为推断 `[42, true, "hi!"]` 和 `[0, false, "bye!"]` 的参考）但优先级较低。
+
+这对 `chooseRandomly` 函数来讲不错，但在有些情况下不合适。例如：
+
+```ts
+declare function f<T>(x?: T): T;
+
+let [x, y, z] = f();
+```
+
+绑定模式 `[x, y, z]` 提示 `f` 应该输出 `[any, any, any]` 元组；
+但是 `f` 不应该根据绑定模式来改变类型参数的类型。
+它不应该像变戏法一样根据被赋的值突然变成一个类数组的值，
+因此绑定模式过多地影响到了生成的类型。
+由于绑定模式中均为 `any` 类型，因此我们也就让 `x`，`y` 和 `z` 为 `any` 类型。
+
+在 TypeScript 4.8 里，绑定模式不会成为类型参数的候选类型。
+它们仅在参数需要更确切的类型时提供参考，例如 `chooseRandomly` 的情况。
+如果你想回到之前的行为，可以提供明确的类型参数。
+
+更多详情请参考[这里](https://github.com/microsoft/TypeScript/pull/49086)。
