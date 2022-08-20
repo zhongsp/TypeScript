@@ -1,0 +1,827 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hans" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>TypeScript 2.0 - TypeScript 使用指南手册</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="TypeScript Handbook 中文翻译。">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../PREFACE.html">前言</a></li><li class="chapter-item expanded affix "><li class="part-title">快速上手</li><li class="chapter-item expanded "><a href="../../zh/tutorials/index.html"><strong aria-hidden="true">1.</strong> 快速上手</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/tutorials/typescript-in-5-minutes.html"><strong aria-hidden="true">1.1.</strong> 5 分钟了解 TypeScript</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/asp.net-core.html"><strong aria-hidden="true">1.2.</strong> ASP.NET Core</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/asp.net-4.html"><strong aria-hidden="true">1.3.</strong> ASP.NET 4</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/gulp.html"><strong aria-hidden="true">1.4.</strong> Gulp</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/knockout.html"><strong aria-hidden="true">1.5.</strong> Knockout.js</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/react-and-webpack.html"><strong aria-hidden="true">1.6.</strong> React 与 webpack</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/react.html"><strong aria-hidden="true">1.7.</strong> React</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/angular-2.html"><strong aria-hidden="true">1.8.</strong> Angular 2</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/migrating-from-javascript.html"><strong aria-hidden="true">1.9.</strong> 从 JavaScript 迁移到 TypeScript</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">手册</li><li class="chapter-item expanded "><a href="../../zh/handbook/index.html"><strong aria-hidden="true">2.</strong> 手册</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/handbook/basic-types.html"><strong aria-hidden="true">2.1.</strong> 基础类型</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/interfaces.html"><strong aria-hidden="true">2.2.</strong> 接口</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/functions.html"><strong aria-hidden="true">2.3.</strong> 函数</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/literal-types.html"><strong aria-hidden="true">2.4.</strong> 字面量类型</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/unions-and-intersections.html"><strong aria-hidden="true">2.5.</strong> 联合类型和交叉类型</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/classes.html"><strong aria-hidden="true">2.6.</strong> 类</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/enums.html"><strong aria-hidden="true">2.7.</strong> 枚举</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/generics.html"><strong aria-hidden="true">2.8.</strong> 泛型</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">手册（进阶）</li><li class="chapter-item expanded "><a href="../../zh/reference/index.html"><strong aria-hidden="true">3.</strong> 手册（进阶）</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/reference/advanced-types.html"><strong aria-hidden="true">3.1.</strong> 高级类型</a></li><li class="chapter-item expanded "><a href="../../zh/reference/utility-types.html"><strong aria-hidden="true">3.2.</strong> 实用工具类型</a></li><li class="chapter-item expanded "><a href="../../zh/reference/decorators.html"><strong aria-hidden="true">3.3.</strong> Decorators</a></li><li class="chapter-item expanded "><a href="../../zh/reference/declaration-merging.html"><strong aria-hidden="true">3.4.</strong> 声明合并</a></li><li class="chapter-item expanded "><a href="../../zh/reference/iterators-and-generators.html"><strong aria-hidden="true">3.5.</strong> Iterators 和 Generators</a></li><li class="chapter-item expanded "><a href="../../zh/reference/jsx.html"><strong aria-hidden="true">3.6.</strong> JSX</a></li><li class="chapter-item expanded "><a href="../../zh/reference/mixins.html"><strong aria-hidden="true">3.7.</strong> 混入</a></li><li class="chapter-item expanded "><a href="../../zh/reference/modules.html"><strong aria-hidden="true">3.8.</strong> 模块</a></li><li class="chapter-item expanded "><a href="../../zh/reference/module-resolution.html"><strong aria-hidden="true">3.9.</strong> 模块解析</a></li><li class="chapter-item expanded "><a href="../../zh/reference/namespaces.html"><strong aria-hidden="true">3.10.</strong> 命名空间</a></li><li class="chapter-item expanded "><a href="../../zh/reference/namespaces-and-modules.html"><strong aria-hidden="true">3.11.</strong> 命名空间和模块</a></li><li class="chapter-item expanded "><a href="../../zh/reference/symbols.html"><strong aria-hidden="true">3.12.</strong> Symbols</a></li><li class="chapter-item expanded "><a href="../../zh/reference/triple-slash-directives.html"><strong aria-hidden="true">3.13.</strong> 三斜线指令</a></li><li class="chapter-item expanded "><a href="../../zh/reference/type-compatibility.html"><strong aria-hidden="true">3.14.</strong> 类型兼容性</a></li><li class="chapter-item expanded "><a href="../../zh/reference/type-inference.html"><strong aria-hidden="true">3.15.</strong> 类型推论</a></li><li class="chapter-item expanded "><a href="../../zh/reference/variable-declarations.html"><strong aria-hidden="true">3.16.</strong> 变量声明</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">手册（v2）</li><li class="chapter-item expanded "><a href="../../zh/handbook-v2/index.html"><strong aria-hidden="true">4.</strong> 手册（v2）</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/handbook-v2/type-manipulation/template-literal-types.html"><strong aria-hidden="true">4.1.</strong> 模版字面量类型</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">TypeScript 声明文件（.d.ts）</li><li class="chapter-item expanded "><a href="../../zh/declaration-files/index.html"><strong aria-hidden="true">5.</strong> 如何书写声明文件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/declaration-files/introduction.html"><strong aria-hidden="true">5.1.</strong> 介绍</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/by-example.html"><strong aria-hidden="true">5.2.</strong> 举例</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/library-structures.html"><strong aria-hidden="true">5.3.</strong> 库结构</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/templates.html"><strong aria-hidden="true">5.4.</strong> 模板</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/do-s-and-don-ts.html"><strong aria-hidden="true">5.5.</strong> 最佳实践</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/deep-dive.html"><strong aria-hidden="true">5.6.</strong> 深入</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/publishing.html"><strong aria-hidden="true">5.7.</strong> 发布</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/consumption.html"><strong aria-hidden="true">5.8.</strong> 使用</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">TypeScript for JavaScript</li><li class="chapter-item expanded "><a href="../../zh/javascript/type-checking-javascript-files.html"><strong aria-hidden="true">6.</strong> JavaScript 文件里的类型检查</a></li><li class="chapter-item expanded affix "><li class="part-title">工程配置</li><li class="chapter-item expanded "><a href="../../zh/project-config/index.html"><strong aria-hidden="true">7.</strong> 工程配置</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/project-config/tsconfig.json.html"><strong aria-hidden="true">7.1.</strong> tsconfig.json</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/project-references.html"><strong aria-hidden="true">7.2.</strong> 工程引用</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/typings-for-npm-packages.html"><strong aria-hidden="true">7.3.</strong> NPM 包的类型</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/compiler-options.html"><strong aria-hidden="true">7.4.</strong> 编译选项</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/configuring-watch.html"><strong aria-hidden="true">7.5.</strong> 配置 Watch</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/compiler-options-in-msbuild.html"><strong aria-hidden="true">7.6.</strong> 在 MSBuild 里使用编译选项</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/integrating-with-build-tools.html"><strong aria-hidden="true">7.7.</strong> 与其它构建工具整合</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/nightly-builds.html"><strong aria-hidden="true">7.8.</strong> 使用 TypeScript 的每日构建版本</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">版本发布说明（Release Notes）</li><li class="chapter-item expanded "><a href="../../zh/release-notes/index.html"><strong aria-hidden="true">8.</strong> 新增功能</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.8.html"><strong aria-hidden="true">8.1.</strong> TypeScript 4.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.7.html"><strong aria-hidden="true">8.2.</strong> TypeScript 4.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.6.html"><strong aria-hidden="true">8.3.</strong> TypeScript 4.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.5.html"><strong aria-hidden="true">8.4.</strong> TypeScript 4.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.4.html"><strong aria-hidden="true">8.5.</strong> TypeScript 4.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.3.html"><strong aria-hidden="true">8.6.</strong> TypeScript 4.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.2.html"><strong aria-hidden="true">8.7.</strong> TypeScript 4.2</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.1.html"><strong aria-hidden="true">8.8.</strong> TypeScript 4.1</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.0.html"><strong aria-hidden="true">8.9.</strong> TypeScript 4.0</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.9.html"><strong aria-hidden="true">8.10.</strong> TypeScript 3.9</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.8.html"><strong aria-hidden="true">8.11.</strong> TypeScript 3.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.7.html"><strong aria-hidden="true">8.12.</strong> TypeScript 3.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.6.html"><strong aria-hidden="true">8.13.</strong> TypeScript 3.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.5.html"><strong aria-hidden="true">8.14.</strong> TypeScript 3.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.4.html"><strong aria-hidden="true">8.15.</strong> TypeScript 3.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.3.html"><strong aria-hidden="true">8.16.</strong> TypeScript 3.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.2.html"><strong aria-hidden="true">8.17.</strong> TypeScript 3.2</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.1.html"><strong aria-hidden="true">8.18.</strong> TypeScript 3.1</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.0.html"><strong aria-hidden="true">8.19.</strong> TypeScript 3.0</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.9.html"><strong aria-hidden="true">8.20.</strong> TypeScript 2.9</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.8.html"><strong aria-hidden="true">8.21.</strong> TypeScript 2.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.7.html"><strong aria-hidden="true">8.22.</strong> TypeScript 2.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.6.html"><strong aria-hidden="true">8.23.</strong> TypeScript 2.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.5.html"><strong aria-hidden="true">8.24.</strong> TypeScript 2.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.4.html"><strong aria-hidden="true">8.25.</strong> TypeScript 2.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.3.html"><strong aria-hidden="true">8.26.</strong> TypeScript 2.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.2.html"><strong aria-hidden="true">8.27.</strong> TypeScript 2.2</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.1.html"><strong aria-hidden="true">8.28.</strong> TypeScript 2.1</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.0.html" class="active"><strong aria-hidden="true">8.29.</strong> TypeScript 2.0</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.8.html"><strong aria-hidden="true">8.30.</strong> TypeScript 1.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.7.html"><strong aria-hidden="true">8.31.</strong> TypeScript 1.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.6.html"><strong aria-hidden="true">8.32.</strong> TypeScript 1.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.5.html"><strong aria-hidden="true">8.33.</strong> TypeScript 1.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.4.html"><strong aria-hidden="true">8.34.</strong> TypeScript 1.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.3.html"><strong aria-hidden="true">8.35.</strong> TypeScript 1.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.1.html"><strong aria-hidden="true">8.36.</strong> TypeScript 1.1</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">破坏性改动（Breaking Changes）</li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/index.html"><strong aria-hidden="true">9.</strong> Breaking Changes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.6.html"><strong aria-hidden="true">9.1.</strong> TypeScript 3.6</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.5.html"><strong aria-hidden="true">9.2.</strong> TypeScript 3.5</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.4.html"><strong aria-hidden="true">9.3.</strong> TypeScript 3.4</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.2.html"><strong aria-hidden="true">9.4.</strong> TypeScript 3.2</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.1.html"><strong aria-hidden="true">9.5.</strong> TypeScript 3.1</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.0.html"><strong aria-hidden="true">9.6.</strong> TypeScript 3.0</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.9.html"><strong aria-hidden="true">9.7.</strong> TypeScript 2.9</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.8.html"><strong aria-hidden="true">9.8.</strong> TypeScript 2.8</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.7.html"><strong aria-hidden="true">9.9.</strong> TypeScript 2.7</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.6.html"><strong aria-hidden="true">9.10.</strong> TypeScript 2.6</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.4.html"><strong aria-hidden="true">9.11.</strong> TypeScript 2.4</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.3.html"><strong aria-hidden="true">9.12.</strong> TypeScript 2.3</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.2.html"><strong aria-hidden="true">9.13.</strong> TypeScript 2.2</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.1.html"><strong aria-hidden="true">9.14.</strong> TypeScript 2.1</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.0.html"><strong aria-hidden="true">9.15.</strong> TypeScript 2.0</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.8.html"><strong aria-hidden="true">9.16.</strong> TypeScript 1.8</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.7.html"><strong aria-hidden="true">9.17.</strong> TypeScript 1.7</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.6.html"><strong aria-hidden="true">9.18.</strong> TypeScript 1.6</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.5.html"><strong aria-hidden="true">9.19.</strong> TypeScript 1.5</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.4.html"><strong aria-hidden="true">9.20.</strong> TypeScript 1.4</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">TypeScript 使用指南手册</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="typescript-20"><a class="header" href="#typescript-20">TypeScript 2.0</a></h1>
+<h2 id="null和undefined类型"><a class="header" href="#null和undefined类型">Null和undefined类型</a></h2>
+<p>TypeScript现在有两个特殊的类型：Null和Undefined, 它们的值分别是<code>null</code>和<code>undefined</code>。 以前这是不可能明确地命名这些类型的，但是现在<code>null</code>和<code>undefined</code>不管在什么类型检查模式下都可以作为类型名称使用。</p>
+<p>以前类型检查器认为<code>null</code>和<code>undefined</code>赋值给一切。实际上，<code>null</code>和<code>undefined</code>是每一个类型的有效值， 并且不能明确排除它们（因此不可能检测到错误）。</p>
+<h3 id="--strictnullchecks"><a class="header" href="#--strictnullchecks"><code>--strictNullChecks</code></a></h3>
+<p><code>--strictNullChecks</code>可以切换到新的严格空检查模式中。</p>
+<p>在严格空检查模式中，<code>null</code>和<code>undefined</code>值_不再_属于任何类型的值，仅仅属于它们自己类型和<code>any</code>类型的值 （还有一个例外，<code>undefined</code>也能赋值给<code>void</code>）。因此，尽管在常规类型检查模式下<code>T</code>和<code>T | undefined</code>被认为是相同的 （因为<code>undefined</code>被认为是任何<code>T</code>的子类型），但是在严格类型检查模式下它们是不同的， 并且仅仅<code>T | undefined</code>允许有<code>undefined</code>值，<code>T</code>和<code>T | null</code>的关系同样如此。</p>
+<h4 id="示例"><a class="header" href="#示例">示例</a></h4>
+<pre><code class="language-typescript">// 使用--strictNullChecks参数进行编译的
+let x: number;
+let y: number | undefined;
+let z: number | null | undefined;
+x = 1;  // 正确
+y = 1;  // 正确
+z = 1;  // 正确
+x = undefined;  // 错误
+y = undefined;  // 正确
+z = undefined;  // 正确
+x = null;  // 错误
+y = null;  // 错误
+z = null;  // 正确
+x = y;  // 错误
+x = z;  // 错误
+y = x;  // 正确
+y = z;  // 错误
+z = x;  // 正确
+z = y;  // 正确
+</code></pre>
+<h3 id="使用前赋值检查"><a class="header" href="#使用前赋值检查">使用前赋值检查</a></h3>
+<p>在严格空检查模式中，编译器要求未包含<code>undefined</code>类型的局部变量在使用之前必须先赋值。</p>
+<h4 id="示例-1"><a class="header" href="#示例-1">示例</a></h4>
+<pre><code class="language-typescript">// 使用--strictNullChecks参数进行编译
+let x: number;
+let y: number | null;
+let z: number | undefined;
+x;  // 错误，使用前未赋值
+y;  // 错误，使用前未赋值
+z;  // 正确
+x = 1;
+y = null;
+x;  // 正确
+y;  // 正确
+</code></pre>
+<p>编译器通过执行_基于控制流的类型分析_检查变量明确被赋过值。在本篇文章后面会有进一步的细节。</p>
+<h3 id="可选参数和属性"><a class="header" href="#可选参数和属性">可选参数和属性</a></h3>
+<p>可选参数和属性会自动把<code>undefined</code>添加到他们的类型中，即使他们的类型注解明确不包含<code>undefined</code>。例如，下面两个类型是完全相同的：</p>
+<pre><code class="language-typescript">// 使用--strictNullChecks参数进行编译
+type T1 = (x?: number) =&gt; string;              // x的类型是 number | undefined
+type T2 = (x?: number | undefined) =&gt; string;  // x的类型是 number | undefined
+</code></pre>
+<h3 id="非null和非undefined类型保护"><a class="header" href="#非null和非undefined类型保护">非null和非undefined类型保护</a></h3>
+<p>如果对象或者函数的类型包含<code>null</code>和<code>undefined</code>，那么访问属性或调用函数时就会产生编译错误。因此，对类型保护进行了扩展，以支持对非null和非undefined的检查。</p>
+<h4 id="示例-2"><a class="header" href="#示例-2">示例</a></h4>
+<pre><code class="language-typescript">// 使用--strictNullChecks参数进行编译
+declare function f(x: number): string;
+let x: number | null | undefined;
+if (x) {
+    f(x);  // 正确，这里的x类型是number
+}
+else {
+    f(x);  // 错误，这里的x类型是number？
+}
+let a = x != null ? f(x) : &quot;&quot;;  // a的类型是string
+let b = x &amp;&amp; f(x);  // b的类型是 string | 0 | null | undefined
+</code></pre>
+<p>非null和非undefined类型保护可以使用<code>==</code>、<code>!=</code>、<code>===</code>或<code>!==</code>操作符和<code>null</code>或<code>undefined</code>进行比较，如<code>x != null</code>或<code>x === undefined</code>。对被试变量类型的影响准确地反映了JavaScript的语义（比如，双等号运算符检查两个值无论你指定的是null还是undefined，然而三等于号运算符仅仅检查指定的那一个值）。</p>
+<h3 id="类型保护中的点名称"><a class="header" href="#类型保护中的点名称">类型保护中的点名称</a></h3>
+<p>类型保护以前仅仅支持对局部变量和参数的检查。现在类型保护支持检查由变量或参数名称后跟一个或多个访问属性组成的“点名称”。</p>
+<h4 id="示例-3"><a class="header" href="#示例-3">示例</a></h4>
+<pre><code class="language-typescript">interface Options {
+    location?: {
+        x?: number;
+        y?: number;
+    };
+}
+
+function foo(options?: Options) {
+    if (options &amp;&amp; options.location &amp;&amp; options.location.x) {
+        const x = options.location.x;  // x的类型是number
+    }
+}
+</code></pre>
+<p>点名称的类型保护和用户定义的类型保护函数，还有<code>typeof</code>和<code>instanceof</code>操作符一起工作，并且不依赖<code>--strictNullChecks</code>编译参数。</p>
+<p>对点名称进行类型保护后给点名称任一部分赋值都会导致类型保护无效。例如，对<code>x.y.z</code>进行了类型保护后给<code>x</code>、<code>x.y</code>或<code>x.y.z</code>赋值，都会导致<code>x.y.z</code>类型保护无效。</p>
+<h3 id="表达式操作符"><a class="header" href="#表达式操作符">表达式操作符</a></h3>
+<p>表达式操作符允许运算对象的类型包含<code>null</code>和/或<code>undefined</code>，但是总是产生非null和非undefined类型的结果值。</p>
+<pre><code class="language-javascript">// 使用--strictNullChecks参数进行编译
+function sum(a: number | null, b: number | null) {
+    return a + b;  // 计算的结果值类型是number
+}
+</code></pre>
+<p><code>&amp;&amp;</code>操作符添加<code>null</code>和/或<code>undefined</code>到右边操作对象的类型中取决于当前左边操作对象的类型，<code>||</code>操作符从左边联合类型的操作对象的类型中将<code>null</code>和<code>undefined</code>同时删除。</p>
+<pre><code class="language-typescript">// 使用--strictNullChecks参数进行编译
+interface Entity {
+    name: string;
+}
+let x: Entity | null;
+let s = x &amp;&amp; x.name;  // s的类型是string | null
+let y = x || { name: &quot;test&quot; };  // y的类型是Entity
+</code></pre>
+<h3 id="类型扩展"><a class="header" href="#类型扩展">类型扩展</a></h3>
+<p>在严格空检查模式中，<code>null</code>和<code>undefined</code>类型是_不会_扩展到<code>any</code>类型中的。</p>
+<pre><code class="language-typescript">let z = null;  // z的类型是null
+</code></pre>
+<p>在常规类型检查模式中，由于扩展，会推断<code>z</code>的类型是<code>any</code>，但是在严格空检查模式中，推断<code>z</code>是<code>null</code>类型（因此，如果没有类型注释，<code>null</code>是<code>z</code>的唯一值）。</p>
+<h3 id="非空断言操作符"><a class="header" href="#非空断言操作符">非空断言操作符</a></h3>
+<p>在上下文中当类型检查器无法断定类型时，一个新的后缀表达式操作符<code>!</code>可以用于断言操作对象是非null和非undefined类型的。具体而言，运算<code>x!</code>产生一个不包含<code>null</code>和<code>undefined</code>的<code>x</code>的值。断言的形式类似于<code>&lt;T&gt;x</code>和<code>x as T</code>，<code>!</code>非空断言操作符会从编译成的JavaScript代码中移除。</p>
+<pre><code class="language-typescript">// 使用--strictNullChecks参数进行编译
+function validateEntity(e?: Entity) {
+    // 如果e是null或者无效的实体，就会抛出异常
+}
+
+function processEntity(e?: Entity) {
+    validateEntity(e);
+    let s = e!.name;  // 断言e是非空并访问name属性
+}
+</code></pre>
+<h3 id="兼容性"><a class="header" href="#兼容性">兼容性</a></h3>
+<p>这些新特性是经过设计的，使得它们能够在严格空检查模式和常规类型检查模式下都能够使用。尤其是在常规类型检查模式中，<code>null</code>和<code>undefined</code>类型会自动从联合类型中删除（因为它们是其它所有类型的子类型），<code>!</code>非空断言表达式操作符也被允许使用但是没有任何作用。因此，声明文件使用null和undefined敏感类型更新后，在常规类型模式中仍然是可以向后兼容使用的。</p>
+<p>在实际应用中，严格空检查模式要求编译的所有文件都是null和undefined敏感类型。</p>
+<h2 id="基于控制流的类型分析"><a class="header" href="#基于控制流的类型分析">基于控制流的类型分析</a></h2>
+<p>TypeScript 2.0实现了对局部变量和参数的控制流类型分析。以前，对类型保护进行类型分析仅限于<code>if</code>语句和<code>?:</code>条件表达式，并且不包括赋值和控制流结构的影响，例如<code>return</code>和<code>break</code>语句。使用TypeScript 2.0，类型检查器会分析语句和表达式所有可能的控制流，在任何指定的位置对声明为联合类型的局部变量或参数产生最可能的具体类型（缩小范围的类型）。</p>
+<h4 id="示例-4"><a class="header" href="#示例-4">示例</a></h4>
+<pre><code class="language-typescript">function foo(x: string | number | boolean) {
+    if (typeof x === &quot;string&quot;) {
+        x; // 这里x的类型是string
+        x = 1;
+        x; // 这里x的类型是number
+    }
+    x; // 这里x的类型是number | boolean
+}
+
+function bar(x: string | number) {
+    if (typeof x === &quot;number&quot;) {
+        return;
+    }
+    x; // 这里x的类型是string
+}
+</code></pre>
+<p>基于控制流的类型分析在<code>--strictNullChecks</code>模式中尤为重要，因为可空类型使用联合类型来表示：</p>
+<pre><code class="language-typescript">function test(x: string | null) {
+    if (x === null) {
+        return;
+    }
+    x; // 在函数的剩余部分中，x类型是string
+}
+</code></pre>
+<p>而且，在<code>--strictNullChecks</code>模式中，基于控制流的分析包括，对类型不允许为<code>undefined</code>的局部变量有_明确赋值_的分析。</p>
+<pre><code class="language-typescript">function mumble(check: boolean) {
+    let x: number; // 类型不允许为undefined
+    x; // 错误，x是undefined
+    if (check) {
+        x = 1;
+        x; // 正确
+    }
+    x; // 错误，x可能是undefi
+    x = 2;
+    x; // 正确
+}
+</code></pre>
+<h2 id="标记联合类型"><a class="header" href="#标记联合类型">标记联合类型</a></h2>
+<p>TypeScript 2.0实现了标记（或区分）联合类型。具体而言，TS编译器现在支持类型保护，基于判别属性的检查来缩小联合类型的范围，并且<code>switch</code>语句也支持此特性。</p>
+<h4 id="示例-5"><a class="header" href="#示例-5">示例</a></h4>
+<pre><code class="language-typescript">interface Square {
+    kind: &quot;square&quot;;
+    size: number;
+}
+
+interface Rectangle {
+    kind: &quot;rectangle&quot;;
+    width: number;
+    height: number;
+}
+
+interface Circle {
+    kind: &quot;circle&quot;;
+    radius: number;
+}
+
+type Shape = Square | Rectangle | Circle;
+
+function area(s: Shape) {
+    // 在下面的switch语句中，s的类型在每一个case中都被缩小
+    // 根据判别属性的值，变量的其它属性不使用类型断言就可以被访问
+    switch (s.kind) {
+        case &quot;square&quot;: return s.size * s.size;
+        case &quot;rectangle&quot;: return s.width * s.height;
+        case &quot;circle&quot;: return Math.PI * s.radius * s.radius;
+    }
+}
+
+function test1(s: Shape) {
+    if (s.kind === &quot;square&quot;) {
+        s;  // Square
+    }
+    else {
+        s;  // Rectangle | Circle
+    }
+}
+
+function test2(s: Shape) {
+    if (s.kind === &quot;square&quot; || s.kind === &quot;rectangle&quot;) {
+        return;
+    }
+    s;  // Circle
+}
+</code></pre>
+<p>_判别属性类型保护_是<code>x.p == v</code>、<code>x.p === v</code>、<code>x.p != v</code>或者<code>x.p !== v</code>其中的一种表达式，<code>p</code>和<code>v</code>是一个属性和字符串字面量类型或字符串字面量联合类型的表达式。判别属性类型保护缩小<code>x</code>的类型到由判别属性<code>p</code>和<code>v</code>的可能值之一组成的类型。</p>
+<p>请注意，我们目前只支持字符串字面值类型的判别属性。我们打算以后添加对布尔值和数字字面量类型的支持。</p>
+<h2 id="never类型"><a class="header" href="#never类型"><code>never</code>类型</a></h2>
+<p>TypeScript 2.0引入了一个新原始类型<code>never</code>。<code>never</code>类型表示值的类型从不出现。具体而言，<code>never</code>是永不返回函数的返回类型，也是变量在类型保护中永不为true的类型。</p>
+<p><code>never</code>类型具有以下特征：</p>
+<ul>
+<li><code>never</code>是所有类型的子类型并且可以赋值给所有类型。</li>
+<li>没有类型是<code>never</code>的子类型或能赋值给<code>never</code>（<code>never</code>类型本身除外）。</li>
+<li>在函数表达式或箭头函数没有返回类型注解时，如果函数没有<code>return</code>语句，或者只有<code>never</code>类型表达式的<code>return</code>语句，并且如果函数是不可执行到终点的（例如通过控制流分析决定的），则推断函数的返回类型是<code>never</code>。</li>
+<li>在有明确<code>never</code>返回类型注解的函数中，所有<code>return</code>语句（如果有的话）必须有<code>never</code>类型的表达式并且函数的终点必须是不可执行的。</li>
+</ul>
+<p>因为<code>never</code>是每一个类型的子类型，所以它总是在联合类型中被省略，并且在函数中只要其它类型被返回，类型推断就会忽略<code>never</code>类型。</p>
+<p>一些返回<code>never</code>函数的示例：</p>
+<pre><code class="language-typescript">// 函数返回never必须无法执行到终点
+function error(message: string): never {
+    throw new Error(message);
+}
+
+// 推断返回类型是never
+function fail() {
+    return error(&quot;Something failed&quot;);
+}
+
+// 函数返回never必须无法执行到终点
+function infiniteLoop(): never {
+    while (true) {
+    }
+}
+</code></pre>
+<p>一些函数返回<code>never</code>的使用示例：</p>
+<pre><code class="language-typescript">// 推断返回类型是number
+function move1(direction: &quot;up&quot; | &quot;down&quot;) {
+    switch (direction) {
+        case &quot;up&quot;:
+            return 1;
+        case &quot;down&quot;:
+            return -1;
+    }
+    return error(&quot;Should never get here&quot;);
+}
+
+// 推断返回类型是number
+function move2(direction: &quot;up&quot; | &quot;down&quot;) {
+    return direction === &quot;up&quot; ? 1 :
+        direction === &quot;down&quot; ? -1 :
+        error(&quot;Should never get here&quot;);
+}
+
+// 推断返回类型是T
+function check&lt;T&gt;(x: T | undefined) {
+    return x || error(&quot;Undefined value&quot;);
+}
+</code></pre>
+<p>因为<code>never</code>可以赋值给每一个类型，当需要回调函数返回一个更加具体的类型时，函数返回<code>never</code>类型可以用于检测返回类型是否正确：</p>
+<pre><code class="language-typescript">function test(cb: () =&gt; string) {
+    let s = cb();
+    return s;
+}
+
+test(() =&gt; &quot;hello&quot;);
+test(() =&gt; fail());
+test(() =&gt; { throw new Error(); })
+</code></pre>
+<h2 id="只读属性和索引签名"><a class="header" href="#只读属性和索引签名">只读属性和索引签名</a></h2>
+<p>属性或索引签名现在可以使用<code>readonly</code>修饰符声明为只读的。</p>
+<p>只读属性可以初始化和在同一个类的构造函数中被赋值，但是在其它情况下对只读属性的赋值是不允许的。</p>
+<p>此外，有几种情况下实体_隐式_只读的：</p>
+<ul>
+<li>属性声明只使用<code>get</code>访问器而没有使用<code>set</code>访问器被视为只读的。</li>
+<li>在枚举类型中，枚举成员被视为只读属性。</li>
+<li>在模块类型中，导出的<code>const</code>变量被视为只读属性。</li>
+<li>在<code>import</code>语句中声明的实体被视为只读的。</li>
+<li>通过ES2015命名空间导入访问的实体被视为只读的（例如，当<code>foo</code>当作<code>import * as foo from &quot;foo&quot;</code>声明时，<code>foo.x</code>是只读的）。</li>
+</ul>
+<h4 id="示例-6"><a class="header" href="#示例-6">示例</a></h4>
+<pre><code class="language-typescript">interface Point {
+    readonly x: number;
+    readonly y: number;
+}
+
+var p1: Point = { x: 10, y: 20 };
+p1.x = 5;  // 错误，p1.x是只读的
+
+var p2 = { x: 1, y: 1 };
+var p3: Point = p2;  // 正确，p2的只读别名
+p3.x = 5;  // 错误，p3.x是只读的
+p2.x = 5;  // 正确，但是因为别名使用，同时也改变了p3.x
+</code></pre>
+<pre><code class="language-typescript">class Foo {
+    readonly a = 1;
+    readonly b: string;
+    constructor() {
+        this.b = &quot;hello&quot;;  // 在构造函数中允许赋值
+    }
+}
+</code></pre>
+<pre><code class="language-typescript">let a: Array&lt;number&gt; = [0, 1, 2, 3, 4];
+let b: ReadonlyArray&lt;number&gt; = a;
+b[5] = 5;      // 错误，元素是只读的
+b.push(5);     // 错误，没有push方法（因为这会修改数组）
+b.length = 3;  // 错误，length是只读的
+a = b;         // 错误，缺少修改数组的方法
+</code></pre>
+<h2 id="指定函数中this类型"><a class="header" href="#指定函数中this类型">指定函数中<code>this</code>类型</a></h2>
+<p>紧跟着类和接口，现在函数和方法也可以声明<code>this</code>的类型了。</p>
+<p>函数中<code>this</code>的默认类型是<code>any</code>。从TypeScript 2.0开始，你可以提供一个明确的<code>this</code>参数。<code>this</code>参数是伪参数，它位于函数参数列表的第一位：</p>
+<pre><code class="language-typescript">function f(this: void) {
+    // 确保`this`在这个独立的函数中无法使用
+}
+</code></pre>
+<h3 id="回调函数中的this参数"><a class="header" href="#回调函数中的this参数">回调函数中的<code>this</code>参数</a></h3>
+<p>库也可以使用<code>this</code>参数声明回调函数如何被调用。</p>
+<h4 id="示例-7"><a class="header" href="#示例-7">示例</a></h4>
+<pre><code class="language-typescript">interface UIElement {
+    addClickListener(onclick: (this: void, e: Event) =&gt; void): void;
+}
+</code></pre>
+<p><code>this:void</code>意味着<code>addClickListener</code>预计<code>onclick</code>是一个<code>this</code>参数不需要类型的函数。</p>
+<p>现在如果你在调用代码中对<code>this</code>进行了类型注释：</p>
+<pre><code class="language-typescript">class Handler {
+    info: string;
+    onClickBad(this: Handler, e: Event) {
+        // 哎哟，在这里使用this.在运行中使用这个回调函数将会崩溃。
+        this.info = e.message;
+    };
+}
+let h = new Handler();
+uiElement.addClickListener(h.onClickBad); // 错误！
+</code></pre>
+<h3 id="--noimplicitthis"><a class="header" href="#--noimplicitthis"><code>--noImplicitThis</code></a></h3>
+<p>TypeScript 2.0还增加了一个新的编译选项用来标记函数中所有没有明确类型注释的<code>this</code>的使用。</p>
+<h2 id="tsconfigjson支持文件通配符"><a class="header" href="#tsconfigjson支持文件通配符"><code>tsconfig.json</code>支持文件通配符</a></h2>
+<p>文件通配符来啦！！支持文件通配符一直是<a href="https://github.com/Microsoft/TypeScript/issues/1927">最需要的特性之一</a>。</p>
+<p>类似文件通配符的文件模式支持两个属性<code>&quot;include&quot;</code>和<code>&quot;exclude&quot;</code>。</p>
+<h4 id="示例-8"><a class="header" href="#示例-8">示例</a></h4>
+<pre><code class="language-javascript">{
+    &quot;compilerOptions&quot;: {
+        &quot;module&quot;: &quot;commonjs&quot;,
+        &quot;noImplicitAny&quot;: true,
+        &quot;removeComments&quot;: true,
+        &quot;preserveConstEnums&quot;: true,
+        &quot;outFile&quot;: &quot;../../built/local/tsc.js&quot;,
+        &quot;sourceMap&quot;: true
+    },
+    &quot;include&quot;: [
+        &quot;src/**/*&quot;
+    ],
+    &quot;exclude&quot;: [
+        &quot;node_modules&quot;,
+        &quot;**/*.spec.ts&quot;
+    ]
+}
+</code></pre>
+<p>支持文件通配符的符号有：</p>
+<ul>
+<li><code>*</code>匹配零个或多个字符（不包括目录）</li>
+<li><code>?</code>匹配任意一个字符（不包括目录）</li>
+<li><code>**/</code>递归匹配所有子目录</li>
+</ul>
+<p>如果文件通配符模式语句中只包含<code>*</code>或<code>.*</code>，那么只匹配带有扩展名的文件（例如默认是<code>.ts</code>、<code>.tsx</code>和<code>.d.ts</code>，如果<code>allowJs</code>设置为<code>true</code>，<code>.js</code>和<code>.jsx</code>也属于默认）。</p>
+<p>如果<code>&quot;files&quot;</code>和<code>&quot;include&quot;</code>都没有指定，编译器默认包含所有目录中的TypeScript文件（<code>.ts</code>、<code>.d.ts</code>和<code>.tsx</code>），除了那些使用<code>exclude</code>属性排除的文件外。如果<code>allowJs</code>设置为true，JS文件（<code>.js</code>和<code>.jsx</code>）也会被包含进去。</p>
+<p>如果<code>&quot;files&quot;</code>和<code>&quot;include&quot;</code>都指定了，编译器将包含这两个属性指定文件的并集。使用<code>ourDir</code>编译选项指定的目录文件总是被排除，即使<code>&quot;exclude&quot;</code>属性指定的文件也会被删除，但是<code>files</code>属性指定的文件不会排除。</p>
+<p><code>&quot;exclude&quot;</code>属性指定的文件会对<code>&quot;include&quot;</code>属性指定的文件过滤。但是对<code>&quot;files&quot;</code>指定的文件没有任何作用。当没有明确指定时，<code>&quot;exclude&quot;</code>属性默认会排除<code>node_modules</code>、<code>bower_components</code>和<code>jspm_packages</code>目录。</p>
+<h2 id="模块解析增加baseurl路径映射rootdirs和追踪"><a class="header" href="#模块解析增加baseurl路径映射rootdirs和追踪">模块解析增加：BaseUrl、路径映射、rootDirs和追踪</a></h2>
+<p>TypeScript 2.0提供了一系列额外的模块解析属性告诉编译器去哪里可以找到给定模块的声明。</p>
+<p>更多详情，请参阅<a href="../handbook/module-resolution.html">模块解析</a>文档。</p>
+<h3 id="base-url"><a class="header" href="#base-url">Base URL</a></h3>
+<p>使用了AMD模块加载器并且模块在运行时”部署“到单文件夹的应用程序中使用<code>baseUrl</code>是一种常用的做法。所有非相对名称的模块导入被认为是相对于<code>baseUrl</code>的。</p>
+<h4 id="示例-9"><a class="header" href="#示例-9">示例</a></h4>
+<pre><code class="language-javascript">{
+  &quot;compilerOptions&quot;: {
+    &quot;baseUrl&quot;: &quot;./modules&quot;
+  }
+}
+</code></pre>
+<p>现在导入<code>moduleA</code>将会在<code>./modules/moduleA</code>中查找。</p>
+<pre><code class="language-typescript">import A from &quot;moduleA&quot;;
+</code></pre>
+<h3 id="路径映射"><a class="header" href="#路径映射">路径映射</a></h3>
+<p>有时模块没有直接位于_baseUrl_中。加载器使用映射配置在运行时去映射模块名称和文件，请参阅<a href="http://requirejs.org/docs/api.html#config-paths">RequireJs文档</a>和<a href="https://github.com/systemjs/systemjs/blob/master/docs/overview.md#map-config">SystemJS文档</a>。</p>
+<p>TypeScript编译器支持<code>tsconfig</code>文件中使用<code>&quot;paths&quot;</code>属性映射的声明。</p>
+<h4 id="示例-10"><a class="header" href="#示例-10">示例</a></h4>
+<p>例如，导入<code>&quot;jquery&quot;</code>模块在运行时会被转换为<code>&quot;node_modules/jquery/dist/jquery.slim.min.js&quot;</code>。</p>
+<pre><code class="language-javascript">{
+    &quot;compilerOptions&quot;: {
+        &quot;baseUrl&quot;: &quot;./node_modules&quot;,
+        &quot;paths&quot;: {
+        &quot;jquery&quot;: [&quot;jquery/dist/jquery.slim.min&quot;]
+        }
+    }
+}
+</code></pre>
+<p>使用<code>&quot;paths&quot;</code>也允许更复杂的映射，包括多次后退的位置。考虑一个只有一个地方的模块是可用的，其它的模块都在另一个地方的项目配置。</p>
+<h3 id="rootdirs和虚拟目录"><a class="header" href="#rootdirs和虚拟目录"><code>rootDirs</code>和虚拟目录</a></h3>
+<p>使用<code>rootDirs</code>，你可以告知编译器的_根目录_组合这些“虚拟”目录。因此编译器在这些“虚拟”目录中解析相对导入模块，仿佛是合并到一个目录中一样。</p>
+<h4 id="示例-11"><a class="header" href="#示例-11">示例</a></h4>
+<p>给定的项目结构</p>
+<pre><code class="language-text"> src
+ └── views
+     └── view1.ts (imports './template1')
+     └── view2.ts
+
+ generated
+ └── templates
+         └── views
+             └── template1.ts (imports './view2')
+</code></pre>
+<p>构建步骤将复制<code>/src/views</code>和<code>/generated/templates/views</code>目录下的文件输出到同一个目录中。在运行时，视图期望它的模板和它存在同一目录中，因此应该使用相对名称<code>&quot;./template&quot;</code>导入。</p>
+<p><code>&quot;rootDir&quot;</code>指定的一组根目录的内容将会在运行时合并。因此在我们的例子，<code>tsconfig.json</code>文件应该类似于：</p>
+<pre><code class="language-javascript">{
+  &quot;compilerOptions&quot;: {
+    &quot;rootDirs&quot;: [
+      &quot;src/views&quot;,
+      &quot;generated/templates/views&quot;
+    ]
+  }
+}
+</code></pre>
+<h3 id="追踪模块解析"><a class="header" href="#追踪模块解析">追踪模块解析</a></h3>
+<p><code>--traceResolution</code>提供了一种方便的方法，以了解模块如何被编译器解析的。</p>
+<pre><code class="language-text">tsc --traceResolution
+</code></pre>
+<h2 id="快捷外部模块声明"><a class="header" href="#快捷外部模块声明">快捷外部模块声明</a></h2>
+<p>当你使用一个新模块时，如果不想要花费时间书写一个声明时，现在你可以使用快捷声明以便以快速开始。</p>
+<h4 id="declarationsdts"><a class="header" href="#declarationsdts">declarations.d.ts</a></h4>
+<pre><code class="language-typescript">declare module &quot;hot-new-module&quot;;
+</code></pre>
+<p>所有从快捷模块的导入都具有任意类型。</p>
+<pre><code class="language-typescript">import x, {y} from &quot;hot-new-module&quot;;
+x(y);
+</code></pre>
+<h2 id="模块名称中的通配符"><a class="header" href="#模块名称中的通配符">模块名称中的通配符</a></h2>
+<p>以前使用模块加载器（例如<a href="https://github.com/amdjs/amdjs-api/blob/master/LoaderPlugins.md">AMD</a>和<a href="https://github.com/systemjs/systemjs/blob/master/docs/creating-plugins.md">SystemJS</a>）导入没有代码的资源是不容易的。之前，必须为每个资源定义一个外部模块声明。</p>
+<p>TypeScript 2.0支持使用通配符符号（<code>*</code>）定义一类模块名称。这种方式，一个声明只需要一次扩展名，而不再是每一个资源。</p>
+<h4 id="示例-12"><a class="header" href="#示例-12">示例</a></h4>
+<pre><code class="language-typescript">declare module &quot;*!text&quot; {
+    const content: string;
+    export default content;
+}
+// Some do it the other way around.
+declare module &quot;json!*&quot; {
+    const value: any;
+    export default value;
+}
+</code></pre>
+<p>现在你可以导入匹配<code>&quot;*!text&quot;</code>或<code>&quot;json!*&quot;</code>的东西了。</p>
+<pre><code class="language-typescript">import fileContent from &quot;./xyz.txt!text&quot;;
+import data from &quot;json!http://example.com/data.json&quot;;
+console.log(data, fileContent);
+</code></pre>
+<p>当从一个基于非类型化的代码迁移时，通配符模块的名称可能更加有用。结合快捷外部模块声明，一组模块可以很容易地声明为<code>any</code>。</p>
+<h4 id="示例-13"><a class="header" href="#示例-13">示例</a></h4>
+<pre><code class="language-typescript">declare module &quot;myLibrary/*&quot;;
+</code></pre>
+<p>所有位于<code>myLibrary</code>目录之下的模块的导入都被编译器认为是<code>any</code>类型，因此这些模块的任何类型检查都会被关闭。</p>
+<pre><code class="language-typescript">import { readFile } from &quot;myLibrary/fileSystem/readFile`;
+
+readFile(); // readFile是'any'类型
+</code></pre>
+<h2 id="支持umd模块定义"><a class="header" href="#支持umd模块定义">支持UMD模块定义</a></h2>
+<p>一些库被设计为可以使用多种模块加载器或者不是使用模块加载器（全局变量）来使用，这被称为<a href="https://github.com/umdjs/umd">UMD</a>或<a href="http://isomorphic.net/">同构</a>模块。这些库可以通过导入或全局变量访问。</p>
+<p>举例：</p>
+<p><strong>math-lib.d.ts</strong></p>
+<pre><code class="language-typescript">export const isPrime(x: number): boolean;
+export as namespace mathLib;
+</code></pre>
+<p>然后，该库可作为模块导入使用：</p>
+<pre><code class="language-typescript">import { isPrime } from &quot;math-lib&quot;;
+isPrime(2);
+mathLib.isPrime(2); // 错误：无法在模块内部使用全局定义
+</code></pre>
+<p>它也可以被用来作为一个全局变量，只限于没有<code>import</code>和<code>export</code>脚本文件中。</p>
+<pre><code class="language-typescript">mathLib.isPrime(2);
+</code></pre>
+<h2 id="可选类属性"><a class="header" href="#可选类属性">可选类属性</a></h2>
+<p>现在可以在类中声明可选属性和方法，与接口类似。</p>
+<h4 id="示例-14"><a class="header" href="#示例-14">示例</a></h4>
+<pre><code class="language-typescript">class Bar {
+    a: number;
+    b?: number;
+    f() {
+        return 1;
+    }
+    g?(): number;  // 可选方法的方法体可以省略
+    h?() {
+        return 2;
+    }
+}
+</code></pre>
+<p>在<code>--strictNullChecks</code>模式下编译时，可选属性和方法会自动添加<code>undefined</code>到它们的类型中。因此，上面的<code>b</code>属性类型是<code>number | undefined</code>，上面<code>g</code>方法的类型是<code>(()=&gt; number) | undefined</code>。使用类型保护可以去除<code>undefined</code>。</p>
+<h2 id="私有的和受保护的构造函数"><a class="header" href="#私有的和受保护的构造函数">私有的和受保护的构造函数</a></h2>
+<p>类的构造函数可以被标记为<code>private</code>或<code>protected</code>。私有构造函数的类不能在类的外部实例化，并且也不能被继承。受保护构造函数的类不能再类的外部实例化，但是可以被继承。</p>
+<h4 id="示例-15"><a class="header" href="#示例-15">示例</a></h4>
+<pre><code class="language-typescript">class Singleton {
+    private static instance: Singleton;
+
+    private constructor() { }
+
+    static getInstance() {
+        if (!Singleton.instance) {
+            Singleton.instance = new Singleton();
+        }
+        return Singleton.instance;
+    }
+}
+
+let e = new Singleton(); // 错误：Singleton的构造函数是私有的。
+let v = Singleton.getInstance();
+</code></pre>
+<h2 id="抽象属性和访问器"><a class="header" href="#抽象属性和访问器">抽象属性和访问器</a></h2>
+<p>抽象类可以声明抽象属性和、或访问器。所有子类将需要声明抽象属性或者被标记为抽象的。抽象属性不能初始化。抽象访问器不能有具体代码块。</p>
+<h4 id="示例-16"><a class="header" href="#示例-16">示例</a></h4>
+<pre><code class="language-typescript">abstract class Base {
+    abstract name: string;
+    abstract get value();
+    abstract set value(v: number);
+}
+
+class Derived extends Base {
+    name = &quot;derived&quot;;
+
+    value = 1;
+}
+</code></pre>
+<h2 id="隐式索引签名"><a class="header" href="#隐式索引签名">隐式索引签名</a></h2>
+<p>如果对象字面量中所有已知的属性是赋值给索引签名，那么现在对象字面量类型可以赋值给索引签名类型。这使得一个使用对象字面量初始化的变量作为参数传递给期望参数是map或dictionary的函数成为可能：</p>
+<pre><code class="language-typescript">function httpService(path: string, headers: { [x: string]: string }) { }
+
+const headers = {
+    &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;
+};
+
+httpService(&quot;&quot;, { &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot; });  // 可以
+httpService(&quot;&quot;, headers);  // 现在可以，以前不可以。
+</code></pre>
+<h2 id="使用--lib编译参数包含内置类型声明"><a class="header" href="#使用--lib编译参数包含内置类型声明">使用<code>--lib</code>编译参数包含内置类型声明</a></h2>
+<p>获取ES6/ES2015内置API声明仅限于<code>target: ES6</code>。输入<code>--lib</code>，你可以使用<code>--lib</code>指定一组项目所需要的内置API。比如说，如果你希望项目运行时支持<code>Map</code>、<code>Set</code>和<code>Promise</code>（例如现在静默更新浏览器），直接写<code>--lib es2015.collection,es2015.promise</code>就好了。同样，你也可以排除项目中不需要的声明，例如在node项目中使用<code>--lib es5,es6</code>排除DOM。</p>
+<p>下面是列出了可用的API：</p>
+<ul>
+<li>dom</li>
+<li>webworker</li>
+<li>es5</li>
+<li>es6 / es2015</li>
+<li>es2015.core</li>
+<li>es2015.collection</li>
+<li>es2015.iterable</li>
+<li>es2015.promise</li>
+<li>es2015.proxy</li>
+<li>es2015.reflect</li>
+<li>es2015.generator</li>
+<li>es2015.symbol</li>
+<li>es2015.symbol.wellknown</li>
+<li>es2016</li>
+<li>es2016.array.include</li>
+<li>es2017</li>
+<li>es2017.object</li>
+<li>es2017.sharedmemory</li>
+<li>scripthost</li>
+</ul>
+<h4 id="示例-17"><a class="header" href="#示例-17">示例</a></h4>
+<pre><code class="language-text">tsc --target es5 --lib es5,es2015.promise
+</code></pre>
+<pre><code class="language-javascript">&quot;compilerOptions&quot;: {
+    &quot;lib&quot;: [&quot;es5&quot;, &quot;es2015.promise&quot;]
+}
+</code></pre>
+<h2 id="使用--nounusedparameters和--nounusedlocals标记未使用的声明"><a class="header" href="#使用--nounusedparameters和--nounusedlocals标记未使用的声明">使用<code>--noUnusedParameters</code>和<code>--noUnusedLocals</code>标记未使用的声明</a></h2>
+<p>TypeScript 2.0有两个新的编译参数来帮助你保持一个干净的代码库。<code>-noUnusedParameters</code>编译参数标记所有未使用的函数或方法的参数错误。<code>--noUnusedLocals</code>标记所有未使用的局部（未导出）声明像变量、函数、类和导入等等，另外未使用的私有类成员在<code>--noUnusedLocals</code>作用下也会标记为错误。</p>
+<h4 id="示例-18"><a class="header" href="#示例-18">示例</a></h4>
+<pre><code class="language-typescript">import B, { readFile } from &quot;./b&quot;;
+//     ^ 错误：`B`声明了，但是没有使用。
+readFile();
+
+
+export function write(message: string, args: string[]) {
+    //                                 ^^^^  错误：'arg'声明了，但是没有使用。
+    console.log(message);
+}
+</code></pre>
+<p>使用以<code>_</code>开头命名的参数声明不会被未使用参数检查。例如：</p>
+<pre><code class="language-typescript">function returnNull(_a) { // 正确
+    return null;
+}
+</code></pre>
+<h2 id="模块名称允许js扩展名"><a class="header" href="#模块名称允许js扩展名">模块名称允许<code>.js</code>扩展名</a></h2>
+<p>TypeScript 2.0之前，模块名称总是被认为是没有扩展名的。例如，导入一个模块<code>import d from &quot;./moduleA.js&quot;</code>，则编译器在<code>./moduleA.js.ts</code>或<code>./moduleA.js.d.ts</code>中查找<code>&quot;moduleA.js&quot;</code>的定义。这使得像<a href="https://github.com/systemjs/systemjs">SystemJS</a>这种期望模块名称是URI的打包或加载工具很难使用。</p>
+<p>使用TypeScript 2.0，编译器将在<code>./moduleA.ts</code>或<code>./moduleA.d.ts</code>中查找<code>&quot;moduleA.js&quot;</code>的定义。</p>
+<h2 id="支持编译参数target--es5和module-es6同时使用"><a class="header" href="#支持编译参数target--es5和module-es6同时使用">支持编译参数<code>target : es5</code>和<code>module: es6</code>同时使用</a></h2>
+<p>之前编译参数<code>target : es5</code>和<code>module: es6</code>同时使用被认为是无效的，但是现在是有效的。这将有助于使用基于ES2015的tree-shaking（将无用代码移除）比如<a href="https://github.com/rollup/rollup">rollup</a>。</p>
+<h2 id="函数形参和实参列表末尾支持逗号"><a class="header" href="#函数形参和实参列表末尾支持逗号">函数形参和实参列表末尾支持逗号</a></h2>
+<p>现在函数形参和实参列表末尾允许有逗号。这是对<a href="https://jeffmo.github.io/es-trailing-function-commas/">第三阶段的ECMAScript提案</a>的实现, 并且会编译为可用的 ES3/ES5/ES6。</p>
+<h4 id="示例-19"><a class="header" href="#示例-19">示例</a></h4>
+<pre><code class="language-typescript">function foo(
+  bar: Bar,
+  baz: Baz, // 形参列表末尾添加逗号是没有问题的。
+) {
+  // 具体实现……
+}
+
+foo(
+  bar,
+  baz, // 实参列表末尾添加逗号同样没有问题
+);
+</code></pre>
+<h2 id="新编译参数--skiplibcheck"><a class="header" href="#新编译参数--skiplibcheck">新编译参数<code>--skipLibCheck</code></a></h2>
+<p>TypeScript 2.0添加了一个新的编译参数<code>--skipLibCheck</code>，该参数可以跳过声明文件（以<code>.d.ts</code>为扩展名的文件）的类型检查。当一个程序包含有大量的声明文件时，编译器需要花费大量时间对已知不包含错误的声明进行类型检查，通过跳过声明文件的类型检查，编译时间可能会大大缩短。</p>
+<p>由于一个文件中的声明可以影响其他文件中的类型检查，当指定<code>--skipLibCheck</code>时，一些错误可能检测不到。比如说, 如果一个非声明文件中的类型被声明文件用到, 可能仅在声明文件被检查时能发现错误. 不过这种情况在实际使用中并不常见。</p>
+<h2 id="允许在声明中重复标识符"><a class="header" href="#允许在声明中重复标识符">允许在声明中重复标识符</a></h2>
+<p>这是重复定义错误的一个常见来源。多个声明文件定义相同的接口成员。</p>
+<p>TypeScript 2.0放宽了这一约束，并允许可以不同代码块中出现重复的标识符, 只要它们有_完全相同_的类型。</p>
+<p>在同一代码块重复定义仍不允许。</p>
+<h4 id="示例-20"><a class="header" href="#示例-20">示例</a></h4>
+<pre><code class="language-typescript">interface Error {
+    stack?: string;
+}
+
+
+interface Error {
+    code?: string;
+    path?: string;
+    stack?: string;  // OK
+}
+</code></pre>
+<h2 id="新编译参数--declarationdir"><a class="header" href="#新编译参数--declarationdir">新编译参数<code>--declarationDir</code></a></h2>
+<p><code>--declarationDir</code>可以使生成的声明文件和JavaScript文件不在同一个位置中。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../zh/release-notes/typescript-2.1.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../zh/release-notes/typescript-1.8.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../zh/release-notes/typescript-2.1.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../zh/release-notes/typescript-1.8.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "name": "typescript-handbook-cn",
+  "version": "1.0.0",
+  "description": "The TypeScript Handbook is a comprehensive guide to the TypeScript language",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "node ./lint.js",
+    "lint": "node ./lint.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhongsp/TypeScript"
+  },
+  "keywords": [
+    "TypeScript"
+  ],
+  "author": {
+    "name": "Patrick Zhong",
+    "email": "patrick.zhongsp@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zhongsp/TypeScript/issues"
+  },
+  "homepage": "https://github.com/zhongsp/TypeScript",
+  "devDependencies": {
+    "glob": "7.1.3",
+    "markdownlint": "0.11.0"
+  }
+}

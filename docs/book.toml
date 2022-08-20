@@ -1,0 +1,12 @@
+[book]
+authors = ["钟胜平", "zhongsp"]
+language = "zh-Hans"
+multilingual = false
+src = "./"
+title = "TypeScript 使用指南手册"
+description = "TypeScript Handbook 中文翻译。"
+
+[build]
+build-dir = "docs"                # the directory where the output is placed
+create-missing = true             # whether or not to create missing pages
+use-default-preprocessors = true  # use the default preprocessors

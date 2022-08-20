@@ -1,0 +1,740 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hans" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>模块 - TypeScript 使用指南手册</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="TypeScript Handbook 中文翻译。">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../PREFACE.html">前言</a></li><li class="chapter-item expanded affix "><li class="part-title">快速上手</li><li class="chapter-item expanded "><a href="../../zh/tutorials/index.html"><strong aria-hidden="true">1.</strong> 快速上手</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/tutorials/typescript-in-5-minutes.html"><strong aria-hidden="true">1.1.</strong> 5 分钟了解 TypeScript</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/asp.net-core.html"><strong aria-hidden="true">1.2.</strong> ASP.NET Core</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/asp.net-4.html"><strong aria-hidden="true">1.3.</strong> ASP.NET 4</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/gulp.html"><strong aria-hidden="true">1.4.</strong> Gulp</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/knockout.html"><strong aria-hidden="true">1.5.</strong> Knockout.js</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/react-and-webpack.html"><strong aria-hidden="true">1.6.</strong> React 与 webpack</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/react.html"><strong aria-hidden="true">1.7.</strong> React</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/angular-2.html"><strong aria-hidden="true">1.8.</strong> Angular 2</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/migrating-from-javascript.html"><strong aria-hidden="true">1.9.</strong> 从 JavaScript 迁移到 TypeScript</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">手册</li><li class="chapter-item expanded "><a href="../../zh/handbook/index.html"><strong aria-hidden="true">2.</strong> 手册</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/handbook/basic-types.html"><strong aria-hidden="true">2.1.</strong> 基础类型</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/interfaces.html"><strong aria-hidden="true">2.2.</strong> 接口</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/functions.html"><strong aria-hidden="true">2.3.</strong> 函数</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/literal-types.html"><strong aria-hidden="true">2.4.</strong> 字面量类型</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/unions-and-intersections.html"><strong aria-hidden="true">2.5.</strong> 联合类型和交叉类型</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/classes.html"><strong aria-hidden="true">2.6.</strong> 类</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/enums.html"><strong aria-hidden="true">2.7.</strong> 枚举</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/generics.html"><strong aria-hidden="true">2.8.</strong> 泛型</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">手册（进阶）</li><li class="chapter-item expanded "><a href="../../zh/reference/index.html"><strong aria-hidden="true">3.</strong> 手册（进阶）</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/reference/advanced-types.html"><strong aria-hidden="true">3.1.</strong> 高级类型</a></li><li class="chapter-item expanded "><a href="../../zh/reference/utility-types.html"><strong aria-hidden="true">3.2.</strong> 实用工具类型</a></li><li class="chapter-item expanded "><a href="../../zh/reference/decorators.html"><strong aria-hidden="true">3.3.</strong> Decorators</a></li><li class="chapter-item expanded "><a href="../../zh/reference/declaration-merging.html"><strong aria-hidden="true">3.4.</strong> 声明合并</a></li><li class="chapter-item expanded "><a href="../../zh/reference/iterators-and-generators.html"><strong aria-hidden="true">3.5.</strong> Iterators 和 Generators</a></li><li class="chapter-item expanded "><a href="../../zh/reference/jsx.html"><strong aria-hidden="true">3.6.</strong> JSX</a></li><li class="chapter-item expanded "><a href="../../zh/reference/mixins.html"><strong aria-hidden="true">3.7.</strong> 混入</a></li><li class="chapter-item expanded "><a href="../../zh/reference/modules.html" class="active"><strong aria-hidden="true">3.8.</strong> 模块</a></li><li class="chapter-item expanded "><a href="../../zh/reference/module-resolution.html"><strong aria-hidden="true">3.9.</strong> 模块解析</a></li><li class="chapter-item expanded "><a href="../../zh/reference/namespaces.html"><strong aria-hidden="true">3.10.</strong> 命名空间</a></li><li class="chapter-item expanded "><a href="../../zh/reference/namespaces-and-modules.html"><strong aria-hidden="true">3.11.</strong> 命名空间和模块</a></li><li class="chapter-item expanded "><a href="../../zh/reference/symbols.html"><strong aria-hidden="true">3.12.</strong> Symbols</a></li><li class="chapter-item expanded "><a href="../../zh/reference/triple-slash-directives.html"><strong aria-hidden="true">3.13.</strong> 三斜线指令</a></li><li class="chapter-item expanded "><a href="../../zh/reference/type-compatibility.html"><strong aria-hidden="true">3.14.</strong> 类型兼容性</a></li><li class="chapter-item expanded "><a href="../../zh/reference/type-inference.html"><strong aria-hidden="true">3.15.</strong> 类型推论</a></li><li class="chapter-item expanded "><a href="../../zh/reference/variable-declarations.html"><strong aria-hidden="true">3.16.</strong> 变量声明</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">手册（v2）</li><li class="chapter-item expanded "><a href="../../zh/handbook-v2/index.html"><strong aria-hidden="true">4.</strong> 手册（v2）</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/handbook-v2/type-manipulation/template-literal-types.html"><strong aria-hidden="true">4.1.</strong> 模版字面量类型</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">TypeScript 声明文件（.d.ts）</li><li class="chapter-item expanded "><a href="../../zh/declaration-files/index.html"><strong aria-hidden="true">5.</strong> 如何书写声明文件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/declaration-files/introduction.html"><strong aria-hidden="true">5.1.</strong> 介绍</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/by-example.html"><strong aria-hidden="true">5.2.</strong> 举例</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/library-structures.html"><strong aria-hidden="true">5.3.</strong> 库结构</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/templates.html"><strong aria-hidden="true">5.4.</strong> 模板</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/do-s-and-don-ts.html"><strong aria-hidden="true">5.5.</strong> 最佳实践</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/deep-dive.html"><strong aria-hidden="true">5.6.</strong> 深入</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/publishing.html"><strong aria-hidden="true">5.7.</strong> 发布</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/consumption.html"><strong aria-hidden="true">5.8.</strong> 使用</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">TypeScript for JavaScript</li><li class="chapter-item expanded "><a href="../../zh/javascript/type-checking-javascript-files.html"><strong aria-hidden="true">6.</strong> JavaScript 文件里的类型检查</a></li><li class="chapter-item expanded affix "><li class="part-title">工程配置</li><li class="chapter-item expanded "><a href="../../zh/project-config/index.html"><strong aria-hidden="true">7.</strong> 工程配置</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/project-config/tsconfig.json.html"><strong aria-hidden="true">7.1.</strong> tsconfig.json</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/project-references.html"><strong aria-hidden="true">7.2.</strong> 工程引用</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/typings-for-npm-packages.html"><strong aria-hidden="true">7.3.</strong> NPM 包的类型</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/compiler-options.html"><strong aria-hidden="true">7.4.</strong> 编译选项</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/configuring-watch.html"><strong aria-hidden="true">7.5.</strong> 配置 Watch</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/compiler-options-in-msbuild.html"><strong aria-hidden="true">7.6.</strong> 在 MSBuild 里使用编译选项</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/integrating-with-build-tools.html"><strong aria-hidden="true">7.7.</strong> 与其它构建工具整合</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/nightly-builds.html"><strong aria-hidden="true">7.8.</strong> 使用 TypeScript 的每日构建版本</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">版本发布说明（Release Notes）</li><li class="chapter-item expanded "><a href="../../zh/release-notes/index.html"><strong aria-hidden="true">8.</strong> 新增功能</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.8.html"><strong aria-hidden="true">8.1.</strong> TypeScript 4.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.7.html"><strong aria-hidden="true">8.2.</strong> TypeScript 4.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.6.html"><strong aria-hidden="true">8.3.</strong> TypeScript 4.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.5.html"><strong aria-hidden="true">8.4.</strong> TypeScript 4.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.4.html"><strong aria-hidden="true">8.5.</strong> TypeScript 4.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.3.html"><strong aria-hidden="true">8.6.</strong> TypeScript 4.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.2.html"><strong aria-hidden="true">8.7.</strong> TypeScript 4.2</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.1.html"><strong aria-hidden="true">8.8.</strong> TypeScript 4.1</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.0.html"><strong aria-hidden="true">8.9.</strong> TypeScript 4.0</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.9.html"><strong aria-hidden="true">8.10.</strong> TypeScript 3.9</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.8.html"><strong aria-hidden="true">8.11.</strong> TypeScript 3.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.7.html"><strong aria-hidden="true">8.12.</strong> TypeScript 3.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.6.html"><strong aria-hidden="true">8.13.</strong> TypeScript 3.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.5.html"><strong aria-hidden="true">8.14.</strong> TypeScript 3.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.4.html"><strong aria-hidden="true">8.15.</strong> TypeScript 3.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.3.html"><strong aria-hidden="true">8.16.</strong> TypeScript 3.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.2.html"><strong aria-hidden="true">8.17.</strong> TypeScript 3.2</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.1.html"><strong aria-hidden="true">8.18.</strong> TypeScript 3.1</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.0.html"><strong aria-hidden="true">8.19.</strong> TypeScript 3.0</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.9.html"><strong aria-hidden="true">8.20.</strong> TypeScript 2.9</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.8.html"><strong aria-hidden="true">8.21.</strong> TypeScript 2.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.7.html"><strong aria-hidden="true">8.22.</strong> TypeScript 2.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.6.html"><strong aria-hidden="true">8.23.</strong> TypeScript 2.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.5.html"><strong aria-hidden="true">8.24.</strong> TypeScript 2.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.4.html"><strong aria-hidden="true">8.25.</strong> TypeScript 2.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.3.html"><strong aria-hidden="true">8.26.</strong> TypeScript 2.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.2.html"><strong aria-hidden="true">8.27.</strong> TypeScript 2.2</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.1.html"><strong aria-hidden="true">8.28.</strong> TypeScript 2.1</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.0.html"><strong aria-hidden="true">8.29.</strong> TypeScript 2.0</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.8.html"><strong aria-hidden="true">8.30.</strong> TypeScript 1.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.7.html"><strong aria-hidden="true">8.31.</strong> TypeScript 1.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.6.html"><strong aria-hidden="true">8.32.</strong> TypeScript 1.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.5.html"><strong aria-hidden="true">8.33.</strong> TypeScript 1.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.4.html"><strong aria-hidden="true">8.34.</strong> TypeScript 1.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.3.html"><strong aria-hidden="true">8.35.</strong> TypeScript 1.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.1.html"><strong aria-hidden="true">8.36.</strong> TypeScript 1.1</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">破坏性改动（Breaking Changes）</li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/index.html"><strong aria-hidden="true">9.</strong> Breaking Changes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.6.html"><strong aria-hidden="true">9.1.</strong> TypeScript 3.6</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.5.html"><strong aria-hidden="true">9.2.</strong> TypeScript 3.5</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.4.html"><strong aria-hidden="true">9.3.</strong> TypeScript 3.4</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.2.html"><strong aria-hidden="true">9.4.</strong> TypeScript 3.2</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.1.html"><strong aria-hidden="true">9.5.</strong> TypeScript 3.1</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.0.html"><strong aria-hidden="true">9.6.</strong> TypeScript 3.0</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.9.html"><strong aria-hidden="true">9.7.</strong> TypeScript 2.9</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.8.html"><strong aria-hidden="true">9.8.</strong> TypeScript 2.8</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.7.html"><strong aria-hidden="true">9.9.</strong> TypeScript 2.7</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.6.html"><strong aria-hidden="true">9.10.</strong> TypeScript 2.6</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.4.html"><strong aria-hidden="true">9.11.</strong> TypeScript 2.4</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.3.html"><strong aria-hidden="true">9.12.</strong> TypeScript 2.3</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.2.html"><strong aria-hidden="true">9.13.</strong> TypeScript 2.2</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.1.html"><strong aria-hidden="true">9.14.</strong> TypeScript 2.1</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.0.html"><strong aria-hidden="true">9.15.</strong> TypeScript 2.0</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.8.html"><strong aria-hidden="true">9.16.</strong> TypeScript 1.8</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.7.html"><strong aria-hidden="true">9.17.</strong> TypeScript 1.7</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.6.html"><strong aria-hidden="true">9.18.</strong> TypeScript 1.6</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.5.html"><strong aria-hidden="true">9.19.</strong> TypeScript 1.5</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.4.html"><strong aria-hidden="true">9.20.</strong> TypeScript 1.4</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">TypeScript 使用指南手册</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="模块"><a class="header" href="#模块">模块</a></h1>
+<blockquote>
+<p><strong>关于术语的一点说明:</strong> 请务必注意一点，TypeScript 1.5里术语名已经发生了变化。 “内部模块”现在称做“命名空间”。 “外部模块”现在则简称为“模块”，这是为了与<a href="http://www.ecma-international.org/ecma-262/6.0/">ECMAScript 2015</a>里的术语保持一致，(也就是说 <code>module X {</code> 相当于现在推荐的写法 <code>namespace X {</code>)。</p>
+</blockquote>
+<h2 id="介绍"><a class="header" href="#介绍">介绍</a></h2>
+<p>从ECMAScript 2015开始，JavaScript引入了模块的概念。TypeScript也沿用这个概念。</p>
+<p>模块在其自身的作用域里执行，而不是在全局作用域里；这意味着定义在一个模块里的变量，函数，类等等在模块外部是不可见的，除非你明确地使用<a href="modules.html#export"><code>export</code>形式</a>之一导出它们。 相反，如果想使用其它模块导出的变量，函数，类，接口等的时候，你必须要导入它们，可以使用<a href="modules.html#import"><code>import</code>形式</a>之一。</p>
+<p>模块是自声明的；两个模块之间的关系是通过在文件级别上使用imports和exports建立的。</p>
+<p>模块使用模块加载器去导入其它的模块。 在运行时，模块加载器的作用是在执行此模块代码前去查找并执行这个模块的所有依赖。 众所周知的JavaScript模块加载器有：作用于<a href="https://en.wikipedia.org/wiki/CommonJS">CommonJS</a>模块的Node.js加载器和在Web应用里作用于<a href="https://github.com/amdjs/amdjs-api/blob/master/AMD.md">AMD</a>模块的<a href="http://requirejs.org/">RequireJS</a>加载器。</p>
+<p>TypeScript与ECMAScript 2015一样，任何包含顶级<code>import</code>或者<code>export</code>的文件都被当成一个模块。 相反地，如果一个文件不带有顶级的<code>import</code>或者<code>export</code>声明，那么它的内容被视为全局可见的（因此对模块也是可见的）。</p>
+<h2 id="导出"><a class="header" href="#导出">导出</a></h2>
+<h3 id="导出声明"><a class="header" href="#导出声明">导出声明</a></h3>
+<p>任何声明（比如变量，函数，类，类型别名或接口）都能够通过添加<code>export</code>关键字来导出。</p>
+<p><strong>StringValidator.ts</strong></p>
+<pre><code class="language-typescript">export interface StringValidator {
+    isAcceptable(s: string): boolean;
+}
+</code></pre>
+<p><strong>ZipCodeValidator.ts</strong></p>
+<pre><code class="language-typescript">import { StringValidator } from &quot;./StringValidator&quot;;
+
+export const numberRegexp = /^[0-9]+$/;
+
+export class ZipCodeValidator implements StringValidator {
+    isAcceptable(s: string) {
+        return s.length === 5 &amp;&amp; numberRegexp.test(s);
+    }
+}
+</code></pre>
+<h3 id="导出语句"><a class="header" href="#导出语句">导出语句</a></h3>
+<p>导出语句很便利，因为我们可能需要对导出的部分重命名，所以上面的例子可以这样改写：</p>
+<pre><code class="language-typescript">class ZipCodeValidator implements StringValidator {
+    isAcceptable(s: string) {
+        return s.length === 5 &amp;&amp; numberRegexp.test(s);
+    }
+}
+export { ZipCodeValidator };
+export { ZipCodeValidator as mainValidator };
+</code></pre>
+<h3 id="重新导出"><a class="header" href="#重新导出">重新导出</a></h3>
+<p>我们经常会去扩展其它模块，并且只导出那个模块的部分内容。 重新导出功能并不会在当前模块导入那个模块或定义一个新的局部变量。</p>
+<p><strong>ParseIntBasedZipCodeValidator.ts</strong></p>
+<pre><code class="language-typescript">export class ParseIntBasedZipCodeValidator {
+    isAcceptable(s: string) {
+        return s.length === 5 &amp;&amp; parseInt(s).toString() === s;
+    }
+}
+
+// 导出原先的验证器但做了重命名
+export {ZipCodeValidator as RegExpBasedZipCodeValidator} from &quot;./ZipCodeValidator&quot;;
+</code></pre>
+<p>或者一个模块可以包裹多个模块，并把他们导出的内容联合在一起通过语法：<code>export * from &quot;module&quot;</code>。</p>
+<p><strong>AllValidators.ts</strong></p>
+<pre><code class="language-typescript">export * from &quot;./StringValidator&quot;; // exports 'StringValidator' interface
+export * from &quot;./ZipCodeValidator&quot;;  // exports 'ZipCodeValidator' and const 'numberRegexp' class
+export * from &quot;./ParseIntBasedZipCodeValidator&quot;; //  exports the 'ParseIntBasedZipCodeValidator' class
+                                                 // and re-exports 'RegExpBasedZipCodeValidator' as alias
+                                                 // of the 'ZipCodeValidator' class from 'ZipCodeValidator.ts'
+</code></pre>
+<h2 id="导入"><a class="header" href="#导入">导入</a></h2>
+<p>模块的导入操作与导出一样简单。 可以使用以下<code>import</code>形式之一来导入其它模块中的导出内容。</p>
+<h3 id="导入一个模块中的某个导出内容"><a class="header" href="#导入一个模块中的某个导出内容">导入一个模块中的某个导出内容</a></h3>
+<pre><code class="language-typescript">import { ZipCodeValidator } from &quot;./ZipCodeValidator&quot;;
+
+let myValidator = new ZipCodeValidator();
+</code></pre>
+<p>可以对导入内容重命名</p>
+<pre><code class="language-typescript">import { ZipCodeValidator as ZCV } from &quot;./ZipCodeValidator&quot;;
+let myValidator = new ZCV();
+</code></pre>
+<h3 id="将整个模块导入到一个变量并通过它来访问模块的导出部分"><a class="header" href="#将整个模块导入到一个变量并通过它来访问模块的导出部分">将整个模块导入到一个变量，并通过它来访问模块的导出部分</a></h3>
+<pre><code class="language-typescript">import * as validator from &quot;./ZipCodeValidator&quot;;
+let myValidator = new validator.ZipCodeValidator();
+</code></pre>
+<h3 id="具有副作用的导入模块"><a class="header" href="#具有副作用的导入模块">具有副作用的导入模块</a></h3>
+<p>尽管不推荐这么做，一些模块会设置一些全局状态供其它模块使用。 这些模块可能没有任何的导出或用户根本就不关注它的导出。 使用下面的方法来导入这类模块：</p>
+<pre><code class="language-typescript">import &quot;./my-module.js&quot;;
+</code></pre>
+<h2 id="默认导出"><a class="header" href="#默认导出">默认导出</a></h2>
+<p>每个模块都可以有一个<code>default</code>导出。 默认导出使用<code>default</code>关键字标记；并且一个模块只能够有一个<code>default</code>导出。 需要使用一种特殊的导入形式来导入<code>default</code>导出。</p>
+<p><code>default</code>导出十分便利。 比如，像jQuery这样的类库可能有一个默认导出<code>jQuery</code>或<code>$</code>，并且我们基本上也会使用同样的名字<code>jQuery</code>或<code>$</code>导出jQuery。</p>
+<p><strong>jQuery.d.ts</strong></p>
+<pre><code class="language-typescript">declare let $: jQuery;
+export default $;
+</code></pre>
+<p><strong>App.ts</strong></p>
+<pre><code class="language-typescript">import $ from &quot;jQuery&quot;;
+
+$(&quot;button.continue&quot;).html( &quot;Next Step...&quot; );
+</code></pre>
+<p>类和函数声明可以直接被标记为默认导出。 标记为默认导出的类和函数的名字是可以省略的。</p>
+<p><strong>ZipCodeValidator.ts</strong></p>
+<pre><code class="language-typescript">export default class ZipCodeValidator {
+    static numberRegexp = /^[0-9]+$/;
+    isAcceptable(s: string) {
+        return s.length === 5 &amp;&amp; ZipCodeValidator.numberRegexp.test(s);
+    }
+}
+</code></pre>
+<p><strong>Test.ts</strong></p>
+<pre><code class="language-typescript">import validator from &quot;./ZipCodeValidator&quot;;
+
+let myValidator = new validator();
+</code></pre>
+<p>或者</p>
+<p><strong>StaticZipCodeValidator.ts</strong></p>
+<pre><code class="language-typescript">const numberRegexp = /^[0-9]+$/;
+
+export default function (s: string) {
+    return s.length === 5 &amp;&amp; numberRegexp.test(s);
+}
+</code></pre>
+<p><strong>Test.ts</strong></p>
+<pre><code class="language-typescript">import validate from &quot;./StaticZipCodeValidator&quot;;
+
+let strings = [&quot;Hello&quot;, &quot;98052&quot;, &quot;101&quot;];
+
+// Use function validate
+strings.forEach(s =&gt; {
+  console.log(`&quot;${s}&quot; ${validate(s) ? &quot;matches&quot; : &quot;does not match&quot;}`);
+});
+</code></pre>
+<p><code>default</code>导出也可以是一个值</p>
+<p><strong>OneTwoThree.ts</strong></p>
+<pre><code class="language-typescript">export default &quot;123&quot;;
+</code></pre>
+<p><strong>Log.ts</strong></p>
+<pre><code class="language-typescript">import num from &quot;./OneTwoThree&quot;;
+
+console.log(num); // &quot;123&quot;
+</code></pre>
+<h2 id="export--和-import--require"><a class="header" href="#export--和-import--require"><code>export =</code> 和 <code>import = require()</code></a></h2>
+<p>CommonJS和AMD的环境里都有一个<code>exports</code>变量，这个变量包含了一个模块的所有导出内容。</p>
+<p>CommonJS和AMD的<code>exports</code>都可以被赋值为一个<code>对象</code>, 这种情况下其作用就类似于 es6 语法里的默认导出，即 <code>export default</code>语法了。虽然作用相似，但是 <code>export default</code> 语法并不能兼容CommonJS和AMD的<code>exports</code>。</p>
+<p>为了支持CommonJS和AMD的<code>exports</code>, TypeScript提供了<code>export =</code>语法。</p>
+<p><code>export =</code>语法定义一个模块的导出<code>对象</code>。 这里的<code>对象</code>一词指的是类，接口，命名空间，函数或枚举。</p>
+<p>若使用<code>export =</code>导出一个模块，则必须使用TypeScript的特定语法<code>import module = require(&quot;module&quot;)</code>来导入此模块。</p>
+<p><strong>ZipCodeValidator.ts</strong></p>
+<pre><code class="language-typescript">let numberRegexp = /^[0-9]+$/;
+class ZipCodeValidator {
+    isAcceptable(s: string) {
+        return s.length === 5 &amp;&amp; numberRegexp.test(s);
+    }
+}
+export = ZipCodeValidator;
+</code></pre>
+<p><strong>Test.ts</strong></p>
+<pre><code class="language-typescript">import zip = require(&quot;./ZipCodeValidator&quot;);
+
+// Some samples to try
+let strings = [&quot;Hello&quot;, &quot;98052&quot;, &quot;101&quot;];
+
+// Validators to use
+let validator = new zip();
+
+// Show whether each string passed each validator
+strings.forEach(s =&gt; {
+  console.log(`&quot;${ s }&quot; - ${ validator.isAcceptable(s) ? &quot;matches&quot; : &quot;does not match&quot; }`);
+});
+</code></pre>
+<h2 id="生成模块代码"><a class="header" href="#生成模块代码">生成模块代码</a></h2>
+<p>根据编译时指定的模块目标参数，编译器会生成相应的供Node.js (<a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS</a>)，Require.js (<a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a>)，<a href="https://github.com/umdjs/umd">UMD</a>, <a href="https://github.com/systemjs/systemjs">SystemJS</a>或<a href="http://www.ecma-international.org/ecma-262/6.0/#sec-modules">ECMAScript 2015 native modules</a> (ES6)模块加载系统使用的代码。 想要了解生成代码中<code>define</code>，<code>require</code> 和 <code>register</code>的意义，请参考相应模块加载器的文档。</p>
+<p>下面的例子说明了导入导出语句里使用的名字是怎么转换为相应的模块加载器代码的。</p>
+<p><strong>SimpleModule.ts</strong></p>
+<pre><code class="language-typescript">import m = require(&quot;mod&quot;);
+export let t = m.something + 1;
+</code></pre>
+<p><strong>AMD / RequireJS SimpleModule.js</strong></p>
+<pre><code class="language-javascript">define([&quot;require&quot;, &quot;exports&quot;, &quot;./mod&quot;], function (require, exports, mod_1) {
+    exports.t = mod_1.something + 1;
+});
+</code></pre>
+<p><strong>CommonJS / Node SimpleModule.js</strong></p>
+<pre><code class="language-javascript">let mod_1 = require(&quot;./mod&quot;);
+exports.t = mod_1.something + 1;
+</code></pre>
+<p><strong>UMD SimpleModule.js</strong></p>
+<pre><code class="language-javascript">(function (factory) {
+    if (typeof module === &quot;object&quot; &amp;&amp; typeof module.exports === &quot;object&quot;) {
+        let v = factory(require, exports); if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === &quot;function&quot; &amp;&amp; define.amd) {
+        define([&quot;require&quot;, &quot;exports&quot;, &quot;./mod&quot;], factory);
+    }
+})(function (require, exports) {
+    let mod_1 = require(&quot;./mod&quot;);
+    exports.t = mod_1.something + 1;
+});
+</code></pre>
+<p><strong>System SimpleModule.js</strong></p>
+<pre><code class="language-javascript">System.register([&quot;./mod&quot;], function(exports_1) {
+    let mod_1;
+    let t;
+    return {
+        setters:[
+            function (mod_1_1) {
+                mod_1 = mod_1_1;
+            }],
+        execute: function() {
+            exports_1(&quot;t&quot;, t = mod_1.something + 1);
+        }
+    }
+});
+</code></pre>
+<p><strong>Native ECMAScript 2015 modules SimpleModule.js</strong></p>
+<pre><code class="language-javascript">import { something } from &quot;./mod&quot;;
+export let t = something + 1;
+</code></pre>
+<h2 id="简单示例"><a class="header" href="#简单示例">简单示例</a></h2>
+<p>下面我们来整理一下前面的验证器实现，每个模块只有一个命名的导出。</p>
+<p>为了编译，我们必需要在命令行上指定一个模块目标。对于Node.js来说，使用<code>--module commonjs</code>； 对于Require.js来说，使用<code>--module amd</code>。比如：</p>
+<pre><code class="language-text">tsc --module commonjs Test.ts
+</code></pre>
+<p>编译完成后，每个模块会生成一个单独的<code>.js</code>文件。 好比使用了reference标签，编译器会根据<code>import</code>语句编译相应的文件。</p>
+<p><strong>Validation.ts</strong></p>
+<pre><code class="language-typescript">export interface StringValidator {
+    isAcceptable(s: string): boolean;
+}
+</code></pre>
+<p><strong>LettersOnlyValidator.ts</strong></p>
+<pre><code class="language-typescript">import { StringValidator } from &quot;./Validation&quot;;
+
+const lettersRegexp = /^[A-Za-z]+$/;
+
+export class LettersOnlyValidator implements StringValidator {
+    isAcceptable(s: string) {
+        return lettersRegexp.test(s);
+    }
+}
+</code></pre>
+<p><strong>ZipCodeValidator.ts</strong></p>
+<pre><code class="language-typescript">import { StringValidator } from &quot;./Validation&quot;;
+
+const numberRegexp = /^[0-9]+$/;
+
+export class ZipCodeValidator implements StringValidator {
+    isAcceptable(s: string) {
+        return s.length === 5 &amp;&amp; numberRegexp.test(s);
+    }
+}
+</code></pre>
+<p><strong>Test.ts</strong></p>
+<pre><code class="language-typescript">import { StringValidator } from &quot;./Validation&quot;;
+import { ZipCodeValidator } from &quot;./ZipCodeValidator&quot;;
+import { LettersOnlyValidator } from &quot;./LettersOnlyValidator&quot;;
+
+// Some samples to try
+let strings = [&quot;Hello&quot;, &quot;98052&quot;, &quot;101&quot;];
+
+// Validators to use
+let validators: { [s: string]: StringValidator; } = {};
+validators[&quot;ZIP code&quot;] = new ZipCodeValidator();
+validators[&quot;Letters only&quot;] = new LettersOnlyValidator();
+
+// Show whether each string passed each validator
+strings.forEach(s =&gt; {
+    for (let name in validators) {
+        console.log(`&quot;${ s }&quot; - ${ validators[name].isAcceptable(s) ? &quot;matches&quot; : &quot;does not match&quot; } ${ name }`);
+    }
+});
+</code></pre>
+<h2 id="可选的模块加载和其它高级加载场景"><a class="header" href="#可选的模块加载和其它高级加载场景">可选的模块加载和其它高级加载场景</a></h2>
+<p>有时候，你只想在某种条件下才加载某个模块。 在TypeScript里，使用下面的方式来实现它和其它的高级加载场景，我们可以直接调用模块加载器并且可以保证类型完全。</p>
+<p>编译器会检测是否每个模块都会在生成的JavaScript中用到。 如果一个模块标识符只在类型注解部分使用，并且完全没有在表达式中使用时，就不会生成<code>require</code>这个模块的代码。 省略掉没有用到的引用对性能提升是很有益的，并同时提供了选择性加载模块的能力。</p>
+<p>这种模式的核心是<code>import id = require(&quot;...&quot;)</code>语句可以让我们访问模块导出的类型。 模块加载器会被动态调用（通过<code>require</code>），就像下面<code>if</code>代码块里那样。 它利用了省略引用的优化，所以模块只在被需要时加载。 为了让这个模块工作，一定要注意<code>import</code>定义的标识符只能在表示类型处使用（不能在会转换成JavaScript的地方）。</p>
+<p>为了确保类型安全性，我们可以使用<code>typeof</code>关键字。 <code>typeof</code>关键字，当在表示类型的地方使用时，会得出一个类型值，这里就表示模块的类型。</p>
+<p><strong>示例：Node.js里的动态模块加载</strong></p>
+<pre><code class="language-typescript">declare function require(moduleName: string): any;
+
+import { ZipCodeValidator as Zip } from &quot;./ZipCodeValidator&quot;;
+
+if (needZipValidation) {
+    let ZipCodeValidator: typeof Zip = require(&quot;./ZipCodeValidator&quot;);
+    let validator = new ZipCodeValidator();
+    if (validator.isAcceptable(&quot;...&quot;)) { /* ... */ }
+}
+</code></pre>
+<p><strong>示例：require.js里的动态模块加载</strong></p>
+<pre><code class="language-typescript">declare function require(moduleNames: string[], onLoad: (...args: any[]) =&gt; void): void;
+
+import * as Zip from &quot;./ZipCodeValidator&quot;;
+
+if (needZipValidation) {
+    require([&quot;./ZipCodeValidator&quot;], (ZipCodeValidator: typeof Zip) =&gt; {
+        let validator = new ZipCodeValidator.ZipCodeValidator();
+        if (validator.isAcceptable(&quot;...&quot;)) { /* ... */ }
+    });
+}
+</code></pre>
+<p><strong>示例：System.js里的动态模块加载</strong></p>
+<pre><code class="language-typescript">declare const System: any;
+
+import { ZipCodeValidator as Zip } from &quot;./ZipCodeValidator&quot;;
+
+if (needZipValidation) {
+    System.import(&quot;./ZipCodeValidator&quot;).then((ZipCodeValidator: typeof Zip) =&gt; {
+        var x = new ZipCodeValidator();
+        if (x.isAcceptable(&quot;...&quot;)) { /* ... */ }
+    });
+}
+</code></pre>
+<h2 id="使用其它的javascript库"><a class="header" href="#使用其它的javascript库">使用其它的JavaScript库</a></h2>
+<p>要想描述非TypeScript编写的类库的类型，我们需要声明类库所暴露出的API。</p>
+<p>我们叫它声明因为它不是“外部程序”的具体实现。 它们通常是在<code>.d.ts</code>文件里定义的。 如果你熟悉C/C++，你可以把它们当做<code>.h</code>文件。 让我们看一些例子。</p>
+<h3 id="外部模块"><a class="header" href="#外部模块">外部模块</a></h3>
+<p>在Node.js里大部分工作是通过加载一个或多个模块实现的。 我们可以使用顶级的<code>export</code>声明来为每个模块都定义一个<code>.d.ts</code>文件，但最好还是写在一个大的<code>.d.ts</code>文件里。 我们使用与构造一个外部命名空间相似的方法，但是这里使用<code>module</code>关键字并且把名字用引号括起来，方便之后<code>import</code>。 例如：</p>
+<p><strong>node.d.ts (simplified excerpt)</strong></p>
+<pre><code class="language-typescript">declare module &quot;url&quot; {
+    export interface Url {
+        protocol?: string;
+        hostname?: string;
+        pathname?: string;
+    }
+
+    export function parse(urlStr: string, parseQueryString?, slashesDenoteHost?): Url;
+}
+
+declare module &quot;path&quot; {
+    export function normalize(p: string): string;
+    export function join(...paths: any[]): string;
+    export let sep: string;
+}
+</code></pre>
+<p>现在我们可以<code>/// &lt;reference&gt;</code> <code>node.d.ts</code>并且使用<code>import url = require(&quot;url&quot;);</code>或<code>import * as URL from &quot;url&quot;</code>加载模块。</p>
+<pre><code class="language-typescript">/// &lt;reference path=&quot;node.d.ts&quot;/&gt;
+import * as URL from &quot;url&quot;;
+let myUrl = URL.parse(&quot;http://www.typescriptlang.org&quot;);
+</code></pre>
+<h4 id="外部模块简写"><a class="header" href="#外部模块简写">外部模块简写</a></h4>
+<p>假如你不想在使用一个新模块之前花时间去编写声明，你可以采用声明的简写形式以便能够快速使用它。</p>
+<p><strong>declarations.d.ts</strong></p>
+<pre><code class="language-typescript">declare module &quot;hot-new-module&quot;;
+</code></pre>
+<p>简写模块里所有导出的类型将是<code>any</code>。</p>
+<pre><code class="language-typescript">import x, {y} from &quot;hot-new-module&quot;;
+x(y);
+</code></pre>
+<h4 id="模块声明通配符"><a class="header" href="#模块声明通配符">模块声明通配符</a></h4>
+<p>某些模块加载器如<a href="https://github.com/systemjs/systemjs/blob/master/docs/overview.md#plugin-syntax">SystemJS</a> 和<a href="https://github.com/amdjs/amdjs-api/blob/master/LoaderPlugins.md">AMD</a>支持导入非JavaScript内容。 它们通常会使用一个前缀或后缀来表示特殊的加载语法。 模块声明通配符可以用来表示这些情况。</p>
+<pre><code class="language-typescript">declare module &quot;*!text&quot; {
+    const content: string;
+    export default content;
+}
+// Some do it the other way around.
+declare module &quot;json!*&quot; {
+    const value: any;
+    export default value;
+}
+</code></pre>
+<p>现在你可以就导入匹配<code>&quot;*!text&quot;</code>或<code>&quot;json!*&quot;</code>的内容了。</p>
+<pre><code class="language-typescript">import fileContent from &quot;./xyz.txt!text&quot;;
+import data from &quot;json!http://example.com/data.json&quot;;
+console.log(data, fileContent);
+</code></pre>
+<h4 id="umd模块"><a class="header" href="#umd模块">UMD模块</a></h4>
+<p>有些模块被设计成兼容多个模块加载器，或者不使用模块加载器（全局变量）。 它们以<a href="https://github.com/umdjs/umd">UMD</a>模块为代表。 这些库可以通过导入的形式或全局变量的形式访问。 例如：</p>
+<p><strong>math-lib.d.ts</strong></p>
+<pre><code class="language-typescript">export function isPrime(x: number): boolean;
+export as namespace mathLib;
+</code></pre>
+<p>之后，这个库可以在某个模块里通过导入来使用：</p>
+<pre><code class="language-typescript">import { isPrime } from &quot;math-lib&quot;;
+isPrime(2);
+mathLib.isPrime(2); // ERROR: can't use the global definition from inside a module
+</code></pre>
+<p>它同样可以通过全局变量的形式使用，但只能在某个脚本里。 （脚本是指一个不带有导入或导出的文件。）</p>
+<pre><code class="language-typescript">mathLib.isPrime(2);
+</code></pre>
+<h2 id="创建模块结构指导"><a class="header" href="#创建模块结构指导">创建模块结构指导</a></h2>
+<h3 id="尽可能地在顶层导出"><a class="header" href="#尽可能地在顶层导出">尽可能地在顶层导出</a></h3>
+<p>用户应该更容易地使用你模块导出的内容。 嵌套层次过多会变得难以处理，因此仔细考虑一下如何组织你的代码。</p>
+<p>从你的模块中导出一个命名空间就是一个增加嵌套的例子。 虽然命名空间有时候有它们的用处，在使用模块的时候它们额外地增加了一层。 这对用户来说是很不便的并且通常是多余的。</p>
+<p>导出类的静态方法也有同样的问题 - 这个类本身就增加了一层嵌套。 除非它能方便表述或便于清晰使用，否则请考虑直接导出一个辅助方法。</p>
+<h4 id="如果仅导出单个-class-或-function使用-export-default"><a class="header" href="#如果仅导出单个-class-或-function使用-export-default">如果仅导出单个 <code>class</code> 或 <code>function</code>，使用 <code>export default</code></a></h4>
+<p>就像“在顶层上导出”帮助减少用户使用的难度，一个默认的导出也能起到这个效果。 如果一个模块就是为了导出特定的内容，那么你应该考虑使用一个默认导出。 这会令模块的导入和使用变得些许简单。 比如：</p>
+<p><strong>MyClass.ts</strong></p>
+<pre><code class="language-typescript">export default class SomeType {
+  constructor() { ... }
+}
+</code></pre>
+<p><strong>MyFunc.ts</strong></p>
+<pre><code class="language-typescript">export default function getThing() { return 'thing'; }
+</code></pre>
+<p><strong>Consumer.ts</strong></p>
+<pre><code class="language-typescript">import t from &quot;./MyClass&quot;;
+import f from &quot;./MyFunc&quot;;
+let x = new t();
+console.log(f());
+</code></pre>
+<p>对用户来说这是最理想的。他们可以随意命名导入模块的类型（本例为<code>t</code>）并且不需要多余的（.）来找到相关对象。</p>
+<h4 id="如果要导出多个对象把它们放在顶层里导出"><a class="header" href="#如果要导出多个对象把它们放在顶层里导出">如果要导出多个对象，把它们放在顶层里导出</a></h4>
+<p><strong>MyThings.ts</strong></p>
+<pre><code class="language-typescript">export class SomeType { /* ... */ }
+export function someFunc() { /* ... */ }
+</code></pre>
+<p>相反地，当导入的时候：</p>
+<h4 id="明确地列出导入的名字"><a class="header" href="#明确地列出导入的名字">明确地列出导入的名字</a></h4>
+<p><strong>Consumer.ts</strong></p>
+<pre><code class="language-typescript">import { SomeType, SomeFunc } from &quot;./MyThings&quot;;
+let x = new SomeType();
+let y = someFunc();
+</code></pre>
+<h4 id="使用命名空间导入模式当你要导出大量内容的时候"><a class="header" href="#使用命名空间导入模式当你要导出大量内容的时候">使用命名空间导入模式当你要导出大量内容的时候</a></h4>
+<p><strong>MyLargeModule.ts</strong></p>
+<pre><code class="language-typescript">export class Dog { ... }
+export class Cat { ... }
+export class Tree { ... }
+export class Flower { ... }
+</code></pre>
+<p><strong>Consumer.ts</strong></p>
+<pre><code class="language-typescript">import * as myLargeModule from &quot;./MyLargeModule.ts&quot;;
+let x = new myLargeModule.Dog();
+</code></pre>
+<h3 id="使用重新导出进行扩展"><a class="header" href="#使用重新导出进行扩展">使用重新导出进行扩展</a></h3>
+<p>你可能经常需要去扩展一个模块的功能。 JS里常用的一个模式是jQuery那样去扩展原对象。 如我们之前提到的，模块不会像全局命名空间对象那样去_合并_。 推荐的方案是_不要_去改变原来的对象，而是导出一个新的实体来提供新的功能。</p>
+<p>假设<code>Calculator.ts</code>模块里定义了一个简单的计算器实现。 这个模块同样提供了一个辅助函数来测试计算器的功能，通过传入一系列输入的字符串并在最后给出结果。</p>
+<p><strong>Calculator.ts</strong></p>
+<pre><code class="language-typescript">export class Calculator {
+    private current = 0;
+    private memory = 0;
+    private operator: string;
+
+    protected processDigit(digit: string, currentValue: number) {
+        if (digit &gt;= &quot;0&quot; &amp;&amp; digit &lt;= &quot;9&quot;) {
+            return currentValue * 10 + (digit.charCodeAt(0) - &quot;0&quot;.charCodeAt(0));
+        }
+    }
+
+    protected processOperator(operator: string) {
+        if ([&quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;/&quot;].indexOf(operator) &gt;= 0) {
+            return operator;
+        }
+    }
+
+    protected evaluateOperator(operator: string, left: number, right: number): number {
+        switch (this.operator) {
+            case &quot;+&quot;: return left + right;
+            case &quot;-&quot;: return left - right;
+            case &quot;*&quot;: return left * right;
+            case &quot;/&quot;: return left / right;
+        }
+    }
+
+    private evaluate() {
+        if (this.operator) {
+            this.memory = this.evaluateOperator(this.operator, this.memory, this.current);
+        }
+        else {
+            this.memory = this.current;
+        }
+        this.current = 0;
+    }
+
+    public handleChar(char: string) {
+        if (char === &quot;=&quot;) {
+            this.evaluate();
+            return;
+        }
+        else {
+            let value = this.processDigit(char, this.current);
+            if (value !== undefined) {
+                this.current = value;
+                return;
+            }
+            else {
+                let value = this.processOperator(char);
+                if (value !== undefined) {
+                    this.evaluate();
+                    this.operator = value;
+                    return;
+                }
+            }
+        }
+        throw new Error(`Unsupported input: '${char}'`);
+    }
+
+    public getResult() {
+        return this.memory;
+    }
+}
+
+export function test(c: Calculator, input: string) {
+    for (let i = 0; i &lt; input.length; i++) {
+        c.handleChar(input[i]);
+    }
+
+    console.log(`result of '${input}' is '${c.getResult()}'`);
+}
+</code></pre>
+<p>下面使用导出的<code>test</code>函数来测试计算器。</p>
+<p><strong>TestCalculator.ts</strong></p>
+<pre><code class="language-typescript">import { Calculator, test } from &quot;./Calculator&quot;;
+
+
+let c = new Calculator();
+test(c, &quot;1+2*33/11=&quot;); // prints 9
+</code></pre>
+<p>现在扩展它，添加支持输入其它进制（十进制以外），让我们来创建<code>ProgrammerCalculator.ts</code>。</p>
+<p><strong>ProgrammerCalculator.ts</strong></p>
+<pre><code class="language-typescript">import { Calculator } from &quot;./Calculator&quot;;
+
+class ProgrammerCalculator extends Calculator {
+    static digits = [&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;];
+
+    constructor(public base: number) {
+        super();
+        const maxBase = ProgrammerCalculator.digits.length;
+        if (base &lt;= 0 || base &gt; maxBase) {
+            throw new Error(`base has to be within 0 to ${maxBase} inclusive.`);
+        }
+    }
+
+    protected processDigit(digit: string, currentValue: number) {
+        if (ProgrammerCalculator.digits.indexOf(digit) &gt;= 0) {
+            return currentValue * this.base + ProgrammerCalculator.digits.indexOf(digit);
+        }
+    }
+}
+
+// Export the new extended calculator as Calculator
+export { ProgrammerCalculator as Calculator };
+
+// Also, export the helper function
+export { test } from &quot;./Calculator&quot;;
+</code></pre>
+<p>新的<code>ProgrammerCalculator</code>模块导出的API与原先的<code>Calculator</code>模块很相似，但却没有改变原模块里的对象。 下面是测试ProgrammerCalculator类的代码：</p>
+<p><strong>TestProgrammerCalculator.ts</strong></p>
+<pre><code class="language-typescript">import { Calculator, test } from &quot;./ProgrammerCalculator&quot;;
+
+let c = new Calculator(2);
+test(c, &quot;001+010=&quot;); // prints 3
+</code></pre>
+<h3 id="模块里不要使用命名空间"><a class="header" href="#模块里不要使用命名空间">模块里不要使用命名空间</a></h3>
+<p>当初次进入基于模块的开发模式时，可能总会控制不住要将导出包裹在一个命名空间里。 模块具有其自己的作用域，并且只有导出的声明才会在模块外部可见。 记住这点，命名空间在使用模块时几乎没什么价值。</p>
+<p>在组织方面，命名空间对于在全局作用域内对逻辑上相关的对象和类型进行分组是很便利的。 例如，在C#里，你会从<code>System.Collections</code>里找到所有集合的类型。 通过将类型有层次地组织在命名空间里，可以方便用户找到与使用那些类型。 然而，模块本身已经存在于文件系统之中，这是必须的。 我们必须通过路径和文件名找到它们，这已经提供了一种逻辑上的组织形式。 我们可以创建<code>/collections/generic/</code>文件夹，把相应模块放在这里面。</p>
+<p>命名空间对解决全局作用域里命名冲突来说是很重要的。 比如，你可以有一个<code>My.Application.Customer.AddForm</code>和<code>My.Application.Order.AddForm</code> -- 两个类型的名字相同，但命名空间不同。 然而，这对于模块来说却不是一个问题。 在一个模块里，没有理由两个对象拥有同一个名字。 从模块的使用角度来说，使用者会挑出他们用来引用模块的名字，所以也没有理由发生重名的情况。</p>
+<blockquote>
+<p>更多关于模块和命名空间的资料查看<a href="namespaces-and-modules.html">命名空间和模块</a></p>
+</blockquote>
+<h3 id="危险信号"><a class="header" href="#危险信号">危险信号</a></h3>
+<p>以下均为模块结构上的危险信号。重新检查以确保你没有在对模块使用命名空间：</p>
+<ul>
+<li>文件的顶层声明是<code>export namespace Foo { ... }</code> （删除<code>Foo</code>并把所有内容向上层移动一层）©</li>
+<li>多个文件的顶层具有同样的<code>export namespace Foo {</code> （不要以为这些会合并到一个<code>Foo</code>中！）</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../zh/reference/mixins.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../zh/reference/module-resolution.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../zh/reference/mixins.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../zh/reference/module-resolution.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

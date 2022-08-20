@@ -1,0 +1,497 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hans" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>ASP.NET Core - TypeScript 使用指南手册</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="TypeScript Handbook 中文翻译。">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../PREFACE.html">前言</a></li><li class="chapter-item expanded affix "><li class="part-title">快速上手</li><li class="chapter-item expanded "><a href="../../zh/tutorials/index.html"><strong aria-hidden="true">1.</strong> 快速上手</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/tutorials/typescript-in-5-minutes.html"><strong aria-hidden="true">1.1.</strong> 5 分钟了解 TypeScript</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/asp.net-core.html" class="active"><strong aria-hidden="true">1.2.</strong> ASP.NET Core</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/asp.net-4.html"><strong aria-hidden="true">1.3.</strong> ASP.NET 4</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/gulp.html"><strong aria-hidden="true">1.4.</strong> Gulp</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/knockout.html"><strong aria-hidden="true">1.5.</strong> Knockout.js</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/react-and-webpack.html"><strong aria-hidden="true">1.6.</strong> React 与 webpack</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/react.html"><strong aria-hidden="true">1.7.</strong> React</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/angular-2.html"><strong aria-hidden="true">1.8.</strong> Angular 2</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/migrating-from-javascript.html"><strong aria-hidden="true">1.9.</strong> 从 JavaScript 迁移到 TypeScript</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">手册</li><li class="chapter-item expanded "><a href="../../zh/handbook/index.html"><strong aria-hidden="true">2.</strong> 手册</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/handbook/basic-types.html"><strong aria-hidden="true">2.1.</strong> 基础类型</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/interfaces.html"><strong aria-hidden="true">2.2.</strong> 接口</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/functions.html"><strong aria-hidden="true">2.3.</strong> 函数</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/literal-types.html"><strong aria-hidden="true">2.4.</strong> 字面量类型</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/unions-and-intersections.html"><strong aria-hidden="true">2.5.</strong> 联合类型和交叉类型</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/classes.html"><strong aria-hidden="true">2.6.</strong> 类</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/enums.html"><strong aria-hidden="true">2.7.</strong> 枚举</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/generics.html"><strong aria-hidden="true">2.8.</strong> 泛型</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">手册（进阶）</li><li class="chapter-item expanded "><a href="../../zh/reference/index.html"><strong aria-hidden="true">3.</strong> 手册（进阶）</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/reference/advanced-types.html"><strong aria-hidden="true">3.1.</strong> 高级类型</a></li><li class="chapter-item expanded "><a href="../../zh/reference/utility-types.html"><strong aria-hidden="true">3.2.</strong> 实用工具类型</a></li><li class="chapter-item expanded "><a href="../../zh/reference/decorators.html"><strong aria-hidden="true">3.3.</strong> Decorators</a></li><li class="chapter-item expanded "><a href="../../zh/reference/declaration-merging.html"><strong aria-hidden="true">3.4.</strong> 声明合并</a></li><li class="chapter-item expanded "><a href="../../zh/reference/iterators-and-generators.html"><strong aria-hidden="true">3.5.</strong> Iterators 和 Generators</a></li><li class="chapter-item expanded "><a href="../../zh/reference/jsx.html"><strong aria-hidden="true">3.6.</strong> JSX</a></li><li class="chapter-item expanded "><a href="../../zh/reference/mixins.html"><strong aria-hidden="true">3.7.</strong> 混入</a></li><li class="chapter-item expanded "><a href="../../zh/reference/modules.html"><strong aria-hidden="true">3.8.</strong> 模块</a></li><li class="chapter-item expanded "><a href="../../zh/reference/module-resolution.html"><strong aria-hidden="true">3.9.</strong> 模块解析</a></li><li class="chapter-item expanded "><a href="../../zh/reference/namespaces.html"><strong aria-hidden="true">3.10.</strong> 命名空间</a></li><li class="chapter-item expanded "><a href="../../zh/reference/namespaces-and-modules.html"><strong aria-hidden="true">3.11.</strong> 命名空间和模块</a></li><li class="chapter-item expanded "><a href="../../zh/reference/symbols.html"><strong aria-hidden="true">3.12.</strong> Symbols</a></li><li class="chapter-item expanded "><a href="../../zh/reference/triple-slash-directives.html"><strong aria-hidden="true">3.13.</strong> 三斜线指令</a></li><li class="chapter-item expanded "><a href="../../zh/reference/type-compatibility.html"><strong aria-hidden="true">3.14.</strong> 类型兼容性</a></li><li class="chapter-item expanded "><a href="../../zh/reference/type-inference.html"><strong aria-hidden="true">3.15.</strong> 类型推论</a></li><li class="chapter-item expanded "><a href="../../zh/reference/variable-declarations.html"><strong aria-hidden="true">3.16.</strong> 变量声明</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">手册（v2）</li><li class="chapter-item expanded "><a href="../../zh/handbook-v2/index.html"><strong aria-hidden="true">4.</strong> 手册（v2）</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/handbook-v2/type-manipulation/template-literal-types.html"><strong aria-hidden="true">4.1.</strong> 模版字面量类型</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">TypeScript 声明文件（.d.ts）</li><li class="chapter-item expanded "><a href="../../zh/declaration-files/index.html"><strong aria-hidden="true">5.</strong> 如何书写声明文件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/declaration-files/introduction.html"><strong aria-hidden="true">5.1.</strong> 介绍</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/by-example.html"><strong aria-hidden="true">5.2.</strong> 举例</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/library-structures.html"><strong aria-hidden="true">5.3.</strong> 库结构</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/templates.html"><strong aria-hidden="true">5.4.</strong> 模板</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/do-s-and-don-ts.html"><strong aria-hidden="true">5.5.</strong> 最佳实践</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/deep-dive.html"><strong aria-hidden="true">5.6.</strong> 深入</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/publishing.html"><strong aria-hidden="true">5.7.</strong> 发布</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/consumption.html"><strong aria-hidden="true">5.8.</strong> 使用</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">TypeScript for JavaScript</li><li class="chapter-item expanded "><a href="../../zh/javascript/type-checking-javascript-files.html"><strong aria-hidden="true">6.</strong> JavaScript 文件里的类型检查</a></li><li class="chapter-item expanded affix "><li class="part-title">工程配置</li><li class="chapter-item expanded "><a href="../../zh/project-config/index.html"><strong aria-hidden="true">7.</strong> 工程配置</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/project-config/tsconfig.json.html"><strong aria-hidden="true">7.1.</strong> tsconfig.json</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/project-references.html"><strong aria-hidden="true">7.2.</strong> 工程引用</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/typings-for-npm-packages.html"><strong aria-hidden="true">7.3.</strong> NPM 包的类型</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/compiler-options.html"><strong aria-hidden="true">7.4.</strong> 编译选项</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/configuring-watch.html"><strong aria-hidden="true">7.5.</strong> 配置 Watch</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/compiler-options-in-msbuild.html"><strong aria-hidden="true">7.6.</strong> 在 MSBuild 里使用编译选项</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/integrating-with-build-tools.html"><strong aria-hidden="true">7.7.</strong> 与其它构建工具整合</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/nightly-builds.html"><strong aria-hidden="true">7.8.</strong> 使用 TypeScript 的每日构建版本</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">版本发布说明（Release Notes）</li><li class="chapter-item expanded "><a href="../../zh/release-notes/index.html"><strong aria-hidden="true">8.</strong> 新增功能</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.8.html"><strong aria-hidden="true">8.1.</strong> TypeScript 4.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.7.html"><strong aria-hidden="true">8.2.</strong> TypeScript 4.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.6.html"><strong aria-hidden="true">8.3.</strong> TypeScript 4.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.5.html"><strong aria-hidden="true">8.4.</strong> TypeScript 4.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.4.html"><strong aria-hidden="true">8.5.</strong> TypeScript 4.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.3.html"><strong aria-hidden="true">8.6.</strong> TypeScript 4.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.2.html"><strong aria-hidden="true">8.7.</strong> TypeScript 4.2</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.1.html"><strong aria-hidden="true">8.8.</strong> TypeScript 4.1</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.0.html"><strong aria-hidden="true">8.9.</strong> TypeScript 4.0</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.9.html"><strong aria-hidden="true">8.10.</strong> TypeScript 3.9</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.8.html"><strong aria-hidden="true">8.11.</strong> TypeScript 3.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.7.html"><strong aria-hidden="true">8.12.</strong> TypeScript 3.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.6.html"><strong aria-hidden="true">8.13.</strong> TypeScript 3.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.5.html"><strong aria-hidden="true">8.14.</strong> TypeScript 3.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.4.html"><strong aria-hidden="true">8.15.</strong> TypeScript 3.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.3.html"><strong aria-hidden="true">8.16.</strong> TypeScript 3.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.2.html"><strong aria-hidden="true">8.17.</strong> TypeScript 3.2</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.1.html"><strong aria-hidden="true">8.18.</strong> TypeScript 3.1</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.0.html"><strong aria-hidden="true">8.19.</strong> TypeScript 3.0</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.9.html"><strong aria-hidden="true">8.20.</strong> TypeScript 2.9</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.8.html"><strong aria-hidden="true">8.21.</strong> TypeScript 2.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.7.html"><strong aria-hidden="true">8.22.</strong> TypeScript 2.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.6.html"><strong aria-hidden="true">8.23.</strong> TypeScript 2.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.5.html"><strong aria-hidden="true">8.24.</strong> TypeScript 2.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.4.html"><strong aria-hidden="true">8.25.</strong> TypeScript 2.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.3.html"><strong aria-hidden="true">8.26.</strong> TypeScript 2.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.2.html"><strong aria-hidden="true">8.27.</strong> TypeScript 2.2</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.1.html"><strong aria-hidden="true">8.28.</strong> TypeScript 2.1</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.0.html"><strong aria-hidden="true">8.29.</strong> TypeScript 2.0</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.8.html"><strong aria-hidden="true">8.30.</strong> TypeScript 1.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.7.html"><strong aria-hidden="true">8.31.</strong> TypeScript 1.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.6.html"><strong aria-hidden="true">8.32.</strong> TypeScript 1.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.5.html"><strong aria-hidden="true">8.33.</strong> TypeScript 1.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.4.html"><strong aria-hidden="true">8.34.</strong> TypeScript 1.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.3.html"><strong aria-hidden="true">8.35.</strong> TypeScript 1.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.1.html"><strong aria-hidden="true">8.36.</strong> TypeScript 1.1</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">破坏性改动（Breaking Changes）</li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/index.html"><strong aria-hidden="true">9.</strong> Breaking Changes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.6.html"><strong aria-hidden="true">9.1.</strong> TypeScript 3.6</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.5.html"><strong aria-hidden="true">9.2.</strong> TypeScript 3.5</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.4.html"><strong aria-hidden="true">9.3.</strong> TypeScript 3.4</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.2.html"><strong aria-hidden="true">9.4.</strong> TypeScript 3.2</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.1.html"><strong aria-hidden="true">9.5.</strong> TypeScript 3.1</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.0.html"><strong aria-hidden="true">9.6.</strong> TypeScript 3.0</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.9.html"><strong aria-hidden="true">9.7.</strong> TypeScript 2.9</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.8.html"><strong aria-hidden="true">9.8.</strong> TypeScript 2.8</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.7.html"><strong aria-hidden="true">9.9.</strong> TypeScript 2.7</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.6.html"><strong aria-hidden="true">9.10.</strong> TypeScript 2.6</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.4.html"><strong aria-hidden="true">9.11.</strong> TypeScript 2.4</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.3.html"><strong aria-hidden="true">9.12.</strong> TypeScript 2.3</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.2.html"><strong aria-hidden="true">9.13.</strong> TypeScript 2.2</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.1.html"><strong aria-hidden="true">9.14.</strong> TypeScript 2.1</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.0.html"><strong aria-hidden="true">9.15.</strong> TypeScript 2.0</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.8.html"><strong aria-hidden="true">9.16.</strong> TypeScript 1.8</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.7.html"><strong aria-hidden="true">9.17.</strong> TypeScript 1.7</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.6.html"><strong aria-hidden="true">9.18.</strong> TypeScript 1.6</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.5.html"><strong aria-hidden="true">9.19.</strong> TypeScript 1.5</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.4.html"><strong aria-hidden="true">9.20.</strong> TypeScript 1.4</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">TypeScript 使用指南手册</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="aspnet-core"><a class="header" href="#aspnet-core">ASP.NET Core</a></h1>
+<h2 id="aspnet-core-1"><a class="header" href="#aspnet-core-1">ASP.NET Core</a></h2>
+<h3 id="安装-aspnet-core-和-typescript"><a class="header" href="#安装-aspnet-core-和-typescript">安装 ASP.NET Core 和 TypeScript</a></h3>
+<p>首先，若有需要请<a href="https://get.asp.net">安装 ASP.NET Core</a>。此篇指南需要使用Visual Studio 2015或2017。</p>
+<p>其次，如果你的Visual Studio不带有最新版本的TypeScript，你可以从<a href="http://www.microsoft.com/en-us/download/details.aspx?id=48593">这里</a>安装。</p>
+<h3 id="新建工程"><a class="header" href="#新建工程">新建工程</a></h3>
+<ol>
+<li>
+<p>选择 <strong>File</strong></p>
+</li>
+<li>
+<p>选择 <strong>New Project</strong> （Ctrl + Shift + N）</p>
+</li>
+<li>
+<p>选择 <strong>Visual C#</strong></p>
+</li>
+<li>
+<p>若使用VS2015，选择 <strong>ASP.NET Web Application</strong> &gt; <strong>ASP.NET 5 Empty</strong>，并且取消勾选“Host in the cloud”，因为我们要在本地运行。</p>
+<p><img src="../assets/images/tutorials/aspnet/new-asp-project-empty.png" alt="使用空白模版" /></p>
+</li>
+<li>
+<p>若使用VS2017，选择 <strong>ASP.NET Core Web Application (.NET Core)</strong> &gt; <strong>ASP.NET Core 1.1 Empty</strong>。</p>
+<p><img src="../assets/images/tutorials/aspnet/new-asp-project-empty-17.PNG" alt="使用空白模版VS2017" /></p>
+</li>
+</ol>
+<p>运行此应用以确保它能正常工作。</p>
+<h3 id="设置服务项"><a class="header" href="#设置服务项">设置服务项</a></h3>
+<h4 id="vs2015"><a class="header" href="#vs2015">VS2015</a></h4>
+<p>在 <code>project.json</code> 文件的 <code>&quot;dependencies&quot;</code> 字段里添加:</p>
+<pre><code class="language-javascript">&quot;Microsoft.AspNet.StaticFiles&quot;: &quot;1.0.0-rc1-final&quot;
+</code></pre>
+<p>最终的 dependencies 部分应该类似于下面这样：</p>
+<pre><code class="language-javascript">&quot;dependencies&quot;: {
+  &quot;Microsoft.AspNet.IISPlatformHandler&quot;: &quot;1.0.0-rc1-final&quot;,
+  &quot;Microsoft.AspNet.Server.Kestrel&quot;: &quot;1.0.0-rc1-final&quot;,
+  &quot;Microsoft.AspNet.StaticFiles&quot;: &quot;1.0.0-rc1-final&quot;
+},
+</code></pre>
+<p>用以下内容替换 <code>Startup.cs</code> 文件里的 <code>Configure</code> 函数：</p>
+<pre><code class="language-csharp">public void Configure(IApplicationBuilder app)
+{
+    app.UseIISPlatformHandler();
+    app.UseDefaultFiles();
+    app.UseStaticFiles();
+}
+</code></pre>
+<h4 id="vs2017"><a class="header" href="#vs2017">VS2017</a></h4>
+<p>打开 <strong>Dependencies</strong> &gt; <strong>Manage NuGet Packages</strong> &gt; <strong>Browse</strong>。搜索并安装<code>Microsoft.AspNetCore.StaticFiles</code> 1.1.2：</p>
+<p><img src="../assets/images/tutorials/aspnet/install-nuget-packages.png" alt="安装Microsoft.AspNetCore.StaticFiles" /></p>
+<p>如下替换掉<code>Startup.cs</code>里<code>Configure</code>的内容：</p>
+<pre><code class="language-csharp">public void Configure(IApplicationBuilder app)
+{
+    app.UseDefaultFiles();
+    app.UseStaticFiles();
+}
+</code></pre>
+<p>你可能需要重启VS，这样<code>UseDefaultFiles</code>和<code>UseStaticFiles</code>下面的波浪线才会消失。</p>
+<h2 id="添加-typescript"><a class="header" href="#添加-typescript">添加 TypeScript</a></h2>
+<p>下一步我们为 TypeScript 添加一个文件夹。</p>
+<p><img src="../assets/images/tutorials/aspnet/new-folder.png" alt="Create new folder" /></p>
+<p>将文件夹命名为 <code>scripts</code>。</p>
+<p><img src="../assets/images/tutorials/aspnet/scripts-folder.png" alt="scripts folder" /></p>
+<h3 id="添加-typescript-代码"><a class="header" href="#添加-typescript-代码">添加 TypeScript 代码</a></h3>
+<p>在<code>scripts</code>上右击并选择<strong>New Item</strong>。 接着选择<strong>TypeScript File</strong>（也可能 .NET Core 部分），并将此文件命名为<code>app.ts</code>。</p>
+<p><img src="../assets/images/tutorials/aspnet/new-item.png" alt="New item" /></p>
+<h3 id="添加示例代码"><a class="header" href="#添加示例代码">添加示例代码</a></h3>
+<p>将以下代码写入app.ts文件。</p>
+<pre><code class="language-typescript">function sayHello() {
+  const compiler = (document.getElementById(&quot;compiler&quot;) as HTMLInputElement).value;
+  const framework = (document.getElementById(&quot;framework&quot;) as HTMLInputElement).value;
+  return `Hello from ${compiler} and ${framework}!`;
+}
+</code></pre>
+<h3 id="构建设置"><a class="header" href="#构建设置">构建设置</a></h3>
+<h4 id="配置-typescript-编译器"><a class="header" href="#配置-typescript-编译器">配置 TypeScript 编译器</a></h4>
+<p>我们先来告诉TypeScript怎样构建。 右击scripts文件夹并选择<strong>New Item</strong>。 接着选择<strong>TypeScript Configuration File</strong>，保持文件的默认名字为<code>tsconfig.json</code>。</p>
+<p><img src="../assets/images/tutorials/aspnet/new-tsconfig.png" alt="Create tsconfig.json" /></p>
+<p>将默认的<code>tsconfig.json</code>内容改为如下所示：</p>
+<pre><code class="language-javascript">{
+  &quot;compilerOptions&quot;: {
+    &quot;noImplicitAny&quot;: true,
+    &quot;noEmitOnError&quot;: true,
+    &quot;sourceMap&quot;: true,
+    &quot;target&quot;: &quot;es5&quot;
+  },
+  &quot;files&quot;: [
+    &quot;./app.ts&quot;
+  ],
+  &quot;compileOnSave&quot;: true
+}
+</code></pre>
+<p>看起来和默认的设置差不多，但注意以下不同之处：</p>
+<ol>
+<li>设置<code>&quot;noImplicitAny&quot;: true</code>。</li>
+<li>显式列出了<code>&quot;files&quot;</code>而不是依据<code>&quot;excludes&quot;</code>。</li>
+<li>设置<code>&quot;compileOnSave&quot;: true</code>。</li>
+</ol>
+<p>当你写新代码时，设置<code>&quot;noImplicitAny&quot;</code>选项是个不错的选择 — 这可以确保你不会错写任何新的类型。 设置<code>&quot;compileOnSave&quot;</code>选项可以确保你在运行web程序前自动编译保存变更后的代码。</p>
+<h4 id="配置-npm"><a class="header" href="#配置-npm">配置 NPM</a></h4>
+<p>现在，我们来配置NPM以使用我们能够下载JavaScript包。 在工程上右击并选择<strong>New Item</strong>。 接着选择<strong>NPM Configuration File</strong>，保持文件的默认名字为<code>package.json</code>。 在<code>&quot;devDependencies&quot;</code>部分添加&quot;gulp&quot;和&quot;del&quot;：</p>
+<pre><code class="language-javascript">&quot;devDependencies&quot;: {
+  &quot;gulp&quot;: &quot;3.9.0&quot;,
+  &quot;del&quot;: &quot;2.2.0&quot;
+}
+</code></pre>
+<p>保存这个文件后，Visual Studio将开始安装gulp和del。 若没有自动开始，请右击package.json文件选择<strong>Restore Packages</strong>。</p>
+<h4 id="设置-gulp"><a class="header" href="#设置-gulp">设置 gulp</a></h4>
+<p>最后，添加一个新JavaScript文件<code>gulpfile.js</code>。 键入以下内容：</p>
+<pre><code class="language-javascript">/// &lt;binding AfterBuild='default' Clean='clean' /&gt;
+/*
+This file is the main entry point for defining Gulp tasks and using Gulp plugins.
+Click here to learn more. http://go.microsoft.com/fwlink/?LinkId=518007
+*/
+
+var gulp = require('gulp');
+var del = require('del');
+
+var paths = {
+  scripts: ['scripts/**/*.js', 'scripts/**/*.ts', 'scripts/**/*.map'],
+};
+
+gulp.task('clean', function () {
+  return del(['wwwroot/scripts/**/*']);
+});
+
+gulp.task('default', function () {
+  gulp.src(paths.scripts).pipe(gulp.dest('wwwroot/scripts'))
+});
+</code></pre>
+<p>第一行是告诉Visual Studio构建完成后，立即运行'default'任务。 当你应答 Visual Studio 清除构建内容后，它也将运行'clean'任务。</p>
+<p>现在，右击<code>gulpfile.js</code>并选择<strong>Task Runner Explorer</strong>。 若'default'和'clean'任务没有显示输出内容的话，请刷新explorer：</p>
+<p><img src="../assets/images/tutorials/aspnet/task-runner-explorer.png" alt="Refresh Task Runner Explorer" /></p>
+<h3 id="编写html页"><a class="header" href="#编写html页">编写HTML页</a></h3>
+<p>在<code>wwwroot</code>中添加一个新建项 <code>index.html</code>。 在<code>index.html</code>中写入以下代码：</p>
+<pre><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot; /&gt;
+    &lt;script src=&quot;scripts/app.js&quot;&gt;&lt;/script&gt;
+    &lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;message&quot;&gt;&lt;/div&gt;
+    &lt;div&gt;
+        Compiler: &lt;input id=&quot;compiler&quot; value=&quot;TypeScript&quot; onkeyup=&quot;document.getElementById('message').innerText = sayHello()&quot; /&gt;&lt;br /&gt;
+        Framework: &lt;input id=&quot;framework&quot; value=&quot;ASP.NET&quot; onkeyup=&quot;document.getElementById('message').innerText = sayHello()&quot; /&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3 id="测试"><a class="header" href="#测试">测试</a></h3>
+<ol>
+<li>运行项目。</li>
+<li>在输入框中键入时，您应该看到一个消息：</li>
+</ol>
+<p><img src="../assets/images/tutorials/aspnet/running-demo.png" alt="Picture of running demo" /></p>
+<h3 id="调试"><a class="header" href="#调试">调试</a></h3>
+<ol>
+<li>在 Edge 浏览器中，按 F12 键并选择 <strong>Debugger</strong> 标签页。</li>
+<li>展开 localhost 列表，选择 scripts/app.ts</li>
+<li>在 <code>return</code> 那一行上打一个断点。</li>
+<li>在输入框中键入一些内容，确认TypeScript代码命中断点，观察它是否能正确地工作。</li>
+</ol>
+<p><img src="../assets/images/tutorials/aspnet/paused-demo.png" alt="Demo paused on breakpoint" /></p>
+<p>这就是你需要知道的在ASP.NET中使用TypeScript的基本知识了。 接下来，我们引入Angular，写一个简单的Angular程序示例。</p>
+<h2 id="添加-angular-2"><a class="header" href="#添加-angular-2">添加 Angular 2</a></h2>
+<h3 id="使用-npm-下载依赖的包"><a class="header" href="#使用-npm-下载依赖的包">使用 NPM 下载依赖的包</a></h3>
+<p>添加Angular 2和SystemJS到<code>package.json</code>的<code>dependencies</code>里。</p>
+<p>对于VS2015，新的<code>dependencies</code>列表如下：</p>
+<pre><code class="language-javascript">&quot;dependencies&quot;: {
+  &quot;angular2&quot;: &quot;2.0.0-beta.11&quot;,
+  &quot;systemjs&quot;: &quot;0.19.24&quot;,
+  &quot;gulp&quot;: &quot;3.9.0&quot;,
+  &quot;del&quot;: &quot;2.2.0&quot;
+},
+</code></pre>
+<p>若使用VS2017，因为NPM3反对同行的依赖（peer dependencies），我们需要把Angular 2同行的依赖也直接列为依赖项：</p>
+<pre><code class="language-javascript">&quot;dependencies&quot;: {
+  &quot;angular2&quot;: &quot;2.0.0-beta.11&quot;,
+  &quot;reflect-metadata&quot;: &quot;0.1.2&quot;,
+  &quot;rxjs&quot;: &quot;5.0.0-beta.2&quot;,
+  &quot;zone.js&quot;: &quot;^0.6.4&quot;,
+  &quot;systemjs&quot;: &quot;0.19.24&quot;,
+  &quot;gulp&quot;: &quot;3.9.0&quot;,
+  &quot;del&quot;: &quot;2.2.0&quot;
+},
+</code></pre>
+<h3 id="更新-tsconfigjson"><a class="header" href="#更新-tsconfigjson">更新 tsconfig.json</a></h3>
+<p>现在安装好了Angular 2及其依赖项，我们需要启用TypeScript中实验性的装饰器支持。 我们还需要添加ES2015的声明，因为Angular使用core-js来支持像<code>Promise</code>的功能。 在未来，装饰器会成为默认设置，那时也就不再需要这些设置了。</p>
+<p>添加<code>&quot;experimentalDecorators&quot;: true, &quot;emitDecoratorMetadata&quot;: true</code>到<code>&quot;compilerOptions&quot;</code>部分。 然后，再添加<code>&quot;lib&quot;: [&quot;es2015&quot;, &quot;es5&quot;, &quot;dom&quot;]</code>到<code>&quot;compilerOptions&quot;</code>，以引入ES2015的声明。 最后，我们需要添加<code>&quot;./model.ts&quot;</code>到<code>&quot;files&quot;</code>里，我们接下来会创建它。 现在<code>tsconfig.json</code>看起来如下：</p>
+<pre><code class="language-javascript">{
+  &quot;compilerOptions&quot;: {
+    &quot;noImplicitAny&quot;: true,
+    &quot;noEmitOnError&quot;: true,
+    &quot;sourceMap&quot;: true,
+    &quot;experimentalDecorators&quot;: true,
+    &quot;emitDecoratorMetadata&quot;: true,
+    &quot;target&quot;: &quot;es5&quot;,
+    &quot;lib&quot;: [
+      &quot;es2015&quot;, &quot;es5&quot;, &quot;dom&quot;
+    ]
+  },
+  &quot;files&quot;: [
+    &quot;./app.ts&quot;,
+    &quot;./model.ts&quot;,
+    &quot;./main.ts&quot;,
+  ],
+  &quot;compileOnSave&quot;: true
+}
+</code></pre>
+<h3 id="将-angular-添加到-gulp-构建中"><a class="header" href="#将-angular-添加到-gulp-构建中">将 Angular 添加到 gulp 构建中</a></h3>
+<p>最后，我们需要确保 Angular 文件作为 build 的一部分复制进来。 我们需要添加：</p>
+<ol>
+<li>库文件目录。</li>
+<li>添加一个 <code>lib</code> 任务来输送文件到 <code>wwwroot</code>。</li>
+<li>在 <code>default</code> 任务上添加 <code>lib</code> 任务依赖。</li>
+</ol>
+<p>更新后的 <code>gulpfile.js</code> 像如下所示：</p>
+<pre><code class="language-markup">/// &lt;binding AfterBuild='default' Clean='clean' /&gt;
+/*
+This file is the main entry point for defining Gulp tasks and using Gulp plugins.
+Click here to learn more. http://go.microsoft.com/fwlink/?LinkId=518007
+*/
+
+var gulp = require('gulp');
+var del = require('del');
+
+var paths = {
+    scripts: ['scripts/**/*.js', 'scripts/**/*.ts', 'scripts/**/*.map'],
+    libs: ['node_modules/angular2/bundles/angular2.js',
+           'node_modules/angular2/bundles/angular2-polyfills.js',
+           'node_modules/systemjs/dist/system.src.js',
+           'node_modules/rxjs/bundles/Rx.js']
+};
+
+gulp.task('lib', function () {
+    gulp.src(paths.libs).pipe(gulp.dest('wwwroot/scripts/lib'));
+});
+
+gulp.task('clean', function () {
+    return del(['wwwroot/scripts/**/*']);
+});
+
+gulp.task('default', ['lib'], function () {
+    gulp.src(paths.scripts).pipe(gulp.dest('wwwroot/scripts'));
+});
+</code></pre>
+<p>此外，保存了此gulpfile后，要确保 Task Runner Explorer 能看到 <code>lib</code> 任务。</p>
+<h3 id="用-typescript-写一个简单的-angular-应用"><a class="header" href="#用-typescript-写一个简单的-angular-应用">用 TypeScript 写一个简单的 Angular 应用</a></h3>
+<p>首先，将 <code>app.ts</code> 改成：</p>
+<pre><code class="language-typescript">import {Component} from &quot;angular2/core&quot;
+import {MyModel} from &quot;./model&quot;
+
+@Component({
+    selector: `my-app`,
+    template: `&lt;div&gt;Hello from {{getCompiler()}}&lt;/div&gt;`
+})
+export class MyApp {
+    model = new MyModel();
+    getCompiler() {
+        return this.model.compiler;
+    }
+}
+</code></pre>
+<p>接着在<code>scripts</code>中添加TypeScript文件<code>model.ts</code>:</p>
+<pre><code class="language-typescript">export class MyModel {
+    compiler = &quot;TypeScript&quot;;
+}
+</code></pre>
+<p>再在<code>scripts</code>中添加<code>main.ts</code>：</p>
+<pre><code class="language-typescript">import {bootstrap} from &quot;angular2/platform/browser&quot;;
+import {MyApp} from &quot;./app&quot;;
+bootstrap(MyApp);
+</code></pre>
+<p>最后，将<code>index.html</code>改成：</p>
+<pre><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot; /&gt;
+    &lt;script src=&quot;scripts/lib/angular2-polyfills.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;scripts/lib/system.src.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;scripts/lib/rx.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;scripts/lib/angular2.js&quot;&gt;&lt;/script&gt;
+    &lt;script&gt;
+    System.config({
+        packages: {
+            'scripts': {
+                format: 'cjs',
+                defaultExtension: 'js'
+            }
+        }
+    });
+    System.import('scripts/main').then(null, console.error.bind(console));
+    &lt;/script&gt;
+    &lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;my-app&gt;Loading...&lt;/my-app&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>这里加载了此应用。 运行 ASP.NET 应用，你应该能看到一个div显示&quot;Loading...&quot;紧接着更新成显示&quot;Hello from TypeScript&quot;。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../zh/tutorials/typescript-in-5-minutes.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../zh/tutorials/asp.net-4.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../zh/tutorials/typescript-in-5-minutes.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../zh/tutorials/asp.net-4.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

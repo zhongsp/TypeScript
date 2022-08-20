@@ -1,0 +1,581 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hans" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Decorators - TypeScript 使用指南手册</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="TypeScript Handbook 中文翻译。">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../PREFACE.html">前言</a></li><li class="chapter-item expanded affix "><li class="part-title">快速上手</li><li class="chapter-item expanded "><a href="../../zh/tutorials/index.html"><strong aria-hidden="true">1.</strong> 快速上手</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/tutorials/typescript-in-5-minutes.html"><strong aria-hidden="true">1.1.</strong> 5 分钟了解 TypeScript</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/asp.net-core.html"><strong aria-hidden="true">1.2.</strong> ASP.NET Core</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/asp.net-4.html"><strong aria-hidden="true">1.3.</strong> ASP.NET 4</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/gulp.html"><strong aria-hidden="true">1.4.</strong> Gulp</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/knockout.html"><strong aria-hidden="true">1.5.</strong> Knockout.js</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/react-and-webpack.html"><strong aria-hidden="true">1.6.</strong> React 与 webpack</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/react.html"><strong aria-hidden="true">1.7.</strong> React</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/angular-2.html"><strong aria-hidden="true">1.8.</strong> Angular 2</a></li><li class="chapter-item expanded "><a href="../../zh/tutorials/migrating-from-javascript.html"><strong aria-hidden="true">1.9.</strong> 从 JavaScript 迁移到 TypeScript</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">手册</li><li class="chapter-item expanded "><a href="../../zh/handbook/index.html"><strong aria-hidden="true">2.</strong> 手册</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/handbook/basic-types.html"><strong aria-hidden="true">2.1.</strong> 基础类型</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/interfaces.html"><strong aria-hidden="true">2.2.</strong> 接口</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/functions.html"><strong aria-hidden="true">2.3.</strong> 函数</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/literal-types.html"><strong aria-hidden="true">2.4.</strong> 字面量类型</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/unions-and-intersections.html"><strong aria-hidden="true">2.5.</strong> 联合类型和交叉类型</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/classes.html"><strong aria-hidden="true">2.6.</strong> 类</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/enums.html"><strong aria-hidden="true">2.7.</strong> 枚举</a></li><li class="chapter-item expanded "><a href="../../zh/handbook/generics.html"><strong aria-hidden="true">2.8.</strong> 泛型</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">手册（进阶）</li><li class="chapter-item expanded "><a href="../../zh/reference/index.html"><strong aria-hidden="true">3.</strong> 手册（进阶）</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/reference/advanced-types.html"><strong aria-hidden="true">3.1.</strong> 高级类型</a></li><li class="chapter-item expanded "><a href="../../zh/reference/utility-types.html"><strong aria-hidden="true">3.2.</strong> 实用工具类型</a></li><li class="chapter-item expanded "><a href="../../zh/reference/decorators.html" class="active"><strong aria-hidden="true">3.3.</strong> Decorators</a></li><li class="chapter-item expanded "><a href="../../zh/reference/declaration-merging.html"><strong aria-hidden="true">3.4.</strong> 声明合并</a></li><li class="chapter-item expanded "><a href="../../zh/reference/iterators-and-generators.html"><strong aria-hidden="true">3.5.</strong> Iterators 和 Generators</a></li><li class="chapter-item expanded "><a href="../../zh/reference/jsx.html"><strong aria-hidden="true">3.6.</strong> JSX</a></li><li class="chapter-item expanded "><a href="../../zh/reference/mixins.html"><strong aria-hidden="true">3.7.</strong> 混入</a></li><li class="chapter-item expanded "><a href="../../zh/reference/modules.html"><strong aria-hidden="true">3.8.</strong> 模块</a></li><li class="chapter-item expanded "><a href="../../zh/reference/module-resolution.html"><strong aria-hidden="true">3.9.</strong> 模块解析</a></li><li class="chapter-item expanded "><a href="../../zh/reference/namespaces.html"><strong aria-hidden="true">3.10.</strong> 命名空间</a></li><li class="chapter-item expanded "><a href="../../zh/reference/namespaces-and-modules.html"><strong aria-hidden="true">3.11.</strong> 命名空间和模块</a></li><li class="chapter-item expanded "><a href="../../zh/reference/symbols.html"><strong aria-hidden="true">3.12.</strong> Symbols</a></li><li class="chapter-item expanded "><a href="../../zh/reference/triple-slash-directives.html"><strong aria-hidden="true">3.13.</strong> 三斜线指令</a></li><li class="chapter-item expanded "><a href="../../zh/reference/type-compatibility.html"><strong aria-hidden="true">3.14.</strong> 类型兼容性</a></li><li class="chapter-item expanded "><a href="../../zh/reference/type-inference.html"><strong aria-hidden="true">3.15.</strong> 类型推论</a></li><li class="chapter-item expanded "><a href="../../zh/reference/variable-declarations.html"><strong aria-hidden="true">3.16.</strong> 变量声明</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">手册（v2）</li><li class="chapter-item expanded "><a href="../../zh/handbook-v2/index.html"><strong aria-hidden="true">4.</strong> 手册（v2）</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/handbook-v2/type-manipulation/template-literal-types.html"><strong aria-hidden="true">4.1.</strong> 模版字面量类型</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">TypeScript 声明文件（.d.ts）</li><li class="chapter-item expanded "><a href="../../zh/declaration-files/index.html"><strong aria-hidden="true">5.</strong> 如何书写声明文件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/declaration-files/introduction.html"><strong aria-hidden="true">5.1.</strong> 介绍</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/by-example.html"><strong aria-hidden="true">5.2.</strong> 举例</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/library-structures.html"><strong aria-hidden="true">5.3.</strong> 库结构</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/templates.html"><strong aria-hidden="true">5.4.</strong> 模板</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/do-s-and-don-ts.html"><strong aria-hidden="true">5.5.</strong> 最佳实践</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/deep-dive.html"><strong aria-hidden="true">5.6.</strong> 深入</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/publishing.html"><strong aria-hidden="true">5.7.</strong> 发布</a></li><li class="chapter-item expanded "><a href="../../zh/declaration-files/consumption.html"><strong aria-hidden="true">5.8.</strong> 使用</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">TypeScript for JavaScript</li><li class="chapter-item expanded "><a href="../../zh/javascript/type-checking-javascript-files.html"><strong aria-hidden="true">6.</strong> JavaScript 文件里的类型检查</a></li><li class="chapter-item expanded affix "><li class="part-title">工程配置</li><li class="chapter-item expanded "><a href="../../zh/project-config/index.html"><strong aria-hidden="true">7.</strong> 工程配置</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/project-config/tsconfig.json.html"><strong aria-hidden="true">7.1.</strong> tsconfig.json</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/project-references.html"><strong aria-hidden="true">7.2.</strong> 工程引用</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/typings-for-npm-packages.html"><strong aria-hidden="true">7.3.</strong> NPM 包的类型</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/compiler-options.html"><strong aria-hidden="true">7.4.</strong> 编译选项</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/configuring-watch.html"><strong aria-hidden="true">7.5.</strong> 配置 Watch</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/compiler-options-in-msbuild.html"><strong aria-hidden="true">7.6.</strong> 在 MSBuild 里使用编译选项</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/integrating-with-build-tools.html"><strong aria-hidden="true">7.7.</strong> 与其它构建工具整合</a></li><li class="chapter-item expanded "><a href="../../zh/project-config/nightly-builds.html"><strong aria-hidden="true">7.8.</strong> 使用 TypeScript 的每日构建版本</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">版本发布说明（Release Notes）</li><li class="chapter-item expanded "><a href="../../zh/release-notes/index.html"><strong aria-hidden="true">8.</strong> 新增功能</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.8.html"><strong aria-hidden="true">8.1.</strong> TypeScript 4.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.7.html"><strong aria-hidden="true">8.2.</strong> TypeScript 4.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.6.html"><strong aria-hidden="true">8.3.</strong> TypeScript 4.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.5.html"><strong aria-hidden="true">8.4.</strong> TypeScript 4.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.4.html"><strong aria-hidden="true">8.5.</strong> TypeScript 4.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.3.html"><strong aria-hidden="true">8.6.</strong> TypeScript 4.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.2.html"><strong aria-hidden="true">8.7.</strong> TypeScript 4.2</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.1.html"><strong aria-hidden="true">8.8.</strong> TypeScript 4.1</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-4.0.html"><strong aria-hidden="true">8.9.</strong> TypeScript 4.0</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.9.html"><strong aria-hidden="true">8.10.</strong> TypeScript 3.9</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.8.html"><strong aria-hidden="true">8.11.</strong> TypeScript 3.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.7.html"><strong aria-hidden="true">8.12.</strong> TypeScript 3.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.6.html"><strong aria-hidden="true">8.13.</strong> TypeScript 3.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.5.html"><strong aria-hidden="true">8.14.</strong> TypeScript 3.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.4.html"><strong aria-hidden="true">8.15.</strong> TypeScript 3.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.3.html"><strong aria-hidden="true">8.16.</strong> TypeScript 3.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.2.html"><strong aria-hidden="true">8.17.</strong> TypeScript 3.2</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.1.html"><strong aria-hidden="true">8.18.</strong> TypeScript 3.1</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-3.0.html"><strong aria-hidden="true">8.19.</strong> TypeScript 3.0</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.9.html"><strong aria-hidden="true">8.20.</strong> TypeScript 2.9</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.8.html"><strong aria-hidden="true">8.21.</strong> TypeScript 2.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.7.html"><strong aria-hidden="true">8.22.</strong> TypeScript 2.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.6.html"><strong aria-hidden="true">8.23.</strong> TypeScript 2.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.5.html"><strong aria-hidden="true">8.24.</strong> TypeScript 2.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.4.html"><strong aria-hidden="true">8.25.</strong> TypeScript 2.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.3.html"><strong aria-hidden="true">8.26.</strong> TypeScript 2.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.2.html"><strong aria-hidden="true">8.27.</strong> TypeScript 2.2</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.1.html"><strong aria-hidden="true">8.28.</strong> TypeScript 2.1</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-2.0.html"><strong aria-hidden="true">8.29.</strong> TypeScript 2.0</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.8.html"><strong aria-hidden="true">8.30.</strong> TypeScript 1.8</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.7.html"><strong aria-hidden="true">8.31.</strong> TypeScript 1.7</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.6.html"><strong aria-hidden="true">8.32.</strong> TypeScript 1.6</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.5.html"><strong aria-hidden="true">8.33.</strong> TypeScript 1.5</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.4.html"><strong aria-hidden="true">8.34.</strong> TypeScript 1.4</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.3.html"><strong aria-hidden="true">8.35.</strong> TypeScript 1.3</a></li><li class="chapter-item expanded "><a href="../../zh/release-notes/typescript-1.1.html"><strong aria-hidden="true">8.36.</strong> TypeScript 1.1</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">破坏性改动（Breaking Changes）</li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/index.html"><strong aria-hidden="true">9.</strong> Breaking Changes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.6.html"><strong aria-hidden="true">9.1.</strong> TypeScript 3.6</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.5.html"><strong aria-hidden="true">9.2.</strong> TypeScript 3.5</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.4.html"><strong aria-hidden="true">9.3.</strong> TypeScript 3.4</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.2.html"><strong aria-hidden="true">9.4.</strong> TypeScript 3.2</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.1.html"><strong aria-hidden="true">9.5.</strong> TypeScript 3.1</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-3.0.html"><strong aria-hidden="true">9.6.</strong> TypeScript 3.0</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.9.html"><strong aria-hidden="true">9.7.</strong> TypeScript 2.9</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.8.html"><strong aria-hidden="true">9.8.</strong> TypeScript 2.8</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.7.html"><strong aria-hidden="true">9.9.</strong> TypeScript 2.7</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.6.html"><strong aria-hidden="true">9.10.</strong> TypeScript 2.6</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.4.html"><strong aria-hidden="true">9.11.</strong> TypeScript 2.4</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.3.html"><strong aria-hidden="true">9.12.</strong> TypeScript 2.3</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.2.html"><strong aria-hidden="true">9.13.</strong> TypeScript 2.2</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.1.html"><strong aria-hidden="true">9.14.</strong> TypeScript 2.1</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-2.0.html"><strong aria-hidden="true">9.15.</strong> TypeScript 2.0</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.8.html"><strong aria-hidden="true">9.16.</strong> TypeScript 1.8</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.7.html"><strong aria-hidden="true">9.17.</strong> TypeScript 1.7</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.6.html"><strong aria-hidden="true">9.18.</strong> TypeScript 1.6</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.5.html"><strong aria-hidden="true">9.19.</strong> TypeScript 1.5</a></li><li class="chapter-item expanded "><a href="../../zh/breaking-changes/typescript-1.4.html"><strong aria-hidden="true">9.20.</strong> TypeScript 1.4</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">TypeScript 使用指南手册</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="decorators"><a class="header" href="#decorators">Decorators</a></h1>
+<h2 id="介绍"><a class="header" href="#介绍">介绍</a></h2>
+<p>随着TypeScript和ES6里引入了类，在一些场景下我们需要额外的特性来支持标注或修改类及其成员。 装饰器（Decorators）为我们在类的声明及成员上通过元编程语法添加标注提供了一种方式。 Javascript里的装饰器目前处在<a href="https://github.com/tc39/proposal-decorators">建议征集的第二阶段</a>，但在TypeScript里已做为一项实验性特性予以支持。</p>
+<blockquote>
+<p>注意  装饰器是一项实验性特性，在未来的版本中可能会发生改变。</p>
+</blockquote>
+<p>若要启用实验性的装饰器特性，你必须在命令行或<code>tsconfig.json</code>里启用<code>experimentalDecorators</code>编译器选项：</p>
+<p><strong>命令行</strong>:</p>
+<pre><code class="language-text">tsc --target ES5 --experimentalDecorators
+</code></pre>
+<p><strong>tsconfig.json</strong>:</p>
+<pre><code class="language-javascript">{
+    &quot;compilerOptions&quot;: {
+        &quot;target&quot;: &quot;ES5&quot;,
+        &quot;experimentalDecorators&quot;: true
+    }
+}
+</code></pre>
+<h2 id="装饰器"><a class="header" href="#装饰器">装饰器</a></h2>
+<p>_装饰器_是一种特殊类型的声明，它能够被附加到<a href="decorators.html#class-decorators">类声明</a>，<a href="decorators.html#method-decorators">方法</a>，<a href="decorators.html#accessor-decorators">访问符</a>，<a href="decorators.html#property-decorators">属性</a>或<a href="decorators.html#parameter-decorators">参数</a>上。 装饰器使用<code>@expression</code>这种形式，<code>expression</code>求值后必须为一个函数，它会在运行时被调用，被装饰的声明信息做为参数传入。</p>
+<p>例如，有一个<code>@sealed</code>装饰器，我们会这样定义<code>sealed</code>函数：</p>
+<pre><code class="language-typescript">function sealed(target) {
+    // do something with &quot;target&quot; ...
+}
+</code></pre>
+<blockquote>
+<p>注意  后面<a href="decorators.html#class-decorators">类装饰器</a>小节里有一个更加详细的例子。</p>
+</blockquote>
+<h3 id="装饰器工厂"><a class="header" href="#装饰器工厂">装饰器工厂</a></h3>
+<p>如果我们要定制一个修饰器如何应用到一个声明上，我们得写一个装饰器工厂函数。 _装饰器工厂_就是一个简单的函数，它返回一个表达式，以供装饰器在运行时调用。</p>
+<p>我们可以通过下面的方式来写一个装饰器工厂函数：</p>
+<pre><code class="language-typescript">function color(value: string) { // 这是一个装饰器工厂
+    return function (target) { //  这是装饰器
+        // do something with &quot;target&quot; and &quot;value&quot;...
+    }
+}
+</code></pre>
+<blockquote>
+<p>注意  下面<a href="decorators.html#method-decorators">方法装饰器</a>小节里有一个更加详细的例子。</p>
+</blockquote>
+<h3 id="装饰器组合"><a class="header" href="#装饰器组合">装饰器组合</a></h3>
+<p>多个装饰器可以同时应用到一个声明上，就像下面的示例：</p>
+<ul>
+<li>书写在同一行上：</li>
+</ul>
+<pre><code class="language-typescript">@f @g x
+</code></pre>
+<ul>
+<li>书写在多行上：</li>
+</ul>
+<pre><code class="language-typescript">@f
+@g
+x
+</code></pre>
+<p>当多个装饰器应用于一个声明上，它们求值方式与<a href="http://en.wikipedia.org/wiki/Function_composition">复合函数</a>相似。在这个模型下，当复合_f_和_g_时，复合的结果(<em>f</em> ∘ <em>g</em>)(<em>x</em>)等同于_f_(<em>g</em>(<em>x</em>))。</p>
+<p>同样的，在TypeScript里，当多个装饰器应用在一个声明上时会进行如下步骤的操作：</p>
+<ol>
+<li>由上至下依次对装饰器表达式求值。</li>
+<li>求值的结果会被当作函数，由下至上依次调用。</li>
+</ol>
+<p>如果我们使用<a href="decorators.html#decorator-factories">装饰器工厂</a>的话，可以通过下面的例子来观察它们求值的顺序：</p>
+<pre><code class="language-typescript">function f() {
+    console.log(&quot;f(): evaluated&quot;);
+    return function (target, propertyKey: string, descriptor: PropertyDescriptor) {
+        console.log(&quot;f(): called&quot;);
+    }
+}
+
+function g() {
+    console.log(&quot;g(): evaluated&quot;);
+    return function (target, propertyKey: string, descriptor: PropertyDescriptor) {
+        console.log(&quot;g(): called&quot;);
+    }
+}
+
+class C {
+    @f()
+    @g()
+    method() {}
+}
+</code></pre>
+<p>在控制台里会打印出如下结果：</p>
+<pre><code class="language-text">f(): evaluated
+g(): evaluated
+g(): called
+f(): called
+</code></pre>
+<h3 id="装饰器求值"><a class="header" href="#装饰器求值">装饰器求值</a></h3>
+<p>类中不同声明上的装饰器将按以下规定的顺序应用：</p>
+<ol>
+<li><em>参数装饰器</em>，然后依次是_方法装饰器_，<em>访问符装饰器</em>，或_属性装饰器_应用到每个实例成员。</li>
+<li><em>参数装饰器</em>，然后依次是_方法装饰器_，<em>访问符装饰器</em>，或_属性装饰器_应用到每个静态成员。</li>
+<li>_参数装饰器_应用到构造函数。</li>
+<li>_类装饰器_应用到类。</li>
+</ol>
+<h3 id="类装饰器"><a class="header" href="#类装饰器">类装饰器</a></h3>
+<p>_类装饰器_在类声明之前被声明（紧靠着类声明）。 类装饰器应用于类构造函数，可以用来监视，修改或替换类定义。 类装饰器不能用在声明文件中(<code>.d.ts</code>)，也不能用在任何外部上下文中（比如<code>declare</code>的类）。</p>
+<p>类装饰器表达式会在运行时当作函数被调用，类的构造函数作为其唯一的参数。</p>
+<p>如果类装饰器返回一个值，它会使用提供的构造函数来替换类的声明。</p>
+<blockquote>
+<p>注意  如果你要返回一个新的构造函数，你必须注意处理好原来的原型链。 在运行时的装饰器调用逻辑中_不会_为你做这些。</p>
+</blockquote>
+<p>下面是使用类装饰器(<code>@sealed</code>)的例子，应用在<code>Greeter</code>类：</p>
+<pre><code class="language-typescript">@sealed
+class Greeter {
+    greeting: string;
+    constructor(message: string) {
+        this.greeting = message;
+    }
+    greet() {
+        return &quot;Hello, &quot; + this.greeting;
+    }
+}
+</code></pre>
+<p>我们可以这样定义<code>@sealed</code>装饰器：</p>
+<pre><code class="language-typescript">function sealed(constructor: Function) {
+    Object.seal(constructor);
+    Object.seal(constructor.prototype);
+}
+</code></pre>
+<p>当<code>@sealed</code>被执行的时候，它将密封此类的构造函数和原型。(注：参见<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/seal">Object.seal</a>)</p>
+<p>下面是一个重载构造函数的例子。</p>
+<pre><code class="language-typescript">function classDecorator&lt;T extends {new(...args:any[]):{}}&gt;(constructor:T) {
+    return class extends constructor {
+        newProperty = &quot;new property&quot;;
+        hello = &quot;override&quot;;
+    }
+}
+
+@classDecorator
+class Greeter {
+    property = &quot;property&quot;;
+    hello: string;
+    constructor(m: string) {
+        this.hello = m;
+    }
+}
+
+console.log(new Greeter(&quot;world&quot;));
+</code></pre>
+<h3 id="方法装饰器"><a class="header" href="#方法装饰器">方法装饰器</a></h3>
+<p>_方法装饰器_声明在一个方法的声明之前（紧靠着方法声明）。 它会被应用到方法的_属性描述符_上，可以用来监视，修改或者替换方法定义。 方法装饰器不能用在声明文件(<code>.d.ts</code>)，重载或者任何外部上下文（比如<code>declare</code>的类）中。</p>
+<p>方法装饰器表达式会在运行时当作函数被调用，传入下列3个参数：</p>
+<ol>
+<li>对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。</li>
+<li>成员的名字。</li>
+<li>成员的_属性描述符_。</li>
+</ol>
+<blockquote>
+<p>注意  如果代码输出目标版本小于<code>ES5</code>，_属性描述符_将会是<code>undefined</code>。</p>
+</blockquote>
+<p>如果方法装饰器返回一个值，它会被用作方法的_属性描述符_。</p>
+<blockquote>
+<p>注意  如果代码输出目标版本小于<code>ES5</code>返回值会被忽略。</p>
+</blockquote>
+<p>下面是一个方法装饰器（<code>@enumerable</code>）的例子，应用于<code>Greeter</code>类的方法上：</p>
+<pre><code class="language-typescript">class Greeter {
+    greeting: string;
+    constructor(message: string) {
+        this.greeting = message;
+    }
+
+    @enumerable(false)
+    greet() {
+        return &quot;Hello, &quot; + this.greeting;
+    }
+}
+</code></pre>
+<p>我们可以用下面的函数声明来定义<code>@enumerable</code>装饰器：</p>
+<pre><code class="language-typescript">function enumerable(value: boolean) {
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        descriptor.enumerable = value;
+    };
+}
+</code></pre>
+<p>这里的<code>@enumerable(false)</code>是一个<a href="decorators.html#decorator-factories">装饰器工厂</a>。 当装饰器<code>@enumerable(false)</code>被调用时，它会修改属性描述符的<code>enumerable</code>属性。</p>
+<h3 id="访问器装饰器"><a class="header" href="#访问器装饰器">访问器装饰器</a></h3>
+<p>_访问器装饰器_声明在一个访问器的声明之前（紧靠着访问器声明）。 访问器装饰器应用于访问器的_属性描述符_并且可以用来监视，修改或替换一个访问器的定义。 访问器装饰器不能用在声明文件中（.d.ts），或者任何外部上下文（比如<code>declare</code>的类）里。</p>
+<blockquote>
+<p>注意  TypeScript不允许同时装饰一个成员的<code>get</code>和<code>set</code>访问器。取而代之的是，一个成员的所有装饰的必须应用在文档顺序的第一个访问器上。这是因为，在装饰器应用于一个_属性描述符_时，它联合了<code>get</code>和<code>set</code>访问器，而不是分开声明的。</p>
+</blockquote>
+<p>访问器装饰器表达式会在运行时当作函数被调用，传入下列3个参数：</p>
+<ol>
+<li>对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。</li>
+<li>成员的名字。</li>
+<li>成员的_属性描述符_。</li>
+</ol>
+<blockquote>
+<p>注意  如果代码输出目标版本小于<code>ES5</code>，_Property Descriptor_将会是<code>undefined</code>。</p>
+</blockquote>
+<p>如果访问器装饰器返回一个值，它会被用作方法的_属性描述符_。</p>
+<blockquote>
+<p>注意  如果代码输出目标版本小于<code>ES5</code>返回值会被忽略。</p>
+</blockquote>
+<p>下面是使用了访问器装饰器（<code>@configurable</code>）的例子，应用于<code>Point</code>类的成员上：</p>
+<pre><code class="language-typescript">class Point {
+    private _x: number;
+    private _y: number;
+    constructor(x: number, y: number) {
+        this._x = x;
+        this._y = y;
+    }
+
+    @configurable(false)
+    get x() { return this._x; }
+
+    @configurable(false)
+    get y() { return this._y; }
+}
+</code></pre>
+<p>我们可以通过如下函数声明来定义<code>@configurable</code>装饰器：</p>
+<pre><code class="language-typescript">function configurable(value: boolean) {
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        descriptor.configurable = value;
+    };
+}
+</code></pre>
+<h3 id="属性装饰器"><a class="header" href="#属性装饰器">属性装饰器</a></h3>
+<p>_属性装饰器_声明在一个属性声明之前（紧靠着属性声明）。 属性装饰器不能用在声明文件中（.d.ts），或者任何外部上下文（比如<code>declare</code>的类）里。</p>
+<p>属性装饰器表达式会在运行时当作函数被调用，传入下列2个参数：</p>
+<ol>
+<li>对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。</li>
+<li>成员的名字。</li>
+</ol>
+<blockquote>
+<p>注意  _属性描述符_不会做为参数传入属性装饰器，这与TypeScript是如何初始化属性装饰器的有关。 因为目前没有办法在定义一个原型对象的成员时描述一个实例属性，并且没办法监视或修改一个属性的初始化方法。返回值也会被忽略。 因此，属性描述符只能用来监视类中是否声明了某个名字的属性。</p>
+</blockquote>
+<p>如果访问符装饰器返回一个值，它会被用作方法的_属性描述符_。</p>
+<p>我们可以用它来记录这个属性的元数据，如下例所示：</p>
+<pre><code class="language-typescript">class Greeter {
+    @format(&quot;Hello, %s&quot;)
+    greeting: string;
+
+    constructor(message: string) {
+        this.greeting = message;
+    }
+    greet() {
+        let formatString = getFormat(this, &quot;greeting&quot;);
+        return formatString.replace(&quot;%s&quot;, this.greeting);
+    }
+}
+</code></pre>
+<p>然后定义<code>@format</code>装饰器和<code>getFormat</code>函数：</p>
+<pre><code class="language-typescript">import &quot;reflect-metadata&quot;;
+
+const formatMetadataKey = Symbol(&quot;format&quot;);
+
+function format(formatString: string) {
+    return Reflect.metadata(formatMetadataKey, formatString);
+}
+
+function getFormat(target: any, propertyKey: string) {
+    return Reflect.getMetadata(formatMetadataKey, target, propertyKey);
+}
+</code></pre>
+<p>这个<code>@format(&quot;Hello, %s&quot;)</code>装饰器是个 <a href="decorators.html#decorator-factories">装饰器工厂</a>。 当<code>@format(&quot;Hello, %s&quot;)</code>被调用时，它添加一条这个属性的元数据，通过<code>reflect-metadata</code>库里的<code>Reflect.metadata</code>函数。 当<code>getFormat</code>被调用时，它读取格式的元数据。</p>
+<blockquote>
+<p>注意  这个例子需要使用<code>reflect-metadata</code>库。 查看<a href="decorators.html#metadata">元数据</a>了解<code>reflect-metadata</code>库更详细的信息。</p>
+</blockquote>
+<h3 id="参数装饰器"><a class="header" href="#参数装饰器">参数装饰器</a></h3>
+<p>_参数装饰器_声明在一个参数声明之前（紧靠着参数声明）。 参数装饰器应用于类构造函数或方法声明。 参数装饰器不能用在声明文件（.d.ts），重载或其它外部上下文（比如<code>declare</code>的类）里。</p>
+<p>参数装饰器表达式会在运行时当作函数被调用，传入下列3个参数：</p>
+<ol>
+<li>对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。</li>
+<li>成员的名字。</li>
+<li>参数在函数参数列表中的索引。</li>
+</ol>
+<blockquote>
+<p>注意  参数装饰器只能用来监视一个方法的参数是否被传入。</p>
+</blockquote>
+<p>参数装饰器的返回值会被忽略。</p>
+<p>下例定义了参数装饰器（<code>@required</code>）并应用于<code>Greeter</code>类方法的一个参数：</p>
+<pre><code class="language-typescript">class Greeter {
+    greeting: string;
+
+    constructor(message: string) {
+        this.greeting = message;
+    }
+
+    @validate
+    greet(@required name: string) {
+        return &quot;Hello &quot; + name + &quot;, &quot; + this.greeting;
+    }
+}
+</code></pre>
+<p>然后我们使用下面的函数定义 <code>@required</code> 和 <code>@validate</code> 装饰器：</p>
+<pre><code class="language-typescript">import &quot;reflect-metadata&quot;;
+
+const requiredMetadataKey = Symbol(&quot;required&quot;);
+
+function required(target: Object, propertyKey: string | symbol, parameterIndex: number) {
+    let existingRequiredParameters: number[] = Reflect.getOwnMetadata(requiredMetadataKey, target, propertyKey) || [];
+    existingRequiredParameters.push(parameterIndex);
+    Reflect.defineMetadata(requiredMetadataKey, existingRequiredParameters, target, propertyKey);
+}
+
+function validate(target: any, propertyName: string, descriptor: TypedPropertyDescriptor&lt;Function&gt;) {
+    let method = descriptor.value;
+    descriptor.value = function () {
+        let requiredParameters: number[] = Reflect.getOwnMetadata(requiredMetadataKey, target, propertyName);
+        if (requiredParameters) {
+            for (let parameterIndex of requiredParameters) {
+                if (parameterIndex &gt;= arguments.length || arguments[parameterIndex] === undefined) {
+                    throw new Error(&quot;Missing required argument.&quot;);
+                }
+            }
+        }
+
+        return method.apply(this, arguments);
+    }
+}
+</code></pre>
+<p><code>@required</code>装饰器添加了元数据实体把参数标记为必需的。 <code>@validate</code>装饰器把<code>greet</code>方法包裹在一个函数里在调用原先的函数前验证函数参数。</p>
+<blockquote>
+<p>注意  这个例子使用了<code>reflect-metadata</code>库。 查看<a href="decorators.html#metadata">元数据</a>了解<code>reflect-metadata</code>库的更多信息。</p>
+</blockquote>
+<h3 id="元数据"><a class="header" href="#元数据">元数据</a></h3>
+<p>一些例子使用了<code>reflect-metadata</code>库来支持<a href="https://github.com/rbuckton/ReflectDecorators">实验性的metadata API</a>。 这个库还不是ECMAScript (JavaScript)标准的一部分。 然而，当装饰器被ECMAScript官方标准采纳后，这些扩展也将被推荐给ECMAScript以采纳。</p>
+<p>你可以通过npm安装这个库：</p>
+<pre><code class="language-text">npm i reflect-metadata --save
+</code></pre>
+<p>TypeScript支持为带有装饰器的声明生成元数据。 你需要在命令行或<code>tsconfig.json</code>里启用<code>emitDecoratorMetadata</code>编译器选项。</p>
+<p><strong>Command Line</strong>:</p>
+<pre><code class="language-text">tsc --target ES5 --experimentalDecorators --emitDecoratorMetadata
+</code></pre>
+<p><strong>tsconfig.json</strong>:</p>
+<pre><code class="language-javascript">{
+    &quot;compilerOptions&quot;: {
+        &quot;target&quot;: &quot;ES5&quot;,
+        &quot;experimentalDecorators&quot;: true,
+        &quot;emitDecoratorMetadata&quot;: true
+    }
+}
+</code></pre>
+<p>当启用后，只要<code>reflect-metadata</code>库被引入了，设计阶段添加的类型信息可以在运行时使用。</p>
+<p>如下例所示：</p>
+<pre><code class="language-typescript">import &quot;reflect-metadata&quot;;
+
+class Point {
+    x: number;
+    y: number;
+}
+
+class Line {
+    private _p0: Point;
+    private _p1: Point;
+
+    @validate
+    set p0(value: Point) { this._p0 = value; }
+    get p0() { return this._p0; }
+
+    @validate
+    set p1(value: Point) { this._p1 = value; }
+    get p1() { return this._p1; }
+}
+
+function validate&lt;T&gt;(target: any, propertyKey: string, descriptor: TypedPropertyDescriptor&lt;T&gt;) {
+    let set = descriptor.set;
+    descriptor.set = function (value: T) {
+        let type = Reflect.getMetadata(&quot;design:type&quot;, target, propertyKey);
+        if (!(value instanceof type)) {
+            throw new TypeError(&quot;Invalid type.&quot;);
+        }
+        set.call(target, value);
+    }
+}
+</code></pre>
+<p>TypeScript编译器可以通过<code>@Reflect.metadata</code>装饰器注入设计阶段的类型信息。 你可以认为它相当于下面的TypeScript：</p>
+<pre><code class="language-typescript">class Line {
+    private _p0: Point;
+    private _p1: Point;
+
+    @validate
+    @Reflect.metadata(&quot;design:type&quot;, Point)
+    set p0(value: Point) { this._p0 = value; }
+    get p0() { return this._p0; }
+
+    @validate
+    @Reflect.metadata(&quot;design:type&quot;, Point)
+    set p1(value: Point) { this._p1 = value; }
+    get p1() { return this._p1; }
+}
+</code></pre>
+<blockquote>
+<p>注意  装饰器元数据是个实验性的特性并且可能在以后的版本中发生破坏性的改变（breaking changes）。</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../zh/reference/utility-types.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../zh/reference/declaration-merging.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../zh/reference/utility-types.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../zh/reference/declaration-merging.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
