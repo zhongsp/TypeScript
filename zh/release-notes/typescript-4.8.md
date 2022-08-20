@@ -233,4 +233,21 @@ TypeScript 4.8 能够在 inode 系统上处理这些情况，新建 watcher 对�
 
 更多详情请参考[这里](https://github.com/microsoft/TypeScript/pull/49581)。
 
+## 从自动导入中排除指定文件
 
+TypeScript 4.8 增加了一个编辑器首选项从自动导入中排除指定文件。
+在 Visual Studio Code 里，可以将文件名和 globs 添加到 Settings UI 的 “Auto Import File Exclude Patterns” 下，或者 `.vscode/settings.json` 文件中：
+
+```json
+{
+    // Note that `javascript.preferences.autoImportFileExcludePatterns` can be specified for JavaScript too.
+    "typescript.preferences.autoImportFileExcludePatterns": [
+      "**/node_modules/@types/node"
+    ]
+}
+```
+
+如果你想避免导入某些模块或代码库，它个功能就派上用场了。
+有些模块可能有过多的导出以致于影响到了自动导入功能，让我们难以选择一条自动导入。
+
+更多详情请参考[这里](https://github.com/microsoft/TypeScript/pull/49578)。
