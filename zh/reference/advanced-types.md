@@ -729,7 +729,7 @@ let unknown = getProperty(taxi, 'unknown');
 
 ### 索引类型和字符串索引签名
 
-`keyof`和`T[K]`与字符串索引签名进行交互。索引签名的参数类型必须为`number`或`string`。 如果你有一个带有字符串索引签名的类型，那么`keyof T`会是`string | number`。 \(并非只有`string`，因为在JavaScript里，你可以使用字符串`object['42'`或 数字`object[42]`索引来访问对象属性\)。 并且`T[string]`为索引签名的类型：
+`keyof`和`T[K]`与字符串索引签名进行交互。索引签名的参数类型必须为`number`或`string`。 如果你有一个带有字符串索引签名的类型，那么`keyof T`会是`string | number`。 \(并非只有`string`，因为在JavaScript里，你可以使用字符串`object['42']`或 数字`object[42]`索引来访问对象属性\)。 并且`T[string]`为索引签名的类型：
 
 ```typescript
 interface Dictionary<T> {
