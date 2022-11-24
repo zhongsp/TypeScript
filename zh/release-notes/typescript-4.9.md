@@ -101,3 +101,114 @@ const greenNormalized = palette.green.toUpperCase();
 
 更多示例请查看[这里](https://github.com/microsoft/TypeScript/issues/47920)和[这里](https://github.com/microsoft/TypeScript/pull/46827)。
 感谢[Oleksandr Tarasiuk](https://github.com/a-tarasyuk)对该属性的贡献。
+
+## 使用 `in` 运算符来细化并未列出其属性的对象类型
+
+开发者经常需要处理在运行时不完全已知的值。
+事实上，我们常常不能确定对象的某个属性是否存在，是否从服务端得到了响应或者读取到了某个配置文件。
+JavaScript 的 `in` 运算符能够检查对象上是否存在某个属性。
+
+从前，TypeScript 能够根据没有明确列出的属性来细化类型。
+
+```ts
+interface RGB {
+    red: number;
+    green: number;
+    blue: number;
+}
+
+interface HSV {
+    hue: number;
+    saturation: number;
+    value: number;
+}
+
+function setColor(color: RGB | HSV) {
+    if ("hue" in color) {
+        // 'color' 类型为 HSV
+    }
+    // ...
+}
+```
+
+此处，`RGB` 类型上没有列出 `hue` 属性，因此被细化掉了，剩下了 `HSV` 类型。
+
+那如果每个类型上都没有列出这个属性呢？
+在这种情况下，语言无法提供太多的帮助。
+看下面的 JavaScript 示例：
+
+```ts
+function tryGetPackageName(context) {
+    const packageJSON = context.packageJSON;
+    // Check to see if we have an object.
+    if (packageJSON && typeof packageJSON === "object") {
+        // Check to see if it has a string name property.
+        if ("name" in packageJSON && typeof packageJSON.name === "string") {
+            return packageJSON.name;
+        }
+    }
+
+    return undefined;
+}
+```
+
+将上面的代码改写为合适的 TypeScript，我们会给 `context` 定义一个类型；
+然而，在旧版本的 TypeScript 中如果声明 `packageJSON` 属性的类型为安全的 `unknown` 类型会有问题。
+
+```ts
+interface Context {
+    packageJSON: unknown;
+}
+
+function tryGetPackageName(context: Context) {
+    const packageJSON = context.packageJSON;
+    // Check to see if we have an object.
+    if (packageJSON && typeof packageJSON === "object") {
+        // Check to see if it has a string name property.
+        if ("name" in packageJSON && typeof packageJSON.name === "string") {
+        //                                              ~~~~
+        // error! Property 'name' does not exist on type 'object.
+            return packageJSON.name;
+        //                     ~~~~
+        // error! Property 'name' does not exist on type 'object.
+        }
+    }
+
+    return undefined;
+}
+```
+
+这是因为当 `packageJSON` 的类型从 `unknown` 细化为 `object` 类型后，
+`in` 运算符会严格地将类型细化为包含了所检查属性的某个类型。
+因此，`packageJSON` 的类型仍为 `object`。
+
+TypeScript 4.9 增强了 `in` 运算符的类型细化功能，它能够更好地处理没有列出属性的类型。
+现在 TypeScript 不是什么也不做，而是将其类型与 `Record<"property-key-being-checked", unknown>` 进行类型交叉运算。
+
+因此在上例中，`packageJSON` 的类型将从 `unknown` 细化为 `object` 再细化为 `object & Record<"name", unknown>`。
+这样就允许我们访问并细化类型 `packageJSON.name`。
+
+```ts
+interface Context {
+    packageJSON: unknown;
+}
+
+function tryGetPackageName(context: Context): string | undefined {
+    const packageJSON = context.packageJSON;
+    // Check to see if we have an object.
+    if (packageJSON && typeof packageJSON === "object") {
+        // Check to see if it has a string name property.
+        if ("name" in packageJSON && typeof packageJSON.name === "string") {
+            // Just works!
+            return packageJSON.name;
+        }
+    }
+
+    return undefined;
+}
+```
+
+TypeScript 4.9 还会严格限制 `in` 运算符的使用，以确保左侧的操作数能够赋值给 `string | number | symbol`，右侧的操作数能够赋值给 `object`。
+它有助于检查是否使用了合法的属性名，以及避免在原始类型上进行检查。
+
+更多详情请查看 [PR](https://github.com/microsoft/TypeScript/pull/50666).
