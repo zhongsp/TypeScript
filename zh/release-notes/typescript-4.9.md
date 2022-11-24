@@ -248,3 +248,48 @@ class Person {
 ```
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/49705)。
+
+## 在 `NaN` 上的相等性检查
+
+在 JavaScript 中，你无法使用内置的相等运算符去检查某个值是否等于 `NaN`。
+
+由于一些原因，`NaN` 是个特殊的数值，它代表 `不是一个数字`。
+没有值等于 `NaN`，包括 `NaN` 自己！
+
+```ts
+console.log(NaN == 0)  // false
+console.log(NaN === 0) // false
+
+console.log(NaN == NaN)  // false
+console.log(NaN === NaN) // false
+```
+
+换句话说，任何值都不等于 `NaN`。
+
+```ts
+console.log(NaN != 0)  // true
+console.log(NaN !== 0) // true
+
+console.log(NaN != NaN)  // true
+console.log(NaN !== NaN) // true
+```
+
+从技术上讲，这不是 JavaScript 独有的问题，任何使用 IEEE-754 浮点数的语言都有一样的问题；
+但是 JavaScript 中主要的数值类型为浮点数，并且解析数值时经常会得到 `NaN`。
+因此，检查 `NaN` 是很常见的操作，正确的方法是使用 `Number.isNaN` 函数 - 
+但像上文提到的，很多人可能不小心地使用了 `someValue === NaN` 来进行检查。
+
+现在，如果 TypeScript 发现直接比较 `NaN` 会报错，并提示使用 `Number.isNaN`。
+
+```ts
+function validate(someValue: number) {
+    return someValue !== NaN;
+    //     ~~~~~~~~~~~~~~~~~
+    // error: This condition will always return 'true'.
+    //        Did you mean '!Number.isNaN(someValue)'?
+}
+```
+
+我们确信这个改动会帮助捕获初级的错误，就如同 TypeScript 也会检查比较对象字面量和数组字面量一样。
+
+感谢 [Oleksandr Tarasiuk](https://github.com/a-tarasyuk) 提交的 [PR](https://github.com/microsoft/TypeScript/pull/50626)。
