@@ -212,3 +212,39 @@ TypeScript 4.9 还会严格限制 `in` 运算符的使用，以确保左侧的�
 它有助于检查是否使用了合法的属性名，以及避免在原始类型上进行检查。
 
 更多详情请查看 [PR](https://github.com/microsoft/TypeScript/pull/50666).
+
+## 类中的自动存取器
+
+TypeScript 4.9 支持了 ECMAScript 即将引入的“自动存取器”功能。
+自动存取器的声明如同定义一个类的属性，只不过是需要使用 `accessor` 关键字。
+
+```ts
+class Person {
+    accessor name: string;
+
+    constructor(name: string) {
+        this.name = name;
+    }
+}
+```
+
+在底层实现中，自动存取器会被展开为 `get` 和 `set` 存取器，以及一个无法访问的私有成员。
+
+```ts
+class Person {
+    #__name: string;
+
+    get name() {
+        return this.#__name;
+    }
+    set name(value: string) {
+        this.#__name = name;
+    }
+
+    constructor(name: string) {
+        this.name = name;
+    }
+}
+```
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/49705)。
