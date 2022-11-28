@@ -293,3 +293,36 @@ function validate(someValue: number) {
 我们确信这个改动会帮助捕获初级的错误，就如同 TypeScript 也会检查比较对象字面量和数组字面量一样。
 
 感谢 [Oleksandr Tarasiuk](https://github.com/a-tarasyuk) 提交的 [PR](https://github.com/microsoft/TypeScript/pull/50626)。
+
+## 监视文件功能使用文件系统事件
+
+在先前的版本，TypeScript 主要依靠*轮询*来监视每个文件。
+使用轮询的策略意味着定期检查文件是否有更新。
+在 Node.js 中，`fs.watchFile` 是内置的使用轮询来检查文件变动的方法。
+虽说轮询在跨操作系统和文件系统的情况下更稳妥，但是它也意味着 CPU 会定期地被中断，转而去检查是否有文件更新即便在没有任何改动的情况下。
+这在只有少数文件的时候问题不大，但如果工程包含了大量文件 - 或 `node_modules` 里有大量的文件 - 就会变得非常吃资源。
+
+通常来讲，更好的做法是使用文件系统事件。
+做为轮询的替换，我们声明对某些文件的变动感兴趣并提供回调函数用于处理有改动的文件。
+大多数现代的平台提供了如 `CreateIoCompletionPort`、`kqueue`、`epoll` 和 `inotify` API。
+Node.js 对这些 API 进行了抽象，提供了 `fs.watch` API。
+文件系统事件通常可以很好地工作，但是也存在一些注意事项。
+一个 watcher 需要考虑 [inode watching](https://nodejs.org/docs/latest-v18.x/api/fs.html#inodes)，
+[在一些文件系统上不可用](https://nodejs.org/docs/latest-v18.x/api/fs.html#availability)（比如：网络文件系统），
+嵌套的文件监控是否可用，重命名目录是否触发事件以及可用 file watcher 耗尽！
+换句话说，这件事不是那么容易做的，尤其是我们还需要跨平台。
+
+因此，过去我们的选择是普通好用的方式：轮询。
+虽不总是，但大部分时候是这样的。
+
+后来，我们提供了 [选择文件监视策略的方法](https://www.typescriptlang.org/docs/handbook/configuring-watch.html)。
+这让我们得到了很多反馈并改善跨平台的问题。
+由于 TypeScript 必须要能够处理大规模的代码并且我们已经取得了进步，因此我们觉得切换到使用文件系统事件是值得做的事情。
+
+在 TypeScript 4.9 中，文件监视已经默认使用文件系统事件的方式，仅当无法初始化事件监视时才回退到轮询。
+对大部分开发者来讲，在使用 `--watch` 模式或在 Visual Studio、VS Code 里使用 TypeScript 时会极大降低资源的占用。
+
+[文件监视方式仍然是可以配置的](https://www.typescriptlang.org/docs/handbook/configuring-watch.html)，可以使用环境变量和 `watchOptions` - 像 [VS Code 这样的编辑器还支持单独配置](https://code.visualstudio.com/docs/getstarted/settings#:~:text=typescript%2etsserver%2ewatchOptions)。
+如果你的代码使用的是网络文件系统（如 NFS 和 SMB）就需要回退到旧的行为；
+但如果服务器有强大的处理能力，最好是启用 SSH 并且通过远程运行 TypeScript，这样就可以使用本地文件访问。
+VS Code 支持了很多[远程开发](https://marketplace.visualstudio.com/search?term=remote&target=VSCode&category=All%20categories&sortBy=Relevance)的工具。
