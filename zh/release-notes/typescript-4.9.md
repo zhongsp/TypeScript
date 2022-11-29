@@ -375,3 +375,11 @@ let x: Moose | HoneyBadger = foo();
 如果用户想要使用更细的“移除未使用的导入”或“排序导入”命令，那么可以将“组织导入”的快捷键绑定到这些命令上。
 
 更多详情请参考[这里](https://github.com/microsoft/TypeScript/pull/50931)。
+
+## 在 `return` 关键字上使用跳转到定义
+
+在编辑器中，当在 `return` 关键字上使用跳转到定义功能时，TypeScript 会跳转到函数的顶端。
+这会帮助理解 `return` 语句是属于哪个函数的。
+
+我们期待这个功能扩展到更多的关键字上，例如 `await` 和 `yield` 或者 `switch`、`case` 和 `default`。
+感谢[Oleksandr Tarasiuk](https://github.com/a-tarasyuk)的[实现](https://github.com/microsoft/TypeScript/pull/51227)。
