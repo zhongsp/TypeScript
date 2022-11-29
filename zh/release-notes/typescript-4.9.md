@@ -383,3 +383,35 @@ let x: Moose | HoneyBadger = foo();
 
 我们期待这个功能扩展到更多的关键字上，例如 `await` 和 `yield` 或者 `switch`、`case` 和 `default`。
 感谢[Oleksandr Tarasiuk](https://github.com/a-tarasyuk)的[实现](https://github.com/microsoft/TypeScript/pull/51227)。
+
+## 性能优化
+
+TypeScript 进行了一些较小的但是能觉察到的性能优化。
+
+首先，重写了 TypeScript 的 `forEachChild` 函数使用函数查找表代替 `switch` 语句。
+`forEachChild` 是编译器在遍历语法节点时会反复调用的函数，和部分语言服务一起大量地被使用在编译绑定阶段。
+对 `forEachChild` 函数的重构减少了绑定阶段和语言服务操作的 20% 时间消耗。
+
+当我们看到了 `forEachChild` 的效果后也在 `visitEachChild`（在编译器和语言服务中用来变换节点的函数）上进行了类似的优化。
+同样的重构减少了 3% 生成工程输出的时间消耗。
+
+对于 `forEachChild` 的优化最初是受到了 [Artemis Everfree](https://artemis.sh/) [文章](https://artemis.sh/2022/08/07/emulating-calculators-fast-in-js.html)的启发。
+虽说我们认为速度提升的根本原因是由于函数体积和复杂度的降低而非这篇文章里提到的问题，但我们非常感谢能够从中获得经验并快速地进行重构让 TypeScript 运行得更快。
+
+最后，TypeScript 还优化了在条件类型的 `true` 分支中保留类型信息。
+例如：
+
+```ts
+interface Zoo<T extends Animal> {
+    // ...
+}
+
+type MakeZoo<A> = A extends Animal ? Zoo<A> : never;
+```
+
+TypeScript 在检查 `Zoo<A>`时需要记住 `A` 是 `Animal`。
+TypeScript 通过新建 `A` 和 `Animal` 的交叉类型来保留该信息；
+然而，TypeScript 之前采用的是即时求值的方式，即便有时是不需要的。
+而且类型检查器中的一些问题代码使得这些类型无法被简化。
+TypeScript 现在会推迟类型交叉操作直到真的有需要的时候。
+对于大量地使用了有条件类型的代码来说，你会觉察到大幅的提速，但从我们的性能测试结果来看却只看到了 3% 的类型检查性能提升。
