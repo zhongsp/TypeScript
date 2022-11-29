@@ -296,7 +296,7 @@ function validate(someValue: number) {
 
 ## 监视文件功能使用文件系统事件
 
-在先前的版本，TypeScript 主要依靠*轮询*来监视每个文件。
+在先前的版本中，TypeScript 主要依靠*轮询*来监视每个文件。
 使用轮询的策略意味着定期检查文件是否有更新。
 在 Node.js 中，`fs.watchFile` 是内置的使用轮询来检查文件变动的方法。
 虽说轮询在跨操作系统和文件系统的情况下更稳妥，但是它也意味着 CPU 会定期地被中断，转而去检查是否有文件更新即便在没有任何改动的情况下。
@@ -307,17 +307,17 @@ function validate(someValue: number) {
 大多数现代的平台提供了如 `CreateIoCompletionPort`、`kqueue`、`epoll` 和 `inotify` API。
 Node.js 对这些 API 进行了抽象，提供了 `fs.watch` API。
 文件系统事件通常可以很好地工作，但是也存在一些注意事项。
-一个 watcher 需要考虑 [inode watching](https://nodejs.org/docs/latest-v18.x/api/fs.html#inodes)，
-[在一些文件系统上不可用](https://nodejs.org/docs/latest-v18.x/api/fs.html#availability)（比如：网络文件系统），
-嵌套的文件监控是否可用，重命名目录是否触发事件以及可用 file watcher 耗尽！
-换句话说，这件事不是那么容易做的，尤其是我们还需要跨平台。
+一个 watcher 需要考虑 [inode watching](https://nodejs.org/docs/latest-v18.x/api/fs.html#inodes)的问题、
+[在一些文件系统上不可用](https://nodejs.org/docs/latest-v18.x/api/fs.html#availability)的问题（比如：网络文件系统）、
+嵌套的文件监控是否可用、重命名目录是否触发事件以及可用 file watcher 耗尽的问题！
+换句话说，这件事不是那么容易做的，特别是我们还需要跨平台。
 
-因此，过去我们的选择是普通好用的方式：轮询。
+因此，过去我们的默认选择是普遍好用的方式：轮询。
 虽不总是，但大部分时候是这样的。
 
-后来，我们提供了 [选择文件监视策略的方法](https://www.typescriptlang.org/docs/handbook/configuring-watch.html)。
-这让我们得到了很多反馈并改善跨平台的问题。
-由于 TypeScript 必须要能够处理大规模的代码并且我们已经取得了进步，因此我们觉得切换到使用文件系统事件是值得做的事情。
+后来，我们提供了[选择文件监视策略的方法](https://www.typescriptlang.org/docs/handbook/configuring-watch.html)。
+这让我们收到了很多使用反馈并改善跨平台的问题。
+由于 TypeScript 必须要能够处理大规模的代码并且也已经有了改进，因此我们觉得切换到使用文件系统事件是件值得做的事情。
 
 在 TypeScript 4.9 中，文件监视已经默认使用文件系统事件的方式，仅当无法初始化事件监视时才回退到轮询。
 对大部分开发者来讲，在使用 `--watch` 模式或在 Visual Studio、VS Code 里使用 TypeScript 时会极大降低资源的占用。
@@ -326,3 +326,52 @@ Node.js 对这些 API 进行了抽象，提供了 `fs.watch` API。
 如果你的代码使用的是网络文件系统（如 NFS 和 SMB）就需要回退到旧的行为；
 但如果服务器有强大的处理能力，最好是启用 SSH 并且通过远程运行 TypeScript，这样就可以使用本地文件访问。
 VS Code 支持了很多[远程开发](https://marketplace.visualstudio.com/search?term=remote&target=VSCode&category=All%20categories&sortBy=Relevance)的工具。
+
+## 编辑器中的“删除未使用导入”和“排序导入”命令
+
+以前，TypeScript 仅支持两个管理导入语句的编辑器命令。
+拿下面的代码举例：
+
+```ts
+import { Zebra, Moose, HoneyBadger } from "./zoo";
+import { foo, bar } from "./helper";
+
+let x: Moose | HoneyBadger = foo();
+```
+
+第一个命令是 “组织导入语句”，它会删除未使用的导入并对剩下的条目排序。
+因此会将上面的代码重写为：
+
+```ts
+import { foo } from "./helper";
+import { HoneyBadger, Moose } from "./zoo";
+
+let x: Moose | HoneyBadger = foo();
+```
+
+在 TypeScript 4.3 中，引入了“排序导入语句”命令，它仅排序导入语句但不进行删除，因此会将上例代码重写为：
+
+```ts
+import { bar, foo } from "./helper";
+import { HoneyBadger, Moose, Zebra } from "./zoo";
+
+let x: Moose | HoneyBadger = foo();
+```
+
+使用“排序导入语句”的注意事项是，在 VS Code 中该命令只能在保存文件时触发，而非能够手动执行的命令。
+
+TypeScript 4.9 添加了另一半功能，提供了“移除未使用的导入”功能。
+TypeScript 会移除未使用的导入命名和语句，但是不能改变当前的排序。
+
+```ts
+import { Moose, HoneyBadger } from "./zoo";
+import { foo } from "./helper";
+
+let x: Moose | HoneyBadger = foo();
+```
+
+该功能对任何编译器都是可用的；
+但要注意的是，VS Code (1.73+) 会内置这个功能并且可以使用 `Command Pallette` 来执行。
+如果用户想要使用更细的“移除未使用的导入”或“排序导入”命令，那么可以将“组织导入”的快捷键绑定到这些命令上。
+
+更多详情请参考[这里](https://github.com/microsoft/TypeScript/pull/50931)。
