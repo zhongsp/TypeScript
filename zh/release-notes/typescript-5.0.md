@@ -316,3 +316,34 @@ export default @register class Bar {
 }
 ```
 
+## 编写强类型的装饰器
+
+上面的例子 `loggedMethod` 和 `bound` 是故意写的简单并且忽略了大量和类型有关的细节。
+
+为装饰器添加类型可能会很复杂。
+例如，强类型的 `loggedMethod` 可能像下面这样：
+
+```ts
+function loggedMethod<This, Args extends any[], Return>(
+    target: (this: This, ...args: Args) => Return,
+    context: ClassMethodDecoratorContext<This, (this: This, ...args: Args) => Return>
+) {
+    const methodName = String(context.name);
+
+    function replacementMethod(this: This, ...args: Args): Return {
+        console.log(`LOG: Entering method '${methodName}'.`)
+        const result = target.call(this, ...args);
+        console.log(`LOG: Exiting method '${methodName}'.`)
+        return result;
+    }
+
+    return replacementMethod;
+}
+```
+
+我们必须分别给原方法的 `this`、形式参数和返回值添加类型，上面使用了类型参数 `This`，`Args` 以及 `Return`。
+装饰器函数到底有多复杂取决于你要确保什么。
+但要记住，装饰器被使用的次数远多于被编写的次数，因此强类型的版本是通常希望得到的 -
+但我们需要在可读性之间做出取舍，因此要尽量保持简洁。
+
+未来会有更多关于如何编写装饰器的文档 - 但是[这篇文章](https://2ality.com/2022/10/javascript-decorators.html)详细介绍了装饰器的工作方式。
