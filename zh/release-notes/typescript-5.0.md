@@ -281,3 +281,38 @@ p.greet();
 想深入了解装饰器，可以阅读 Axel Rauschmayer 的[文章](https://2ality.com/2022/10/javascript-decorators.html)。
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/50820)。
+
+## 与旧的实验性的装饰器的差异
+
+如果你有一定的 TypeScript 经验，你会发现 TypeScript 多年前就已经支持了“实验性的”装饰器特性。
+虽然实验性的装饰器非常地好用，但是它实现的是旧版本的装饰器规范，并且总是需要启用 `--experimentalDecorators` 编译器选项。
+若没有启用它并且使用了装饰器，TypeScript 会报错。
+
+在未来的一段时间内，`--experimentalDecorators` 依然会存在；
+然而，如果不使用该标记，在新代码中装饰器语法也是合法的。
+在 `--experimentalDecorators` 之外，它们的类型检查和代码生成方式也不同。
+类型检查和代码生成规则存在巨大差异，以至于虽然装饰器*可以*被定义为同时支持新、旧装饰器的行为，但任何现有的装饰器函数都不太可能这样做。
+
+新的装饰器提案与 `--emitDecoratorMetadata` 的实现不兼容，并且不支持在参数上使用装饰器。
+未来的 ECMAScript 提案可能会弥补这个差距。
+
+最后要注意的是：除了可以在 `export` 关键字之前使用装饰器，还可以在 `export` 或者 `export default` 之后使用。
+但是不允许混合使用两种风格。
+
+```ts
+//  allowed
+@register export default class Foo {
+    // ...
+}
+
+//  also allowed
+export default @register class Bar {
+    // ...
+}
+
+//  error - before *and* after is not allowed
+@before export @after class Bar {
+    // ...
+}
+```
+
