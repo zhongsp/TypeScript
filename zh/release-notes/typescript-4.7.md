@@ -272,15 +272,16 @@ TypeScript 的规则则是如果一个文件里存在 `import` 或 `export` 语�
 1. `"legacy"`，行为与 TypeScript 4.6 和以前的版本相同
 1. `"force"`
 
-在 `"auto"` 模式下，TypeScript 不会检测 `import` 和 `export` 语句，但它仍会检测：
+在 `"auto"` 模式下，TypeScript 不但会检测 `import` 和 `export` 语句，它还会检测：
 
 * 若启用了 `--module nodenext` / `--module node16`，那么 `package.json` 里的 `"type"` 字段是否为 `"module"`，以及
 * 若启用了 `--jsx react-jsx`，那么当前文件是否为 JSX 文件。
 
-在这些情况下，我们想将每个文件都当作模块。
+在这些情况下，我们想将每个文件都当作模块文件。
+
 `"force"` 选项能够保证每个非声明文件都被当成模块文件，不论 `module`，`moduleResoluton` 和 `jsx` 是如何设置的。
 
-与此同时，使用 `"legacy"` 选项会回退到以前的行为，仅通过查找 `import` 和 `export` 语句来决定是否为模块。
+与此同时，使用 `"legacy"` 选项会回退到以前的行为，仅通过检测 `import` 和 `export` 语句来决定是否为模块文件。
 
 更多详情请阅读[PR](https://github.com/microsoft/TypeScript/pull/47495)。
 
