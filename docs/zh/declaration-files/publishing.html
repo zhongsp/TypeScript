@@ -8,7 +8,6 @@
 
         <!-- Custom HTML head -->
         
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="TypeScript Handbook 中文翻译。">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -33,14 +32,15 @@
 
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "../../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -56,7 +56,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -68,12 +68,14 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -99,7 +101,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -132,7 +134,7 @@
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -147,7 +149,7 @@
 有两种主要方式用来将声明文件发布到 npm：</p>
 <ol>
 <li>与你的 npm 包捆绑在一起，或</li>
-<li>发布到 npm 上的<a href="https://www.npmjs.com/%7Etypes">@types organization</a>。</li>
+<li>发布到 npm 上的<a href="https://www.npmjs.com/~types">@types organization</a>。</li>
 </ol>
 <p>如果声明文件是由你写的源码生成的，那么就将声明文件与源码一起发布。
 TypeScript 工程和 JavaScript 工程都可以使用<a href="/tsconfig#declaration"><code>--declaration</code></a>选项来生成声明文件。</p>
@@ -249,8 +251,8 @@ TypeScript 工程和 JavaScript 工程都可以使用<a href="/tsconfig#declarat
     }
 }
 </code></pre>
-<h2 id="发布到types"><a class="header" href="#发布到types">发布到<a href="https://www.npmjs.com/%7Etypes">@types</a></a></h2>
-<p><a href="https://www.npmjs.com/%7Etypes">@types</a>里的包是使用<a href="https://github.com/Microsoft/types-publisher">types-publisher 工具</a>从<a href="https://github.com/DefinitelyTyped/DefinitelyTyped">DefinitelyTyped</a>里自动发布的。
+<h2 id="发布到types"><a class="header" href="#发布到types">发布到<a href="https://www.npmjs.com/~types">@types</a></a></h2>
+<p><a href="https://www.npmjs.com/~types">@types</a>里的包是使用<a href="https://github.com/Microsoft/types-publisher">types-publisher 工具</a>从<a href="https://github.com/DefinitelyTyped/DefinitelyTyped">DefinitelyTyped</a>里自动发布的。
 如果想让你的包发布为<code>@types</code>包，提交一个 pull request 到<a href="https://github.com/DefinitelyTyped/DefinitelyTyped">https://github.com/DefinitelyTyped/DefinitelyTyped</a>。
 更多详情请参考<a href="http://definitelytyped.org/guides/contributing.html">contribution guidelines page</a>。</p>
 
@@ -286,21 +288,22 @@ TypeScript 工程和 JavaScript 工程都可以使用<a href="/tsconfig#declarat
 
 
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
 
 
-        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
 
-        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
 
         <!-- Custom JS scripts -->
 
 
+    </div>
     </body>
 </html>

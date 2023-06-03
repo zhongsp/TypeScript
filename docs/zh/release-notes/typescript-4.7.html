@@ -8,7 +8,6 @@
 
         <!-- Custom HTML head -->
         
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="TypeScript Handbook 中文翻译。">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -33,14 +32,15 @@
 
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "../../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -56,7 +56,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -68,12 +68,14 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -99,7 +101,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -132,7 +134,7 @@
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -358,14 +360,14 @@ TypeScript 的规则则是如果一个文件里存在 <code>import</code> 或 <c
 <li><code>&quot;legacy&quot;</code>，行为与 TypeScript 4.6 和以前的版本相同</li>
 <li><code>&quot;force&quot;</code></li>
 </ol>
-<p>在 <code>&quot;auto&quot;</code> 模式下，TypeScript 不会检测 <code>import</code> 和 <code>export</code> 语句，但它仍会检测：</p>
+<p>在 <code>&quot;auto&quot;</code> 模式下，TypeScript 不但会检测 <code>import</code> 和 <code>export</code> 语句，它还会检测：</p>
 <ul>
 <li>若启用了 <code>--module nodenext</code> / <code>--module node16</code>，那么 <code>package.json</code> 里的 <code>&quot;type&quot;</code> 字段是否为 <code>&quot;module&quot;</code>，以及</li>
 <li>若启用了 <code>--jsx react-jsx</code>，那么当前文件是否为 JSX 文件。</li>
 </ul>
-<p>在这些情况下，我们想将每个文件都当作模块。
-<code>&quot;force&quot;</code> 选项能够保证每个非声明文件都被当成模块文件，不论 <code>module</code>，<code>moduleResoluton</code> 和 <code>jsx</code> 是如何设置的。</p>
-<p>与此同时，使用 <code>&quot;legacy&quot;</code> 选项会回退到以前的行为，仅通过查找 <code>import</code> 和 <code>export</code> 语句来决定是否为模块。</p>
+<p>在这些情况下，我们想将每个文件都当作模块文件。</p>
+<p><code>&quot;force&quot;</code> 选项能够保证每个非声明文件都被当成模块文件，不论 <code>module</code>，<code>moduleResoluton</code> 和 <code>jsx</code> 是如何设置的。</p>
+<p>与此同时，使用 <code>&quot;legacy&quot;</code> 选项会回退到以前的行为，仅通过检测 <code>import</code> 和 <code>export</code> 语句来决定是否为模块文件。</p>
 <p>更多详情请阅读<a href="https://github.com/microsoft/TypeScript/pull/47495">PR</a>。</p>
 <h2 id="-语法元素访问的控制流分析"><a class="header" href="#-语法元素访问的控制流分析"><code>[]</code> 语法元素访问的控制流分析</a></h2>
 <p>在 TypeScript 4.7 里，当索引键值是字面量类型和 <code>unique symbol</code> 类型时会细化访问元素的类型。
@@ -782,21 +784,22 @@ import * as path from &quot;path&quot;;
 
 
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
 
 
-        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
 
-        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
 
         <!-- Custom JS scripts -->
 
 
+    </div>
     </body>
 </html>

@@ -8,7 +8,6 @@
 
         <!-- Custom HTML head -->
         
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="TypeScript Handbook 中文翻译。">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -33,14 +32,15 @@
 
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "../../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -56,7 +56,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -68,12 +68,14 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -99,7 +101,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -132,7 +134,7 @@
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -152,11 +154,12 @@
 <li>启用<code>jsx</code>选项</li>
 </ol>
 <p>TypeScript具有三种JSX模式：<code>preserve</code>，<code>react</code>和<code>react-native</code>。 这些模式只在代码生成阶段起作用 - 类型检查并不受影响。 在<code>preserve</code>模式下生成代码中会保留JSX以供后续的转换操作使用（比如：<a href="https://babeljs.io/">Babel</a>）。 另外，输出文件会带有<code>.jsx</code>扩展名。 <code>react</code>模式会生成<code>React.createElement</code>，在使用前不需要再进行转换操作了，输出文件的扩展名为<code>.js</code>。 <code>react-native</code>相当于<code>preserve</code>，它也保留了所有的JSX，但是输出文件的扩展名是<code>.js</code>。</p>
-<table><thead><tr><th style="text-align: left">模式</th><th style="text-align: left">输入</th><th style="text-align: left">输出</th><th style="text-align: left">输出文件扩展名</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">模式</th><th style="text-align: left">输入</th><th style="text-align: left">输出</th><th style="text-align: left">输出文件扩展名</th></tr></thead><tbody>
 <tr><td style="text-align: left"><code>preserve</code></td><td style="text-align: left"><code>&lt;div /&gt;</code></td><td style="text-align: left"><code>&lt;div /&gt;</code></td><td style="text-align: left"><code>.jsx</code></td></tr>
 <tr><td style="text-align: left"><code>react</code></td><td style="text-align: left"><code>&lt;div /&gt;</code></td><td style="text-align: left"><code>React.createElement(&quot;div&quot;)</code></td><td style="text-align: left"><code>.js</code></td></tr>
 <tr><td style="text-align: left"><code>react-native</code></td><td style="text-align: left"><code>&lt;div /&gt;</code></td><td style="text-align: left"><code>&lt;div /&gt;</code></td><td style="text-align: left"><code>.js</code></td></tr>
 </tbody></table>
+</div>
 <p>你可以通过在命令行里使用<code>--jsx</code>标记或<a href="../project-config/tsconfig.json.html">tsconfig.json</a>里的选项来指定模式。</p>
 <blockquote>
 <p>*注意：当输出目标为<code>react JSX</code>时，你可以使用<code>--jsxFactory</code>指定JSX工厂函数（默认值为<code>React.createElement</code>）</p>
@@ -489,21 +492,22 @@ const x = preact.h(&quot;div&quot;, null);
 
 
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
 
 
-        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
 
-        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
 
         <!-- Custom JS scripts -->
 
 
+    </div>
     </body>
 </html>

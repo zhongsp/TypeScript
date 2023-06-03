@@ -8,7 +8,6 @@
 
         <!-- Custom HTML head -->
         
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="TypeScript Handbook 中文翻译。">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -33,14 +32,15 @@
 
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "../../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -56,7 +56,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -68,12 +68,14 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -99,7 +101,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -132,7 +134,7 @@
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -145,7 +147,7 @@
                         <h1 id="配置-watch"><a class="header" href="#配置-watch">配置 Watch</a></h1>
 <p>编译器支持使用环境变量配置如何监视文件和目录的变化。</p>
 <h2 id="使用tsc_watchfile环境变量来配置文件监视"><a class="header" href="#使用tsc_watchfile环境变量来配置文件监视">使用<code>TSC_WATCHFILE</code>环境变量来配置文件监视</a></h2>
-<table><thead><tr><th style="text-align: left">选项</th><th style="text-align: left">描述</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">选项</th><th style="text-align: left">描述</th></tr></thead><tbody>
 <tr><td style="text-align: left"><code>PriorityPollingInterval</code></td><td style="text-align: left">使用<code>fs.watchFile</code>但针对源码文件，配置文件和消失的文件使用不同的轮询间隔</td></tr>
 <tr><td style="text-align: left"><code>DynamicPriorityPolling</code></td><td style="text-align: left">使用动态队列，对经常被修改的文件使用较短的轮询间隔，对未修改的文件使用较长的轮询间隔</td></tr>
 <tr><td style="text-align: left"><code>UseFsEvents</code></td><td style="text-align: left">使用 <code>fs.watch</code>，它使用文件系统事件（但在不同的系统上可能不一定准确）来查询文件的修改/创建/删除。注意少数的系统如Linux，对监视者的数量有限制，如果使用<code>fs.watch</code>创建监视失败那么将通过<code>fs.watchFile</code>来创建监视</td></tr>
@@ -153,13 +155,15 @@
 <tr><td style="text-align: left"><code>UseFsEventsOnParentDirectory</code></td><td style="text-align: left">此选项通过<code>fs.watch</code>（使用系统文件事件）监视文件的父目录，因此CPU占用率低但也会降低精度</td></tr>
 <tr><td style="text-align: left">默认 （无指定值）</td><td style="text-align: left">如果环境变量<code>TSC_NONPOLLING_WATCHER</code>设置为<code>true</code>，监视文件的父目录（如同<code>UseFsEventsOnParentDirectory</code>）。否则，使用<code>fs.watchFile</code>监视文件，超时时间为<code>250ms</code>。</td></tr>
 </tbody></table>
+</div>
 <h2 id="使用tsc_watchdirectory环境变量来配置目录监视"><a class="header" href="#使用tsc_watchdirectory环境变量来配置目录监视">使用<code>TSC_WATCHDIRECTORY</code>环境变量来配置目录监视</a></h2>
 <p>在那些Nodejs原生就不支持递归监视目录的平台上，我们会根据<code>TSC_WATCHDIRECTORY</code>的不同选项递归地创建对子目录的监视。 注意在那些原生就支持递归监视目录的平台上（如Windows），这个环境变量会被忽略。</p>
-<table><thead><tr><th style="text-align: left">选项</th><th style="text-align: left">描述</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">选项</th><th style="text-align: left">描述</th></tr></thead><tbody>
 <tr><td style="text-align: left"><code>RecursiveDirectoryUsingFsWatchFile</code></td><td style="text-align: left">使用<code>fs.watchFile</code>监视目录和子目录，它是一个轮询监视（消耗CPU周期）</td></tr>
 <tr><td style="text-align: left"><code>RecursiveDirectoryUsingDynamicPriorityPolling</code></td><td style="text-align: left">使用动态轮询队列来获取目录与其子目录的改变</td></tr>
 <tr><td style="text-align: left">默认 （无指定值）</td><td style="text-align: left">使用<code>fs.watch</code>来监视目录及其子目录</td></tr>
 </tbody></table>
+</div>
 <h2 id="背景"><a class="header" href="#背景">背景</a></h2>
 <p>在编译器中<code>--watch</code>的实现依赖于Nodejs提供的<code>fs.watch</code>和<code>fs.watchFile</code>，两者各有优缺点。</p>
 <p><code>fs.watch</code>使用文件系统事件通知文件及目录的变化。 但是它依赖于操作系统，且事件通知并不完全可靠，在很多操作系统上的行为难以预料。 还可能会有创建监视个数的限制，如Linux系统，在包含大量文件的程序中监视器个数很快被耗尽。 但也正是因为它使用文件系统事件，不需要占用过多的CPU周期。 典型地，编译器使用<code>fs.watch</code>来监视目录（比如配置文件里声明的源码目录，无法进行模块解析的目录）。 这样就可以处理改动通知不准确的问题。 但递归地监视仅在Windows和OSX系统上支持。 这就意味着在其它系统上要使用替代方案。</p>
@@ -197,21 +201,22 @@
 
 
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
 
 
-        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
 
-        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
 
         <!-- Custom JS scripts -->
 
 
+    </div>
     </body>
 </html>
