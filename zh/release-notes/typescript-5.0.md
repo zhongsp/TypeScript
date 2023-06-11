@@ -347,3 +347,87 @@ function loggedMethod<This, Args extends any[], Return>(
 但我们需要在可读性之间做出取舍，因此要尽量保持简洁。
 
 未来会有更多关于如何编写装饰器的文档 - 但是[这篇文章](https://2ality.com/2022/10/javascript-decorators.html)详细介绍了装饰器的工作方式。
+
+## `const` 类型参数
+
+在推断对象类型时，TypeScript 通常会选择一个通用类型。
+例如，下例中 `names` 的推断类型为 `string[]`：
+
+```ts
+type HasNames = { readonly names: string[] };
+function getNamesExactly<T extends HasNames>(arg: T): T["names"] {
+    return arg.names;
+}
+
+// Inferred type: string[]
+const names = getNamesExactly({ names: ["Alice", "Bob", "Eve"]});
+```
+
+这样做的目的通常是为了允许后面可以进行修改。
+
+然而，根据 `getNamesExactly` 的具体功能和预期使用方式，通常情况下需要更加具体的类型。
+
+直到现在，API 作者们通常不得不在一些位置上添加 `as const` 来达到预期的类型推断目的：
+
+```ts
+// The type we wanted:
+//    readonly ["Alice", "Bob", "Eve"]
+// The type we got:
+//    string[]
+const names1 = getNamesExactly({ names: ["Alice", "Bob", "Eve"]});
+
+// Correctly gets what we wanted:
+//    readonly ["Alice", "Bob", "Eve"]
+const names2 = getNamesExactly({ names: ["Alice", "Bob", "Eve"]} as const);
+```
+
+这样做既繁琐又容易忘。
+在 TypeScript 5.0 里，你可以为类型参数声明添加 `const` 修饰符，
+这使得 `const` 形式的类型推断成为默认行为：
+
+```ts
+type HasNames = { names: readonly string[] };
+function getNamesExactly<const T extends HasNames>(arg: T): T["names"] {
+//                       ^^^^^
+    return arg.names;
+}
+
+// Inferred type: readonly ["Alice", "Bob", "Eve"]
+// Note: Didn't need to write 'as const' here
+const names = getNamesExactly({ names: ["Alice", "Bob", "Eve"] });
+```
+
+注意，`const` 修饰符不会*拒绝*可修改的值，并且不需要不可变约束。
+使用可变类型约束可能会产生令人惊讶的结果。
+
+```ts
+declare function fnBad<const T extends string[]>(args: T): void;
+
+// 'T' is still 'string[]' since 'readonly ["a", "b", "c"]' is not assignable to 'string[]'
+fnBad(["a", "b" ,"c"]);
+```
+
+这里，`T` 的候选推断类型为 `readonly ["a", "b", "c"]`，但是 `readonly` 只读数组不能用在需要可变数组的地方。
+这种情况下，类型推断会回退到类型约束，将数组视为 `string[]` 类型，因此函数调用仍然会成功。
+
+这个函数更好的定义是使用 `readonly string[]`：
+
+```ts
+declare function fnGood<const T extends readonly string[]>(args: T): void;
+
+// T is readonly ["a", "b", "c"]
+fnGood(["a", "b" ,"c"]);
+```
+
+要注意 `const` 修饰符只影响在函数调用中直接写出的对象、数组和基本表达式的类型推断，
+因此，那些无法（或不会）使用 `as const` 进行修饰的参数在行为上不会有任何变化：
+
+```ts
+declare function fnGood<const T extends readonly string[]>(args: T): void;
+const arr = ["a", "b" ,"c"];
+
+// 'T' is still 'string[]'-- the 'const' modifier has no effect here
+fnGood(arr);
+```
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/51865)，[PR](https://github.com/microsoft/TypeScript/issues/30680) 和 [PR](https://github.com/microsoft/TypeScript/issues/41114)。
