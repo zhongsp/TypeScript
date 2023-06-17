@@ -431,3 +431,90 @@ fnGood(arr);
 ```
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/51865)，[PR](https://github.com/microsoft/TypeScript/issues/30680) 和 [PR](https://github.com/microsoft/TypeScript/issues/41114)。
+
+## `extends` 支持多个配置文件
+
+在管理多个项目时，拥有一个“基础”配置文件，其他 tsconfig.json 文件可以继承它，这会非常有帮助。
+这就是为什么 TypeScript 支持使用 `extends` 字段来从 `compilerOptions` 中复制字段的原因。
+
+```json
+// packages/front-end/src/tsconfig.json
+{
+    "extends": "../../../tsconfig.base.json",
+    "compilerOptions": {
+        "outDir": "../lib",
+        // ...
+    }
+}
+```
+
+然而，有时您可能想要从多个配置文件中进行继承。
+例如，假设您正在使用一个[在 npm 上发布的 TypeScript 基础配置文件](https://github.com/tsconfig/bases)。
+如果您希望自己所有的项目也使用 npm 上的 `@tsconfig/strictest` 包中的选项，那么有一个简单的解决方案：让 `tsconfig.base.json` 从 `@tsconfig/strictest` 进行扩展：
+
+```json
+// tsconfig.base.json
+{
+    "extends": "@tsconfig/strictest/tsconfig.json",
+    "compilerOptions": {
+        // ...
+    }
+}
+```
+
+这在某种程度上是有效的。
+如果您的某些工程不想使用 `@tsconfig/strictest`，那么必须手动禁用这些选项，或者创建一个不继承于 `@tsconfig/strictest` 的 `tsconfig.base.json`。
+
+为了提高灵活性，TypeScript 5.0 允许 `extends` 字段指定多个值。
+例如，有如下的配置文件：
+
+```json
+{
+    "extends": ["a", "b", "c"],
+    "compilerOptions": {
+        // ...
+    }
+}
+```
+
+这样写就如同是直接继承 `c`，而 `c` 继承于 `b`，`b` 继承于 `a`。
+如果出现冲突，后来者会被采纳。
+
+在下面的例子中，在最终的 `tsconfig.json` 中 `strictNullChecks` 和 `noImplicitAny` 会被启用。
+
+```json
+// tsconfig1.json
+{
+    "compilerOptions": {
+        "strictNullChecks": true
+    }
+}
+
+// tsconfig2.json
+{
+    "compilerOptions": {
+        "noImplicitAny": true
+    }
+}
+
+// tsconfig.json
+{
+    "extends": ["./tsconfig1.json", "./tsconfig2.json"],
+    "files": ["./index.ts"]
+}
+```
+
+另一个例子，我们可以这样改写最初的示例：
+
+```json
+// packages/front-end/src/tsconfig.json
+{
+    "extends": ["@tsconfig/strictest/tsconfig.json", "../../../tsconfig.base.json"],
+    "compilerOptions": {
+        "outDir": "../lib",
+        // ...
+    }
+}
+```
+
+更多详情请参考：[PR](https://github.com/microsoft/TypeScript/pull/50403)。
