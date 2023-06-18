@@ -518,3 +518,63 @@ fnGood(arr);
 ```
 
 更多详情请参考：[PR](https://github.com/microsoft/TypeScript/pull/50403)。
+
+## 所有的 `enum` 均为联合 `enum`
+
+在最初 TypeScript 引入枚举类型时，它们只不过是一组同类型的数值常量。
+
+```ts
+enum E {
+    Foo = 10,
+    Bar = 20,
+}
+```
+
+`E.Foo` 和 `E.Bar` 唯一特殊的地方在于它们可以赋值给任何期望类型为 `E` 的地方。
+除此之外，它们基本上等同于 `number` 类型。
+
+```ts
+function takeValue(e: E) {}
+
+takeValue(E.Foo); // works
+takeValue(123); // error!
+```
+
+直到 TypeScript 2.0 引入了枚举字面量类型，枚举才变得更为特殊。
+枚举字面量类型为每个枚举成员提供了其自己的类型，并将枚举本身转换为每个成员类型的联合类型。
+它们还允许我们仅引用枚举中的一部分类型，并细化掉那些类型。
+
+```ts
+// Color is like a union of Red | Orange | Yellow | Green | Blue | Violet
+enum Color {
+    Red, Orange, Yellow, Green, Blue, /* Indigo */, Violet
+}
+
+// Each enum member has its own type that we can refer to!
+type PrimaryColor = Color.Red | Color.Green | Color.Blue;
+
+function isPrimaryColor(c: Color): c is PrimaryColor {
+    // Narrowing literal types can catch bugs.
+    // TypeScript will error here because
+    // we'll end up comparing 'Color.Red' to 'Color.Green'.
+    // We meant to use ||, but accidentally wrote &&.
+    return c === Color.Red && c === Color.Green && c === Color.Blue;
+}
+```
+
+为每个枚举成员提供其自己的类型的一个问题是，这些类型在某种程度上与成员的实际值相关联。
+在某些情况下，无法计算该值 - 例如，枚举成员可能由函数调用初始化。
+
+```ts
+enum E {
+    Blah = Math.random()
+}
+```
+
+每当 TypeScript 遇到这些问题时，它会悄悄地退而使用旧的枚举策略。
+这意味着放弃所有联合类型和字面量类型的优势。
+
+TypeScript 5.0 通过为每个计算成员创建唯一类型，成功将所有枚举转换为联合枚举。
+这意味着现在所有枚举都可以被细化，并且每个枚举成员都有其自己的类型。
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/50528)
