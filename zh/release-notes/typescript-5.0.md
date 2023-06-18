@@ -621,3 +621,102 @@ import * as utils from "./utils.mjs"; //  works
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/51669)
 
+## 定制化解析的标记
+
+JavaScript 工具现在可以模拟“混合”解析规则，就像我们上面描述的 `bundler` 模式一样。
+由于工具的支持可能有所不同，因此 TypeScript 5.0 提供了启用或禁用一些功能的方法，这些功能可能无法与您的配置一起使用。
+
+### `allowImportingTsExtensions`
+
+`--allowImportingTsExtensions` 允许 TypeScript 文件导入使用了 TypeScript 特定扩展名的文件，例如 `.ts`, `.mts`, `.tsx`。
+
+此标记仅在启用了 `--noEmit` 或 `--emitDeclarationOnly` 时允许使用，
+因为这些导入路径无法在运行时的 JavaScript 输出文件中被解析。
+这里的期望是，您的解析器（例如打包工具、运行时或其他工具）将保证这些在 `.ts` 文件之间的导入可以工作。
+
+### resolvePackageJsonExports
+
+`--resolvePackageJsonExports` 强制 TypeScript 使用 [package.json 里的 exports 字段](https://nodejs.org/api/packages.html#exports)，如果它尝试读取 `node_modules` 里的某个包。
+
+当 `--moduleResolution` 为 `node16`, `nodenext` 和 `bundler` 时，该选项的默认值为 `true`。
+
+### `resolvePackageJsonImports`
+
+`--resolvePackageJsonImports` 强制 TypeScript 使用 [package.json 里的 imports 字段](https://nodejs.org/api/packages.html#imports)，当它查找以 `#` 开头的文件时，且该文件的父目录中包含 `package.json` 文件。
+
+当 `--moduleResolution` 为 `node16`, `nodenext` 和 `bundler` 时，该选项的默认值为 `true`。
+
+### `allowArbitraryExtensions`
+
+在 TypeScript 5.0 中，当导入路径不是以已知的 JavaScript 或 TypeScript 文件扩展名结尾时，编译器将查找该路径的声明文件，形式为 `{文件基础名称}.d.{扩展名}.ts`。
+例如，如果您在打包项目中使用 CSS 加载器，您可能需要编写（或生成）如下的声明文件：
+
+```css
+/* app.css */
+.cookie-banner {
+  display: none;
+}
+```
+
+```ts
+// app.d.css.ts
+declare const css: {
+  cookieBanner: string;
+};
+export default css;
+```
+
+```tsx
+// App.tsx
+import styles from "./app.css";
+
+styles.cookieBanner; // string
+```
+
+默认情况下，该导入将引发错误，告诉您 TypeScript 不支持此文件类型，您的运行时可能不支持导入它。
+但是，如果您已经配置了运行时或打包工具来处理它，您可以使用新的 `--allowArbitraryExtensions` 编译器选项来抑制错误。
+
+需要注意的是，历史上通常可以通过添加名为 `app.css.d.ts` 而不是 `app.d.css.ts` 的声明文件来实现类似的效果 - 但是，这只在 Node.js 中 CommonJS 的 `require` 解析规则下可以工作。
+严格来说，前者被解析为名为 `app.css.js` 的 JavaScript 文件的声明文件。
+由于 Node 中的 ESM 需要使用包含扩展名的相对文件导入，因此在 `--moduleResolution` 为 `node16` 或 `nodenext` 时，TypeScript 会在示例的 ESM 文件中报错。
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/issues/50133) [PR](https://github.com/microsoft/TypeScript/pull/51435)。
+
+### `customConditions`
+
+`--customConditions` 接受额外的[条件](https://nodejs.org/api/packages.html#nested-conditions)列表，当 TypeScript 从 package.json 的[exports](https://nodejs.org/api/packages.html#exports)或 [imports](https://nodejs.org/api/packages.html#imports) 字段解析时，这些条件应该成功。
+这些条件会被添加到解析器默认使用的任何现有条件中。
+
+例如，有如下的配置：
+
+```json
+{
+    "compilerOptions": {
+        "target": "es2022",
+        "moduleResolution": "bundler",
+        "customConditions": ["my-condition"]
+    }
+}
+```
+
+每当 `package.json` 里引用了 `exports` 或 `imports` 字段时，TypeScript 都会考虑名为 `my-condition` 的条件。
+
+所以当从具有如下 `package.json` 的包中导入时：
+
+```json
+{
+    // ...
+    "exports": {
+        ".": {
+            "my-condition": "./foo.mjs",
+            "node": "./bar.mjs",
+            "import": "./baz.mjs",
+            "require": "./biz.mjs"
+        }
+    }
+}
+```
+
+TypeScript 会尝试查找 `foo.mjs` 文件。
+
+该字段仅在 `--moduleResolution` 为 `node16`, `nodenext` 和 `bundler` 时有效。
