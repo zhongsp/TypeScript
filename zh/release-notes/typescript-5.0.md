@@ -578,3 +578,46 @@ TypeScript 5.0 通过为每个计算成员创建唯一类型，成功将所有�
 这意味着现在所有枚举都可以被细化，并且每个枚举成员都有其自己的类型。
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/50528)
+
+## `--moduleResolution bundler`
+
+TypeScript 4.7 支持将 `--module` 和 `--moduleResolution` 选项设置为 `node16` 和 `nodenext`。
+这些选项的目的是更好地模拟 `Node.js` 中 ECMAScript 模块的精确查找规则；
+然而，这种模式存在许多其他工具实际上并不强制执行的限制。
+
+例如，在 Node.js 的 ECMAScript 模块中，任何相对导入都需要包含文件扩展名。
+
+```ts
+// entry.mjs
+import * as utils from "./utils";     //  wrong - we need to include the file extension.
+
+import * as utils from "./utils.mjs"; //  works
+```
+
+对于 Node.js 和浏览器来说，这样做有一些原因 - 它可以加快文件查找速度，并且对于简单的文件服务器效果更好。
+但是对于许多使用打包工具的开发人员来说，`node16` / `nodenext` 设置很麻烦，
+因为打包工具中没有这么多限制。
+在某些方面，`node` 解析模式对于任何使用打包工具的人来说是更好的。
+
+但在某些方面，原始的 `node` 解析模式已经过时了。
+大多数现代打包工具在 Node.js 中使用 ECMAScript 模块和 CommonJS 查找规则的融合。
+例如，像在 CommonJS 中一样，无扩展名的导入也可以正常工作，但是在查找[包的导出条件](https://nodejs.org/api/packages.html#nested-conditions)时，它们将首选像在 ECMAScript 文件中一样的 `import` 条件。
+
+为了模拟打包工具的工作方式，TypeScript 现在引入了一种新策略：`--moduleResolution bundler`。
+
+```json
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "moduleResolution": "bundler"
+    }
+}
+```
+
+如果你使用如 Vite， esbuild, swc, Webpack, parcel 等现代打包工具，它们实现了混合的查找策略，新的 `bundler` 选项是更好的选择。
+
+另一方面，如果您正在编写一个要发布到 npm 的代码库，那么使用 `bundler` 选项可能会隐藏影响未使用打包工具用户的兼容性问题。
+因此，在这些情况下，使用 `node16` 或 `nodenext` 解析选项可能是更好的选择。
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/51669)
+
