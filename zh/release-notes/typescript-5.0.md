@@ -844,3 +844,33 @@ module.exports = {
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/52203) 和 [issue](https://github.com/microsoft/TypeScript/issues/51479).
 
+## 支持 `export type *`
+
+在 TypeScript 3.8 引入类型导入时，该语法不支持在 `export * from "module"` 或 `export * as ns from "module"` 重新导出上使用。
+TypeScript 5.0 添加了对两者的支持：
+
+```ts
+// models/vehicles.ts
+export class Spaceship {
+  // ...
+}
+
+// models/index.ts
+export type * as vehicles from "./vehicles";
+
+// main.ts
+import { vehicles } from "./models";
+
+function takeASpaceship(s: vehicles.Spaceship) {
+  //  ok - `vehicles` only used in a type position
+}
+
+function makeASpaceship() {
+  return new vehicles.Spaceship();
+  //         ^^^^^^^^
+  // 'vehicles' cannot be used as a value because it was exported using 'export type'.
+}
+```
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/52217)。
+
