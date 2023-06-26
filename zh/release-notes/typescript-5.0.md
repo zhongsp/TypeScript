@@ -733,3 +733,114 @@ export function drive(car: Car) {
     // ...
 }
 ```
+
+TypeScript 能够检测到导入语句仅用于导入类型，因此会删除导入语句。
+最终生成的 JavaScript 代码如下：
+
+```js
+export function drive(car) {
+    // ...
+}
+```
+
+大多数情况下这是没问题的，因为如果 `Car` 不是从 `./car` 导出的值，我们将会得到一个运行时错误。
+
+但在一些特殊情况下，它增加了一层复杂性。
+例如，不存在像 `import "./car";` 这样的语句 - 这个导入语句会被完全删除。
+这对于有副作用的模块来讲是有区别的。
+
+TypeScript 的 JavaScript 代码生成策略还有其它一些复杂性 - 导入省略不仅只是由导入语句的使用方式决定 - 它还取决于值的声明方式。
+因此，如下的代码的处理方式不总是那么明显：
+
+```ts
+export { Car } from "./car";
+```
+
+这段代码是应该保留还是删除？
+如果 `Car` 是使用 `class` 声明的，那么在生成的 JavaScript 代码中会被保留。
+但是如果 `Car` 是使用类型别名或 `interface` 声明的，那么在生成的 JavaScript 代码中会被省略。
+
+尽管 TypeScript 可以根据多个文件来综合判断如何生成代码，但不是所有的编译器都能够做到。
+
+导入和导出语句中的 `type` 修饰符能够起到一点作用。
+我们可以使用 `type` 修饰符明确声明导入和导出是否仅用于类型分析，并且可以在生成的 JavaScript 文件中完全删除。
+
+```ts
+// This statement can be dropped entirely in JS output
+import type * as car from "./car";
+
+// The named import/export 'Car' can be dropped in JS output
+import { type Car } from "./car";
+export { type Car } from "./car";
+```
+
+`type` 修饰符本身并不是特别管用 - 默认情况下，导入省略仍会删除导入语句，
+并且不强制要求您区分类型导入和普通导入以及导出。
+因此，TypeScript 提供了 `--importsNotUsedAsValues` 来确保您使用类型修饰符，
+`--preserveValueImports` 来防止*某些*模块消除行为，
+以及 `--isolatedModules` 来确保您的 TypeScript 代码在不同编译器中都能正常运行。
+不幸的是，理解这三个标志的细节很困难，并且仍然存在一些意外行为的边缘情况。
+
+TypeScript 5.0 提供了一个新的 `--verbatimModuleSyntax` 来简化这个情况。
+规则很简单 - 所有不带 `type` 修饰符的导入导出语句会被保留。
+任何带有 `type` 修饰符的导入导出语句会被删除。
+
+```ts
+// Erased away entirely.
+import type { A } from "a";
+
+// Rewritten to 'import { b } from "bcd";'
+import { b, type c, type d } from "bcd";
+
+// Rewritten to 'import {} from "xyz";'
+import { type xyz } from "xyz";
+```
+
+使用这个新的选项，实现了所见即所得。
+
+但是，这在涉及模块互操作性时会有一些影响。
+在这个标志下，当您的设置或文件扩展名暗示了不同的模块系统时，ECMAScript 的导入和导出不会被重写为 `require` 调用。
+相反，您会收到一个错误。
+如果您需要生成使用 `require` 和 `module.exports` 的代码，您需要使用早于 ES2015 的 TypeScript 的模块语法：
+
+```ts
+import foo = require("foo");
+
+// ==>
+
+const foo = require("foo");
+```
+
+```ts
+function foo() {}
+function bar() {}
+function baz() {}
+
+export = {
+    foo,
+    bar,
+    baz
+};
+
+// ==>
+
+function foo() {}
+function bar() {}
+function baz() {}
+
+module.exports = {
+    foo,
+    bar,
+    baz
+};
+```
+
+虽然这是一种限制，但它确实有助于使一些问题更加明显。
+例如，在 `--module node16` 下很容易忘记[在 package.json 中设置 `type` 字段](https://nodejs.org/api/packages.html#type)。
+结果是开发人员会开始编写 CommonJS 模块而不是 ES 模块，但却没有意识到这一点，从而导致查找规则和 JavaScript 输出出现意外的结果。
+这个新的标志确保您有意识地使用文件类型，因为语法是刻意不同的。
+
+因为 `--verbatimModuleSyntax` 相比于 `--importsNotUsedAsValues` 和 `--preserveValueImports` 提供了更加一致的行为，推荐使用前者，后两个标记将被弃用。
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/52203) 和 [issue](https://github.com/microsoft/TypeScript/issues/51479).
+
