@@ -874,3 +874,130 @@ function makeASpaceship() {
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/52217)。
 
+## 支持 JSDoc 中的 `@satisfies`
+
+TypeScript 4.9 支持 `satisfies` 运算符。
+它确保了表达式的类型是兼容的，且不影响类型自身。
+例如，有如下代码：
+
+```ts
+interface CompilerOptions {
+    strict?: boolean;
+    outDir?: string;
+    // ...
+}
+
+interface ConfigSettings {
+    compilerOptions?: CompilerOptions;
+    extends?: string | string[];
+    // ...
+}
+
+let myConfigSettings = {
+    compilerOptions: {
+        strict: true,
+        outDir: "../lib",
+        // ...
+    },
+
+    extends: [
+        "@tsconfig/strictest/tsconfig.json",
+        "../../../tsconfig.base.json"
+    ],
+
+} satisfies ConfigSettings;
+```
+
+这里，TypeScript 知道 `myConfigSettings.extends` 声明为数组 - 因为 `satisfies` 会验证对象的类型。
+因此，如果我们想在 `extends` 上进行映射操作，那是可以的。
+
+```ts
+declare function resolveConfig(configPath: string): CompilerOptions;
+
+let inheritedConfigs = myConfigSettings.extends.map(resolveConfig);
+```
+
+这对 TypeScript 用户来讲是有用处的，但是许多人使用 TypeScript 来对带有 JSDoc 的 JavaScript 代码进行类型检查。
+因此，TypeScript 5.0 支持了新的 JSDoc 标签 `@satisfies` 来做相同的事。
+
+`/** @satisfies */` 能够检查出类型不匹配：
+
+```ts
+// @ts-check
+
+/**
+ * @typedef CompilerOptions
+ * @prop {boolean} [strict]
+ * @prop {string} [outDir]
+ */
+
+/**
+ * @satisfies {CompilerOptions}
+ */
+let myCompilerOptions = {
+    outdir: "../lib",
+//  ~~~~~~ oops! we meant outDir
+};
+```
+
+但它会保留表达式的原始类型，允许我们稍后使用值的更详细的类型。
+
+```ts
+// @ts-check
+
+/**
+ * @typedef CompilerOptions
+ * @prop {boolean} [strict]
+ * @prop {string} [outDir]
+ */
+
+/**
+ * @typedef ConfigSettings
+ * @prop {CompilerOptions} [compilerOptions]
+ * @prop {string | string[]} [extends]
+ */
+
+
+/**
+ * @satisfies {ConfigSettings}
+ */
+let myConfigSettings = {
+    compilerOptions: {
+        strict: true,
+        outDir: "../lib",
+    },
+    extends: [
+        "@tsconfig/strictest/tsconfig.json",
+        "../../../tsconfig.base.json"
+    ],
+};
+
+let inheritedConfigs = myConfigSettings.extends.map(resolveConfig);
+```
+
+`/** @satisfies */` 也可以在行内的括号表达式上使用。
+可以像下面这样定义 `myConfigSettings`：
+
+```ts
+let myConfigSettings = /** @satisfies {ConfigSettings} */ ({
+    compilerOptions: {
+        strict: true,
+        outDir: "../lib",
+    },
+    extends: [
+        "@tsconfig/strictest/tsconfig.json",
+        "../../../tsconfig.base.json"
+    ],
+});
+```
+
+为什么？当你更深入地研究其他代码时，比如函数调用，它通常更有意义。
+
+```ts
+compileCode(/** @satisfies {ConfigSettings} */ ({
+    // ...
+}));
+```
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/51753)。
+感谢作者 [Oleksandr Tarasiuk](https://github.com/a-tarasyuk)。
