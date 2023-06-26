@@ -720,3 +720,16 @@ styles.cookieBanner; // string
 TypeScript 会尝试查找 `foo.mjs` 文件。
 
 该字段仅在 `--moduleResolution` 为 `node16`, `nodenext` 和 `bundler` 时有效。
+
+## --verbatimModuleSyntax
+
+在默认情况下，TypeScript 会执行*导入省略*。
+大体上来讲，如果有如下代码：
+
+```ts
+import { Car } from "./car";
+
+export function drive(car: Car) {
+    // ...
+}
+```
