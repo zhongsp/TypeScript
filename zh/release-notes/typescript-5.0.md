@@ -253,18 +253,18 @@ function loggedMethod(headMessage = 'LOG:') {
 
 ```ts
 class Person {
-    name: string;
-    constructor(name: string) {
-        this.name = name;
-    }
+  name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
 
-    @loggedMethod("")
-    greet() {
-        console.log(`Hello, my name is ${this.name}.`);
-    }
+  @loggedMethod('')
+  greet() {
+    console.log(`Hello, my name is ${this.name}.`);
+  }
 }
 
-const p = new Person("Ron");
+const p = new Person('Ron');
 p.greet();
 
 // Output:
@@ -301,18 +301,23 @@ p.greet();
 
 ```ts
 //  allowed
-@register export default class Foo {
-    // ...
+@register
+export default class Foo {
+  // ...
 }
 
 //  also allowed
-export default @register class Bar {
-    // ...
+export default
+@register
+class Bar {
+  // ...
 }
 
 //  error - before *and* after is not allowed
-@before export @after class Bar {
-    // ...
+@before
+@after
+export class Bar {
+  // ...
 }
 ```
 
@@ -325,19 +330,22 @@ export default @register class Bar {
 
 ```ts
 function loggedMethod<This, Args extends any[], Return>(
-    target: (this: This, ...args: Args) => Return,
-    context: ClassMethodDecoratorContext<This, (this: This, ...args: Args) => Return>
+  target: (this: This, ...args: Args) => Return,
+  context: ClassMethodDecoratorContext<
+    This,
+    (this: This, ...args: Args) => Return
+  >
 ) {
-    const methodName = String(context.name);
+  const methodName = String(context.name);
 
-    function replacementMethod(this: This, ...args: Args): Return {
-        console.log(`LOG: Entering method '${methodName}'.`)
-        const result = target.call(this, ...args);
-        console.log(`LOG: Exiting method '${methodName}'.`)
-        return result;
-    }
+  function replacementMethod(this: This, ...args: Args): Return {
+    console.log(`LOG: Entering method '${methodName}'.`);
+    const result = target.call(this, ...args);
+    console.log(`LOG: Exiting method '${methodName}'.`);
+    return result;
+  }
 
-    return replacementMethod;
+  return replacementMethod;
 }
 ```
 
@@ -355,12 +363,12 @@ function loggedMethod<This, Args extends any[], Return>(
 
 ```ts
 type HasNames = { readonly names: string[] };
-function getNamesExactly<T extends HasNames>(arg: T): T["names"] {
-    return arg.names;
+function getNamesExactly<T extends HasNames>(arg: T): T['names'] {
+  return arg.names;
 }
 
 // Inferred type: string[]
-const names = getNamesExactly({ names: ["Alice", "Bob", "Eve"]});
+const names = getNamesExactly({ names: ['Alice', 'Bob', 'Eve'] });
 ```
 
 这样做的目的通常是为了允许后面可以进行修改。
@@ -374,11 +382,11 @@ const names = getNamesExactly({ names: ["Alice", "Bob", "Eve"]});
 //    readonly ["Alice", "Bob", "Eve"]
 // The type we got:
 //    string[]
-const names1 = getNamesExactly({ names: ["Alice", "Bob", "Eve"]});
+const names1 = getNamesExactly({ names: ['Alice', 'Bob', 'Eve'] });
 
 // Correctly gets what we wanted:
 //    readonly ["Alice", "Bob", "Eve"]
-const names2 = getNamesExactly({ names: ["Alice", "Bob", "Eve"]} as const);
+const names2 = getNamesExactly({ names: ['Alice', 'Bob', 'Eve'] } as const);
 ```
 
 这样做既繁琐又容易忘。
@@ -387,14 +395,14 @@ const names2 = getNamesExactly({ names: ["Alice", "Bob", "Eve"]} as const);
 
 ```ts
 type HasNames = { names: readonly string[] };
-function getNamesExactly<const T extends HasNames>(arg: T): T["names"] {
-//                       ^^^^^
-    return arg.names;
+function getNamesExactly<const T extends HasNames>(arg: T): T['names'] {
+  //                       ^^^^^
+  return arg.names;
 }
 
 // Inferred type: readonly ["Alice", "Bob", "Eve"]
 // Note: Didn't need to write 'as const' here
-const names = getNamesExactly({ names: ["Alice", "Bob", "Eve"] });
+const names = getNamesExactly({ names: ['Alice', 'Bob', 'Eve'] });
 ```
 
 注意，`const` 修饰符不会*拒绝*可修改的值，并且不需要不可变约束。
@@ -404,7 +412,7 @@ const names = getNamesExactly({ names: ["Alice", "Bob", "Eve"] });
 declare function fnBad<const T extends string[]>(args: T): void;
 
 // 'T' is still 'string[]' since 'readonly ["a", "b", "c"]' is not assignable to 'string[]'
-fnBad(["a", "b" ,"c"]);
+fnBad(['a', 'b', 'c']);
 ```
 
 这里，`T` 的候选推断类型为 `readonly ["a", "b", "c"]`，但是 `readonly` 只读数组不能用在需要可变数组的地方。
@@ -416,7 +424,7 @@ fnBad(["a", "b" ,"c"]);
 declare function fnGood<const T extends readonly string[]>(args: T): void;
 
 // T is readonly ["a", "b", "c"]
-fnGood(["a", "b" ,"c"]);
+fnGood(['a', 'b', 'c']);
 ```
 
 要注意 `const` 修饰符只影响在函数调用中直接写出的对象、数组和基本表达式的类型推断，
@@ -424,7 +432,7 @@ fnGood(["a", "b" ,"c"]);
 
 ```ts
 declare function fnGood<const T extends readonly string[]>(args: T): void;
-const arr = ["a", "b" ,"c"];
+const arr = ['a', 'b', 'c'];
 
 // 'T' is still 'string[]'-- the 'const' modifier has no effect here
 fnGood(arr);
@@ -440,11 +448,11 @@ fnGood(arr);
 ```json
 // packages/front-end/src/tsconfig.json
 {
-    "extends": "../../../tsconfig.base.json",
-    "compilerOptions": {
-        "outDir": "../lib",
-        // ...
-    }
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../lib"
+    // ...
+  }
 }
 ```
 
@@ -455,10 +463,10 @@ fnGood(arr);
 ```json
 // tsconfig.base.json
 {
-    "extends": "@tsconfig/strictest/tsconfig.json",
-    "compilerOptions": {
-        // ...
-    }
+  "extends": "@tsconfig/strictest/tsconfig.json",
+  "compilerOptions": {
+    // ...
+  }
 }
 ```
 
@@ -470,10 +478,10 @@ fnGood(arr);
 
 ```json
 {
-    "extends": ["a", "b", "c"],
-    "compilerOptions": {
-        // ...
-    }
+  "extends": ["a", "b", "c"],
+  "compilerOptions": {
+    // ...
+  }
 }
 ```
 
@@ -509,11 +517,14 @@ fnGood(arr);
 ```json
 // packages/front-end/src/tsconfig.json
 {
-    "extends": ["@tsconfig/strictest/tsconfig.json", "../../../tsconfig.base.json"],
-    "compilerOptions": {
-        "outDir": "../lib",
-        // ...
-    }
+  "extends": [
+    "@tsconfig/strictest/tsconfig.json",
+    "../../../tsconfig.base.json"
+  ],
+  "compilerOptions": {
+    "outDir": "../lib"
+    // ...
+  }
 }
 ```
 
@@ -525,8 +536,8 @@ fnGood(arr);
 
 ```ts
 enum E {
-    Foo = 10,
-    Bar = 20,
+  Foo = 10,
+  Bar = 20,
 }
 ```
 
@@ -567,7 +578,7 @@ function isPrimaryColor(c: Color): c is PrimaryColor {
 
 ```ts
 enum E {
-    Blah = Math.random()
+  Blah = Math.random(),
 }
 ```
 
@@ -589,9 +600,9 @@ TypeScript 4.7 支持将 `--module` 和 `--moduleResolution` 选项设置为 `no
 
 ```ts
 // entry.mjs
-import * as utils from "./utils";     //  wrong - we need to include the file extension.
+import * as utils from './utils'; //  wrong - we need to include the file extension.
 
-import * as utils from "./utils.mjs"; //  works
+import * as utils from './utils.mjs'; //  works
 ```
 
 对于 Node.js 和浏览器来说，这样做有一些原因 - 它可以加快文件查找速度，并且对于简单的文件服务器效果更好。
@@ -607,10 +618,10 @@ import * as utils from "./utils.mjs"; //  works
 
 ```json
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "moduleResolution": "bundler"
-    }
+  "compilerOptions": {
+    "target": "esnext",
+    "moduleResolution": "bundler"
+  }
 }
 ```
 
@@ -668,7 +679,7 @@ export default css;
 
 ```tsx
 // App.tsx
-import styles from "./app.css";
+import styles from './app.css';
 
 styles.cookieBanner; // string
 ```
@@ -691,11 +702,11 @@ styles.cookieBanner; // string
 
 ```json
 {
-    "compilerOptions": {
-        "target": "es2022",
-        "moduleResolution": "bundler",
-        "customConditions": ["my-condition"]
-    }
+  "compilerOptions": {
+    "target": "es2022",
+    "moduleResolution": "bundler",
+    "customConditions": ["my-condition"]
+  }
 }
 ```
 
@@ -705,15 +716,15 @@ styles.cookieBanner; // string
 
 ```json
 {
-    // ...
-    "exports": {
-        ".": {
-            "my-condition": "./foo.mjs",
-            "node": "./bar.mjs",
-            "import": "./baz.mjs",
-            "require": "./biz.mjs"
-        }
+  // ...
+  "exports": {
+    ".": {
+      "my-condition": "./foo.mjs",
+      "node": "./bar.mjs",
+      "import": "./baz.mjs",
+      "require": "./biz.mjs"
     }
+  }
 }
 ```
 
@@ -727,10 +738,10 @@ TypeScript 会尝试查找 `foo.mjs` 文件。
 大体上来讲，如果有如下代码：
 
 ```ts
-import { Car } from "./car";
+import { Car } from './car';
 
 export function drive(car: Car) {
-    // ...
+  // ...
 }
 ```
 
@@ -739,7 +750,7 @@ TypeScript 能够检测到导入语句仅用于导入类型，因此会删除导
 
 ```js
 export function drive(car) {
-    // ...
+  // ...
 }
 ```
 
@@ -753,7 +764,7 @@ TypeScript 的 JavaScript 代码生成策略还有其它一些复杂性 - 导入
 因此，如下的代码的处理方式不总是那么明显：
 
 ```ts
-export { Car } from "./car";
+export { Car } from './car';
 ```
 
 这段代码是应该保留还是删除？
@@ -767,11 +778,11 @@ export { Car } from "./car";
 
 ```ts
 // This statement can be dropped entirely in JS output
-import type * as car from "./car";
+import type * as car from './car';
 
 // The named import/export 'Car' can be dropped in JS output
-import { type Car } from "./car";
-export { type Car } from "./car";
+import { type Car } from './car';
+export { type Car } from './car';
 ```
 
 `type` 修饰符本身并不是特别管用 - 默认情况下，导入省略仍会删除导入语句，
@@ -787,13 +798,13 @@ TypeScript 5.0 提供了一个新的 `--verbatimModuleSyntax` 来简化这个情
 
 ```ts
 // Erased away entirely.
-import type { A } from "a";
+import type { A } from 'a';
 
 // Rewritten to 'import { b } from "bcd";'
-import { b, type c, type d } from "bcd";
+import { b, type c, type d } from 'bcd';
 
 // Rewritten to 'import {} from "xyz";'
-import { type xyz } from "xyz";
+import { type xyz } from 'xyz';
 ```
 
 使用这个新的选项，实现了所见即所得。
@@ -804,11 +815,11 @@ import { type xyz } from "xyz";
 如果您需要生成使用 `require` 和 `module.exports` 的代码，您需要使用早于 ES2015 的 TypeScript 的模块语法：
 
 ```ts
-import foo = require("foo");
+import foo = require('foo');
 
 // ==>
 
-const foo = require("foo");
+const foo = require('foo');
 ```
 
 ```ts
@@ -817,9 +828,9 @@ function bar() {}
 function baz() {}
 
 export = {
-    foo,
-    bar,
-    baz
+  foo,
+  bar,
+  baz,
 };
 
 // ==>
@@ -829,9 +840,9 @@ function bar() {}
 function baz() {}
 
 module.exports = {
-    foo,
-    bar,
-    baz
+  foo,
+  bar,
+  baz,
 };
 ```
 
@@ -856,10 +867,10 @@ export class Spaceship {
 }
 
 // models/index.ts
-export type * as vehicles from "./vehicles";
+export type * as vehicles from './vehicles';
 
 // main.ts
-import { vehicles } from "./models";
+import { vehicles } from './models';
 
 function takeASpaceship(s: vehicles.Spaceship) {
   //  ok - `vehicles` only used in a type position
@@ -882,29 +893,25 @@ TypeScript 4.9 支持 `satisfies` 运算符。
 
 ```ts
 interface CompilerOptions {
-    strict?: boolean;
-    outDir?: string;
-    // ...
+  strict?: boolean;
+  outDir?: string;
+  // ...
 }
 
 interface ConfigSettings {
-    compilerOptions?: CompilerOptions;
-    extends?: string | string[];
-    // ...
+  compilerOptions?: CompilerOptions;
+  extends?: string | string[];
+  // ...
 }
 
 let myConfigSettings = {
-    compilerOptions: {
-        strict: true,
-        outDir: "../lib",
-        // ...
-    },
+  compilerOptions: {
+    strict: true,
+    outDir: '../lib',
+    // ...
+  },
 
-    extends: [
-        "@tsconfig/strictest/tsconfig.json",
-        "../../../tsconfig.base.json"
-    ],
-
+  extends: ['@tsconfig/strictest/tsconfig.json', '../../../tsconfig.base.json'],
 } satisfies ConfigSettings;
 ```
 
@@ -935,8 +942,8 @@ let inheritedConfigs = myConfigSettings.extends.map(resolveConfig);
  * @satisfies {CompilerOptions}
  */
 let myCompilerOptions = {
-    outdir: "../lib",
-//  ~~~~~~ oops! we meant outDir
+  outdir: '../lib',
+  //  ~~~~~~ oops! we meant outDir
 };
 ```
 
@@ -957,19 +964,15 @@ let myCompilerOptions = {
  * @prop {string | string[]} [extends]
  */
 
-
 /**
  * @satisfies {ConfigSettings}
  */
 let myConfigSettings = {
-    compilerOptions: {
-        strict: true,
-        outDir: "../lib",
-    },
-    extends: [
-        "@tsconfig/strictest/tsconfig.json",
-        "../../../tsconfig.base.json"
-    ],
+  compilerOptions: {
+    strict: true,
+    outDir: '../lib',
+  },
+  extends: ['@tsconfig/strictest/tsconfig.json', '../../../tsconfig.base.json'],
 };
 
 let inheritedConfigs = myConfigSettings.extends.map(resolveConfig);
@@ -979,24 +982,23 @@ let inheritedConfigs = myConfigSettings.extends.map(resolveConfig);
 可以像下面这样定义 `myConfigSettings`：
 
 ```ts
-let myConfigSettings = /** @satisfies {ConfigSettings} */ ({
-    compilerOptions: {
-        strict: true,
-        outDir: "../lib",
-    },
-    extends: [
-        "@tsconfig/strictest/tsconfig.json",
-        "../../../tsconfig.base.json"
-    ],
-});
+let myConfigSettings = /** @satisfies {ConfigSettings} */ {
+  compilerOptions: {
+    strict: true,
+    outDir: '../lib',
+  },
+  extends: ['@tsconfig/strictest/tsconfig.json', '../../../tsconfig.base.json'],
+};
 ```
 
 为什么？当你更深入地研究其他代码时，比如函数调用，它通常更有意义。
 
 ```ts
-compileCode(/** @satisfies {ConfigSettings} */ ({
+compileCode(
+  /** @satisfies {ConfigSettings} */ {
     // ...
-}));
+  }
+);
 ```
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/51753)。
@@ -1004,7 +1006,7 @@ compileCode(/** @satisfies {ConfigSettings} */ ({
 
 ## 支持 JSDoc 中的 `@overload`
 
-在TypeScript中，你可以为一个函数指定多个重载。
+在 TypeScript 中，你可以为一个函数指定多个重载。
 使用重载能够描述一个函数可以使用不同的参数进行调用，也可能会返回不同的结果。
 它们可以限制调用方如何调用函数，并细化他们将得到的结果。
 
@@ -1015,14 +1017,14 @@ function printValue(num: number, maxFractionDigits?: number): void;
 
 // Our implementation:
 function printValue(value: string | number, maximumFractionDigits?: number) {
-    if (typeof value === "number") {
-        const formatter = Intl.NumberFormat("en-US", {
-            maximumFractionDigits,
-        });
-        value = formatter.format(value);
-    }
+  if (typeof value === 'number') {
+    const formatter = Intl.NumberFormat('en-US', {
+      maximumFractionDigits,
+    });
+    value = formatter.format(value);
+  }
 
-    console.log(value);
+  console.log(value);
 }
 ```
 
@@ -1053,14 +1055,14 @@ TypeScript 5.0 支持在 JSDoc 里使用 `@overload` 来声明重载。
  * @param {number} [maximumFractionDigits]
  */
 function printValue(value, maximumFractionDigits) {
-    if (typeof value === "number") {
-        const formatter = Intl.NumberFormat("en-US", {
-            maximumFractionDigits,
-        });
-        value = formatter.format(value);
-    }
+  if (typeof value === 'number') {
+    const formatter = Intl.NumberFormat('en-US', {
+      maximumFractionDigits,
+    });
+    value = formatter.format(value);
+  }
 
-    console.log(value);
+  console.log(value);
 }
 ```
 
@@ -1068,11 +1070,38 @@ function printValue(value, maximumFractionDigits) {
 
 ```js
 // all allowed
-printValue("hello!");
+printValue('hello!');
 printValue(123.45);
 printValue(123.45, 2);
 
-printValue("hello!", 123); // error!
+printValue('hello!', 123); // error!
 ```
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/51234)，感谢 [Tomasz Lenarcik](https://github.com/apendua)。
+
+## 在 `--build` 模式下使用有关文件生成的选项
+
+TypeScript 现在允许在 `--build` 模式下使用如下选项：
+
+- `--declaration`
+- `--emitDeclarationOnly`
+- `--declarationMap`
+- `--sourceMap`
+- `--inlineSourceMap`
+
+这使得在构建过程中定制某些部分变得更加容易，特别是在你可能会有不同的开发和生产构建时。
+
+例如，一个库的开发构建可能不需要生成声明文件，但是生产构建则需要。
+一个项目可以将生成声明文件配置为默认关闭，并使用如下方式构建：
+
+```sh
+tsc --build -p ./my-project-dir
+```
+
+开发完毕后，在“生产环境”构建时使用 `--declaration` 选项：
+
+```sh
+tsc --build -p ./my-project-dir --declaration
+```
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/51241)。
