@@ -1001,3 +1001,78 @@ compileCode(/** @satisfies {ConfigSettings} */ ({
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/51753)。
 感谢作者 [Oleksandr Tarasiuk](https://github.com/a-tarasyuk)。
+
+## 支持 JSDoc 中的 `@overload`
+
+在TypeScript中，你可以为一个函数指定多个重载。
+使用重载能够描述一个函数可以使用不同的参数进行调用，也可能会返回不同的结果。
+它们可以限制调用方如何调用函数，并细化他们将得到的结果。
+
+```ts
+// Our overloads:
+function printValue(str: string): void;
+function printValue(num: number, maxFractionDigits?: number): void;
+
+// Our implementation:
+function printValue(value: string | number, maximumFractionDigits?: number) {
+    if (typeof value === "number") {
+        const formatter = Intl.NumberFormat("en-US", {
+            maximumFractionDigits,
+        });
+        value = formatter.format(value);
+    }
+
+    console.log(value);
+}
+```
+
+这里表示 `printValue` 的第一个参数可以为 `string` 或 `number` 类型。
+如果接收的是 `number` 类型，那么它还接收第二个参数决定打印的小数位数。
+
+TypeScript 5.0 支持在 JSDoc 里使用 `@overload` 来声明重载。
+每一个 JSDoc `@overload` 标记都表示一个不同的函数重载。
+
+```js
+// @ts-check
+
+/**
+ * @overload
+ * @param {string} value
+ * @return {void}
+ */
+
+/**
+ * @overload
+ * @param {number} value
+ * @param {number} [maximumFractionDigits]
+ * @return {void}
+ */
+
+/**
+ * @param {string | number} value
+ * @param {number} [maximumFractionDigits]
+ */
+function printValue(value, maximumFractionDigits) {
+    if (typeof value === "number") {
+        const formatter = Intl.NumberFormat("en-US", {
+            maximumFractionDigits,
+        });
+        value = formatter.format(value);
+    }
+
+    console.log(value);
+}
+```
+
+现在不论是编写 TypeScript 文件还是 JavaScript 文件，TypeScript 都能够提示函数调用是否正确。
+
+```js
+// all allowed
+printValue("hello!");
+printValue(123.45);
+printValue(123.45, 2);
+
+printValue("hello!", 123); // error!
+```
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/51234)，感谢 [Tomasz Lenarcik](https://github.com/apendua)。
