@@ -1183,3 +1183,11 @@ JavaScript 比较字符串的方式意味着 “Toggle” 总是排在 “freeze
 ```
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/51733) 和 [PR](https://github.com/microsoft/TypeScript/pull/52115)。
+
+## 穷举式 `switch/case` 自动补全
+
+在编写 `switch` 语句时，TypeScript 现在会检测被检查的值是否具有字面量类型。
+如果是，它将提供一个补全选项，可以为每个未覆盖的情况构建骨架代码。
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/50996)。
+
