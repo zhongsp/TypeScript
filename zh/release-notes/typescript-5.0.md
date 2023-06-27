@@ -1138,47 +1138,47 @@ JavaScript 比较字符串的方式意味着 “Toggle” 总是排在 “freeze
 
 ```json
 {
-    "typescript.unstable": {
-        // Should sorting be case-sensitive? Can be:
-        // - true
-        // - false
-        // - "auto" (auto-detect)
-        "organizeImportsIgnoreCase": "auto",
+  "typescript.unstable": {
+    // Should sorting be case-sensitive? Can be:
+    // - true
+    // - false
+    // - "auto" (auto-detect)
+    "organizeImportsIgnoreCase": "auto",
 
-        // Should sorting be "ordinal" and use code points or consider Unicode rules? Can be:
-        // - "ordinal"
-        // - "unicode"
-        "organizeImportsCollation": "ordinal",
+    // Should sorting be "ordinal" and use code points or consider Unicode rules? Can be:
+    // - "ordinal"
+    // - "unicode"
+    "organizeImportsCollation": "ordinal",
 
-        // Under `"organizeImportsCollation": "unicode"`,
-        // what is the current locale? Can be:
-        // - [any other locale code]
-        // - "auto" (use the editor's locale)
-        "organizeImportsLocale": "en",
+    // Under `"organizeImportsCollation": "unicode"`,
+    // what is the current locale? Can be:
+    // - [any other locale code]
+    // - "auto" (use the editor's locale)
+    "organizeImportsLocale": "en",
 
-        // Under `"organizeImportsCollation": "unicode"`,
-        // should upper-case letters or lower-case letters come first? Can be:
-        // - false (locale-specific)
-        // - "upper"
-        // - "lower"
-        "organizeImportsCaseFirst": false,
+    // Under `"organizeImportsCollation": "unicode"`,
+    // should upper-case letters or lower-case letters come first? Can be:
+    // - false (locale-specific)
+    // - "upper"
+    // - "lower"
+    "organizeImportsCaseFirst": false,
 
-        // Under `"organizeImportsCollation": "unicode"`,
-        // do runs of numbers get compared numerically (i.e. "a1" < "a2" < "a100")? Can be:
-        // - true
-        // - false
-        "organizeImportsNumericCollation": true,
+    // Under `"organizeImportsCollation": "unicode"`,
+    // do runs of numbers get compared numerically (i.e. "a1" < "a2" < "a100")? Can be:
+    // - true
+    // - false
+    "organizeImportsNumericCollation": true,
 
-        // Under `"organizeImportsCollation": "unicode"`,
-        // do letters with accent marks/diacritics get sorted distinctly
-        // from their "base" letter (i.e. is é different from e)? Can be
-        // - true
-        // - false
-        "organizeImportsAccentCollation": true
-    },
-    "javascript.unstable": {
-        // same options valid here...
-    },
+    // Under `"organizeImportsCollation": "unicode"`,
+    // do letters with accent marks/diacritics get sorted distinctly
+    // from their "base" letter (i.e. is é different from e)? Can be
+    // - true
+    // - false
+    "organizeImportsAccentCollation": true
+  },
+  "javascript.unstable": {
+    // same options valid here...
+  }
 }
 ```
 
@@ -1191,3 +1191,53 @@ JavaScript 比较字符串的方式意味着 “Toggle” 总是排在 “freeze
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/50996)。
 
+## 速度，内存以及代码包尺寸优化
+
+TypeScript 5.0 在我们的代码结构、数据结构和算法实现方面进行了许多强大的变化。
+这些变化的意义在于，整个体验都应该更快 —— 不仅仅是运行 TypeScript，甚至包括安装 TypeScript。
+
+以下是我们相对于 TypeScript 4.9 能够获得的一些有趣的速度和大小优势。
+
+| Scenario                            | Time or Size Relative to TS 4.9 |
+| ----------------------------------- | ------------------------------- |
+| material-ui build time              | 90%                             |
+| TypeScript Compiler startup time    | 89%                             |
+| Playwright build time               | 88%                             |
+| TypeScript Compiler self-build time | 87%                             |
+| Outlook Web build time              | 82%                             |
+| VS Code build time                  | 80%                             |
+| typescript npm Package Size         | 59%                             |
+
+![img](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2023/03/speed-5.0-stable-2.png)
+
+![img](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2023/03/size-5.0-stable-1.png)
+
+怎么做到的呢？我们将在未来的博客文章中详细介绍一些值得注意的改进。
+但我们不会让你等到那篇博客文章。
+
+首先，我们最近将 TypeScript 从命名空间迁移到了模块，这使我们能够利用现代构建工具来执行像作用域提升这样的优化。
+使用这些工具，重新审视我们的打包策略，并删除一些已过时的代码，使 TypeScript 4.9 的 63.8 MB 包大小减少了约 26.4 MB。
+这也通过直接函数调用为我们带来了显著的加速。
+我们在这里撰写了关于我们迁移到模块的[详细介绍](https://devblogs.microsoft.com/typescript/typescripts-migration-to-modules/)。
+
+TypeScript 还在编译器内部对象类型上增加了更多的一致性，并且也减少了一些这些对象类型上存储的数据。
+这减少了多态操作，同时平衡了由于使我们的对象结构更加一致而带来的内存使用增加。
+
+我们还在将信息序列化为字符串时执行了一些缓存。
+类型显示，它可能在错误报告、声明生成、代码补全等情况下使用，是非常昂贵的操作。
+TypeScript 现在对一些常用的机制进行缓存，以便在这些操作之间重复使用。
+
+我们进行了一个值得注意的改变，改善了我们的解析器，即在某些情况下，利用 var 来避免在闭包中使用 let 和 const 的成本。
+这提高了一些解析性能。
+
+总的来说，我们预计大多数代码库应该会从 TypeScript 5.0 中看到速度的提升，并且一直能够保持 10% 到 20% 之间的优势。
+当然，这将取决于硬件和代码库的特性，但我们鼓励你今天就在你的代码库上尝试它！
+
+更多详情：
+
+* [Migrate to Modules](https://github.com/microsoft/TypeScript/pull/51387)
+* [Node Monomorphization](https://github.com/microsoft/TypeScript/pull/51682)
+* [Symbol Monomorphization](https://github.com/microsoft/TypeScript/pull/51880)
+* [Identifier Size Reduction](https://github.com/microsoft/TypeScript/pull/52170)
+* [Printer Caching](https://github.com/microsoft/TypeScript/pull/52382)
+* [Limited Usage of var](https://github.com/microsoft/TypeScript/issues/52924)
