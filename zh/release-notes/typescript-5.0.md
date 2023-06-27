@@ -1105,3 +1105,81 @@ tsc --build -p ./my-project-dir --declaration
 ```
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/51241)。
+
+## 编辑器导入语句排序时不区分大小写
+
+在 Visual Studio 和 VS Code 等编辑器中，TypeScript 可以帮助组织和排序导入和导出语句。
+不过，通常情况下，对于何时将列表“排序”，可能会有不同的解释。
+
+例如，下面的导入列表是否已排序？
+
+```ts
+import { Toggle, freeze, toBoolean } from './utils';
+```
+
+令人惊讶的是，答案可能是“这要看情况”。
+如果我们不考虑大小写敏感性，那么这个列表显然是没有排序的。
+字母`f`排在`t`和`T`之前。
+
+但在大多数编程语言中，排序默认是比较字符串的字节值。
+JavaScript 比较字符串的方式意味着 “Toggle” 总是排在 “freeze” 之前，因为根据 [ASCII 字符编码](https://en.wikipedia.org/wiki/ASCII)，大写字母排在小写字母之前。
+所以从这个角度来看，导入列表是已排序的。
+
+以前，TypeScript 认为导入列表已排序，因为它进行了基本的大小写敏感排序。
+这可能让开发人员感到沮丧，因为他们更喜欢不区分大小写的排序方式，或者使用像 ESLint 这样的工具默认需要不区分大小写的排序方式。
+
+现在，TypeScript 默认会检测大小写敏感性。
+这意味着 TypeScript 和类似 ESLint 的工具通常不会因为如何最好地排序导入而“互相冲突”。
+
+我们的团队还在尝试更多的排序策略，你可以在[这里了解更多](https://github.com/microsoft/TypeScript/pull/52115)。
+这些选项可能最终可以由编辑器进行配置。
+目前，它们仍然不稳定和实验性的，你可以通过在 JSON 选项中使用 typescript.unstable 条目来选择它们。
+下面是你可以尝试的所有选项（设置为它们的默认值）：
+
+```json
+{
+    "typescript.unstable": {
+        // Should sorting be case-sensitive? Can be:
+        // - true
+        // - false
+        // - "auto" (auto-detect)
+        "organizeImportsIgnoreCase": "auto",
+
+        // Should sorting be "ordinal" and use code points or consider Unicode rules? Can be:
+        // - "ordinal"
+        // - "unicode"
+        "organizeImportsCollation": "ordinal",
+
+        // Under `"organizeImportsCollation": "unicode"`,
+        // what is the current locale? Can be:
+        // - [any other locale code]
+        // - "auto" (use the editor's locale)
+        "organizeImportsLocale": "en",
+
+        // Under `"organizeImportsCollation": "unicode"`,
+        // should upper-case letters or lower-case letters come first? Can be:
+        // - false (locale-specific)
+        // - "upper"
+        // - "lower"
+        "organizeImportsCaseFirst": false,
+
+        // Under `"organizeImportsCollation": "unicode"`,
+        // do runs of numbers get compared numerically (i.e. "a1" < "a2" < "a100")? Can be:
+        // - true
+        // - false
+        "organizeImportsNumericCollation": true,
+
+        // Under `"organizeImportsCollation": "unicode"`,
+        // do letters with accent marks/diacritics get sorted distinctly
+        // from their "base" letter (i.e. is é different from e)? Can be
+        // - true
+        // - false
+        "organizeImportsAccentCollation": true
+    },
+    "javascript.unstable": {
+        // same options valid here...
+    },
+}
+```
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/51733) 和 [PR](https://github.com/microsoft/TypeScript/pull/52115)。
