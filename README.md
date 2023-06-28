@@ -101,6 +101,7 @@
   * [架构概述](zh/wiki/architectural-overview.md)
   * [发展路线图](zh/wiki/roadmap.md)
 * [新增功能](zh/release-notes/README.md)
+  * [TypeScript 5.0](zh/release-notes/typescript-5.0.md)
   * [TypeScript 4.9](zh/release-notes/typescript-4.9.md)
   * [TypeScript 4.8](zh/release-notes/typescript-4.8.md)
   * [TypeScript 4.7](zh/release-notes/typescript-4.7.md)
