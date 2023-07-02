@@ -249,3 +249,39 @@ namespace JSX {
 ```
 
 感谢 [Sebastian Silbermann](https://github.com/eps1lon) 的 [PR](https://github.com/microsoft/TypeScript/pull/51328)。
+
+## 带有命名空间的 JSX 属性
+
+TypeScript 支持在 JSX 里使用带有命名空间的属性。
+
+```tsx
+import * as React from "react";
+
+// Both of these are equivalent:
+const x = <Foo a:b="hello" />;
+const y = <Foo a : b="hello" />;
+
+interface FooProps {
+    "a:b": string;
+}
+
+function Foo(props: FooProps) {
+    return <div>{props["a:b"]}</div>;
+}
+```
+
+当名字的第一段是小写名称时，在 `JSX.IntrinsicAttributes` 上查找带命名空间的标记名是类似的。
+
+```tsx
+// In some library's code or in an augmentation of that library:
+namespace JSX {
+    interface IntrinsicElements {
+        ["a:b"]: { prop: string };
+    }
+}
+
+// In our code:
+let x = <a:b prop="hello!" />;
+```
+
+感谢 [Oleksandr Tarasiuk](https://github.com/a-tarasyuk) 的 [PR](https://github.com/microsoft/TypeScript/pull/53799)。
