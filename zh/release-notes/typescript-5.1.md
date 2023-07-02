@@ -275,9 +275,9 @@ function Foo(props: FooProps) {
 ```tsx
 // In some library's code or in an augmentation of that library:
 namespace JSX {
-    interface IntrinsicElements {
-        ["a:b"]: { prop: string };
-    }
+  interface IntrinsicElements {
+    ['a:b']: { prop: string };
+  }
 }
 
 // In our code:
@@ -292,3 +292,23 @@ let x = <a:b prop="hello!" />;
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/51715)。
 
+## 在 JSX 标签上链接光标
+
+TypeScript 现在支持 _链接编辑_ JSX 标签名。
+链接编辑（有时称作“光标镜像”）允许编辑器同时自动编辑多个位置。
+
+这个新特性在 TypeScript 和 JavaScript 里都可用，并且可以在 Visual Studio Code Insiders 版本中启用。
+在 Visual Studio Code 里，你既可以用设置界面的 `Editor: Linked Editing` 配置：
+
+![](https://devblogs.microsoft.com/typescript/wp-content/uploads/sites/11/2023/04/linkedEditing-5.1-vscode-ui-1.png)
+
+也可以用 JSON 配置文件中的 `editor.linkedEditing`：
+
+```json
+{
+  // ...
+  "editor.linkedEditing": true
+}
+```
+
+这个功能也将在 Visual Studio 17.7 Preview 1 中得到支持。
