@@ -6,7 +6,7 @@
 
 ```js
 function foo() {
-    // no return
+  // no return
 }
 
 // x = undefined
@@ -19,23 +19,23 @@ let x = foo();
 ```ts
 //  fine - we inferred that 'f1' returns 'void'
 function f1() {
-    // no returns
+  // no returns
 }
 
 //  fine - 'void' doesn't need a return statement
 function f2(): void {
-    // no returns
+  // no returns
 }
 
 //  fine - 'any' doesn't need a return statement
 function f3(): any {
-    // no returns
+  // no returns
 }
 
 //  error!
 // A function whose declared type is neither 'void' nor 'any' must return a value.
 function f4(): undefined {
-    // no returns
+  // no returns
 }
 ```
 
@@ -47,29 +47,29 @@ declare function takesFunction(f: () => undefined): undefined;
 //  error!
 // Argument of type '() => void' is not assignable to parameter of type '() => undefined'.
 takesFunction(() => {
-    // no returns
+  // no returns
 });
 
 //  error!
 // A function whose declared type is neither 'void' nor 'any' must return a value.
 takesFunction((): undefined => {
-    // no returns
+  // no returns
 });
 
 //  error!
 // Argument of type '() => void' is not assignable to parameter of type '() => undefined'.
 takesFunction(() => {
-    return;
+  return;
 });
 
 //  works
 takesFunction(() => {
-    return undefined;
+  return undefined;
 });
 
 //  works
 takesFunction((): undefined => {
-    return;
+  return;
 });
 ```
 
@@ -81,12 +81,12 @@ takesFunction((): undefined => {
 ```ts
 //  Works in TypeScript 5.1!
 function f4(): undefined {
-    // no returns
+  // no returns
 }
 
 //  Works in TypeScript 5.1!
 takesFunction((): undefined => {
-    // no returns
+  // no returns
 });
 ```
 
@@ -95,16 +95,15 @@ takesFunction((): undefined => {
 ```ts
 //  Works in TypeScript 5.1!
 takesFunction(function f() {
-    //                 ^ return type is undefined
-
-    // no returns
+  //                 ^ return type is undefined
+  // no returns
 });
 
 //  Works in TypeScript 5.1!
 takesFunction(function f() {
-    //                 ^ return type is undefined
+  //                 ^ return type is undefined
 
-    return;
+  return;
 });
 ```
 
@@ -113,10 +112,10 @@ takesFunction(function f() {
 ```ts
 //  Works in TypeScript 5.1 under '--noImplicitReturns'!
 function f(): undefined {
-    if (Math.random()) {
-        // do some stuff...
-        return;
-    }
+  if (Math.random()) {
+    // do some stuff...
+    return;
+  }
 }
 ```
 
@@ -128,8 +127,8 @@ TypeScript 4.3 支持将成对的 `get` 和 `set` 定义为不同的类型。
 
 ```ts
 interface Serializer {
-    set value(v: string | number | boolean);
-    get value(): string;
+  set value(v: string | number | boolean);
+  get value(): string;
 }
 
 declare let box: Serializer;
@@ -159,15 +158,15 @@ TypeScript 5.1 现在允许为 `get` 和 `set` 访问器属性指定完全不相
 
 ```ts
 interface CSSStyleRule {
-    // ...
+  // ...
 
-    /** Always reads as a `CSSStyleDeclaration` */
-    get style(): CSSStyleDeclaration;
+  /** Always reads as a `CSSStyleDeclaration` */
+  get style(): CSSStyleDeclaration;
 
-    /** Can only write a `string` here. */
-    set style(newValue: string);
+  /** Can only write a `string` here. */
+  set style(newValue: string);
 
-    // ...
+  // ...
 }
 ```
 
@@ -175,20 +174,78 @@ interface CSSStyleRule {
 
 ```ts
 class SafeBox {
-    #value: string | undefined;
+  #value: string | undefined;
 
-    // Only accepts strings!
-    set value(newValue: string) {
+  // Only accepts strings!
+  set value(newValue: string) {}
 
-    }
-
-    // Must check for 'undefined'!
-    get value(): string | undefined {
-        return this.#value;
-    }
+  // Must check for 'undefined'!
+  get value(): string | undefined {
+    return this.#value;
+  }
 }
 ```
 
 实际上，这与在 `--exactOptionalProperties` 选项下可选属性的检查方式类似。
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/53417)。
+
+## 解耦 JSX 元素和 JSX 标签类型之间的类型检查
+
+TypeScript 在 JSX 方面的一个痛点是对每个 JSX 元素标签的类型要求。
+这个 TypeScript 版本使得 JSX 库更准确地描述了 JSX 组件可以返回的内容。
+对于许多人来说，这具体意味着可以在 React 中使用[异步服务器组件](https://github.com/reactjs/rfcs/blob/7f8492f6a177fc33fe807d242319f2f96353bf68/text/0188-server-components.md)。
+
+做为背景知识，JSX 元素是下列其一：
+
+```tsx
+// A self-closing JSX tag
+<Foo />
+
+// A regular element with an opening/closing tag
+<Bar></Bar>
+```
+
+在类型检查 `<Foo />` 或 `<Bar></Bar>` 时，TypeScript 总是查找名为 `JSX` 的命名空间，并且获取名为 `Element` 的类型。
+换句话说，它查找 `JSX.Element`。
+
+但是为了检查 `Foo`或 `Bar` 是否是有效的标签名，TypeScript 大致上只需获取由 `Foo` 或 `Bar` 返回或构造的类型，并检查其与 `JSX.Element`（或另一种叫做 `JSX.ElementClass` 的类型，如果该类型可构造）的兼容性。
+
+这里的限制意味着如果组件返回或 “render” 比 `JSX.Element` 更宽泛的类型，则无法使用组件。
+例如，一个 `JSX` 库可能会允许组件返回 `string`s 或 `Promise`s。
+
+作为一个更具体的例子，[未来版本](https://github.com/reactjs/rfcs/blob/7f8492f6a177fc33fe807d242319f2f96353bf68/text/0188-server-components.md)的 React 已经提出了对返回 `Promise` 的组件的有限支持，但是现有版本的 TypeScript 无法表达这一点，除非有人大幅放宽 `JSX.Element` 类型。
+
+```tsx
+import * as React from 'react';
+
+async function Foo() {
+  return <div></div>;
+}
+
+let element = <Foo />;
+//             ~~~
+// 'Foo' cannot be used as a JSX component.
+//   Its return type 'Promise<Element>' is not a valid JSX element.
+```
+
+为了给 library 提供一种表达这种情况的方法，TypeScript 5.1 现在查找一个名为 `JSX.ElementType` 的类型。`ElementType` 精确地指定了在 JSX 元素中作为标签使用的内容。
+因此现在可以像如下这样定义：
+
+```ts
+namespace JSX {
+    export type ElementType =
+        // All the valid lowercase tags
+        keyof IntrinsicAttributes
+        // Function components
+        (props: any) => Element
+        // Class components
+        new (props: any) => ElementClass;
+
+    export interface IntrinsictAttributes extends /*...*/ {}
+    export type Element = /*...*/;
+    export type ClassElement = /*...*/;
+}
+```
+
+感谢 [Sebastian Silbermann](https://github.com/eps1lon) 的 [PR](https://github.com/microsoft/TypeScript/pull/51328)。
