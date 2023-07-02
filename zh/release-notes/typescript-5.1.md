@@ -312,3 +312,10 @@ TypeScript 现在支持 _链接编辑_ JSX 标签名。
 ```
 
 这个功能也将在 Visual Studio 17.7 Preview 1 中得到支持。
+
+## `@param` JSDoc 标记的代码片段自动补全
+
+现在，在 TypeScript 和 JavaScript 文件中输入 `@param` 标签时，TypeScript 提供代码片段自动补全。
+这可以帮助在为代码编写文档和添加 JSDoc 类型时，减少打字和文本跳转次数。
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/53260)。
