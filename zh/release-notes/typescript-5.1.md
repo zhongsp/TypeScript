@@ -319,3 +319,34 @@ TypeScript 现在支持 _链接编辑_ JSX 标签名。
 这可以帮助在为代码编写文档和添加 JSDoc 类型时，减少打字和文本跳转次数。
 
 更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/53260)。
+
+## 优化
+
+### 避免非必要的类型初始化
+
+TypeScript 5.1 现在避免在已知不包含对外部类型参数的引用的对象类型中执行类型实例化。
+这有可能减少许多不必要的计算，并将 [`material-ui`](https://github.com/mui/material-ui/tree/b0351248fb396001a30330daac86d0e0794a0c1d/docs) 的文档目录的类型检查时间缩短了 50% 以上。
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/53246)。
+
+### 联合字面量的反面情况检查
+
+当检查源类型是否是联合类型的一部分时，TypeScript 首先使用该源类型的内部类型标识符进行快速查找。
+如果查找失败，则 TypeScript 会检查与联合类型中的每个类型的兼容性。
+
+当将字面量类型与纯字面量类型的联合类型进行关联时，TypeScript 现在可以避免针对联合中的每个其他类型进行完整遍历。
+这个假设是安全的，因为 TypeScript 总是将字面量类型内部化/缓存 —— 虽然有一些与“全新”字面量类型相关的边缘情况需要处理。
+
+[这个优化](https://github.com/microsoft/TypeScript/pull/53192)可以减少[问题代码](https://github.com/microsoft/TypeScript/issues/53191)的类型检查时间从 45 秒到 0.4 秒。
+
+### 减少在解析 JSDoc 时的扫描函数调用
+
+在旧版本的 TypeScript 中解析 JSDoc 注释时，它们会使用扫描器/标记化程序将注释分解为细粒度的标记，然后将内容拼回到一起。
+这对于规范化注释文本可能是有帮助的，使多个空格只折叠成一个；
+但这样做会极大地增加“对话”量，意味着解析器和扫描器会非常频繁地来回跳跃，从而增加了 JSDoc 解析的开销。
+
+TypeScript 5.1 已经移动了更多的逻辑来分解 JSDoc 注释到扫描器/标记化程序中。
+现在，扫描器直接将更大的内容块返回给解析器，以便根据需要进行处理。
+
+[这些更改](https://github.com/microsoft/TypeScript/pull/53081)将几个大约 10Mb 的大部分为散文评论的 JavaScript 文件的解析时间减少了约一半。
+对于一个更现实的例子，我们的性能套件对 [xstate](https://github.com/statelyai/xstate) 的快照减少了约 300 毫秒的解析时间，使其更快地加载和分析。
