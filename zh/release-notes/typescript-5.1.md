@@ -121,3 +121,74 @@ function f(): undefined {
 ```
 
 更多详情请参考 [Issue](https://github.com/microsoft/TypeScript/issues/36288)，[PR](https://github.com/microsoft/TypeScript/pull/53607)
+
+## 不相关的存取器类型
+
+TypeScript 4.3 支持将成对的 `get` 和 `set` 定义为不同的类型。
+
+```ts
+interface Serializer {
+    set value(v: string | number | boolean);
+    get value(): string;
+}
+
+declare let box: Serializer;
+
+// Allows writing a 'boolean'
+box.value = true;
+
+// Comes out as a 'string'
+console.log(box.value.toUpperCase());
+```
+
+最初，我们要求 `get` 的类型是 `set` 类型的子类型。这意味着：
+
+```ts
+box.value = box.value;
+```
+
+永远是合法的。
+
+然而，大量现存的和提议的 API 带有毫无关联的 `get` 和 `set` 类型。
+例如，考虑一个常见的情况 - DOM 中的 `style` 属性和 [`CSSStyleRule`](https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleRule) API。
+每条样式规则都有[一个 `style` 属性](https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleRule/style)，它是一个 [`CSSStyleDeclaration`](https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration)；
+然而，如果你尝试给该属性写值，它仅支持字符串。
+
+TypeScript 5.1 现在允许为 `get` 和 `set` 访问器属性指定完全不相关的类型，前提是它们具有显式的类型注解。
+虽然这个版本的 TypeScript 还没有改变这些内置接口的类型，但 `CSSStyleRule` 现在可以按以下方式定义：
+
+```ts
+interface CSSStyleRule {
+    // ...
+
+    /** Always reads as a `CSSStyleDeclaration` */
+    get style(): CSSStyleDeclaration;
+
+    /** Can only write a `string` here. */
+    set style(newValue: string);
+
+    // ...
+}
+```
+
+这也允许其他模式，比如要求 `set` 访问器只接受“有效”的数据，但指定 `get` 访问器可以返回 `undefined`，如果某些基础状态还没有被初始化。
+
+```ts
+class SafeBox {
+    #value: string | undefined;
+
+    // Only accepts strings!
+    set value(newValue: string) {
+
+    }
+
+    // Must check for 'undefined'!
+    get value(): string | undefined {
+        return this.#value;
+    }
+}
+```
+
+实际上，这与在 `--exactOptionalProperties` 选项下可选属性的检查方式类似。
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/53417)。
