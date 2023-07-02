@@ -285,3 +285,10 @@ let x = <a:b prop="hello!" />;
 ```
 
 感谢 [Oleksandr Tarasiuk](https://github.com/a-tarasyuk) 的 [PR](https://github.com/microsoft/TypeScript/pull/53799)。
+
+## 模块解析时考虑 `typeRoots`
+
+当 TypeScript 的模块解析策略无法解析一个路径时，它现在会相对于 `typeRoots` 继续解析。
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/51715)。
+
