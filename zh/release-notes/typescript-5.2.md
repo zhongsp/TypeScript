@@ -188,3 +188,47 @@ func();
 `using` 声明对异常具有适应性；如果抛出了一个错误，那么在资源释放后会重新抛出错误。
 另一方面，一个函数体可能正常执行，但是 `Symbol.dispose` 可能抛出异常。
 这种情况下，异常会被重新抛出。
+
+但如果释放之前的逻辑以及释放时的逻辑都抛出了异常会发生什么？
+为处理这类情况引入了一个新的类型 `SuppressedError`，它是 `Error` 类型的子类型。
+`SuppressedError` 类型的 `suppressed` 属性保存了上一个错误，同时 `error` 属性保存了最后抛出的错误。
+
+```ts
+class ErrorA extends Error {
+    name = "ErrorA";
+}
+class ErrorB extends Error {
+    name = "ErrorB";
+}
+
+function throwy(id: string) {
+    return {
+        [Symbol.dispose]() {
+            throw new ErrorA(`Error from ${id}`);
+        }
+    };
+}
+
+function func() {
+    using a = throwy("a");
+    throw new ErrorB("oops!")
+}
+
+try {
+    func();
+}
+catch (e: any) {
+    console.log(e.name); // SuppressedError
+    console.log(e.message); // An error was suppressed during disposal.
+
+    console.log(e.error.name); // ErrorA
+    console.log(e.error.message); // Error from a
+
+    console.log(e.suppressed.name); // ErrorB
+    console.log(e.suppressed.message); // oops!
+}
+```
+
+你可能已经注意到了，在这些例子中使用的都是同步方法。
+然而，很多资源释放的场景涉及到*异步*操作，我们需要等待它们完成才能进行后续的操作。
+
