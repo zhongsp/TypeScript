@@ -386,3 +386,13 @@ Symbol.asyncDispose ??= Symbol("Symbol.asyncDispose");
 ```
 
 更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/54505)。
+
+## Decorator Metadata
+
+TypeScript 5.2 实现了 ECMAScript 即将引入的新功能 [Decorator Metadata](https://github.com/tc39/proposal-decorator-metadata)。
+
+这个功能的关键思想是使装饰器能够轻松地在它们所使用或嵌套的任何类上创建和使用元数据。
+
+在任意的装饰器函数上，现在可以访问上下文对象的 `metadata` 属性。
+`metadata` 属性是一个简单的对象。
+由于 JavaScript 允许我们任意添加属性，它可以被用作由每个装饰器更新的字典。
