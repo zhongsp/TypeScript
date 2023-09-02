@@ -232,3 +232,157 @@ catch (e: any) {
 你可能已经注意到了，在这些例子中使用的都是同步方法。
 然而，很多资源释放的场景涉及到*异步*操作，我们需要等待它们完成才能进行后续的操作。
 
+这就是为什么现在还有一个新的 `Symbol.asyncDispose`，它带来了另一个亮点 -
+`await using` 声明。
+它与 `using` 声明相似，但关键是它查找需要 `await` 的资源。
+它使用名为 `Symbol.asyncDispose` 的方法，尽管它们也可以操作在任何具有 `Symbol.dispose` 的对象上操作。
+为了方便，TypeScript 引入了全局类型 `AsyncDisposable` 用来表示拥有异步 `dispose` 方法的对象。
+
+```ts
+async function doWork() {
+    // Do fake work for half a second.
+    await new Promise(resolve => setTimeout(resolve, 500));
+}
+
+function loggy(id: string): AsyncDisposable {
+    console.log(`Constructing ${id}`);
+    return {
+        async [Symbol.asyncDispose]() {
+            console.log(`Disposing (async) ${id}`);
+            await doWork();
+        },
+    }
+}
+
+async function func() {
+    await using a = loggy("a");
+    await using b = loggy("b");
+    {
+        await using c = loggy("c");
+        await using d = loggy("d");
+    }
+    await using e = loggy("e");
+    return;
+
+    // Unreachable.
+    // Never created, never disposed.
+    await using f = loggy("f");
+}
+
+func();
+// Constructing a
+// Constructing b
+// Constructing c
+// Constructing d
+// Disposing (async) d
+// Disposing (async) c
+// Constructing e
+// Disposing (async) e
+// Disposing (async) b
+// Disposing (async) a
+```
+
+如果你期望其他人能够一致地执行清理逻辑，通过使用 `Disposable` 和 `AsyncDisposable` 来定义类型可以使你的代码更易于使用。
+实际上，存在许多现有的类型，它们拥有 `dispose()` 或 `close()` 方法。
+例如，Visual Studio Code APIs 定义了 [自己的 `Disposable` 接口](https://code.visualstudio.com/api/references/vscode-api#Disposable)。
+在浏览器和诸如 Node.js、Deno 和 Bun 等运行时中，API 也可以选择对已经具有清理方法（如文件句柄、连接等）的对象使用 `Symbol.dispose` 和 `Symbol.asyncDispose`。
+
+现在也许对于库来说这听起来很不错，但对于你的场景来说可能有些过于复杂。如果你需要进行大量的临时清理，创建一个新类型可能会引入过度抽象和关于最佳实践的问题。
+例如，再次以我们的 `TempFile` 示例为例。
+
+```ts
+class TempFile implements Disposable {
+    #path: string;
+    #handle: number;
+
+    constructor(path: string) {
+        this.#path = path;
+        this.#handle = fs.openSync(path, "w+");
+    }
+
+    // other methods
+
+    [Symbol.dispose]() {
+        // Close the file and delete it.
+        fs.closeSync(this.#handle);
+        fs.unlinkSync(this.#path);
+    }
+}
+
+export function doSomeWork() {
+    using file = new TempFile(".some_temp_file");
+
+    // use file...
+
+    if (someCondition()) {
+        // do some more work...
+        return;
+    }
+}
+```
+
+我们只是想记住调用两个函数，但这是最好的写法吗？
+我们应该在构造函数中调用 `openSync`，创建一个 `open()` 方法，还是自己传递句柄？
+我们是否应该为每个需要执行的操作公开一个方法，还是只将属性公开？
+
+这就引出了这个特性的最后亮点：`DisposableStack` 和 `AsyncDisposableStack`。
+这些对象非常适用于一次性的清理工作，以及任意数量的清理工作。
+`DisposableStack` 是一个对象，它具有多个方法用于跟踪 `Disposable` 对象，并且可以接受函数来执行任意的清理工作。
+我们还可以将它们分配给 `using` 变量，因为它们也是 `Disposable`！所以下面是我们可以编写原始示例的方式。
+
+```ts
+function doSomeWork() {
+    const path = ".some_temp_file";
+    const file = fs.openSync(path, "w+");
+
+    using cleanup = new DisposableStack();
+    cleanup.defer(() => {
+        fs.closeSync(file);
+        fs.unlinkSync(path);
+    });
+
+    // use file...
+
+    if (someCondition()) {
+        // do some more work...
+        return;
+    }
+
+    // ...
+}
+```
+
+在这里，`defer()` 方法只需要一个回调函数，该回调函数将在 `cleanup` 释放后运行。
+通常，在创建资源后应立即调用 `defer`（以及其他 `DisposableStack` 方法，如 `use` 和 `adopt`）。
+顾名思义，`DisposableStack` 以类似堆栈的方式处理它所跟踪的所有内容，按照先进后出的顺序进行处理，因此在创建值后立即进行 `defer` 处理有助于避免奇怪的依赖问题。
+`AsyncDisposableStack` 的工作原理类似，但可以跟踪异步函数和 `AsyncDisposable`，并且本身也是 `AsyncDisposable`。
+
+在许多方面，`defer` 方法与 Go、Swift、Zig、Odin 等语言中的 `defer` 关键字类似，因此其使用约定应该相似。
+
+由于这个特性非常新，大多数运行时环境不会原生支持它。要使用它，您需要为以下内容提供运行时的 polyfills：
+
+- Symbol.dispose
+- Symbol.asyncDispose
+- DisposableStack
+- AsyncDisposableStack
+- SuppressedError
+
+然而，如果您只对使用 `using` 和 `await using` 感兴趣，您只需要为内置的 `symbol` 提供 polyfill，通常以下简单的方法可适用于大多数情况：
+
+```ts
+Symbol.dispose ??= Symbol("Symbol.dispose");
+Symbol.asyncDispose ??= Symbol("Symbol.asyncDispose");
+```
+
+你还需要将编译 `target` 设置为 `es2022` 或以下，配置 `lib` 为 `"esnext"` 或 `"esnext.disposable"`。
+
+```ts
+{
+    "compilerOptions": {
+        "target": "es2022",
+        "lib": ["es2022", "esnext.disposable", "dom"]
+    }
+}
+```
+
+更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/54505)。
