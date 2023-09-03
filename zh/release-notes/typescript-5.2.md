@@ -394,5 +394,181 @@ TypeScript 5.2 实现了 ECMAScript 即将引入的新功能 [Decorator Metadata
 这个功能的关键思想是使装饰器能够轻松地在它们所使用或嵌套的任何类上创建和使用元数据。
 
 在任意的装饰器函数上，现在可以访问上下文对象的 `metadata` 属性。
-`metadata` 属性是一个简单的对象。
-由于 JavaScript 允许我们任意添加属性，它可以被用作由每个装饰器更新的字典。
+`metadata` 属性是一个普通的对象。
+由于 JavaScript 允许我们对其任意添加属性，它可以被用作可由每个装饰器更新的字典。
+或者，由于每个 `metadata` 对象对于每个被装饰的部分来讲是等同的，它可以被用作 `Map` 的键。
+当类的装饰器运行时，这个对象可以通过 `Symbol.metadata` 访问。
+
+```ts
+interface Context {
+    name: string;
+    metadata: Record;
+}
+
+function setMetadata(_target: any, context: Context) {
+    context.metadata[context.name] = true;
+}
+
+class SomeClass {
+    @setMetadata
+    foo = 123;
+
+    @setMetadata
+    accessor bar = "hello!";
+
+    @setMetadata
+    baz() { }
+}
+
+const ourMetadata = SomeClass[Symbol.metadata];
+
+console.log(JSON.stringify(ourMetadata));
+// { "bar": true, "baz": true, "foo": true }
+```
+
+它可以被应用在不同的场景中。
+`Metadata` 信息可以附加在调试、序列化或者依赖注入的场景中。
+由于每个被装饰的类都会生成 `metadata` 对象，框架可以选择用它们做为 `key` 来访问 `Map` 或 `WeakMap`，或者跟踪它的属性。
+
+例如，我们想通过装饰器来跟踪哪些属性和存取器是可以通过 `Json.stringify` 序列化的：
+
+```ts
+import { serialize, jsonify } from "./serializer";
+
+class Person {
+    firstName: string;
+    lastName: string;
+
+    @serialize
+    age: number
+
+    @serialize
+    get fullName() {
+        return `${this.firstName} ${this.lastName}`;
+    }
+
+    toJSON() {
+        return jsonify(this)
+    }
+
+    constructor(firstName: string, lastName: string, age: number) {
+        // ...
+    }
+}
+```
+
+此处的意图是，只有 `age` 和 `fullName` 可以被序列化，因为它们应用了 `@serialize` 装饰器。
+我们定义了 `toJSON` 方法来做这件事，但它只是调用了 `jsonfy`，它会使用 `@serialize` 创建的 `metadata`。
+
+下面是 `./serialize.ts` 可能的定义：
+
+```ts
+const serializables = Symbol();
+
+type Context =
+    | ClassAccessorDecoratorContext
+    | ClassGetterDecoratorContext
+    | ClassFieldDecoratorContext
+    ;
+
+export function serialize(_target: any, context: Context): void {
+    if (context.static || context.private) {
+        throw new Error("Can only serialize public instance members.")
+    }
+    if (typeof context.name === "symbol") {
+        throw new Error("Cannot serialize symbol-named properties.");
+    }
+
+    const propNames =
+        (context.metadata[serializables] as string[] | undefined) ??= [];
+    propNames.push(context.name);
+}
+
+export function jsonify(instance: object): string {
+    const metadata = instance.constructor[Symbol.metadata];
+    const propNames = metadata?.[serializables] as string[] | undefined;
+    if (!propNames) {
+        throw new Error("No members marked with @serialize.");
+    }
+
+    const pairStrings = propNames.map(key => {
+        const strKey = JSON.stringify(key);
+        const strValue = JSON.stringify((instance as any)[key]);
+        return `${strKey}: ${strValue}`;
+    });
+
+    return `{ ${pairStrings.join(", ")} }`;
+}
+```
+
+该方法有一个局部 `symbol` 名字为 `serializables` 用于保存和获取使用 `@serializable` 标记的属性。
+当每次调用 `@serializable` 时，它都会在 `metadata` 上保存这些属性名。
+当 `jsonfy` 被调用时，从 `metadata` 上获取属性列表，之后从实例上获取实际值，最后序列化名和值。
+
+使用 `symbol` 意味着该数据可以被他人访问。
+另一选择是使用 `WeakMap` 并用该 `metadata` 对象做为键。
+这样可以保持数据的私密性，并且在这种情况下使用更少的类型断言，但其他方面类似。
+
+```ts
+const serializables = new WeakMap();
+
+type Context =
+    | ClassAccessorDecoratorContext
+    | ClassGetterDecoratorContext
+    | ClassFieldDecoratorContext
+    ;
+
+export function serialize(_target: any, context: Context): void {
+    if (context.static || context.private) {
+        throw new Error("Can only serialize public instance members.")
+    }
+    if (typeof context.name !== "string") {
+        throw new Error("Can only serialize string properties.");
+    }
+
+    let propNames = serializables.get(context.metadata);
+    if (propNames === undefined) {
+        serializables.set(context.metadata, propNames = []);
+    }
+    propNames.push(context.name);
+}
+
+export function jsonify(instance: object): string {
+    const metadata = instance.constructor[Symbol.metadata];
+    const propNames = metadata && serializables.get(metadata);
+    if (!propNames) {
+        throw new Error("No members marked with @serialize.");
+    }
+    const pairStrings = propNames.map(key => {
+        const strKey = JSON.stringify(key);
+        const strValue = JSON.stringify((instance as any)[key]);
+        return `${strKey}: ${strValue}`;
+    });
+
+    return `{ ${pairStrings.join(", ")} }`;
+}
+```
+
+注意，这里的实现没有考虑子类和继承。
+留给读者作为练习。
+
+由于该功能比较新，大多数运行时都没实现它。
+如果想要使用，则需要使用 `Symbol.metadata` 的 `polyfill`。
+例如像下面这样就可以适用大部分场景：
+
+```ts
+Symbol.metadata ??= Symbol("Symbol.metadata");
+```
+
+你还需要将编译 `target` 设为 `es2022` 或以下，配置 `lib` 为 `"esnext"` 或者 `"esnext.decorators"`。
+
+```
+{
+    "compilerOptions": {
+        "target": "es2022",
+        "lib": ["es2022", "esnext.decorators", "dom"]
+    }
+}
+```
+
+感谢 [Oleksandr Tarasiuk](https://github.com/a-tarasyuk)的[贡献](https://github.com/microsoft/TypeScript/pull/54657)。
