@@ -628,3 +628,32 @@ type Merged = [...HasNoLabels, ...HasLabels];
 而且现在可以在展开的元组中保留标签。
 
 感谢 [Josh Goldberg](https://github.com/JoshuaKGoldberg) 和 [Mateusz Burzyński](https://github.com/Andarist) 的贡献。
+
+## 更容易地使用联合数组上的方法
+
+在之前版本的 TypeScript 中，在联合数组上调用方法可能很痛苦。
+
+```ts
+declare let array: string[] | number[];
+
+array.filter(x => !!x);
+//    ~~~~~~ error!
+// This expression is not callable.
+//   Each member of the union type '...' has signatures,
+//   but none of those signatures are compatible
+//   with each other.
+```
+
+此例中，TypeScript 会检查是否每个版本的 `filter` 都与 `string[]` 和 `number[]` 兼容。
+在没有一个连贯的策略的情况下，TypeScript 会束手无策地说：“我无法使其工作”。
+
+在 TypeScript 5.2 里，在放弃之前，联合数组会被特殊对待。
+使用每个元素类型构造一个新数组，然后在其上调用方法。
+
+对于上例来说，`string[] | number[]` 被转换为 `(string | number)[]`（或者是 `Array<string | number>`），然后在该类型上调用 `filter`。
+有一个注意事项，`filter` 会产生 `Array<string | number>` 而不是 `string[] | number[]`；
+但对于新产生的值，出现“出错”的风险较小。
+
+这意味着在以前不能使用的情况下，许多方法如 `filter`、`find`、`some`、`every` 和 `reduce` 都可以在数组的联合类型上调用。
+
+更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/53489)。
