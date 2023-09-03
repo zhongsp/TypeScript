@@ -572,3 +572,59 @@ Symbol.metadata ??= Symbol("Symbol.metadata");
 ```
 
 感谢 [Oleksandr Tarasiuk](https://github.com/a-tarasyuk)的[贡献](https://github.com/microsoft/TypeScript/pull/54657)。
+
+## 命名的和匿名的元组元素
+
+元组类型已经支持了为每个元素定义可选的标签和命名。
+
+```ts
+type Pair = [first: T, second: T];
+```
+
+这些标签不改变功能 - 它们只是用于增强可读性和工具支持。
+
+然而，TypeScript 之前有个限制是不允许混用有标签和无标签的元素。
+换句话说，要么所有元素都没有标签，要么所有元素都有标签。
+
+```ts
+// ✅ fine - no labels
+type Pair1 = [T, T];
+
+// ✅ fine - all fully labeled
+type Pair2 = [first: T, second: T];
+
+// ❌ previously an error
+type Pair3 = [first: T, T];
+//                         ~
+// Tuple members must all have names
+// or all not have names.
+```
+
+如果是剩余元素就比较烦人了，我们必须要添加标签 `rest` 或者 `tail`。
+
+```ts
+// ❌ previously an error
+type TwoOrMore_A = [first: T, second: T, ...T[]];
+//                                          ~~~~~~
+// Tuple members must all have names
+// or all not have names.
+
+// ✅
+type TwoOrMore_B = [first: T, second: T, rest: ...T[]];
+```
+
+这也意味着这个限制必须在类型系统内部进行强制执行，这意味着 TypeScript 将失去标签。
+
+```ts
+type HasLabels = [a: string, b: string];
+type HasNoLabels = [number, number];
+type Merged = [...HasNoLabels, ...HasLabels];
+//   ^ [number, number, string, string]
+//
+//     'a' and 'b' were lost in 'Merged'
+```
+
+在TypeScript 5.2 中，对元组标签的全有或全无限制已经被取消。
+而且现在可以在展开的元组中保留标签。
+
+感谢 [Josh Goldberg](https://github.com/JoshuaKGoldberg) 和 [Mateusz Burzyński](https://github.com/Andarist) 的贡献。
