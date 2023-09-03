@@ -9,17 +9,17 @@ TypeScript 5.2 支持了 ECMAScript 即将引入的新功能 [显式资源管理
 让我们来想象一个函数，它创建一个临时文件，对它进行多种操作的读写，然后关闭并删除它。
 
 ```ts
-import * as fs from "fs";
+import * as fs from 'fs';
 
 export function doSomeWork() {
-    const path = ".some_temp_file";
-    const file = fs.openSync(path, "w+");
+  const path = '.some_temp_file';
+  const file = fs.openSync(path, 'w+');
 
-    // use file...
+  // use file...
 
-    // Close the file and delete it.
-    fs.closeSync(file);
-    fs.unlinkSync(path);
+  // Close the file and delete it.
+  fs.closeSync(file);
+  fs.unlinkSync(path);
 }
 ```
 
@@ -27,22 +27,22 @@ export function doSomeWork() {
 
 ```ts
 export function doSomeWork() {
-    const path = ".some_temp_file";
-    const file = fs.openSync(path, "w+");
+  const path = '.some_temp_file';
+  const file = fs.openSync(path, 'w+');
 
-    // use file...
-    if (someCondition()) {
-        // do some more work...
-
-        // Close the file and delete it.
-        fs.closeSync(file);
-        fs.unlinkSync(path);
-        return;
-    }
+  // use file...
+  if (someCondition()) {
+    // do some more work...
 
     // Close the file and delete it.
     fs.closeSync(file);
     fs.unlinkSync(path);
+    return;
+  }
+
+  // Close the file and delete it.
+  fs.closeSync(file);
+  fs.unlinkSync(path);
 }
 ```
 
@@ -52,22 +52,21 @@ export function doSomeWork() {
 
 ```ts
 export function doSomeWork() {
-    const path = ".some_temp_file";
-    const file = fs.openSync(path, "w+");
+  const path = '.some_temp_file';
+  const file = fs.openSync(path, 'w+');
 
-    try {
-        // use file...
+  try {
+    // use file...
 
-        if (someCondition()) {
-            // do some more work...
-            return;
-        }
+    if (someCondition()) {
+      // do some more work...
+      return;
     }
-    finally {
-        // Close the file and delete it.
-        fs.closeSync(file);
-        fs.unlinkSync(path);
-    }
+  } finally {
+    // Close the file and delete it.
+    fs.closeSync(file);
+    fs.unlinkSync(path);
+  }
 }
 ```
 
@@ -75,28 +74,28 @@ export function doSomeWork() {
 如果我们在 `finally` 块中开始添加更多的清理逻辑，还可能遇到其他的自食其果的问题。
 例如，异常可能会阻止其他资源的释放。
 这些就是[显式资源管理](https://github.com/tc39/proposal-explicit-resource-management)想要解决的问题。
-该提案的关键思想是将资源释放（我们试图处理的清理工作）作为JavaScript中的一等概念来支持。
+该提案的关键思想是将资源释放（我们试图处理的清理工作）作为 JavaScript 中的一等概念来支持。
 
 首先，增加了一个新的 `symbol` 名字为 `Symbol.dispose`，然后可以定义包含 `Symbol.dispose` 方法的对象。
 为了方便，TypeScript 为此定义了一个新的全局类型 `Disposable`。
 
 ```ts
 class TempFile implements Disposable {
-    #path: string;
-    #handle: number;
+  #path: string;
+  #handle: number;
 
-    constructor(path: string) {
-        this.#path = path;
-        this.#handle = fs.openSync(path, "w+");
-    }
+  constructor(path: string) {
+    this.#path = path;
+    this.#handle = fs.openSync(path, 'w+');
+  }
 
-    // other methods
+  // other methods
 
-    [Symbol.dispose]() {
-        // Close the file and delete it.
-        fs.closeSync(this.#handle);
-        fs.unlinkSync(this.#path);
-    }
+  [Symbol.dispose]() {
+    // Close the file and delete it.
+    fs.closeSync(this.#handle);
+    fs.unlinkSync(this.#path);
+  }
 }
 ```
 
@@ -104,14 +103,13 @@ class TempFile implements Disposable {
 
 ```ts
 export function doSomeWork() {
-    const file = new TempFile(".some_temp_file");
+  const file = new TempFile('.some_temp_file');
 
-    try {
-        // ...
-    }
-    finally {
-        file[Symbol.dispose]();
-    }
+  try {
+    // ...
+  } finally {
+    file[Symbol.dispose]();
+  }
 }
 ```
 
@@ -370,8 +368,8 @@ function doSomeWork() {
 然而，如果您只对使用 `using` 和 `await using` 感兴趣，您只需要为内置的 `symbol` 提供 polyfill，通常以下简单的方法可适用于大多数情况：
 
 ```ts
-Symbol.dispose ??= Symbol("Symbol.dispose");
-Symbol.asyncDispose ??= Symbol("Symbol.asyncDispose");
+Symbol.dispose ??= Symbol('Symbol.dispose');
+Symbol.asyncDispose ??= Symbol('Symbol.asyncDispose');
 ```
 
 你还需要将编译 `target` 设置为 `es2022` 或以下，配置 `lib` 为 `"esnext"` 或 `"esnext.disposable"`。
@@ -401,23 +399,23 @@ TypeScript 5.2 实现了 ECMAScript 即将引入的新功能 [Decorator Metadata
 
 ```ts
 interface Context {
-    name: string;
-    metadata: Record;
+  name: string;
+  metadata: Record;
 }
 
 function setMetadata(_target: any, context: Context) {
-    context.metadata[context.name] = true;
+  context.metadata[context.name] = true;
 }
 
 class SomeClass {
-    @setMetadata
-    foo = 123;
+  @setMetadata
+  foo = 123;
 
-    @setMetadata
-    accessor bar = "hello!";
+  @setMetadata
+  accessor bar = 'hello!';
 
-    @setMetadata
-    baz() { }
+  @setMetadata
+  baz() {}
 }
 
 const ourMetadata = SomeClass[Symbol.metadata];
@@ -433,27 +431,27 @@ console.log(JSON.stringify(ourMetadata));
 例如，我们想通过装饰器来跟踪哪些属性和存取器是可以通过 `Json.stringify` 序列化的：
 
 ```ts
-import { serialize, jsonify } from "./serializer";
+import { serialize, jsonify } from './serializer';
 
 class Person {
-    firstName: string;
-    lastName: string;
+  firstName: string;
+  lastName: string;
 
-    @serialize
-    age: number
+  @serialize
+  age: number;
 
-    @serialize
-    get fullName() {
-        return `${this.firstName} ${this.lastName}`;
-    }
+  @serialize
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
 
-    toJSON() {
-        return jsonify(this)
-    }
+  toJSON() {
+    return jsonify(this);
+  }
 
-    constructor(firstName: string, lastName: string, age: number) {
-        // ...
-    }
+  constructor(firstName: string, lastName: string, age: number) {
+    // ...
+  }
 }
 ```
 
@@ -466,38 +464,38 @@ class Person {
 const serializables = Symbol();
 
 type Context =
-    | ClassAccessorDecoratorContext
-    | ClassGetterDecoratorContext
-    | ClassFieldDecoratorContext
-    ;
+  | ClassAccessorDecoratorContext
+  | ClassGetterDecoratorContext
+  | ClassFieldDecoratorContext;
 
 export function serialize(_target: any, context: Context): void {
-    if (context.static || context.private) {
-        throw new Error("Can only serialize public instance members.")
-    }
-    if (typeof context.name === "symbol") {
-        throw new Error("Cannot serialize symbol-named properties.");
-    }
+  if (context.static || context.private) {
+    throw new Error('Can only serialize public instance members.');
+  }
+  if (typeof context.name === 'symbol') {
+    throw new Error('Cannot serialize symbol-named properties.');
+  }
 
-    const propNames =
-        (context.metadata[serializables] as string[] | undefined) ??= [];
-    propNames.push(context.name);
+  const propNames = ((context.metadata[serializables] as
+    | string[]
+    | undefined) ??= []);
+  propNames.push(context.name);
 }
 
 export function jsonify(instance: object): string {
-    const metadata = instance.constructor[Symbol.metadata];
-    const propNames = metadata?.[serializables] as string[] | undefined;
-    if (!propNames) {
-        throw new Error("No members marked with @serialize.");
-    }
+  const metadata = instance.constructor[Symbol.metadata];
+  const propNames = metadata?.[serializables] as string[] | undefined;
+  if (!propNames) {
+    throw new Error('No members marked with @serialize.');
+  }
 
-    const pairStrings = propNames.map(key => {
-        const strKey = JSON.stringify(key);
-        const strValue = JSON.stringify((instance as any)[key]);
-        return `${strKey}: ${strValue}`;
-    });
+  const pairStrings = propNames.map(key => {
+    const strKey = JSON.stringify(key);
+    const strValue = JSON.stringify((instance as any)[key]);
+    return `${strKey}: ${strValue}`;
+  });
 
-    return `{ ${pairStrings.join(", ")} }`;
+  return `{ ${pairStrings.join(', ')} }`;
 }
 ```
 
@@ -513,39 +511,38 @@ export function jsonify(instance: object): string {
 const serializables = new WeakMap();
 
 type Context =
-    | ClassAccessorDecoratorContext
-    | ClassGetterDecoratorContext
-    | ClassFieldDecoratorContext
-    ;
+  | ClassAccessorDecoratorContext
+  | ClassGetterDecoratorContext
+  | ClassFieldDecoratorContext;
 
 export function serialize(_target: any, context: Context): void {
-    if (context.static || context.private) {
-        throw new Error("Can only serialize public instance members.")
-    }
-    if (typeof context.name !== "string") {
-        throw new Error("Can only serialize string properties.");
-    }
+  if (context.static || context.private) {
+    throw new Error('Can only serialize public instance members.');
+  }
+  if (typeof context.name !== 'string') {
+    throw new Error('Can only serialize string properties.');
+  }
 
-    let propNames = serializables.get(context.metadata);
-    if (propNames === undefined) {
-        serializables.set(context.metadata, propNames = []);
-    }
-    propNames.push(context.name);
+  let propNames = serializables.get(context.metadata);
+  if (propNames === undefined) {
+    serializables.set(context.metadata, (propNames = []));
+  }
+  propNames.push(context.name);
 }
 
 export function jsonify(instance: object): string {
-    const metadata = instance.constructor[Symbol.metadata];
-    const propNames = metadata && serializables.get(metadata);
-    if (!propNames) {
-        throw new Error("No members marked with @serialize.");
-    }
-    const pairStrings = propNames.map(key => {
-        const strKey = JSON.stringify(key);
-        const strValue = JSON.stringify((instance as any)[key]);
-        return `${strKey}: ${strValue}`;
-    });
+  const metadata = instance.constructor[Symbol.metadata];
+  const propNames = metadata && serializables.get(metadata);
+  if (!propNames) {
+    throw new Error('No members marked with @serialize.');
+  }
+  const pairStrings = propNames.map(key => {
+    const strKey = JSON.stringify(key);
+    const strValue = JSON.stringify((instance as any)[key]);
+    return `${strKey}: ${strValue}`;
+  });
 
-    return `{ ${pairStrings.join(", ")} }`;
+  return `{ ${pairStrings.join(', ')} }`;
 }
 ```
 
@@ -557,7 +554,7 @@ export function jsonify(instance: object): string {
 例如像下面这样就可以适用大部分场景：
 
 ```ts
-Symbol.metadata ??= Symbol("Symbol.metadata");
+Symbol.metadata ??= Symbol('Symbol.metadata');
 ```
 
 你还需要将编译 `target` 设为 `es2022` 或以下，配置 `lib` 为 `"esnext"` 或者 `"esnext.decorators"`。
@@ -624,7 +621,7 @@ type Merged = [...HasNoLabels, ...HasLabels];
 //     'a' and 'b' were lost in 'Merged'
 ```
 
-在TypeScript 5.2 中，对元组标签的全有或全无限制已经被取消。
+在 TypeScript 5.2 中，对元组标签的全有或全无限制已经被取消。
 而且现在可以在展开的元组中保留标签。
 
 感谢 [Josh Goldberg](https://github.com/JoshuaKGoldberg) 和 [Mateusz Burzyński](https://github.com/Andarist) 的贡献。
@@ -657,3 +654,47 @@ array.filter(x => !!x);
 这意味着在以前不能使用的情况下，许多方法如 `filter`、`find`、`some`、`every` 和 `reduce` 都可以在数组的联合类型上调用。
 
 更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/53489)。
+
+## 拷贝的数组方法
+
+TypeScript 5.2 支持了 ECMAScript 提案 [Change Array by Copy](https://github.com/tc39/proposal-change-array-by-copy)。
+
+JavaScript 中的数组有很多有用的方法如 `sort()`，`splice()`，以及 `reverse()`，这些方法在数组中原地修改元素。
+通常，我们想创建一个新数组，还想影响原来的数组。
+为达到此目的，你可以使用 `slice()` 或者展开数组（例如 `[...myArray]`）获取一份拷贝，然后再执行操作。
+例如，你可以用 `myArray.slice().reverse()` 来获取反转的数组的拷贝。
+
+还有一个典型的例子 - 创建一份拷贝，但是修改其中的一个元素。
+有许多方法可以实现这一点，但最明显的方法要么是由多个语句组成的...
+
+```ts
+const copy = myArray.slice();
+copy[someIndex] = updatedValue;
+doSomething(copy);
+```
+
+要么意图不明显...
+
+```ts
+doSomething(
+  myArray.map((value, index) => (index === someIndex ? updatedValue : value))
+);
+```
+
+所有这些对于如此常见的操作来说都很繁琐。
+这就是为什么 JavaScript 现在有了 4 个新的方法，执行相同的操作，但不影响原始数据：`toSorted`、`toSpliced`、`toReversed` 和 `with`。
+前三个方法执行与它们的变异版本相同的操作，但返回一个新的数组。
+`with` 也返回一个新的数组，但其中一个元素被更新（如上所述）。
+
+| 修改                                         | 拷贝                                            |
+| -------------------------------------------- | ----------------------------------------------- |
+| myArray.reverse()                            | myArray.toReversed()                            |
+| myArray.sort((a, b) => ...)                  | myArray.toSorted((a, b) => ...)                 |
+| myArray.splice(start, deleteCount, ...items) | myArray.toSpliced(start, deleteCount, ...items) |
+| myArray[index] = updatedValue                | myArray.with(index, updatedValue)               |
+
+请注意，复制方法始终创建一个新的数组，而修改操作则不一致。
+
+这些方法不仅存在于普通数组上 - 它们还存在于 `TypedArray` 上，例如 `Int32Array`，`Uint8Array`，等。
+
+感谢 [Carter Snook](https://github.com/sno2) 的 [PR](https://github.com/microsoft/TypeScript/pull/51367)。
