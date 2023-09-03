@@ -12,7 +12,7 @@
 
 ---
 
-🏮 祝所有开发者：牛年大吉！🏮
+<!-- 🏮 祝所有开发者：牛年大吉！🏮 -->
 
 <img src="./zh/misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;"> [TypeScript 5.1 (2023 年 6 月 1 日)](https://devblogs.microsoft.com/typescript/announcing-typescript-5-1)
 |
