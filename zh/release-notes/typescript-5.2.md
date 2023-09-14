@@ -715,3 +715,30 @@ myWeakMap.has(key);
 ```
 
 [这个更新](https://github.com/microsoft/TypeScript/pull/54195)是由 [Leo Elmecker-Plakolm](https://github.com/leoelm) 代表 Bloomberg 提供的。我们想向他们表示感谢！
+
+## 类型导入路径里使用 TypeScript 实现文件扩展名
+
+TypeScript 支持在类型导入路径里使用声明文件扩展名和实现文件扩展名，不论是否启用了 `allowImportingTsExtensions`。
+
+也意味着你现在可以编写 `import type` 语句并使用 `.ts`, `.mts`, `.cts` 以及 `.tsx` 文件扩展。
+
+```ts
+import type { JustAType } from "./justTypes.ts";
+
+export function f(param: JustAType) {
+    // ...
+}
+```
+
+这也意味着，`import()` 类型（用在 TypeScript 和 JavaScript 的 JSDoc 中） 也可以使用这些扩展名。
+
+```ts
+/**
+ * @param {import("./justTypes.ts").JustAType} param
+ */
+export function f(param) {
+    // ...
+}
+```
+
+更多详情请查看 [PR](https://github.com/microsoft/TypeScript/pull/54746)。
