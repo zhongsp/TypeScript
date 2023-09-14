@@ -761,3 +761,54 @@ TypeScript 5.2 现在具有一种重构方法，可以将变量的内容内联�
 请注意，这可能会导致初始化程序的副作用在不同的时间运行，并且运行的次数与变量的使用次数相同。
 
 更多详情请查看 [PR](https://github.com/microsoft/TypeScript/pull/54281)。
+
+## 可点击的内嵌参数提示
+
+内嵌提示可以让我们一目了然地获取信息，即使它在我们的代码中不存在 —— 比如参数名称、推断类型等等。
+在 TypeScript 5.2 中，我们开始使得与内嵌提示进行交互成为可能。
+例如，在 Visual Studio Code Insiders 中，您现在可以点击内联提示以跳转到参数的定义处。
+
+更多详情请查看 [PR](https://github.com/microsoft/TypeScript/pull/54734)。
+
+## 优化进行中的类型兼容性检查
+
+由于 TypeScript 采用的是结构化的类型系统，通常需要比较类型成员；
+然而，递归类型会造成一些问题。例如：
+
+```ts
+interface A {
+    value: A;
+    other: string;
+}
+
+interface B {
+    value: B;
+    other: number;
+}
+```
+
+在检查 `A` 是否与 `B` 类型兼容时，TypeScript 会检查 `A` 和 `B` 中 `value` 的类型是否兼容。
+此时，类型系统需要停止进一步检查并继续检查其他成员。
+为此，类型系统必须跟踪两个类型是否已经相关联。
+
+此前，TypeScript 已经保存了配对类型的栈，并迭代检查类型是否已经关联。
+当这个堆栈很浅时，这不是一个问题；但当堆栈不是很浅时，那就是个[问题](https://accidentallyquadratic.tumblr.com/)了。
+
+在 TypeScript 5.2 中，一个简单的 `Set` 就能跟踪这些信息。
+在使用了 drizzle 库的测试报告中，这项改动减少了超过 33% 的时间花费！
+
+```
+Benchmark 1: old
+  Time (mean ± σ):      3.115 s ±  0.067 s    [User: 4.403 s, System: 0.124 s]
+  Range (min … max):    3.018 s …  3.196 s    10 runs
+
+Benchmark 2: new
+  Time (mean ± σ):      2.072 s ±  0.050 s    [User: 3.355 s, System: 0.135 s]
+  Range (min … max):    1.985 s …  2.150 s    10 runs
+
+Summary
+  'new' ran
+    1.50 ± 0.05 times faster than 'old'
+```
+
+更多详情请查看 [PR](https://github.com/microsoft/TypeScript/pull/55224)。
