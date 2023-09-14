@@ -742,3 +742,13 @@ export function f(param) {
 ```
 
 更多详情请查看 [PR](https://github.com/microsoft/TypeScript/pull/54746)。
+
+## 对象成员的逗号补全
+
+在给对象添加新属性时很容易忘记添加逗号。
+在之前，如果你忘了写逗号并且请求自动补全，TypeScript 会给出差的不相关的补全结果。
+
+TypeScript 5.2 现在在您缺少逗号时会优雅地提供对象成员的自动补全。
+但为了避免语法错误的出现，它还会自动插入缺失的逗号。
+
+更多详情请查看 [PR](https://github.com/microsoft/TypeScript/pull/52899)。
