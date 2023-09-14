@@ -698,3 +698,20 @@ doSomething(
 这些方法不仅存在于普通数组上 - 它们还存在于 `TypedArray` 上，例如 `Int32Array`，`Uint8Array`，等。
 
 感谢 [Carter Snook](https://github.com/sno2) 的 [PR](https://github.com/microsoft/TypeScript/pull/51367)。
+
+## 将 `symbol` 用于 `WeakMap` 和 `WeakSet` 的键
+
+现在可以将 `symbol` 用于 `WeakMap` 和 `WeakSet` 的键，它也是 ECMAScript 的[新功能](https://github.com/tc39/proposal-symbols-as-weakmap-keys)。
+
+```ts
+const myWeakMap = new WeakMap();
+
+const key = Symbol();
+const someObject = { /*...*/ };
+
+// Works! ✅
+myWeakMap.set(key, someObject);
+myWeakMap.has(key);
+```
+
+[这个更新](https://github.com/microsoft/TypeScript/pull/54195)是由 [Leo Elmecker-Plakolm](https://github.com/leoelm) 代表 Bloomberg 提供的。我们想向他们表示感谢！
