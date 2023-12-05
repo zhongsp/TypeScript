@@ -102,22 +102,54 @@ TypeScript 5.3 会针对 `switch (true)` 里的每一个 `case` 条件进行类�
 
 ```ts
 function f(x: unknown) {
-    switch (true) {
-        case typeof x === "string":
-            // 'x' is a 'string' here
-            console.log(x.toUpperCase());
-            // falls through...
+  switch (true) {
+    case typeof x === 'string':
+      // 'x' is a 'string' here
+      console.log(x.toUpperCase());
+    // falls through...
 
-        case Array.isArray(x):
-            // 'x' is a 'string | any[]' here.
-            console.log(x.length);
-            // falls through...
+    case Array.isArray(x):
+      // 'x' is a 'string | any[]' here.
+      console.log(x.length);
+    // falls through...
 
-        default:
-          // 'x' is 'unknown' here.
-          // ...
-    }
+    default:
+    // 'x' is 'unknown' here.
+    // ...
+  }
 }
 ```
 
 感谢 Mateusz Burzyński 的[贡献](https://github.com/microsoft/TypeScript/pull/55991)。
+
+## 类型细化与布尔值的比较
+
+有时，您可能会发现自己在条件语句中直接与 `true` 或 `false` 进行比较。
+通常情况下，这些比较是不必要的，但您可能出于风格上的考虑或为了避免 JavaScript 中真值相关的某些问题而偏好这样做。
+不过，之前 TypeScript 在进行类型细化时并不识别这样的形式。
+
+TypeScript 5.3 在类型细化时可以理解这类表达式。
+
+```ts
+interface A {
+    a: string;
+}
+
+interface B {
+    b: string;
+}
+
+type MyType = A | B;
+
+function isA(x: MyType): x is A {
+    return "a" in x;
+}
+
+function someFn(x: MyType) {
+    if (isA(x) === true) {
+        console.log(x.a); // works!
+    }
+}
+```
+
+感谢 Mateusz Burzyński 的 [PR](https://github.com/microsoft/TypeScript/pull/53681)。
