@@ -39,3 +39,52 @@ const obj = await import('./something.json', {
 
 感谢 Oleksandr Tarasiuk 实现了这个功能！
 也感谢 Wenlu Wang 实现了 import assertions!
+
+## 稳定支持 `import type` 上的 `resolution-mode`
+
+TypeScript 4.7 在 `/// <reference types="..." />` 里支持了 `resolution-mode` 属性，
+它用来控制一个描述符是使用 `import` 还是 `require` 语义来解析。
+
+```ts
+/// <reference types="pkg" resolution-mode="require" />
+
+// or
+
+/// <reference types="pkg" resolution-mode="import" />
+```
+
+在 type-only 导入上，导入断言也引入了相应的字段；
+然而，它仅在 TypeScript 的夜间版本中得到支持
+其原因是在精神上，导入断言并不打算指导模块解析。
+因此，这个特性以实验性的方式仅在夜间版本中发布，以获得更多的反馈。
+
+但是，导入属性（Import Attributes）可以指导解析，并且我们也已经看到了有意义的用例，
+TypeScript 5.3 在 `import type` 上支持了 `resolution-mode`。
+
+```ts
+// Resolve `pkg` as if we were importing with a `require()`
+import type { TypeFromRequire } from "pkg" with {
+    "resolution-mode": "require"
+};
+
+// Resolve `pkg` as if we were importing with an `import`
+import type { TypeFromImport } from "pkg" with {
+    "resolution-mode": "import"
+};
+
+export interface MergedType extends TypeFromRequire, TypeFromImport {}
+```
+
+这些导入属性也可以用在 `import()` 类型上。
+
+```ts
+export type TypeFromRequire =
+    import("pkg", { with: { "resolution-mode": "require" } }).TypeFromRequire;
+
+export type TypeFromImport =
+    import("pkg", { with: { "resolution-mode": "import" } }).TypeFromImport;
+
+export interface MergedType extends TypeFromRequire, TypeFromImport {}
+```
+
+更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/55725)。
