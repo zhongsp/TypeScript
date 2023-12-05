@@ -95,3 +95,29 @@ export interface MergedType extends TypeFromRequire, TypeFromImport {}
 为了使查找模块更容易，尤其针对类型，`resolution-mode` 现在可以在所有其它的 `moduleResolution` 选项下工作，例如 `bundler`、`node10`，甚至在 `classic` 下也不报错。
 
 更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/55725)。
+
+## `switch (true)` 类型细化
+
+TypeScript 5.3 会针对 `switch (true)` 里的每一个 `case` 条件进行类型细化。
+
+```ts
+function f(x: unknown) {
+    switch (true) {
+        case typeof x === "string":
+            // 'x' is a 'string' here
+            console.log(x.toUpperCase());
+            // falls through...
+
+        case Array.isArray(x):
+            // 'x' is a 'string | any[]' here.
+            console.log(x.length);
+            // falls through...
+
+        default:
+          // 'x' is 'unknown' here.
+          // ...
+    }
+}
+```
+
+感谢 Mateusz Burzyński 的[贡献](https://github.com/microsoft/TypeScript/pull/55991)。
