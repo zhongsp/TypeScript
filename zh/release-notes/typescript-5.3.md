@@ -88,3 +88,10 @@ export interface MergedType extends TypeFromRequire, TypeFromImport {}
 ```
 
 更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/55725)。
+
+## 在所有模块模式中支持 `resolution-mode`
+
+此前，仅在 `moduleResolution` 为 `node16` 和 `nodenext` 时支持 `resolution-mode`。
+为了使查找模块更容易，尤其针对类型，`resolution-mode` 现在可以在所有其它的 `moduleResolution` 选项下工作，例如 `bundler`、`node10`，甚至在 `classic` 下也不报错。
+
+更多详情，请参考[PR](https://github.com/microsoft/TypeScript/pull/55725)。
