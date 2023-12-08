@@ -224,3 +224,77 @@ function f(value: unknown) {
 这意味着我们可以访问属性 `x` 和 `y`，但无法访问 `distanceFromOrigin` 方法。
 
 更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/55052)。
+
+## 在实例字段上检查 `super` 属性访问
+
+在 JavaScript 中，能够使用 `super` 关键字来访问基类中的声明。
+
+```ts
+class Base {
+    someMethod() {
+        console.log("Base method called!");
+    }
+}
+
+class Derived extends Base {
+    someMethod() {
+        console.log("Derived method called!");
+        super.someMethod();
+    }
+}
+
+new Derived().someMethod();
+// Prints:
+//   Derived method called!
+//   Base method called!
+```
+
+这与 `this.someMethod()` 是不同的，因为它可能调用的是重写的方法。
+这是一个微妙的区别，而且通常情况下，如果一个声明从未被覆盖，这两者可以互换，使得区别更加微妙。
+
+```ts
+class Base {
+    someMethod() {
+        console.log("someMethod called!");
+    }
+}
+
+class Derived extends Base {
+    someOtherMethod() {
+        // These act identically.
+        this.someMethod();
+        super.someMethod();
+    }
+}
+
+new Derived().someOtherMethod();
+// Prints:
+//   someMethod called!
+//   someMethod called!
+```
+
+将它们互换使用的问题在于，`super` 关键字仅适用于在原型上声明的成员，而不适用于实例属性。
+这意味着，如果您编写了 `super.someMethod()`，但 `someMethod` 被定义为一个字段，那么您将会得到一个运行时错误！
+
+```ts
+class Base {
+    someMethod = () => {
+        console.log("someMethod called!");
+    }
+}
+
+class Derived extends Base {
+    someOtherMethod() {
+        super.someMethod();
+    }
+}
+
+new Derived().someOtherMethod();
+// 
+// Doesn't work because 'super.someMethod' is 'undefined'.
+```
+
+TypeScript 5.3 现在更仔细地检查 `super` 属性访问/方法调用，以确定它们是否对应于类字段。
+如果是这样，我们现在将会得到一个类型检查错误。
+
+[这个检查](https://github.com/microsoft/TypeScript/pull/54056)是由 Jack Works 开发！
