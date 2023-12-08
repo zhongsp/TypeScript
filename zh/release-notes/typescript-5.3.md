@@ -298,3 +298,10 @@ TypeScript 5.3 现在更仔细地检查 `super` 属性访问/方法调用，以�
 如果是这样，我们现在将会得到一个类型检查错误。
 
 [这个检查](https://github.com/microsoft/TypeScript/pull/54056)是由 Jack Works 开发！
+
+## 可以交互的类型内嵌提示
+
+TypeScript 的内嵌提示支持跳转到类型定义！
+这便利在代码间跳转变得简单。
+
+更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/55141)。
