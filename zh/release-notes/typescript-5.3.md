@@ -368,3 +368,32 @@ export let p: Person;
 当我们比较这些类型时，我们会快速检查目标类型是否存在于源交叉类型的任何组成部分中。
 
 更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/55851)。
+
+## 合并 `tsserverlibrary.js` 和 `typescript.js`
+
+TypeScript 本身包含两个库文件：`tsserverlibrary.js` 和 `typescript.js`。
+在 `tsserverlibrary.js` 中有一些仅在其中可用的 API（如 `ProjectService API`），对某些导入者可能很有用。
+尽管如此，这两个是不同的捆绑包，有很多重叠的部分，在包中重复了一些代码。
+更重要的是，由于自动导入或肌肉记忆的原因，要始终一致地使用其中一个可能是具有挑战性的。
+意外加载两个模块太容易了，而且代码可能在 API 的不同实例上无法正常工作。
+即使它可以工作，加载第二个捆绑包会增加资源使用量。
+
+基于此，我们决定合并这两个文件。
+`typescript.js` 现在包含了以前在 `tsserverlibrary.js` 中的内容，而 `tsserverlibrary.js` 现在只是重新导出 `typescript.js`。
+在这个合并前后，我们看到了以下包大小的减小：
+
+|          | Before    | After     | Diff      | Diff (percent) |
+| -------- | --------- | --------- | --------- | -------------- |
+| Packed   | 6.90 MiB  | 5.48 MiB  | -1.42 MiB | -20.61%        |
+| Unpacked | 38.74 MiB | 30.41 MiB | -8.33 MiB | -21.50%        |
+
+|                          | Before     | After      | Diff        | Diff (percent) |
+| ------------------------ | ---------- | ---------- | ----------- | -------------- |
+| lib/tsserverlibrary.d.ts | 570.95 KiB | 865.00 B   | -570.10 KiB | -99.85%        |
+| lib/tsserverlibrary.js   | 8.57 MiB   | 1012.00 B  | -8.57 MiB   | -99.99%        |
+| lib/typescript.d.ts      | 396.27 KiB | 570.95 KiB | +174.68 KiB | +44.08%        |
+| lib/typescript.js        | 7.95 MiB   | 8.57 MiB   | +637.53 KiB | +7.84%         |
+
+换句话说，这意味着包大小减小了超过 20.5%。
+
+更多详情请参考 [PR](https://github.com/microsoft/TypeScript/pull/55273)。
