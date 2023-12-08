@@ -305,3 +305,33 @@ TypeScript 的内嵌提示支持跳转到类型定义！
 这便利在代码间跳转变得简单。
 
 更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/55141)。
+
+## 设置偏好 `type` 自动导入
+
+之前，当 TypeScript 为类型自动生成导入语句时，它会根据配置添加 `type` 修饰符。
+例如，当为 `Person` 生成自动导入语句时：
+
+```ts
+export let p: Person
+```
+
+TypeScript 通常会这样生成 `Person` 导入：
+
+```ts
+import { Person } from "./types";
+
+export let p: Person
+```
+
+如果设置了 `verbatimModuleSyntax`，它会添加 `type` 修饰符：
+
+```ts
+import { type Person } from "./types";
+
+export let p: Person
+```
+
+然而，也许你的编辑器不支持这些选项；或者你偏好显式地使用 `type` 导入。
+
+[最近的一项改动](https://github.com/microsoft/TypeScript/pull/56090)，TypeScript 把它变成了针对编辑器的配置项。
+在 Visual Studio Code 中，你可以在 "TypeScript › Preferences: Prefer Type Only Auto Imports" 启用该功能，或者在 JSON 配置文件中的 `typescript.preferences.preferTypeOnlyAutoImports` 设置。
