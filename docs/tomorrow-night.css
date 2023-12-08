@@ -1,7 +1,7 @@
 /* Tomorrow Night Theme */
-/* https://github.com/jmblog/color-themes-for-highlightjs */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
 /* Original theme - https://github.com/chriskempson/tomorrow-theme */
-/* https://github.com/jmblog/color-themes-for-highlightjs */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
 
 /* Tomorrow Comment */
 .hljs-comment {
@@ -81,6 +81,8 @@
   overflow-x: auto;
   background: #1d1f21;
   color: #c5c8c6;
+  padding: 0.5em;
+  -webkit-text-size-adjust: none;
 }
 
 .coffeescript .javascript,
