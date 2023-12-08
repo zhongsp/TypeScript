@@ -132,23 +132,23 @@ TypeScript 5.3 在类型细化时可以理解这类表达式。
 
 ```ts
 interface A {
-    a: string;
+  a: string;
 }
 
 interface B {
-    b: string;
+  b: string;
 }
 
 type MyType = A | B;
 
 function isA(x: MyType): x is A {
-    return "a" in x;
+  return 'a' in x;
 }
 
 function someFn(x: MyType) {
-    if (isA(x) === true) {
-        console.log(x.a); // works!
-    }
+  if (isA(x) === true) {
+    console.log(x.a); // works!
+  }
 }
 ```
 
@@ -161,10 +161,10 @@ JavaScript 的一个稍微晦涩的特性是可以覆盖 `instanceof` 运算符�
 
 ```ts
 class Weirdo {
-    static [Symbol.hasInstance](testedValue) {
-        // wait, what?
-        return testedValue === undefined;
-    }
+  static [Symbol.hasInstance](testedValue) {
+    // wait, what?
+    return testedValue === undefined;
+  }
 }
 
 // false
@@ -179,42 +179,45 @@ console.log(undefined instanceof Weirdo);
 
 ```ts
 interface PointLike {
-    x: number;
-    y: number;
+  x: number;
+  y: number;
 }
 
 class Point implements PointLike {
-    x: number;
-    y: number;
+  x: number;
+  y: number;
 
-    constructor(x: number, y: number) {
-        this.x = x;
-        this.y = y;
-    }
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
 
-    distanceFromOrigin() {
-        return Math.sqrt(this.x ** 2 + this.y ** 2);
-    }
+  distanceFromOrigin() {
+    return Math.sqrt(this.x ** 2 + this.y ** 2);
+  }
 
-    static [Symbol.hasInstance](val: unknown): val is PointLike {
-        return !!val && typeof val === "object" &&
-            "x" in val && "y" in val &&
-            typeof val.x === "number" &&
-            typeof val.y === "number";
-    }
+  static [Symbol.hasInstance](val: unknown): val is PointLike {
+    return (
+      !!val &&
+      typeof val === 'object' &&
+      'x' in val &&
+      'y' in val &&
+      typeof val.x === 'number' &&
+      typeof val.y === 'number'
+    );
+  }
 }
 
-
 function f(value: unknown) {
-    if (value instanceof Point) {
-        // Can access both of these - correct!
-        value.x;
-        value.y;
+  if (value instanceof Point) {
+    // Can access both of these - correct!
+    value.x;
+    value.y;
 
-        // Can't access this - we have a 'PointLike',
-        // but we don't *actually* have a 'Point'.
-        value.distanceFromOrigin();
-    }
+    // Can't access this - we have a 'PointLike',
+    // but we don't *actually* have a 'Point'.
+    value.distanceFromOrigin();
+  }
 }
 ```
 
@@ -231,16 +234,16 @@ function f(value: unknown) {
 
 ```ts
 class Base {
-    someMethod() {
-        console.log("Base method called!");
-    }
+  someMethod() {
+    console.log('Base method called!');
+  }
 }
 
 class Derived extends Base {
-    someMethod() {
-        console.log("Derived method called!");
-        super.someMethod();
-    }
+  someMethod() {
+    console.log('Derived method called!');
+    super.someMethod();
+  }
 }
 
 new Derived().someMethod();
@@ -254,17 +257,17 @@ new Derived().someMethod();
 
 ```ts
 class Base {
-    someMethod() {
-        console.log("someMethod called!");
-    }
+  someMethod() {
+    console.log('someMethod called!');
+  }
 }
 
 class Derived extends Base {
-    someOtherMethod() {
-        // These act identically.
-        this.someMethod();
-        super.someMethod();
-    }
+  someOtherMethod() {
+    // These act identically.
+    this.someMethod();
+    super.someMethod();
+  }
 }
 
 new Derived().someOtherMethod();
@@ -278,19 +281,19 @@ new Derived().someOtherMethod();
 
 ```ts
 class Base {
-    someMethod = () => {
-        console.log("someMethod called!");
-    }
+  someMethod = () => {
+    console.log('someMethod called!');
+  };
 }
 
 class Derived extends Base {
-    someOtherMethod() {
-        super.someMethod();
-    }
+  someOtherMethod() {
+    super.someMethod();
+  }
 }
 
 new Derived().someOtherMethod();
-// 
+//
 // Doesn't work because 'super.someMethod' is 'undefined'.
 ```
 
@@ -312,26 +315,39 @@ TypeScript 的内嵌提示支持跳转到类型定义！
 例如，当为 `Person` 生成自动导入语句时：
 
 ```ts
-export let p: Person
+export let p: Person;
 ```
 
 TypeScript 通常会这样生成 `Person` 导入：
 
 ```ts
-import { Person } from "./types";
+import { Person } from './types';
 
-export let p: Person
+export let p: Person;
 ```
 
 如果设置了 `verbatimModuleSyntax`，它会添加 `type` 修饰符：
 
 ```ts
-import { type Person } from "./types";
+import { type Person } from './types';
 
-export let p: Person
+export let p: Person;
 ```
 
 然而，也许你的编辑器不支持这些选项；或者你偏好显式地使用 `type` 导入。
 
 [最近的一项改动](https://github.com/microsoft/TypeScript/pull/56090)，TypeScript 把它变成了针对编辑器的配置项。
 在 Visual Studio Code 中，你可以在 "TypeScript › Preferences: Prefer Type Only Auto Imports" 启用该功能，或者在 JSON 配置文件中的 `typescript.preferences.preferTypeOnlyAutoImports` 设置。
+
+## 优化：略过 JSDoc 解析
+
+当通过 `tsc` 运行 TypeScript 时，编译器现在将避免解析 JSDoc。
+这不仅减少了解析时间，还减少了存储注释以及垃圾回收所花费的内存使用量。
+总体而言，您应该会看到编译速度稍微更快，并在 `--watch` 模式下获得更快的反馈。
+
+[具体改动在这](https://github.com/microsoft/TypeScript/pull/52921)。
+
+由于并非每个使用 TypeScript 的工具都需要存储 JSDoc（例如 typescript-eslint 和 Prettier），因此这种解析策略已作为 API 的一部分公开。
+这使得这些工具能够获得与 TypeScript 编译器相同的内存和速度改进。
+注释解析策略的新选项在 `JSDocParsingMode` 中进行了描述。
+关于此拉取请求的更多信息，请参阅[PR](https://github.com/microsoft/TypeScript/pull/55739)。
