@@ -153,3 +153,74 @@ function someFn(x: MyType) {
 ```
 
 感谢 Mateusz Burzyński 的 [PR](https://github.com/microsoft/TypeScript/pull/53681)。
+
+## 利用 `Symbol.hasInstance` 来细化 `instanceof`
+
+JavaScript 的一个稍微晦涩的特性是可以覆盖 `instanceof` 运算符的行为。
+为此，`instanceof` 运算符右侧的值需要具有一个名为 `Symbol.hasInstance` 的特定方法。
+
+```ts
+class Weirdo {
+    static [Symbol.hasInstance](testedValue) {
+        // wait, what?
+        return testedValue === undefined;
+    }
+}
+
+// false
+console.log(new Thing() instanceof Weirdo);
+
+// true
+console.log(undefined instanceof Weirdo);
+```
+
+为了更好地支持 `instanceof` 的行为，TypeScript 现在会检查是否存在 `[Symbol.hasInstance]` 方法且被定义为类型判定函数。
+如果有的话，`instanceof` 运算符左侧的值会按照类型判定进行细化。
+
+```ts
+interface PointLike {
+    x: number;
+    y: number;
+}
+
+class Point implements PointLike {
+    x: number;
+    y: number;
+
+    constructor(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+    }
+
+    distanceFromOrigin() {
+        return Math.sqrt(this.x ** 2 + this.y ** 2);
+    }
+
+    static [Symbol.hasInstance](val: unknown): val is PointLike {
+        return !!val && typeof val === "object" &&
+            "x" in val && "y" in val &&
+            typeof val.x === "number" &&
+            typeof val.y === "number";
+    }
+}
+
+
+function f(value: unknown) {
+    if (value instanceof Point) {
+        // Can access both of these - correct!
+        value.x;
+        value.y;
+
+        // Can't access this - we have a 'PointLike',
+        // but we don't *actually* have a 'Point'.
+        value.distanceFromOrigin();
+    }
+}
+```
+
+能够看到例子中，`Point` 定义了自己的 `[Symbol.hasInstance]` 方法。
+它实际上充当了对称为 `PointLike` 的单独类型的自定义类型保护。
+在函数 `f` 中，我们能够使用 `instanceof` 将 `value` 细化为 `PointLike`，但不能细化到 `Point`。
+这意味着我们可以访问属性 `x` 和 `y`，但无法访问 `distanceFromOrigin` 方法。
+
+更多详情请参考[PR](https://github.com/microsoft/TypeScript/pull/55052)。
