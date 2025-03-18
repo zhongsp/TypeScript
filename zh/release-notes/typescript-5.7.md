@@ -53,7 +53,7 @@ function foo() {
 }
 ```
 
-这一变化得益于 GitHub 用户 Zzzen 的贡献！
+这一[变化](https://github.com/microsoft/TypeScript/pull/55887)得益于 GitHub 用户 [Zzzen](https://github.com/Zzzen) 的贡献！
 
 ## 相对路径的路径重写
 
@@ -114,7 +114,7 @@ function getPath() {
 let myImport = await import(getPath());
 ```
 
-另一个问题是（如上所述）只有相对路径会被重写，并且它们是“天真地”重写的。
+另一个问题是（如上所述）只有相对路径会被重写，并且它们是被“天真地”重写。
 这意味着任何依赖于 TypeScript 的 `baseUrl` 和 `paths` 的路径都不会被重写：
 
 ```typescript
@@ -136,7 +136,7 @@ let myImport = await import(getPath());
 import * as utilities from '@/utilities.ts';
 ```
 
-任何可能通过 `package.json` 的 `exports` 和 `imports` 字段解析的路径也不会被重写。
+任何可能通过 `package.json` 的 [`exports`](https://nodejs.org/api/packages.html#exports) 和 [`imports`](https://nodejs.org/api/packages.html#imports) 字段解析的路径也不会被重写。
 
 ```typescript
 // package.json
@@ -153,7 +153,7 @@ import * as utilities from '@/utilities.ts';
 import * as utilities from '#root/utilities.ts';
 ```
 
-因此，如果你一直在使用多包相互引用的工作区风格布局，你可能需要使用带有作用域自定义条件的条件导出：
+因此，如果你一直在使用多包相互引用的工作区风格布局，你可能需要使用带有[作用域自定义条件](https://nodejs.org/api/packages.html#resolving-user-conditions)的[条件导出](https://nodejs.org/api/packages.html#conditional-exports)：
 
 ```typescript
 // my-package/package.json
@@ -178,9 +178,9 @@ import * as utilities from '#root/utilities.ts';
 注意我们为条件 `@my-package/development` 使用的“命名空间”或“作用域”。
 这是一个临时的解决方案，以避免依赖项可能也使用 `development` 条件时的冲突。
 如果每个人都在他们的包中提供了 `development`，那么解析可能会尝试解析到 `.ts` 文件，而这不一定有效。
-这个想法类似于 Colin McDonnell 的文章《TypeScript 单体仓库中的实时类型》中描述的内容，以及 `tshy` 的从源代码加载的指南。
+这个想法类似于 Colin McDonnell 的文章[《TypeScript 单体仓库中的实时类型》](https://colinhacks.com/essays/live-types-typescript-monorepo#:~:text=custom%20conditions)中描述的内容，以及 [`tshy` 的从源代码加载的指南](https://github.com/isaacs/tshy#loading-from-source)。
 
-有关此功能如何工作的更多详细信息，请阅读此处的更改。
+有关此功能如何工作的更多详细信息，[请阅读此处的更改](https://github.com/microsoft/TypeScript/pull/59767)。
 
 ## 支持 `--target es2024` 和 `--lib es2024`
 
@@ -189,7 +189,7 @@ TypeScript 5.7 现在支持 `--target es2024`，允许用户以 ECMAScript 2024 
 它还将 `Atomics.waitAsync` 从 `--lib es2022` 移动到 `--lib es2024`。
 
 请注意，作为 `SharedArrayBuffer` 和 `ArrayBuffer` 更改的一部分，两者现在有些分歧。
-为了弥合差距并保留底层缓冲区类型，所有 `TypedArray`（如 `Uint8Array` 等）现在也是泛型的。
+为了弥合差距并保留底层缓冲区类型，所有 `TypedArray`（如 `Uint8Array` 等）现在也是[泛型的](https://github.com/microsoft/TypeScript/pull/59417)。
 
 ```typescript
 interface Uint8Array<TArrayBuffer extends ArrayBufferLike = ArrayBufferLike> {
@@ -201,7 +201,7 @@ interface Uint8Array<TArrayBuffer extends ArrayBufferLike = ArrayBufferLike> {
 
 如果你在此更新过程中遇到任何问题，你可能需要更新 `@types/node`。
 
-这项工作主要由 Kenta Moriuchi 提供！
+[这项工作](https://github.com/microsoft/TypeScript/pull/58573)主要由 [Kenta Moriuchi](https://github.com/petamoriken) 提供！
 
 ## 在编辑器中搜索祖先配置文件以确定项目所有权
 
@@ -330,7 +330,7 @@ packages
 
 幸运的是，每个可以被另一个（非工作区）项目引用的项目都必须启用一个名为 `composite` 的标志，该标志强制执行一条规则，即所有输入源文件必须事先已知。因此，在探测复合项目时，TypeScript 5.7 只会检查文件是否属于该项目的根文件集。这应该可以避免这种常见的最坏情况行为。
 
-有关更多信息，请参阅此处的更改。
+有关更多信息，[请参阅此处的更改](https://github.com/microsoft/TypeScript/pull/59688)。
 
 ## 在 `--module nodenext` 中验证 JSON 导入
 
@@ -366,7 +366,7 @@ let version = myConfig.version;
 let version = myConfig.default.version;
 ```
 
-有关此更改的更多信息，请参阅此处。
+有关此更改的更多信息，请参阅[此处](https://github.com/microsoft/TypeScript/pull/60019)。
 
 ## 支持 Node.js 中的 V8 编译缓存
 
@@ -387,7 +387,7 @@ TypeScript 5.7 现在利用此 API，以便它可以更快地开始做有用的�
   node ./built/local/tsc.js --version 运行速度比 node ./built/local/_tsc.js --version 快 2.52 ± 0.06 倍
 ```
 
-有关更多信息，请参阅此处的 Pull Request。
+有关更多信息，请参阅此处的 [Pull Request](https://github.com/microsoft/TypeScript/pull/59720)。
 
 ## 重要的行为变化
 
@@ -395,11 +395,11 @@ TypeScript 5.7 现在利用此 API，以便它可以更快地开始做有用的�
 
 ### lib.d.ts
 
-为 DOM 生成的类型可能会影响代码库的类型检查。有关更多信息，请查看与 DOM 和 lib.d.ts 更新相关的链接问题，以了解此版本 TypeScript 的更新内容。
+为 DOM 生成的类型可能会影响代码库的类型检查。有关更多信息，[请查看与 DOM 和 lib.d.ts 更新相关的链接问题，以了解此版本 TypeScript 的更新内容](https://github.com/microsoft/TypeScript/pull/60061)。
 
 ### TypedArrays 现在是基于 ArrayBufferLike 的泛型
 
-在 ECMAScript 2024 中，SharedArrayBuffer 和 ArrayBuffer 的类型稍微有所不同。为了填补这一差距并保留底层缓冲区类型，所有 TypedArrays（如 Uint8Array 等）现在也变为泛型。
+在 ECMAScript 2024 中，SharedArrayBuffer 和 ArrayBuffer 的类型稍微有所不同。为了填补这一差距并保留底层缓冲区类型，所有 TypedArrays（如 Uint8Array 等）[现在也变为泛型](https://github.com/microsoft/TypeScript/pull/59417)。
 
 ```ts
 interface Uint8Array<TArrayBuffer extends ArrayBufferLike = ArrayBufferLike> {
@@ -420,7 +420,7 @@ error TS2345: Argument of type 'Buffer' is not assignable to parameter of type '
 
 那么，您可能需要更新 `@types/node`。
 
-您可以在 GitHub 上阅读有关此更改的具体内容。
+您可以在[ GitHub 上阅读有关此更改的具体内容](https://github.com/microsoft/TypeScript/pull/59417)。
 
 ### 在类中使用非字面量方法名创建索引签名
 
@@ -454,7 +454,7 @@ export class A {
 
 这种行为与对象字面量中的属性和方法一致。
 
-有关此更改的详细信息，请阅读此处。
+[有关此更改的详细信息，请阅读此处](https://github.com/microsoft/TypeScript/pull/59860).
 
 ### 对返回 `null` 和 `undefined` 的函数更多的隐式 `any` 错误
 
@@ -467,7 +467,7 @@ const p2 = p.catch(() => null);
 // error TS7011: Function expression, which lacks return-type annotation, implicitly has an 'any' return type.
 ```
 
-有关此更改的更多细节，请查看此处。
+[有关此更改的更多细节，请查看此处](https://github.com/microsoft/TypeScript/pull/59661)。
 
 ### 接下来的计划
 
