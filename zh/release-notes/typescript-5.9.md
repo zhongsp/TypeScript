@@ -217,7 +217,7 @@ export function drawButton(options: Options): void;
 这也包括 `UInt8Array` 的子类型，例如 Node.js 中的 `Buffer`。
 因此，你将看到如下新错误消息：
 
-```
+```txt
 error TS2345: Argument of type 'ArrayBufferLike' is not assignable to parameter of type 'BufferSource'.
 error TS2322: Type 'ArrayBufferLike' is not assignable to type 'ArrayBuffer'.
 error TS2322: Type 'Buffer' is not assignable to type 'Uint8Array<ArrayBufferLike>'.
@@ -228,7 +228,7 @@ error TS2345: Argument of type 'Buffer' is not assignable to parameter of type '
 如果你遇到 `Buffer` 相关问题，你可能首先需要检查是否使用了最新版本的 `@types/node` 包。
 这可能包括运行
 
-```
+```sh
 npm update @types/node --save-dev
 ```
 

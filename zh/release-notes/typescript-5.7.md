@@ -339,11 +339,11 @@ packages
 首先，任何 JSON 文件导入都需要包含 `type: "json"` 的导入属性。
 
 ```typescript
-import myConfig from "./myConfig.json";
+import myConfig from './myConfig.json';
 //                   ~~~~~~~~~~~~~~~~~
 // ❌ 错误：当 'module' 设置为 'NodeNext' 时，将 JSON 文件导入 ECMAScript 模块需要 'type: "json"' 导入属性。
 
-import myConfig from "./myConfig.json" with { type: "json" };
+import myConfig from './myConfig.json' with { type: 'json' };
 //                                          ^^^^^^^^^^^^^^^^
 // ✅ 这是可以的，因为我们提供了 `type: "json"`
 ```
@@ -352,12 +352,12 @@ import myConfig from "./myConfig.json" with { type: "json" };
 
 ```typescript
 // ✅ 这是可以的：
-import myConfigA from "./myConfig.json" with { type: "json" };
+import myConfigA from './myConfig.json' with { type: 'json' };
 let version = myConfigA.version;
 
 ///////////
 
-import * as myConfigB from "./myConfig.json" with { type: "json" };
+import * as myConfigB from './myConfig.json' with { type: 'json' };
 
 // ❌ 这是不可以的：
 let version = myConfig.version;
@@ -420,7 +420,7 @@ error TS2345: Argument of type 'Buffer' is not assignable to parameter of type '
 
 那么，您可能需要更新 `@types/node`。
 
-您可以在[ GitHub 上阅读有关此更改的具体内容](https://github.com/microsoft/TypeScript/pull/59417)。
+您可以在[GitHub 上阅读有关此更改的具体内容](https://github.com/microsoft/TypeScript/pull/59417)。
 
 ### 在类中使用非字面量方法名创建索引签名
 
