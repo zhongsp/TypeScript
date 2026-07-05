@@ -14,9 +14,9 @@
 
 <!-- 🏮 祝所有开发者：牛年大吉！🏮 -->
 
-<img src="./zh/misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;"> [TypeScript 5.9 (2025 年 8 月 1 日)](https://devblogs.microsoft.com/typescript/announcing-typescript-5-9)
+<img src="./zh/misc/ts_logo.jpg" alt="TypeScript" width="24px" height="24px" style="vertical-align: bottom;"> [TypeScript 6.0 (2026 年 3 月 23 日)](https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/)
 |
-[版本发布说明](zh/release-notes/typescript-5.9.md)
+[版本发布说明](zh/release-notes/typescript-6.0.md)
 
 :heavy_check_mark: TypeScript 语言用于大规模应用的 JavaScript 开发。 :heavy_check_mark: TypeScript 支持类型，是 JavaScript 的超集且可以编译成纯 JavaScript 代码。 :heavy_check_mark: TypeScript 兼容所有浏览器，所有宿主环境，所有操作系统。 :heavy_check_mark: TypeScript 是开源的。
 
@@ -101,8 +101,9 @@
   - [架构概述](zh/wiki/architectural-overview.md)
   - [发展路线图](zh/wiki/roadmap.md)
 - [新增功能](zh/release-notes/README.md)
-  - [TypeScript 5.7](zh/release-notes/typescript-5.9.md)
-  - [TypeScript 5.7](zh/release-notes/typescript-5.8.md)
+  - [TypeScript 6.0](zh/release-notes/typescript-6.0.md)
+  - [TypeScript 5.9](zh/release-notes/typescript-5.9.md)
+  - [TypeScript 5.8](zh/release-notes/typescript-5.8.md)
   - [TypeScript 5.7](zh/release-notes/typescript-5.7.md)
   - [TypeScript 5.6](zh/release-notes/typescript-5.6.md)
   - [TypeScript 5.5](zh/release-notes/typescript-5.5.md)

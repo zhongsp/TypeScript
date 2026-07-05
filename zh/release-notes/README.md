@@ -1,5 +1,6 @@
 # 新增功能
 
+- [TypeScript 6.0](typescript-6.0.md)
 - [TypeScript 5.9](typescript-5.9.md)
 - [TypeScript 5.8](typescript-5.8.md)
 - [TypeScript 5.7](typescript-5.7.md)
