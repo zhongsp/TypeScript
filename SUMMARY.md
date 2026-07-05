@@ -83,6 +83,7 @@
 # 版本发布说明（Release Notes）
 
 - [新增功能](zh/release-notes/README.md)
+  - [TypeScript 7.0 RC](zh/release-notes/typescript-7.0-rc.md)
   - [TypeScript 6.0](zh/release-notes/typescript-6.0.md)
   - [TypeScript 5.9](zh/release-notes/typescript-5.9.md)
   - [TypeScript 5.8](zh/release-notes/typescript-5.8.md)
